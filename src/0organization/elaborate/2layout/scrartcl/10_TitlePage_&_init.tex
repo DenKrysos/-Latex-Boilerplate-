@@ -1,0 +1,57 @@
+%
+%================================================================
+%----------------------------------------------------------------
+%      Setup, Typographisch
+%             (Für Präambel. Titel, Verzeichnisse...)
+%================================================================
+%
+\pagestyle{empty}%
+% Hm, settings vlt. doch besser in Präambel
+% \input{./organization/settings.tex}%
+\providecommand{\DenKrMicrotypeLoaded}{0}%
+\expandafter\ifstrequal\expandafter{\DenKrMicrotypeLoaded}{1}{%
+\microtypesetup{activate=false}%
+}{}%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Tracking, Spacing & Kerning werden seit Lua(La)Tex von 'fontspec' verwaltet
+% 				% \microtypesetup{tracking=false}%
+% 				% \microtypesetup{kerning=false}%
+% 				% \microtypesetup{spacing=false}%
+%
+%================================================================
+%----------------------------------------------------------------
+%      Title Page \& Schmutztitel
+%================================================================
+\input{"\DenKrLayoutRootDir/11_TitlePage".tex}%
+%
+%
+%================================================================
+%----------------------------------------------------------------
+%      Front-Matter
+%================================================================
+% By default, no explicit Front-Matter in Article.
+% \frontmatter%
+\input{"\DenKrLayoutRootDir/12_FrontMatter".tex}%
+%
+%
+%================================================================
+%----------------------------------------------------------------
+%      Setup, Typographisch
+%             (Für eigentliches Dokument)
+%================================================================
+%
+% \selectlanguage{ngerman}%
+%
+%\sloppy % Würde die Dehnung der Zwischenräume etwas lockerer machen
+%\fussy % Schaltet \sloppy wieder aus. Ist der Latex-Standart
+\expandafter\ifstrequal\expandafter{\DenKrMicrotypeLoaded}{1}{%
+\microtypesetup{activate=true}%
+}{}%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Tracking, Spacing & Kerning werden seit Lua(La)Tex von 'fontspec' verwaltet
+% 					% \microtypesetup{tracking=true}%
+% 					% \microtypesetup{kerning=true}%
+% 					% \microtypesetup{spacing=true}%
+%
+% Beachte: Typographisch erhalten Kapitelseiten keinen Kolumnentitel: plain
+\pagestyle{scrheadings}%

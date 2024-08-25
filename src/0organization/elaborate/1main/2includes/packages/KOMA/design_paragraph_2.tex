@@ -1,0 +1,10 @@
+\RedeclareSectionCommands[%
+    runin=bysign,%
+    afterskip=-0.6em,%
+    % afterindent=bysign,%
+    % beforeskip=0pt,%
+]{paragraph}%
+\makeatletter\@ifundefined{DenKrSetParagraph}{}{\DenKrSetSuDenKrSetParagraphbsection}\makeatother% Workaround to reset to my macro after RedeclareSectionCommand
+\AddtoDoHook{heading/endgroup/paragraph}{\DenKrKomaHeadingParagraphAttach}%
+\newcommand*{\DenKrKomaHeadingParagraphAttach}[1]{\hspace{0.6em}\textcolor{DenKrKomaColor_SubSectionHeading}{\DenKrKomaHeadingTildeCross}}%
+\setkomafont{paragraph}{\normalsize\color{DenKrKomaColor_ParagraphHeading}}%

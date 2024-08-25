@@ -1,0 +1,313 @@
+% Author: Dennis Krummacker%
+\ifdefined\DenKr\documentclass[tikz,fontsize=11pt,class=scrbook]{standalone}\begin{document}\else%
+\input{"./2ProjectSetup".tex}%
+\input{"\DenKrAllMainRootDirPATH/2includes/packages/preamble_pre".tex}%
+\documentclass[tikz,fontsize=11pt,class=scrbook]{standalone}% I.e. the content from \input{"\DenKrLayoutMainRootDir/2layout/tikz_standalone/preamble_1_class".tex}%
+\input{"\DenKrInternalLayoutRootDir/tikz_standalone/1TikzStandalonePicIncludeThis".tex}%
+\DenKrTikzStandalonePre\fi%
+%
+%
+%
+\newcommand\nodedistance{1.0cm}%
+\newcommand\innabst{0.8em}% Abstand zwischen Text und Zellenrand
+%
+\let\breite\undefined%
+\newlength\breite%
+\settowidth{\breite}{\large \textbf{Interfacename}}%
+\setlength\breite{\breite+\innabst+\innabst+1em}%
+%
+%
+\begin{tikzpicture}[%
+	scale = \tikzpicturescale,%
+	auto,%
+	node distance=\nodedistance%
+]%
+\newcommand{\cnt}{2}%
+%
+%
+% \bfseries%
+%
+%
+%
+%
+%
+\node(start)[fsmstart]{S};
+%
+% \node(temp)[cleartext,anchor=south,above=of start,xshift=-2cm]%
+% {\textcolor{red}{@Michael: In die FSM hier auch immer den Task
+% "`Starte Timeout"' rein, so wie im Flussdiagramm?}};%
+%
+\node(startenter)[shape=coordinate,left=2*\nodedistance of start,%
+	xshift=-\nodedistance]{};% 
+%
+\node(readytoswitch)[fsmstate,below=2*\nodedistance of start]%
+	{ReadyTo\\ Switch};
+%
+\node(switchdone)[fsmstate,below=8*\nodedistance of readytoswitch]%
+	{Switch\\ Done};
+%
+\node(finish)[fsmfinish,below=8*\nodedistance of switchdone]%
+	{F};
+%
+\node(readytimeout)[fsmstate,xshift=-6*\nodedistance]%
+	at($(readytoswitch.east)!.5!(switchdone.west)$)%
+	{Ready\\ Timeout};
+%
+\node(donetimeout)[fsmstate,xshift=-6*\nodedistance]%
+	at($(switchdone.east)!.5!(finish.west)$)%
+	{Done\\ Timeout};
+%
+\node(finishleave)[shape=coordinate,%
+	right=3*\nodedistance of finish,%
+	yshift=-1*\nodedistance]{};% 
+%
+%
+%
+%
+%
+%
+\draw[arrowoben](startenter)to%
+	node(text1)[pos=0.8,anchor=north east,yshift=-3ex]{%
+	$(ChannelSwitch,\ -)$%
+	}%
+	(start-out);
+%
+\draw[arrowoben](start-out)to%
+	node(text2)[inner sep=1ex,pos=0.3,anchor=west]{%
+	$\left(-,\ %
+	\left[\begin{matrix*}[l]%
+		\textcolor{blue}{get\_ready\_to\_switch}\\%
+		ReadyToSwitch%
+	\end{matrix*}\right]\right)$%
+	}%
+	(readytoswitch);
+%
+\draw[arrowoben](readytoswitch)to%
+	node(text3)[inner sep=0.0ex,pos=0.5,anchor=north west]{%
+	$\left(TimeoutR,\ %
+	\left[\begin{matrix*}[l]%
+		-\\%
+		ReadyTimeout%
+	\end{matrix*}\right]\right)$%
+	}%
+	(readytimeout);
+%
+\draw[arrowoben](readytoswitch)..%
+	controls%
+		([xshift=2cm]text3.north east)and%
+		([xshift=2cm,yshift=-2cm]text3.south east)%
+	..node(text4)[inner sep=0.0ex,pos=0.1,anchor=south west]{%
+	$\left(SwitchDone,\ %
+	\left[\begin{matrix*}[l]%
+		-\\%
+		SwitchDoneACK%
+	\end{matrix*}\right]\right)$%
+	}%
+	(switchdone);
+%
+\draw[arrowoben](readytimeout)to%
+	node(text5)[inner sep=0.0ex,pos=0.3,anchor=south east]{%
+	$\left(StayReady,\ %
+	\left[\begin{matrix*}[l]%
+		-\\%
+		StayReadyACK%
+	\end{matrix*}\right]\right)$%
+	}%
+	(readytoswitch);
+%
+\draw[arrowoben](readytimeout)to%
+	node(text6)[inner sep=0.0ex,pos=0.6,anchor=north east]{%
+	$\left(SwitchDone,\ %
+	\left[\begin{matrix*}[l]%
+		-\\%
+		SwitchDoneACK%
+	\end{matrix*}\right]\right)$%
+	}%
+	(switchdone);
+%
+\draw[arrowoben](donetimeout)to%
+	node(text10)[inner sep=0.0ex,pos=0.3,anchor=south east]{%
+	$\left(StayDone,\ %
+	\left[\begin{matrix*}[l]%
+		-\\%
+		-%
+	\end{matrix*}\right]\right)$%
+	}%
+	(switchdone);
+%
+\draw[arrowoben](donetimeout)to%
+	node(text11)[inner sep=0.0ex,pos=0.6,anchor=south west]{%
+	$\left(Finish,\ %
+	\left[\begin{matrix*}[l]%
+		\textcolor{blue}{finish\_chan\_switch}\\%
+		FinishACK%
+	\end{matrix*}\right]\right)$%
+	}%
+	(finish);
+%
+\draw[arrowunten](donetimeout)to%
+	node(text12)[inner sep=0.0ex,pos=0.1,anchor=north east,%
+				]{%
+	$\left(TimeoutSecond,\ %
+	\left[\begin{matrix*}[l]%
+		\textcolor{green}{FinalTimeoutHandler}\\%
+		TimeoutFallback%
+	\end{matrix*}\right]\right)$%
+	}%
+	(finish);
+%
+% \draw[arrowunten,%
+% 		out=-90,%
+% 		in=-90,%
+% 		looseness=2,%
+% 	]%
+% 	(readytimeout.south east)to%
+% 	node{%
+% 	$(-, -)}$%
+% 	}%
+% 	(finish.south);
+% Bezier style:
+\draw[arrowunten](readytimeout)..%
+	controls%
+		([xshift=-2cm,yshift=6cm]text12.west)and%
+		([xshift=-6cm,yshift=-6cm]text12.west)%
+	..node(text7)[inner sep=2ex,pos=0.95,anchor=north east]{%
+	$\left(TimeoutSecond,\ %
+	\left[\begin{matrix*}[l]%
+		\textcolor{green}{FinalTimeoutHandler}\\%
+		TimeoutFallback%
+	\end{matrix*}\right]\right)$%
+	}%
+	(finish);
+%
+\draw[arrowoben](switchdone)to%
+	node(text8)[inner sep=0.0ex,pos=0.4,anchor=north west]{%
+	$\left(TimeoutD,\ %
+	\left[\begin{matrix*}[l]%
+		-\\%
+		DoneTimeout%
+	\end{matrix*}\right]\right)$%
+	}%
+	(donetimeout);
+%
+\draw[arrowoben](switchdone)..%
+	controls%
+		([xshift=3cm]text8.north east)and%
+		([xshift=2cm,yshift=-2cm]text11.south east)%
+	..node(text9)[inner sep=0.0ex,pos=0.1,anchor=south west]{%
+	$\left(Finish,\ %
+	\left[\begin{matrix*}[l]%
+		\textcolor{blue}{finish\_chan\_switch}\\%
+		FinishACK%
+	\end{matrix*}\right]\right)$%
+	}%
+	(finish);
+%
+%
+\draw[arrowunten](finish)to%
+	node(text13)[inner sep=1.0ex,pos=0.5,anchor=north east]{%
+	$\left(-,\ %
+	\left[\begin{matrix*}[l]%
+		-\\%
+		-%
+	\end{matrix*}\right]\right)$%
+	}%
+	(finishleave);
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+\node(notation)[note,align=left,anchor=north west,yshift=-2ex]%
+	at(text12.south west|-text7.south west)%
+	{%
+	\textbf{Notation:}\\%
+	\underline{State Transition Signals}\\[0.75\baselineskip]%
+	$%
+	\left(Input,\ \left[%
+	\begin{matrix*}[l]%
+		InternalOperations\\%
+		Output%
+	\end{matrix*}%
+	\right]\right)%
+	$\\[0.75\baselineskip]%
+	$Input$: The Timeout-Signals are generated\\%
+	\ \ \ \ and delivered internaly in \ico{AbsInt}.\\
+	\ \ \ \ Every other Signal is received from\\%
+	\ \ \ \ an external AI-Controller.\\%
+	$Output$: Signals, that are sent over\\%
+	\ \ \ \ Network to an external AI-Controller\\%
+	$InternalOperations$: Tasks, that are\\%
+	\ \ \ \ internally done, inside the AI.%
+	};%
+%
+\node(processnote)[note,align=left,anchor=south west]%
+	at($(notation.south east)+(\nodedistance,0)$)%
+	{%
+	\textbf{\textcolor{blue}{Processes:}}\\%
+	\textcolor{blue}{get\_ready\_to\_switch}\\%
+	Stop WLANMon on newDev;\\%
+	Start new Ad-hoc on newDev;\\%
+	\textcolor{blue}{finish\_chan\_switch}\\%
+	Stop former Ad-hoc on oldDev;\\%
+	Start WLANMon on oldDev;%
+	};%
+%
+\node(finaltimeouthandler)[note,align=left,anchor=south west]%
+	at($(processnote.south east)+(\nodedistance,0)$)%
+	{%
+	\textbf{As appropriate two different:}\\%
+	\#ifdef FINALTIMEOUTFallback\\%
+	\#def \textcolor{green}{FinalTimeoutHandler}\\%
+	\ \ \ \ Close new Channel;\\%
+	\ \ \ \ (Re-)activate WLANMon\\%
+	\ \ \ \ \ \ \ \ on newDev;\\%
+	\#ifdef FINALTIMEOUTDetect\\%
+	\#def \textcolor{green}{FinalTimeoutHandler}\\%
+	\ \ \ \ Detect if AI-Partner either has\\%
+	\ \ \ \ old or new Netzwork online;\\%
+	};%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+\node(bboxtop)[shape=coordinate]at%
+	($(current bounding box.north)$){};%
+\node(bboxright)[shape=coordinate]at%
+	($(current bounding box.east)$){};%
+\node(bboxbottom)[shape=coordinate]at%
+	($(current bounding box.south)$){};%
+\node(bboxleft)[shape=coordinate]at%
+	($(notation.west)+(-0.75cm,0)$){};%
+% \begin{pgfinterruptboundingbox}%
+% 	\tkzInterCC[R](bboxtop,2.75in)(bboxright,2.75in)(bboxbottom,2.75in)(bboxleft,2.75in)% 
+% \end{pgfinterruptboundingbox}%
+\pgfresetboundingbox%
+\path[use as bounding box,save path=\bboxpath]%
+	(bboxtop)-|(bboxright)|-(bboxbottom)-|(bboxleft)|-(bboxtop);%
+% \clip(bboxtop)-|(bboxright)|-(bboxbottom)-|(bboxleft)|-(bboxtop);%
+% \clip[use path=\bboxpath];%    
+% \draw[loosely dotted,use path=\bboxpath];%
+%
+%
+%
+%
+%
+%
+\end{tikzpicture}%
+%
+%
+\ifdefined\DenKr\end{document}\else\DenKrTikzStandalonePost\fi%

@@ -1,0 +1,21 @@
+% When Updating/Exchanging/Switching the Class-File, remember to also change the \ProvideClass-Cmd's Value inside the Class-File to this
+%   -> \ProvidesClass{\DenKrLayoutieeeconfClassName}[...]
+\newcommand{\DenKrLayoutieeeconfClassName}{"\DenKrLayoutRootDir/class/ieeeconf"}
+%========================================================================
+%/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+%             IEEE                                              %%%%%%%%%
+%vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
+\documentclass[%
+	10pt,%
+	final,%final, draft, draftcls, draftclsnofoot
+	conference,% conference, journal, technote, peerreview, peerreviewca
+	a4paper,% letterpaper, a4paper, cspaper
+	oneside,% oneside, twoside
+	twocolumn,% onecolumn, twocolumn % IEEE uses always twocolumn % onecolumn just for info.
+    % romanappendices,%
+    % captionsoff,%
+	nofonttune,%
+]{\DenKrLayoutieeeconfClassName}% IEEEtran, ieeeconf
+%^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+%------------------------------------------------------------------------
+%========================================================================

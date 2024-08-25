@@ -1,0 +1,62 @@
+%________________________________________________________________________
+%------------------------------------------------------------------------
+%					Subfigure, Subfig, Subcaption, Caption
+%/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+% In my personal opinion, package subcaption.sty (part of caption.sty) is preferable
+%  While subfigure.sty is pretty much end-of-life, subfig.sty & subcaption.sty do both have their right to exist.
+%  But in my personal opinion, subcaption.sty is superior in more regards than subfig.sty is
+%
+%           % \usepackage{subfigure}% Just as Info: subfigure is dead. Use subfig.sty (which would be loaded above by the IEEE-template) or subcaption.sty instead.
+%           % \usepackage[caption=false,font=normalsize,labelfont=sf,textfont=sf]{subfig}
+\usepackage{caption}%
+\usepackage{subcaption}%You can pass options for subcaptions/subfigures here or alternatively, use the following command
+%
+% - - - Values for the font-options
+% - Size
+%        tiny, scriptsize, footnotesize, small, normalsize, large, Large
+% - Format
+%        normalfont  --  Normal shape & series & family
+%        up  --  Upright shape
+%        it  --  Italic shape
+%        sl  --  Slanted shape
+%        sc  --  SMALL CAPS SHAPE
+%        md  --  Medium series
+%        bf  --  Bold series
+%        rm  --  Roman family
+%        sf  --  Sans Serif family
+%        tt  --  Typewriter family
+%/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+%					Subfigure, Subfig, Subcaption, Caption fertig
+%------------------------------------------------------------------------
+%________________________________________________________________________
+%
+%
+%________________________________________________________________________
+%------------------------------------------------------------------------
+%				Settings
+%/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+%  Asterisk (*) after \captionsetup suppresses the "Unused \captionsetup[⟨type⟩]" Warning
+\captionsetup{%
+    singlelinecheck=true,% If caption fits into 1-Line, always centered.
+    format=plain,% plain, hang
+    indention=1.25em,%
+    justification=RaggedRight,% justified, centering, centerlast, centerfirst, raggedright, RaggedRight, raggedleft
+}%
+\captionsetup*[figure]{%
+    font=footnotesize,%
+    labelfont=normalfont,%
+    textfont=normalfont%
+}%
+%\captionsetup[subfigure]{margin=0pt,font+=smaller,labelformat=parens,labelsep=space,skip=6pt,list=false,hypcap=false}%Default options for subfigures
+%\captionsetup{belowskip=0pt}% 12pt
+%\captionsetup{aboveskip=4pt}% 4pt
+%
+% - - - -
+%- Separating Space of Floats
+%- -  Default Values of 'article' class with the '10pt' option 
+% \setlength{\intextsep}{10pt plus 1.0pt minus 2.0pt}% stance between floats inserted inside the page text (using h) and the text proper
+% \setlength{\textfloatsep}{10pt plus 1.0pt minus 2.0pt}% distance between floats on the top or the bottom and the text
+% \setlength{\floatsep}{10pt plus 1.0pt minus 2.0pt}% distance between two floats
+%
+%\setlength{\intextsep}{6pt}%
+%\setlength{\textfloatsep}{\intextsep}%

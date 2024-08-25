@@ -1,0 +1,940 @@
+% Author: Dennis Krummacker%
+\ifdefined\DenKr\documentclass[tikz,fontsize=11pt,class=scrbook]{standalone}\begin{document}\else%
+\input{"./2ProjectSetup".tex}%
+\input{"\DenKrAllMainRootDirPATH/2includes/packages/preamble_pre".tex}%
+\documentclass[tikz,fontsize=11pt,class=scrbook]{standalone}% I.e. the content from \input{"\DenKrLayoutMainRootDir/2layout/tikz_standalone/preamble_1_class".tex}%
+\input{"\DenKrInternalLayoutRootDir/tikz_standalone/1TikzStandalonePicIncludeThis".tex}%
+\DenKrTikzStandalonePre\fi%
+%
+%
+%
+\newcommand\nodedistance{0.5cm}%
+\newcommand\innabst{0.8em}% Abstand zwischen Text und Zellenrand
+%
+\let\breite\undefined%
+\newlength\breite%
+\settowidth{\breite}{\large \textbf{Interfacename}}%
+\setlength\breite{\breite+\innabst+\innabst+1em}%
+%
+%
+\begin{tikzpicture}[%
+	scale = \tikzpicturescale,%
+	auto,%
+	node distance=\nodedistance,%
+]%
+\newcommand{\cnt}{2}%
+%
+%
+% \bfseries%
+%
+%\draw[color=slightblue,fill] (-0.5,-4.5) rectangle (10.5,0.5);
+%
+%
+%
+%
+%
+%
+%
+	\node(shmemswitch)%
+		[mux2=8,%
+% 		text width=22.3575cm,%
+		]%
+		{ShMem Nachrichten-Typ};%
+%
+	\node(channelswitched_kommdest)%
+		[cleartext,%
+		above=3*\nodedistance of shmemswitch,%
+		xshift=4cm]%
+		{\textbf{\lipsaround{IT-switch2}}};%
+	\draw[arrowkomm,<-](shmemswitch.north-|channelswitched_kommdest.south)--(channelswitched_kommdest.south);%
+	\node(channelswitched_kommdest2)%
+		[cleartext,%
+		right=3*\nodedistance of channelswitched_kommdest]%
+		{\textbf{\lipsaround{C-switch2}}};%
+	\draw[arrowwait,<-](channelswitched_kommdest)--(channelswitched_kommdest2);%
+%
+	\node(channelswitched_timeoutdest)%
+		[cleartext,%
+		above=3*\nodedistance of shmemswitch,%
+		xshift=-4cm]%
+		{\textbf{\lipsaround{IT-timeout1}}};%
+	\draw[arrowkomm,<-](shmemswitch.north-|channelswitched_timeoutdest.south)--(channelswitched_timeoutdest.south);%
+%
+	\node(shmemswitch_chanswitch)%
+		[muxwahl2,%
+		anchor=north,%
+		xshift=-10.5cm]%
+		at(shmemswitch.south)%
+		{};%
+	\node(shmemswitch_chanswitch_text)%
+		[cleartext,anchor=north,inner sep=3pt]%
+		at(shmemswitch_chanswitch.north)%
+		{Kanal-\\wechsel};%
+	\node(shmemswitch_switchdone)%
+		[muxwahl2,%
+		anchor=north,%
+		xshift=-7.5cm]%
+		at(shmemswitch.south)%
+		{};%
+	\node(shmemswitch_switchdone_text)%
+		[cleartext,anchor=north,inner sep=3pt]%
+		at(shmemswitch_switchdone.north)%
+		{Switch\\ done};%
+	\node(shmemswitch_finish)%
+		[muxwahl2,%
+		anchor=north,%
+		xshift=10.5cm]%
+		at(shmemswitch.south)%
+		{};%
+	\node(shmemswitch_finish_text)%
+		[cleartext,anchor=north,inner sep=3pt]%
+		at(shmemswitch_finish.north)%
+		{Finish};%
+	\node(shmemswitch_timeoutsec)%
+		[muxwahl2,%
+		anchor=north,%
+		xshift=7.5cm]%
+		at(shmemswitch.south)%
+		{};%
+	\node(shmemswitch_timeoutsec_text)%
+		[cleartext,anchor=north,inner sep=3pt]%
+		at(shmemswitch_timeoutsec.north)%
+		{Timeout-\\ 2nd};%
+	\node(shmemswitch_timeoutr)%
+		[muxwahl2,%
+		anchor=north,%
+		xshift=-4.5cm]%
+		at(shmemswitch.south)%
+		{};%
+	\node(shmemswitch_timeoutr_text)%
+		[cleartext,anchor=north,inner sep=3pt]%
+		at(shmemswitch_timeoutr.north)%
+		{Timeout-\\ Ready};%
+	\node(shmemswitch_timeoutd)%
+		[muxwahl2,%
+		anchor=north,%
+		xshift=-1.5cm]%
+		at(shmemswitch.south)%
+		{};%
+	\node(shmemswitch_timeoutd_text)%
+		[cleartext,anchor=north,inner sep=3pt]%
+		at(shmemswitch_timeoutd.north)%
+		{Timeout-\\ Done};%
+	\node(shmemswitch_stayready)%
+		[muxwahl2,%
+		anchor=north,%
+		xshift=1.5cm]%
+		at(shmemswitch.south)%
+		{};%
+	\node(shmemswitch_stayready_text)%
+		[cleartext,anchor=north,inner sep=3pt]%
+		at(shmemswitch_stayready.north)%
+		{Stay\\ Ready};%
+	\node(shmemswitch_staydone)%
+		[muxwahl2,%
+		anchor=north,%
+		xshift=4.5cm]%
+		at(shmemswitch.south)%
+		{};%
+	\node(shmemswitch_staydone_text)%
+		[cleartext,anchor=north,inner sep=3pt]%
+		at(shmemswitch_staydone.north)%
+		{Stay\\ Done};%
+%
+%
+%
+%
+%
+%
+%
+	\node(newdev)%
+		[process,align=left,%
+		below=2*\nodedistance of shmemswitch_chanswitch,%
+		xshift=-18.5cm,%
+		yshift=-0.0cm]%
+		{\ico{sID = }Gelieferte ID dieses\\\ \ \ \ \ \ \ \ \ \ Wechsel-Vorgangs\\%
+		\ico{dev = UNUSED\_WLAN\_DEVICE}\\%
+		\ico{devold = USED\_WLAN\_DEVICE}};%
+	\node(newdevabove)[shape=coordinate]at($(newdev.north)+(0,1*\nodedistance)$){};%
+	\draw[connect](shmemswitch_chanswitch.south)|-(newdevabove);%
+	\draw[arrow](newdevabove)--(newdev.north);%
+%
+	\node(stopwlanmon)%
+		[interthread,%
+		below=of newdev]%
+		{Stoppe WLAN-Monitor auf \ico{dev}\\[0.75ex]%
+		\tikz\node[process,align=left]{
+			\lstinline[language=C_var,basicstyle=\ttfamily]%
+			{raise(SIGKILL_WLANMON);}\\
+			\lstinline[language=C_var,basicstyle=\ttfamily]%
+			{pthread_join(WLANMon_ThID);}};%
+		};%
+	\draw[arrow](newdev)--(stopwlanmon);%
+%
+	\node(stopwlanmon_kommdest)%
+		[cleartext,%
+		below=2*\nodedistance of stopwlanmon,%
+		xshift=2cm]%
+		{\textbf{\lipsaround{IT-wmon1}}};%
+	\draw[arrowkomm,->](stopwlanmon.south-|stopwlanmon_kommdest.north)--(stopwlanmon_kommdest.north);%
+%
+	\node(extractmsg)%
+		[process,%
+		align=left,%
+		below=4*\nodedistance of stopwlanmon]%
+		{Der Nachricht entnehmen:\\%
+		\ - ssid := SSID for the new Ad-hoc Connection\\%
+		\ - freq := Frequency for the new WLAN-Channel
+		};%
+	\draw[arrow](stopwlanmon)--(extractmsg);%
+%
+	\node(setadhoc)%
+		[processsplit=3,align=right,%
+		below=of extractmsg]%
+		{\nodepart{one}%
+		\lstinline[language=C_var,basicstyle=\ttfamily]%
+		{set_adhoc_freq_wpa_supplicant(dev, freq,}\ \ \ \\%
+		\lstinline[language=C_var,basicstyle=\ttfamily]%
+		{check_running_wpa_supplicant(dev))}%
+		\nodepart{two}%
+		\lstinline[language=C_var,basicstyle=\ttfamily]%
+		{set_adhoc_essid_wpa_supplicant(dev, ssid,}\ \ \ \\%
+		\lstinline[language=C_var,basicstyle=\ttfamily]%
+		{check_running_wpa_supplicant(dev))}%
+		\nodepart{three}%
+		\lstinline[language=C_var,basicstyle=\ttfamily]%
+		{start_adhoc_wpa_supplicant(dev,}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \\%
+		\lstinline[language=C_var,basicstyle=\ttfamily]%
+		{check_running_wpa_supplicant(dev))}%
+		};%
+	\draw[arrow](extractmsg)--(setadhoc);%
+%
+	\node(adhocisset)%
+		[interthread,%
+		below=of setadhoc]%
+		{Zum Controller senden:\\ "`\ico{ReadyToSwitch}"'};%
+	\draw[arrow](setadhoc)--(adhocisset);%
+%
+	\node(semsendpostswitch)%
+		[processsplit=2,anchor=north west,%
+		yshift=-\nodedistance]%
+		at(adhocisset.south-|setadhoc.south west)%
+		{\nodepart{one}Set ShMem-Flags\\%
+		\ico{CHAN\_SWITCH\_MODE | SEND}%
+		\nodepart{two}\lstinline[language=C_var,basicstyle=\ttfamily]%
+		{sem_post(&sem_send);}};%
+	\node[shape=coordinate](semsendpostswitchNorth2)at($(semsendpostswitch.north)+(1cm,0)$){};
+	\draw[arrow](adhocisset.south-|semsendpostswitchNorth2)--(semsendpostswitchNorth2);%
+%
+	\node(adhocisset_kommdest)%
+		[cleartext,%
+		below=3*\nodedistance of adhocisset,%
+		xshift=3cm]%
+		{\textbf{\lipsaround{IT-switch1}}};%
+	\draw[arrowkomm,->](adhocisset.east)-|(adhocisset_kommdest.north);%
+	\node(adhocisset_kommdest2)%
+		[cleartext,%
+		below=3*\nodedistance of adhocisset_kommdest]%
+		{\textbf{\lipsaround{C-switch1}}};%
+	\draw[arrowwait,->](adhocisset_kommdest)--(adhocisset_kommdest2);%
+%
+	\node(sendready)%
+		[processsplitl=2,%
+		rectangle split part align={center, left},%
+		below=of semsendpostswitch]%
+		{\nodepart{one}\ico{state=ReadyToSwitch}%
+		\nodepart{two}\ico{TOcurrID++;}\\%
+		Starte Ready-\\ Timeout\ico{(TOcurrID)}};%
+	\draw[arrow](semsendpostswitch)--(sendready);%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+\node(switchdonestatecheck)%
+	[decision2,%
+	below=3*\nodedistance of shmemswitch_switchdone,%
+	xshift=-13.5cm,%
+	yshift=-0.0cm]%
+	{\ico{state ==}\\ \ico{ReadyToSwitch} |\\ \ico{ReadyTimeout}?};%
+\node(switchdonestatecheckabove)[shape=coordinate]at($(switchdonestatecheck.north)+(0,1*\nodedistance)$){};%
+\draw[connect](shmemswitch_switchdone.south)|-(switchdonestatecheckabove);%
+\draw[arrow](switchdonestatecheckabove)--(switchdonestatecheck.north);%
+%
+\node(switchdoneidcheck)%
+	[decision2,%
+	below=2*\nodedistance of switchdonestatecheck]%
+	{\ico{sID ==}\\ Nachrichten-ID?};%
+\draw[arrow](switchdonestatecheck.south)--%
+	node[pos=0,anchor=north west]{Ja}%
+	(switchdoneidcheck.north);%
+%
+\node(staydone)%
+	[processsplitl=2,%
+	rectangle split part align={center, left},%
+	below=2*\nodedistance of switchdoneidcheck]%
+	{\nodepart{one}\ico{state=SwitchDone}%
+	\nodepart{two}\ico{TOcurrID++;}\\%
+	Starte Done-\\ Timeout\ico{(TOcurrID)}};%
+\draw[arrow](switchdoneidcheck.south)--%
+	node[pos=0,anchor=north west]{Ja}%
+	(staydone.north);%
+
+\node(switchdoneleavehelp)[shape=coordinate,xshift=-2em]at(switchdonestatecheck.west){};%
+\node(switchdoneleavehelp2)[shape=coordinate]at($(staydone.south)+(0,-2*\nodedistance)$){};%
+\path[draw,arrow](switchdonestatecheck.west)--%
+	node[pos=0,anchor=south east]{Nein}%
+	(switchdoneleavehelp)|-(switchdoneleavehelp2);%
+\draw[arrow](switchdoneidcheck.west)--%
+	node[pos=0,anchor=south east]{Nein}%
+	(switchdoneidcheck.west-|switchdoneleavehelp);%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+\node(timeoutrstatecheck)%
+	[decision2,%
+	below=4*\nodedistance of shmemswitch_timeoutr,%
+	xshift=-9.5cm,%
+	yshift=-0.0cm]%
+	{\ico{state ==}\\ \ico{ReadyToSwitch}?};%
+\node(timeoutrstatecheck_above)[shape=coordinate]at($(timeoutrstatecheck.north)+(0,1*\nodedistance)$){};%
+\draw[connect](shmemswitch_timeoutr.south)|-(timeoutrstatecheck_above);%
+\draw[arrow](timeoutrstatecheck_above)--(timeoutrstatecheck.north);%
+%
+\node(timeoutridcheck)%
+	[decision2,%
+	below=2*\nodedistance of timeoutrstatecheck]%
+	{\ico{Timeout-ID==}\\ \ico{(TOcurrID)}?};%
+\draw[arrow](timeoutrstatecheck.south)--%
+	node[pos=0,anchor=north west]{Ja}%
+	(timeoutridcheck.north);%
+%
+	\node(sendctrl_timeoutr)%
+		[interthread,%
+		below=2*\nodedistance of timeoutridcheck]%
+		{Zum Controller senden:\\ "`\ico{ReadyTimeout}"'};%
+\draw[arrow](timeoutridcheck.south)--%
+	node[pos=0,anchor=north west]{Ja}%
+	(sendctrl_timeoutr.north);%
+%
+	\node(semsend_timeoutr)%
+		[processsplit=2,anchor=north west,%
+		xshift=-1.5cm,%
+		below=of sendctrl_timeoutr]%
+		{\nodepart{one}Set ShMem-Flags\\%
+		\ico{CHAN\_SWITCH\_MODE | SEND}%
+		\nodepart{two}\lstinline[language=C_var,basicstyle=\ttfamily]%
+		{sem_post(&sem_send);}};%
+	\node[shape=coordinate](semsend_timeoutr_North2)at($(semsend_timeoutr.north)+(1cm,0)$){};
+	\draw[arrow](sendctrl_timeoutr.south-|semsend_timeoutr_North2)--(semsend_timeoutr_North2);%
+%
+	\node(timeoutr_kommdest)%
+		[cleartext,%
+		below=3*\nodedistance of sendctrl_timeoutr,%
+		xshift=3cm]%
+		{\textbf{\lipsaround{IT-switch1}}};%
+	\draw[arrowkomm,->](sendctrl_timeoutr.east)-|(timeoutr_kommdest.north);%
+	\node(timeoutr_kommdest2)%
+		[cleartext,%
+		below=3*\nodedistance of timeoutr_kommdest]%
+		{\textbf{\lipsaround{C-switch1}}};%
+	\draw[arrowwait,->](timeoutr_kommdest)--(timeoutr_kommdest2);%
+%
+\node(startsecondrtimeout)%
+	[processsplitl=2,%
+	rectangle split part align={center, left},%
+	below=of semsend_timeoutr]%
+	{\nodepart{one}\ico{state=ReadyTimeout}%
+	\nodepart{two}\ico{TOcurrID++;}\\%
+	Starte Second-\\ Timeout\ico{(TOcurrID)}};%
+\draw[arrow](semsend_timeoutr.south)--(startsecondrtimeout.north);%
+
+\node(timeoutr_leavehelp)[shape=coordinate,xshift=-2.5cm]at(timeoutrstatecheck.west){};%
+\node(timeoutr_leavehelp2)[shape=coordinate]at($(startsecondrtimeout.south)+(0,-2*\nodedistance)$){};%
+\path[draw,arrow](timeoutrstatecheck.west)--%
+	node[pos=0,anchor=south east]{Nein}%
+	(timeoutr_leavehelp)|-(timeoutr_leavehelp2);%
+\draw[arrow](timeoutridcheck.west)--%
+	node[pos=0,anchor=south east]{Nein}%
+	(timeoutridcheck.west-|timeoutr_leavehelp);%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+\node(timeoutdstatecheck)%
+	[decision2,%
+	below=5*\nodedistance of shmemswitch_timeoutd,%
+	xshift=-3.0cm,%
+	yshift=-0cm]%
+	{\ico{state ==}\\ \ico{SwitchDone}?};%
+\node(timeoutdstatecheck_above)[shape=coordinate]at($(timeoutdstatecheck.north)+(0,1*\nodedistance)$){};%
+\draw[connect](shmemswitch_timeoutd.south)|-(timeoutdstatecheck_above);%
+\draw[arrow](timeoutdstatecheck_above)--(timeoutdstatecheck.north);%
+%
+\node(timeoutdidcheck)%
+	[decision2,%
+	below=2*\nodedistance of timeoutdstatecheck]%
+	{\ico{Timeout-ID==}\\ \ico{(TOcurrID)}?};%
+\draw[arrow](timeoutdstatecheck.south)--%
+	node[pos=0,anchor=north west]{Ja}%
+	(timeoutdidcheck.north);%
+%
+	\node(sendctrl_timeoutd)%
+		[interthread,%
+		below=2*\nodedistance of timeoutdidcheck]%
+		{Zum Controller senden:\\ "`\ico{DoneTimeout}"'};%
+\draw[arrow](timeoutdidcheck.south)--%
+	node[pos=0,anchor=north west]{Ja}%
+	(sendctrl_timeoutd.north);%
+%
+	\node(semsend_timeoutd)%
+		[processsplit=2,anchor=north west,%
+		xshift=-1.5cm,%
+		below=of sendctrl_timeoutd]%
+		{\nodepart{one}Set ShMem-Flags\\%
+		\ico{CHAN\_SWITCH\_MODE | SEND}%
+		\nodepart{two}\lstinline[language=C_var,basicstyle=\ttfamily]%
+		{sem_post(&sem_send);}};%
+	\node[shape=coordinate](semsend_timeoutd_North2)at($(semsend_timeoutd.north)+(1cm,0)$){};
+	\draw[arrow](sendctrl_timeoutd.south-|semsend_timeoutd_North2)--(semsend_timeoutd_North2);%
+%
+	\node(timeoutd_kommdest)%
+		[cleartext,%
+		below=3*\nodedistance of sendctrl_timeoutd,%
+		xshift=3cm]%
+		{\textbf{\lipsaround{IT-switch1}}};%
+	\draw[arrowkomm,->](sendctrl_timeoutd.east)-|(timeoutd_kommdest.north);%
+	\node(timeoutd_kommdest2)%
+		[cleartext,%
+		below=3*\nodedistance of timeoutd_kommdest]%
+		{\textbf{\lipsaround{C-switch1}}};%
+	\draw[arrowwait,->](timeoutd_kommdest)--(timeoutd_kommdest2);%
+%
+\node(startseconddtimeout)%
+	[processsplitl=2,%
+	rectangle split part align={center, left},%
+	below=1*\nodedistance of semsend_timeoutd]%
+	{\nodepart{one}\ico{state=DoneTimeout}%
+	\nodepart{two}\ico{TOcurrID++;}\\%
+	Starte Second-\\ Timeout\ico{(TOcurrID)}};%
+\draw[arrow](semsend_timeoutd.south)--(startseconddtimeout.north);%
+
+\node(timeoutd_leavehelp)[shape=coordinate,xshift=-3cm]at(timeoutdstatecheck.west){};%
+\node(timeoutd_leavehelp2)[shape=coordinate]at($(startseconddtimeout.south)+(0,-2*\nodedistance)$){};%
+\path[draw,arrow](timeoutdstatecheck.west)--%
+	node[pos=0,anchor=south east]{Nein}%
+	(timeoutd_leavehelp)|-(timeoutd_leavehelp2);%
+\draw[arrow](timeoutdidcheck.west)--%
+	node[pos=0,anchor=south east]{Nein}%
+	(timeoutdidcheck.west-|timeoutd_leavehelp);%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+\node(stayreadystatecheck)%
+	[decision2,%
+	below=5*\nodedistance of shmemswitch_stayready,%
+	xshift=3cm,%
+	yshift=-0.0cm]%
+	{\ico{state ==}\\ \ico{ReadyTimeout}?};%
+\node(stayreadystatecheck_above)[shape=coordinate]at($(stayreadystatecheck.north)+(0,1*\nodedistance)$){};%
+\draw[connect](shmemswitch_stayready.south)|-(stayreadystatecheck_above);%
+\draw[arrow](stayreadystatecheck_above)--(stayreadystatecheck.north);%
+%
+\node(stayreadyidcheck)%
+	[decision2,%
+	below=2*\nodedistance of stayreadystatecheck]%
+	{\ico{sID ==}\\ Nachrichten-ID?};%
+\draw[arrow](stayreadystatecheck.south)--%
+	node[pos=0,anchor=north west]{Ja}%
+	(stayreadyidcheck.north);%
+%
+	\node(sendctrl_stayready)%
+		[interthread,%
+		below=2*\nodedistance of stayreadyidcheck]%
+		{Zum Controller senden:\\ "`\ico{StayReadyACK}"'};%
+\draw[arrow](stayreadyidcheck.south)--%
+	node[pos=0,anchor=north west]{Ja}%
+	(sendctrl_stayready.north);%
+%
+	\node(semsend_stayready)%
+		[processsplit=2,anchor=north west,%
+		xshift=-1.5cm,%
+		below=of sendctrl_stayready]%
+		{\nodepart{one}Set ShMem-Flags\\%
+		\ico{CHAN\_SWITCH\_MODE | SEND}%
+		\nodepart{two}\lstinline[language=C_var,basicstyle=\ttfamily]%
+		{sem_post(&sem_send);}};%
+	\node[shape=coordinate](semsend_stayready_North2)at($(semsend_stayready.north)+(1cm,0)$){};
+	\draw[arrow](sendctrl_stayready.south-|semsend_stayready_North2)--(semsend_stayready_North2);%
+%
+	\node(stayready_kommdest)%
+		[cleartext,%
+		below=3*\nodedistance of sendctrl_stayready,%
+		xshift=3cm]%
+		{\textbf{\lipsaround{IT-switch1}}};%
+	\draw[arrowkomm,->](sendctrl_stayready.east)-|(stayready_kommdest.north);%
+	\node(stayready_kommdest2)%
+		[cleartext,%
+		below=3*\nodedistance of stayready_kommdest]%
+		{\textbf{\lipsaround{C-switch1}}};%
+	\draw[arrowwait,->](stayready_kommdest)--(stayready_kommdest2);%
+%
+\node(changetoreadytoswitch)%
+	[processsplitl=2,%
+	rectangle split part align={center, left},%
+	below=1*\nodedistance of semsend_stayready]%
+	{\nodepart{one}\ico{state=ReadyToSwitch}%
+	\nodepart{two}\ico{TOcurrID++;}\\%
+	Starte Ready-\\ Timeout\ico{(TOcurrID)}};%
+\draw[arrow](semsend_stayready.south)--(changetoreadytoswitch.north);%
+
+\node(stayready_leavehelp)[shape=coordinate,xshift=-2.5cm]at(stayreadystatecheck.west){};%
+\node(stayready_leavehelp2)[shape=coordinate]at($(changetoreadytoswitch.south)+(0,-2*\nodedistance)$){};%
+\path[draw,arrow](stayreadystatecheck.west)--%
+	node[pos=0,anchor=south east]{Nein}%
+	(stayready_leavehelp)|-(stayready_leavehelp2);%
+\draw[arrow](stayreadyidcheck.west)--%
+	node[pos=0,anchor=south east]{Nein}%
+	(stayreadyidcheck.west-|stayready_leavehelp);%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+\node(staydonestatecheck)%
+	[decision2,%
+	below=4*\nodedistance of shmemswitch_staydone,%
+	xshift=9.0cm,%
+	yshift=-0cm]%
+	{\ico{state ==}\\ \ico{DoneTimeout}?};%
+\node(staydonestatecheck_above)[shape=coordinate]at($(staydonestatecheck.north)+(0,1*\nodedistance)$){};%
+\draw[connect](shmemswitch_staydone.south)|-(staydonestatecheck_above);%
+\draw[arrow](staydonestatecheck_above)--(staydonestatecheck.north);%
+%
+\node(staydoneidcheck)%
+	[decision2,%
+	below=2*\nodedistance of staydonestatecheck]%
+	{\ico{sID ==}\\ Nachrichten-ID?};%
+\draw[arrow](staydonestatecheck.south)--%
+	node[pos=0,anchor=north west]{Ja}%
+	(staydoneidcheck.north);%
+%
+	\node(sendctrl_staydone)%
+		[interthread,%
+		below=2*\nodedistance of staydoneidcheck]%
+		{Zum Controller senden:\\ "`\ico{StayDoneACK}"'};%
+\draw[arrow](staydoneidcheck.south)--%
+	node[pos=0,anchor=north west]{Ja}%
+	(sendctrl_staydone.north);%
+%
+	\node(semsend_staydone)%
+		[processsplit=2,anchor=north west,%
+		xshift=-1.5cm,%
+		below=of sendctrl_staydone]%
+		{\nodepart{one}Set ShMem-Flags\\%
+		\ico{CHAN\_SWITCH\_MODE | SEND}%
+		\nodepart{two}\lstinline[language=C_var,basicstyle=\ttfamily]%
+		{sem_post(&sem_send);}};%
+	\node[shape=coordinate](semsend_staydone_North2)at($(semsend_staydone.north)+(1cm,0)$){};
+	\draw[arrow](sendctrl_staydone.south-|semsend_staydone_North2)--(semsend_staydone_North2);%
+%
+	\node(staydone_kommdest)%
+		[cleartext,%
+		below=3*\nodedistance of sendctrl_staydone,%
+		xshift=3cm]%
+		{\textbf{\lipsaround{IT-switch1}}};%
+	\draw[arrowkomm,->](sendctrl_staydone.east)-|(staydone_kommdest.north);%
+	\node(staydone_kommdest2)%
+		[cleartext,%
+		below=3*\nodedistance of staydone_kommdest]%
+		{\textbf{\lipsaround{C-switch1}}};%
+	\draw[arrowwait,->](staydone_kommdest)--(staydone_kommdest2);%
+%
+\node(changetoswitchdone)%
+	[processsplitl=2,%
+	rectangle split part align={center, left},%
+	below=1*\nodedistance of semsend_staydone]%
+	{\nodepart{one}\ico{state=SwitchDone}%
+	\nodepart{two}\ico{TOcurrID++;}\\%
+	Starte Done-\\ Timeout\ico{(TOcurrID)}};%
+\draw[arrow](semsend_staydone.south)--(changetoswitchdone.north);%
+
+\node(staydone_leavehelp)[shape=coordinate,xshift=-2.5cm]at(staydonestatecheck.west){};%
+\node(staydone_leavehelp2)[shape=coordinate]at($(changetoswitchdone.south)+(0,-2*\nodedistance)$){};%
+\path[draw,arrow](staydonestatecheck.west)--%
+	node[pos=0,anchor=south east]{Nein}%
+	(staydone_leavehelp)|-(staydone_leavehelp2);%
+\draw[arrow](staydoneidcheck.west)--%
+	node[pos=0,anchor=south east]{Nein}%
+	(staydoneidcheck.west-|staydone_leavehelp);%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+\node(timeoutsecstatecheck)%
+	[mux2=3,%
+	below=3*\nodedistance of shmemswitch_timeoutsec,%
+	xshift=18.25cm,%
+	yshift=-0.0cm]%
+	{\ico{state}};%
+\node(timeoutsecstatecheck_above)[shape=coordinate]at($(timeoutsecstatecheck.north)+(0,1*\nodedistance)$){};%
+\draw[connect](shmemswitch_timeoutsec.south)|-(timeoutsecstatecheck_above);%
+\draw[arrow](timeoutsecstatecheck_above)--(timeoutsecstatecheck.north);%
+%
+\node(timeoutsecstatecheck_1)%
+	[muxwahl2,%
+	anchor=north,%
+	xshift=-3.0cm]%
+	at(timeoutsecstatecheck.south)%
+	{};%
+\node(timeoutsecstatecheck_1_text)%
+	[cleartext,anchor=north,inner sep=3pt]%
+	at(timeoutsecstatecheck_1.north)%
+	{\ico{Ready-}\\ \ico{Timeout}};%
+\node(timeoutsecstatecheck_2)%
+	[muxwahl2,%
+	anchor=north,%
+	xshift=0.0cm]%
+	at(timeoutsecstatecheck.south)%
+	{};%
+\node(timeoutsecstatecheck_2_text)%
+	[cleartext,anchor=north,inner sep=3pt]%
+	at(timeoutsecstatecheck_2.north)%
+	{\ico{Done-}\\ \ico{Timeout}};%
+\node(timeoutsecstatecheck_3)%
+	[muxwahl2,%
+	anchor=north,%
+	xshift=3.0cm]%
+	at(timeoutsecstatecheck.south)%
+	{};%
+\node(timeoutsecstatecheck_3_text)%
+	[cleartext,anchor=north,inner sep=3pt]%
+	at(timeoutsecstatecheck_3.north)%
+	{\ico{default}};%
+%
+\node(timeoutsec_idcheck_1)%
+	[decision2,%
+	below=2*\nodedistance of timeoutsecstatecheck_1,%
+	xshift=-1cm]%
+	{\ico{Timeout-ID==}\\ \ico{(TOcurrID)}?};%
+\node(timeoutsec_idcheck_1_connect)[shape=coordinate]at($(timeoutsec_idcheck_1.north)!.5!(timeoutsecstatecheck_1.south)$){};%
+\path[draw,arrow](timeoutsecstatecheck_1.south)|-(timeoutsec_idcheck_1_connect)-|(timeoutsec_idcheck_1.north);%
+%
+\node(timeoutsec_idcheck_2)%
+	[decision2,%
+	xshift=1.5cm,%
+	below=2*\nodedistance of timeoutsecstatecheck_2]%
+	{\ico{Timeout-ID==}\\ \ico{(TOcurrID)}?};%
+\node(timeoutsec_idcheck_2_connect)[shape=coordinate]at($(timeoutsec_idcheck_2.north)!.5!(timeoutsecstatecheck_2.south)$){};%
+\path[draw,arrow](timeoutsecstatecheck_2.south)|-(timeoutsec_idcheck_2_connect)-|(timeoutsec_idcheck_2.north);%
+%
+\node(timeoutsec_send_fallbackr)%
+	[interthread,%
+	below=2*\nodedistance of timeoutsec_idcheck_1]%
+	{Zum Controller senden:\\ "`\ico{TimeoutFallbackR}"'};%
+\draw[arrow](timeoutsec_idcheck_1.south)--%
+	node[pos=0,anchor=north west]{Ja}%
+	(timeoutsec_send_fallbackr.north);%
+%
+\node(timeoutsec_send_fallbackd)%
+	[interthread,%
+	below=2*\nodedistance of timeoutsec_idcheck_2]%
+	{Zum Controller senden:\\ "`\ico{TimeoutFallbackD}"'};%
+\draw[arrow](timeoutsec_idcheck_2.south)--%
+	node[pos=0,anchor=north west]{Ja}%
+	(timeoutsec_send_fallbackd.north);%
+%
+\node(timeoutsec_kommdest_help)[shape=coordinate]%
+	at($(timeoutsec_send_fallbackr.east)!.5!(timeoutsec_send_fallbackd.west)$){};%
+%
+	\node(timeoutsec_kommdest)%
+		[cleartext,%
+		anchor=north,%
+		yshift=-2*\nodedistance,%
+		xshift=0cm]%
+		at(timeoutsec_kommdest_help|-timeoutsec_send_fallbackr.south)
+		{\textbf{\lipsaround{IT-switch1}}};%
+\node(send_timeoutr_kommconnect)[shape=coordinate]%
+	at($(timeoutsec_send_fallbackr.south)+(1em,0)$){};%
+\node(send_timeoutd_kommconnect)[shape=coordinate]%
+	at($(timeoutsec_send_fallbackd.south)+(-1em,0)$){};%
+\draw[arrowkomm,->](send_timeoutr_kommconnect)|-(timeoutsec_kommdest.west);%
+\draw[arrowkomm,->](send_timeoutd_kommconnect)|-(timeoutsec_kommdest.east);%
+	\node(timeoutsec_kommdest2)%
+		[cleartext,%
+		below=2*\nodedistance of timeoutsec_kommdest]%
+		{\textbf{\lipsaround{C-switch1}}};%
+	\draw[arrowwait,->](timeoutsec_kommdest)--(timeoutsec_kommdest2);%
+%
+\node(mux_finaltimeouthandler_help)[shape=coordinate]at($(timeoutsec_send_fallbackr.south)!.5!(timeoutsec_send_fallbackd.south)$){};%
+\node(mux_finaltimeouthandler)%
+	[mux2,anchor=north,%
+	minimum width=10cm+1.2475cm,%
+	yshift=-8*\nodedistance]%
+	at(mux_finaltimeouthandler_help|-timeoutsec_send_fallbackr.south)%
+	{\ico{FinalTimeoutHandler}};%
+\node(send_timeoutr_handlerconnect)[shape=coordinate]%
+	at($(timeoutsec_send_fallbackr.south)+(-3em,0)$){};%
+\node(send_timeoutd_handlerconnect)[shape=coordinate]%
+	at($(timeoutsec_send_fallbackd.south)+(3em,0)$){};%
+\draw[arrow](send_timeoutr_handlerconnect)--(send_timeoutr_handlerconnect|-mux_finaltimeouthandler.north);%
+\draw[arrow](send_timeoutd_handlerconnect)--(send_timeoutd_handlerconnect|-mux_finaltimeouthandler.north);%
+%
+\node(FinalTimeoutHandler)%
+	[processsplitl=2,rectangle split horizontal,%
+	text width=5cm,%
+	anchor=north]%
+	at(mux_finaltimeouthandler.south)%
+	{\nodepart{one}%
+	\nodepart{two}Detektiere ob AI-Partner entweder neuen oder alten Kanal
+	in Betrieb hat;\\[0.5\baselineskip]%
+	Join detektiertem Kanal auf \ico{dev}};%
+%
+\node(FinalTimeoutHandler_text1)%
+	[cleartext,%
+	align=left,inner sep=0.5*\innabst,%
+	text width=5cm,%
+	anchor=north west]%
+	at(FinalTimeoutHandler.north west)%
+	{Schließe neuen Kanal auf \ico{dev} wieder;\\[0.5\baselineskip]%
+	(Re-)aktiviere WLAN-Monitor auf \ico{dev};};%
+%
+\node(timeoutsec_setstate)%
+	[process,%
+	below=2*\nodedistance of FinalTimeoutHandler]%
+	{\ico{state=None}};%
+\draw[arrow](FinalTimeoutHandler)--(timeoutsec_setstate.north);%
+%
+\node(timeoutsec_leave)[shape=coordinate,below=2*\nodedistance of timeoutsec_setstate]{};%
+% \node(timeoutsec_default_leave_help)
+% 	[shape=coordinate,xshift=0pt,yshift=1*\nodedistance]
+% 	at(timeoutsecstatecheck_3.right side|-timeoutsec_send_fallbackd.top right corner){};%
+\node(timeoutsec_default_leave_help)
+	[shape=coordinate,xshift=0.25cm,yshift=-1*\nodedistance]
+	at(timeoutsecstatecheck_3.south-|timeoutsecstatecheck.top right corner){};%
+\path[draw,arrow](timeoutsecstatecheck_3.south)|-(timeoutsec_default_leave_help)|-(timeoutsec_leave);%
+\node(timeoutsec_id1_leave_help)%
+	[shape=coordinate,xshift=-1em]%
+	at(mux_finaltimeouthandler.top left corner|-timeoutsec_idcheck_1.west){};%
+\draw[arrow](timeoutsec_idcheck_2.east)--%
+	node[pos=0,anchor=north west]{Nein}%
+	(timeoutsec_idcheck_2.east-|timeoutsec_default_leave_help);%
+\path[draw,arrow](timeoutsec_idcheck_1.west)-|%
+	node[pos=0,anchor=south east]{Nein}%
+	(timeoutsec_id1_leave_help)|-%
+	(timeoutsec_leave);%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+\node(finishstatecheck)%
+	[decision2,%
+	below=2*\nodedistance of shmemswitch_finish,%
+	xshift=25.0cm,%
+	yshift=-0.0cm]%
+	{\ico{state ==}\\ \ico{SwitchDone}?};%
+\node(finishstatecheckabove)[shape=coordinate]at($(finishstatecheck.north)+(0,1*\nodedistance)$){};%
+\draw[connect](shmemswitch_finish.south)|-(finishstatecheckabove);%
+\draw[arrow](finishstatecheckabove)--(finishstatecheck.north);%
+%
+\node(finishstatecheck2)%
+	[decision2,%
+	below=2*\nodedistance of finishstatecheck]%
+	{\ico{state ==}\\ \ico{DoneTimeout}?};%
+\draw[arrow](finishstatecheck.south)--%
+	node[pos=0,anchor=north west]{Nein}%
+	(finishstatecheck2.north);%
+%
+\node(finishidcheck)%
+	[decision2,%
+	below=4*\nodedistance of finishstatecheck2]%
+	{\ico{sID ==}\\ Nachrichten-ID?};%
+\draw[arrow](finishstatecheck2.south)--%
+	node[pos=0,anchor=north west]{Ja}%
+	(finishidcheck.north);%
+%
+\node(stopadhoc)%
+	[process,align=right,%
+	below=2*\nodedistance of finishidcheck]%
+	{\lstinline[language=C_var,basicstyle=\ttfamily]%
+	{stop_adhoc_wpa_supplicant(devold, }\\%
+	\lstinline[language=C_var,basicstyle=\ttfamily]%
+	{check_running_wpa_supplicant(  }\\
+	\lstinline[language=C_var,basicstyle=\ttfamily]%
+	{devold))}%
+	};%
+\draw[arrow](finishidcheck.south)--%
+	node[pos=0,anchor=north west]{Ja}%
+	(stopadhoc);%
+\node(finishstatechconnect)[shape=coordinate]at($(finishstatecheck.east)+(1.5em,0)$){};%
+\path[draw,arrow](finishstatecheck.east)--%
+	node[pos=0,anchor=south west]{Ja}%
+	(finishstatechconnect)|-($(finishidcheck.north)!.5!(finishstatecheck2.south)$);%
+% \path[draw,arrow](finishstatecheck.east)--%
+% 	node[pos=0,anchor=south west]{Ja}%
+% 	(finishstatechconnect)--(finishstatechconnect|-stopadhoc.north);%
+%
+\node(restartwlanmon)%
+	[interthread,%
+	below=of stopadhoc]%
+	{Starte WLAN-Monitor auf \ico{devold}};%
+\draw[arrow](stopadhoc)--(restartwlanmon);%
+%
+\node(restartwlanmon_kommdest)%
+	[cleartext,%
+	below=3*\nodedistance of restartwlanmon,%
+	xshift=2cm]%
+	{\textbf{\lipsaround{IT-wmon2}}};%
+\draw[arrowkomm,->](restartwlanmon.south-|restartwlanmon_kommdest.north)--(restartwlanmon_kommdest);%
+%
+\node(finishleavehelp)[shape=coordinate,xshift=-1em]at(stopadhoc.west|-finishstatecheck2.west){};%
+\node(finishleavehelp2)[shape=coordinate]at($(restartwlanmon.south)+(0,-2*\nodedistance)$){};%
+\path[draw,arrow](finishstatecheck2.west)--%
+	node[pos=0,anchor=south east]{Nein}%
+	(finishleavehelp)|-(finishleavehelp2);%
+\draw[arrow](finishidcheck.west)--%
+	node[pos=0,anchor=south east]{Nein}%
+	(finishidcheck.west-|finishleavehelp);%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+\node(leavepoint)[shape=circle,draw,fill,%
+		minimum width=0,%
+		minimum height=0,%
+		minimum size=0,%
+		inner sep=0.2em,%
+		yshift=-3*\nodedistance]%
+	at(shmemswitch.south|-sendready.south){};%
+%
+\draw[arrow](leavepoint.center)--($(leavepoint)+(0,-2*\nodedistance)$);%
+\draw[arrow](sendready.south)|-(leavepoint);%
+\draw[arrow](restartwlanmon.south)|-(leavepoint);%
+\draw[arrow](staydone.south)--(leavepoint-|staydone.south);%
+\draw[arrow](startsecondrtimeout.south)--(leavepoint-|startsecondrtimeout.south);%
+\draw[arrow](startseconddtimeout.south)--(leavepoint-|startseconddtimeout.south);%
+\draw[arrow](changetoreadytoswitch.south)--(leavepoint-|changetoreadytoswitch.south);%
+\draw[arrow](changetoswitchdone.south)--(leavepoint-|changetoswitchdone.south);%
+\draw[arrow](timeoutsec_setstate.south)--(leavepoint-|timeoutsec_setstate.south);%
+%
+%
+%
+%
+%
+%
+%
+% \node(testpunkt)[shape=circle,draw=green,fill=red,
+% inner sep=0pt,text width=0.75em]%
+% at(shmemswitch_etc.east){};%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+% \node(switchdonestatechecktemp)%
+% 	[decision2,%
+% 	below=2*\nodedistance of shmemswitch_switchdone,%
+% 	xshift=2.0cm]%
+% 	at(0,8)
+% 	{\ico{state==}\\ \ico{ReadyToSwitch} |\\ \ico{ReadyTimeout}};%
+% \node(test1)[circle,
+% 	below=2*\nodedistance of switchdonestatechecktemp]{test1};
+% \node(test2)[circle,
+% 	above=2*\nodedistance of switchdonestatechecktemp]{test2};
+% \node(test3)[circle,
+% 	right=2*\nodedistance of switchdonestatechecktemp]{test3};
+% \node(test4)[circle,
+% 	left=2*\nodedistance of switchdonestatechecktemp]{test4};
+% \node(test5)[circle]at(test2-|test4){test};
+% \node(test6)[circle]at(test2-|test3){test};
+% \node(test7)[circle]at(test4|-test1){test};
+% \node(test8)[circle]at(test3|-test1){test};
+% \draw(switchdonestatechecktemp)--(test1);
+% \draw(switchdonestatechecktemp)--(test2);
+% \draw(switchdonestatechecktemp)--(test3);
+% \draw(switchdonestatechecktemp)--(test4);
+% \draw(switchdonestatechecktemp)--(test5);
+% \draw(switchdonestatechecktemp)--(test6);
+% \draw(switchdonestatechecktemp)--(test7);
+% \draw(switchdonestatechecktemp)--(test8);
+%
+%
+%
+%
+%
+\normalfont%
+%
+\end{tikzpicture}%
+%
+%
+\ifdefined\DenKr\end{document}\else\DenKrTikzStandalonePost\fi%

@@ -1,0 +1,43 @@
+\setkomafont{pagenumber}{\usekomafont{pagenumberOriginal}}%
+\addtokomafont{pagenumber}{\color{DenKrKomaColor_PageNumber}}%
+%
+% \clearpairofpagestyles%
+% Remove the Page-Number from the Pagestyle-Pair  [plain.scrheadings]{scrheadings}
+% NOTE: In one-sided printing, only right-hand pages exist, and LATEX designates these as odd pages regardless of their page number.
+\lefoot[]{}%
+\rofoot[]{}%
+\cofoot[]{}% Clearing the central pagenumber of one-sided
+%Define Layer for new Page-Number Style
+\providecommand*\pagenumberrule{}\renewcommand*\pagenumberrule{%
+  {\color{DenKrKomaColor_ChapterHeading}\rule[-90pt]{1.25pt}{100pt}}%
+}%
+\DeclareLayer[%
+  background,%
+  oddpage,%
+  foot,%
+  contents={%
+    \hfill%
+    \makebox[0pt][l]{%
+      \pagenumberrule%
+      \hspace*{10pt}%
+      {\pagemark}%
+    }%
+  }%
+]{pagenumber.odd}%
+\DeclareLayer[%
+  background,%
+  evenpage,%
+  foot,%
+  contents={%
+    \makebox[0pt][r]{%
+      {\pagemark}%
+      \hspace*{10pt}%
+      \pagenumberrule%
+    }%
+  }%
+]{pagenumber.even}%
+\AddLayersToPageStyle{scrheadings}{pagenumber.odd,pagenumber.even}%
+\AddLayersToPageStyle{plain.scrheadings}{pagenumber.odd,pagenumber.even}%
+% % % % %
+\DenKrKOMALayerTrackAdd{scrheadings}{pagenumber.odd,pagenumber.even}%
+\DenKrKOMALayerTrackAdd{plain.scrheadings}{pagenumber.odd,pagenumber.even}%

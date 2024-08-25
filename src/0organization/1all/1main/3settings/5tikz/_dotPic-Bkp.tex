@@ -1,0 +1,3827 @@
+%
+%========-------------------------------------------========
+%========		\pic(NodeName)[Style]{.PicIdentifier}	========
+%========-------------------------------------------========
+\definecolor{TikzCol_folderbg}{RGB}{124,166,198}%
+\definecolor{TikzCol_folderborder}{RGB}{110,144,169}%
+% \definecolor{txtbg}{RGB}{90,130,170}%
+\definecolor{TikzCol_DirTxtbg}{RGB}{170,170,190}%
+\definecolor{TikzCol_DirTxtborder}{RGB}{255,255,255}%
+%
+\def\SmallPicSize{4pt}
+\tikzset{%
+  folder/.pic={%
+    \filldraw[draw=TikzCol_folderborder,top color=TikzCol_folderbg!50,bottom color=TikzCol_folderbg]%
+      (-1.05*\SmallPicSize,0.2\SmallPicSize+5pt) rectangle ++(.75*\SmallPicSize,-0.2\SmallPicSize-5pt);%
+    \filldraw[draw=TikzCol_folderborder,top color=TikzCol_folderbg!50,bottom color=TikzCol_folderbg]%
+      (-1.15*\SmallPicSize,-\SmallPicSize) rectangle (1.15*\SmallPicSize,\SmallPicSize);%
+  }%
+}%
+\tikzset{%
+  txt/.pic={%
+    \coordinate(-Center)at(0,0);%
+    \coordinate(-North)at($(-Center)+(0,1.2*\SmallPicSize)$);%
+    \coordinate(-South)at($(-Center)+(0,-1.2*\SmallPicSize)$);%
+    \coordinate(-East)at($(-Center)+(1.15*\SmallPicSize,0)$);%
+    \coordinate(-West)at($(-Center)+(-1.15*\SmallPicSize,0)$);%
+    \coordinate(-NorthWest)at(-West|--North);%
+    \coordinate(-NorthEast)at(-East|--North);%
+    \coordinate(-SouthWest)at(-West|--South);%
+    \coordinate(-SouthEast)at(-East|--South);%
+    \filldraw[draw=TikzCol_DirTxtborder,top color=TikzCol_DirTxtbg,bottom color=TikzCol_DirTxtbg!50]%
+      (-SouthWest)rectangle(-NorthEast);%
+    \draw[draw=black]%
+      (-0.8*\SmallPicSize,0.7*\SmallPicSize)--(0.8*\SmallPicSize,0.7*\SmallPicSize);%
+    \draw[draw=black]%
+      (-0.8*\SmallPicSize,0.15*\SmallPicSize)--(0.7*\SmallPicSize,0.15*\SmallPicSize);%
+    \draw[draw=black]%
+      (-0.8*\SmallPicSize,-0.4*\SmallPicSize)--(0.2*\SmallPicSize,-0.4*\SmallPicSize);%
+  }%
+}%
+%
+%
+%
+%
+%
+%
+\usetikzlibrary{fit}
+\tikzset{
+  comp/.style = {
+    minimum width  = 8cm,
+    minimum height = 4.5cm,
+    text width     = 8cm,
+    inner sep      = 0pt,
+    text           = green,
+    align          = center,
+    font           = \Huge,
+    transform shape,
+    thick
+  },
+  monitor/.style = {draw = none, xscale = 18/16, yscale = 11/9},
+  display/.style = {shading = axis, left color = black!60, right color = black},
+  ut/.style      = {fill = gray}
+}
+\tikzset{
+  computer/.pic = {
+    % screen (with border)
+    \node(-m) [comp, pic actions, monitor]
+      {\phantom{\parbox{\linewidth}{\tikzpictext}}};
+    % display (without border)
+    \node[comp, pic actions, display] {\tikzpictext};
+    \begin{scope}[x = (-m.east), y = (-m.north)]
+      % filling the lower part
+      \path[pic actions, draw = none]
+        ([yshift=2\pgflinewidth]-0.1,-1) -- (-0.1,-1.3) -- (-1,-1.3) --
+        (-1,-2.4) -- (1,-2.4) -- (1,-1.3) -- (0.1,-1.3) --
+        ([yshift=2\pgflinewidth]0.1,-1);
+      % filling the border of the lower part
+      \path[ut]
+        (-1,-2.4) rectangle (1,-1.3)
+        (-0.9,-1.4) -- (-0.7,-2.3) -- (0.7,-2.3) -- (0.9,-1.4) -- cycle;
+      % drawing the frame of the whole computer
+      \path[pic actions, fill = none]
+        (-1,1) -- (-1,-1) -- (-0.1,-1) -- (-0.1,-1.3) -- (-1,-1.3) --
+        (-1,-2.4) coordinate(sw)coordinate[pos=0.5] (-b west) --
+        (1,-2.4) -- (1,-1.3) coordinate[pos=0.5] (-b east) --
+        (0.1,-1.3) -- (0.1,-1) -- (1,-1) -- (1,1) -- cycle;
+      % node around the whole computer
+      \node(-c) [fit = (sw)(-m.north east), inner sep = 0pt] {};
+    \end{scope}
+  }
+}
+%
+%
+%
+%
+%
+\definecolor{TikzCol_srceryDirBG}{RGB}{150,40,250}%
+\definecolor{TikzCol_srceryDirBorder}{RGB}{80,0,160}%
+\definecolor{TikzCol_srceryDirOpenHatchBG}{RGB}{70,10,250}%
+\definecolor{TikzCol_srceryDirOpenHatchBorder}{RGB}{30,0,130}%
+\def\srceryDirSize{8pt}%
+\def\srceryDirBorderLineWidth{0.0625*\srceryDirSize}%
+\def\srceryDirMainBodyStretchX{1.15}%
+\tikzset{%
+  srceryDirLine/.style={%
+    draw=TikzCol_srceryDirBorder,%
+    line width=\srceryDirBorderLineWidth%
+  },%
+  srceryDir/.pic={%
+    \coordinate(-TabTL)at(0.1*\srceryDirSize,0.2*\srceryDirSize);%
+    \coordinate(-TabTR)at($(-TabTL)+(0.4*\srceryDirSize,0)$);%
+    \path[%
+        srceryDirLine,%
+        top color=TikzCol_srceryDirBG!50,%
+        bottom color=TikzCol_srceryDirBG%
+    ]%
+        (-TabTL)%
+        [rounded corners=0.05*\srceryDirSize]--%
+            (-TabTR)%
+        [sharp corners]--++%
+            (0,-0.2*\srceryDirSize)%
+        --++%
+            (-0.4*\srceryDirSize,0)%
+        [rounded corners=0.05*\srceryDirSize]--%
+            cycle%
+    ;%
+    \coordinate(-HatchTL)at(0,0);%
+    \coordinate(-HatchTR)at($(-HatchTL)+(\srceryDirMainBodyStretchX*\srceryDirSize,0)$);%
+    \coordinate(-HatchBR)at($(-HatchTR)+(0,-\srceryDirSize)$);%
+    \coordinate(-HatchBL)at($(-HatchBR)+(-\srceryDirMainBodyStretchX*\srceryDirSize,0)$);%
+    \path[%
+        srceryDirLine,%
+        top color=TikzCol_srceryDirBG!50,%
+        bottom color=TikzCol_srceryDirBG%
+    ]%
+        (-HatchTL)%
+        [rounded corners=0.15*\srceryDirSize]--%
+            (-HatchTR)%
+        --%
+            (-HatchBR)%
+        --%
+            (-HatchBL)%
+        [sharp corners]--%
+            cycle%
+    ;%
+    \coordinate(-South)at($(-HatchBL)!.5!(-HatchBR)$);%
+    \coordinate(-North)at($(-HatchTL|--TabTL)!.5!(-HatchTR|--TabTL)$);%
+    \coordinate(-Center)at($(-South)!.5!(-North)$);%
+    \coordinate(-East)at(-Center-|-HatchTR);%
+    \coordinate(-West)at(-Center-|-HatchTL);%
+    \coordinate(-NorthWest)at(-North-|-West);%
+    \coordinate(-NorthEast)at(-North-|-East);%
+    \coordinate(-SouthWest)at(-South-|-West);%
+    \coordinate(-SouthEast)at(-South-|-East);%
+  },%
+  srceryDirOpenHatchLine/.style={%
+    draw=TikzCol_srceryDirOpenHatchBorder,%
+    line width=\srceryDirBorderLineWidth%
+  },%
+  srceryDirOpenHatch/.pic={%
+    \coordinate(-HatchBR)at(\srceryDirMainBodyStretchX*\srceryDirSize,-\srceryDirSize);%
+    \coordinate(-HatchBL)at($(-HatchBR)+(-\srceryDirMainBodyStretchX*\srceryDirSize,0)$);%
+    \coordinate(-HatchTL)at($(-HatchBL)+(0.3*\srceryDirSize,0.7*\srceryDirSize)$);%
+    \coordinate(-HatchTR)at($(-HatchTL)+(\srceryDirMainBodyStretchX*\srceryDirSize,0)$);%
+    \path[%
+        srceryDirOpenHatchLine,%
+        top color=TikzCol_srceryDirOpenHatchBG!50,%
+        bottom color=TikzCol_srceryDirOpenHatchBG%
+    ]%
+        (-HatchBR)%
+        [rounded corners=0.15*\srceryDirSize]--%
+            (-HatchBL)%
+        --%
+            (-HatchTL)%
+        --%
+            (-HatchTR)%
+        []--%
+            cycle%
+    ;%
+  },%
+  srceryDirOpen/.pic={%
+    \pic(-srceryDirBack)at(0,0){srceryDir};%
+    \pic(-srceryDirFront)at(0,0){srceryDirOpenHatch};
+    \coordinate(-West)at(-srceryDirBack-West);%
+    \coordinate(-East)at(-srceryDirBack-East-|-srceryDirFront-HatchTR);%
+    \coordinate(-Center)at($(-West)!.5!(-East)$);%
+    \coordinate(-North)at(-Center|--srceryDirBack-North);%
+    \coordinate(-South)at(-Center|--srceryDirBack-South);%
+    \coordinate(-NorthWest)at(-North-|-West);%
+    \coordinate(-NorthEast)at(-North-|-East);%
+    \coordinate(-SouthWest)at(-South-|-West);%
+    \coordinate(-SouthEast)at(-South-|-East);%
+  }%
+}%
+%
+%
+%
+%
+%
+\definecolor{TikzCol_magicWandSpiral1}{RGB}{80,0,160}%
+\definecolor{TikzCol_magicWandSpiral2}{RGB}{150,40,250}%
+% \definecolor{TikzCol_magicWandSpiral3}{RGB}{70,10,250}%
+\definecolor{TikzCol_magicWandSpiral3}{RGB}{255,160,0}%
+% \definecolor{TikzCol_magicWandSpiral4}{RGB}{30,0,130}%
+\definecolor{TikzCol_magicWandSpiral4}{RGB}{250,250,0}%
+\definecolor{TikzCol_magicWandCurl1}{RGB}{30,170,255}%
+\definecolor{TikzCol_magicSparkX1}{named}{TikzCol_magicWandCurl1}%
+\definecolor{TikzCol_magicSparkOneLineColor}{named}{TikzCol_magicWandSpiral1}%
+\definecolor{TikzCol_magicSparkOneFillColor}{named}{TikzCol_magicWandSpiral2}%
+\definecolor{TikzCol_magicSparkTwoLineColor}{named}{TikzCol_magicWandSpiral3}%
+\definecolor{TikzCol_magicSparkTwoFillColor}{named}{TikzCol_magicWandSpiral1}%
+\definecolor{TikzCol_magicSparkStarOneLineColor}{named}{TikzCol_magicWandSpiral3}%
+\definecolor{TikzCol_magicSparkStarOneFillColor}{named}{TikzCol_magicWandSpiral4}%
+\newcommand{\magicWandOverlayColorShiftOne}{!70!white}%
+\newcommand{\magicWandOverlayColorShiftOneDark}{!85!white}%
+\newcommand{\magicWandOverlayColorShiftTwo}{!40!white}%
+\newcommand{\magicWandOverlayColorShiftTwoDark}{!55!white}%
+\def\magicWandSpiralSize{15pt}% 8pt, 12pt, 3ex
+\def\magicWandSpiralLineWidth{0.09*\magicWandSpiralSize}% 0.07
+\def\magicWandCurlLineWidth{0.6*\magicWandSpiralLineWidth}%
+\def\magicWandCurlOverlayWidthFactor{0.2}%
+\def\magicSparkXSize{0.07*\magicWandSpiralSize}%
+\def\magicSparkXLineWidth{\magicWandCurlLineWidth}%
+\def\magicSparkStarSize{0.3*\magicWandSpiralSize}%
+\def\magicSparkStarLineWidth{0.07*\magicSparkStarSize}%
+\def\magicSparkOneHeight{\magicSparkStarSize}%
+\def\magicSparkOneWidth{0.5*\magicSparkOneHeight}%
+\def\magicSparkOneLineWidth{\magicSparkStarLineWidth}%
+\tikzset{%
+  magicWandSpiralLine/.style={%
+    draw=black,%
+    line width=\magicWandSpiralLineWidth%
+  },%
+  magicWandSpiral/.pic={%
+    \scopenode[name=-frame,draw=none]{%
+    \scopenode[name=-frame-inner,draw=none]{%
+    % \path[draw=green,line width=0.05pt](0,0)rectangle(\magicWandSpiralSize,\magicWandSpiralSize);%
+    % \node()[inner sep=0pt,rotate=-46,anchor=center,scale=1.35]%
+    % at($(0.5*\magicWandSpiralSize,0.5*\magicWandSpiralSize)+(0.3pt,0.0pt)$)%
+    % {\includegraphics[height=\magicWandSpiralSize]{0organization/1main/8templates/tikz/7Tikz/example/zztempdel.PNG}};%
+    % \path[O,draw=red,line width=\magicWandSpiralLineWidth](0,0)to[out=130,in=190](1,1);
+    % \path[%
+    %     draw=green,line width=0.05pt%
+    % ]%
+    %     (0,0)%
+    %     --++(\magicWandSpiralSize,\magicWandSpiralSize)%
+    % ;%
+    % \path[%
+    %     magicWandSpiralLine,%
+    % ]%
+    %     (0,0)%
+    %     ..controls%
+    %         ++(0.5*\magicWandSpiralSize,0)%
+    %         and
+    %         ++(-0.5*\magicWandSpiralSize,0)%
+    %     ..
+    %         ++(\magicWandSpiralSize,\magicWandSpiralSize)% ++ makes relative to starting point
+    % ;%
+    \coordinate(-L1S)at(0.08*\magicWandSpiralSize,0.06*\magicWandSpiralSize);%
+    \coordinate(-L1E)at(0.19*\magicWandSpiralSize,0.38*\magicWandSpiralSize);%
+    \coordinate(-L2S)at(0.24*\magicWandSpiralSize,0.04*\magicWandSpiralSize);%
+    \coordinate(-L2E)at(0.40*\magicWandSpiralSize,0.54*\magicWandSpiralSize);%
+    \coordinate(-L3S)at(0.43*\magicWandSpiralSize,0.27*\magicWandSpiralSize);%
+    \coordinate(-L3E)at(0.62*\magicWandSpiralSize,0.7*\magicWandSpiralSize);%
+    \coordinate(-L4S)at(0.62*\magicWandSpiralSize,0.48*\magicWandSpiralSize);%
+    \coordinate(-L4P1)at(0.71*\magicWandSpiralSize,0.75*\magicWandSpiralSize);%
+    \coordinate(-L4P2)at(0.95*\magicWandSpiralSize,0.95*\magicWandSpiralSize);%
+    \coordinate(-L4E)at(0.82*\magicWandSpiralSize,0.72*\magicWandSpiralSize);%
+    %
+    \fill[color=TikzCol_magicWandSpiral4](-L1S)circle(0.5*\magicWandSpiralLineWidth);%
+    \fill[color=TikzCol_magicWandSpiral4](-L1E)circle(0.5*\magicWandSpiralLineWidth);%
+    \fill[color=TikzCol_magicWandSpiral3](-L2S)circle(0.5*\magicWandSpiralLineWidth);%
+    \fill[color=TikzCol_magicWandSpiral3](-L2E)circle(0.5*\magicWandSpiralLineWidth);%
+    \fill[color=TikzCol_magicWandSpiral2](-L3S)circle(0.5*\magicWandSpiralLineWidth);%
+    \fill[color=TikzCol_magicWandSpiral2](-L3E)circle(0.5*\magicWandSpiralLineWidth);%
+    \fill[color=TikzCol_magicWandSpiral1](-L4S)circle(0.5*\magicWandSpiralLineWidth);%
+    \fill[color=TikzCol_magicWandSpiral1](-L4E)circle(0.5*\magicWandSpiralLineWidth);%
+    %
+    \path[magicWandSpiralLine,save path=\LOne,draw=TikzCol_magicWandSpiral4](-L1S)to[out=130,in=190](-L1E);%
+    \path[magicWandSpiralLine,save path=\LTwo,draw=TikzCol_magicWandSpiral3]%
+        (-L2S)..controls%
+            ++(0.26*\magicWandSpiralSize,0.18*\magicWandSpiralSize)%Relative to Start-Point
+            and%
+            ++(-0.28*\magicWandSpiralSize,-0.18*\magicWandSpiralSize)%Relative to End-Point
+        ..(-L2E)%
+    ;%
+    \path[magicWandSpiralLine,save path=\LThree,draw=TikzCol_magicWandSpiral2]%
+        (-L3S)..controls%
+            ++(0.26*\magicWandSpiralSize,0.18*\magicWandSpiralSize)%
+            and%
+            ++(-0.28*\magicWandSpiralSize,-0.18*\magicWandSpiralSize)%
+        ..(-L3E)%
+    ;%
+    \fill[color=TikzCol_magicWandSpiral1](-L4P2)circle(0.5*\magicWandSpiralLineWidth);%
+    \path[magicWandSpiralLine,save path=\LFourLOne,draw=TikzCol_magicWandSpiral1]%
+        (-L4S)%
+        to[out=50,in=280](-L4P1)%
+        to[out=50,in=210](-L4P2)%
+        %to[out=250,in=50](-L4E)%
+    ;%
+    \path[magicWandSpiralLine,save path=\LFourLTwo,draw=TikzCol_magicWandSpiral1](-L4P2)to[out=250,in=50](-L4E);%
+    \path[save path=\LFourFull]%
+        (-L4S)%
+        to[out=50,in=280](-L4P1)%
+        to[out=50,in=210](-L4P2)%
+        to[out=250,in=50](-L4E)%
+    ;%
+    %
+    \newcommand{\OverlayLine}[4]{%
+        \path[use path=##1,draw=##2##3,line width=##4];%
+    }
+    \newcommand{\OverlayLineCoordDot}[4]{%
+        \fill[color=##2##3](##1)circle(0.5*##4);%
+    }
+    \newcommand{\OverlayLinesAll}[2]{%
+        \OverlayLineCoordDot{-L1S}{TikzCol_magicWandSpiral4}{##1}{##2};%
+        \OverlayLineCoordDot{-L1E}{TikzCol_magicWandSpiral4}{##1}{##2};%
+        \OverlayLineCoordDot{-L2S}{TikzCol_magicWandSpiral3}{##1}{##2};%
+        \OverlayLineCoordDot{-L2E}{TikzCol_magicWandSpiral3}{##1}{##2};%
+        \OverlayLineCoordDot{-L3S}{TikzCol_magicWandSpiral2}{##1}{##2};%
+        \OverlayLineCoordDot{-L3E}{TikzCol_magicWandSpiral2}{##1}{##2};%
+        \OverlayLineCoordDot{-L4S}{TikzCol_magicWandSpiral1}{##1}{##2};%
+        \OverlayLineCoordDot{-L4E}{TikzCol_magicWandSpiral1}{##1}{##2};%
+        \OverlayLineCoordDot{-L4P2}{TikzCol_magicWandSpiral1}{##1}{##2};%
+        \OverlayLine{\LOne}{TikzCol_magicWandSpiral4}{##1}{##2};%
+        \OverlayLine{\LTwo}{TikzCol_magicWandSpiral3}{##1}{##2};%
+        \OverlayLine{\LThree}{TikzCol_magicWandSpiral2}{##1}{##2};%
+        \OverlayLine{\LFourLOne}{TikzCol_magicWandSpiral1}{##1}{##2};%
+        \OverlayLine{\LFourLTwo}{TikzCol_magicWandSpiral1}{##1}{##2};%
+        % \OverlayLine{\LFourFull}{TikzCol_magicWandSpiral1}{##1}{##2};%
+    }%
+    %
+    \newcommand{\OverlayLineColorShiftOne}{\magicWandOverlayColorShiftOne}%
+    \newcommand{\OverlayLineLineWidthOne}{0.5*\magicWandSpiralLineWidth}%
+    \OverlayLinesAll{\OverlayLineColorShiftOne}{\OverlayLineLineWidthOne}%
+    \newcommand{\OverlayLineColorShiftTwo}{\magicWandOverlayColorShiftTwo}%
+    \newcommand{\OverlayLineLineWidthTwo}{0.15*\magicWandSpiralLineWidth}%
+    \OverlayLinesAll{\OverlayLineColorShiftTwo}{\OverlayLineLineWidthTwo}%
+    %
+    % \path[draw=yellow,line width=0.03pt](0,0)rectangle(\magicWandSpiralSize,\magicWandSpiralSize);%
+    }%
+    \path($(-frame-inner.north west)+(-0.0*\magicWandSpiralLineWidth,0.0*\magicWandSpiralLineWidth)$)--($(-frame-inner.south east)+(0.0*\magicWandSpiralLineWidth,-0.0*\magicWandSpiralLineWidth)$);%
+    }%
+  },%
+  magicWandCurlLine/.style={%
+    draw=TikzCol_magicWandCurl1,%
+    line width=\magicWandCurlLineWidth%
+  },%
+  magicWandSpiralCurl/.pic={%
+    \scopenode[name=-frame,draw=none]{%
+    \scopenode[name=-frame-inner,draw=none]{%
+    \pic(magicWand){magicWandSpiral};%
+    % \coordinate(-Curl1S)at=($(magicWand-L1E)+(-0.15*\magicWandSpiralSize,-0.02*\magicWandSpiralSize)$);%
+    % \coordinate(-Curl1E)at=($(magicWand-L3E)+(-0.15*\magicWandSpiralSize,-0.04*\magicWandSpiralSize)$);%
+    % \coordinate(-Curl2S)at=($(-Curl1E)+(330:0.3*\magicWandSpiralSize)$);%
+    \coordinate(-Curl1S)at=($(magicWand-L1E)+(-0.12*\magicWandSpiralSize,-0.09*\magicWandSpiralSize)%
+        +(110:0.65*\magicWandSpiralLineWidth+0.5*\magicWandCurlLineWidth+0.01*\magicWandSpiralSize)$);% Shift away from the Line depending on the Line Width
+    \coordinate(-Curl1E)at=($(magicWand-L3E)+(-0.09*\magicWandSpiralSize,-0.08*\magicWandSpiralSize)%
+        +(140:0.5*\magicWandSpiralLineWidth+0.5*\magicWandCurlLineWidth+0.01*\magicWandSpiralSize)$);%
+    \coordinate(-Curl2S)at=($(magicWand-L4S)+(0.06*\magicWandSpiralSize,0.09*\magicWandSpiralSize)%
+        +(330:0.5*\magicWandSpiralLineWidth+0.5*\magicWandCurlLineWidth+0.01*\magicWandSpiralSize)$);%
+    % \coordinate(-Curl2P1)at=($(-Curl2S)+(-0.15*\magicWandSpiralSize,-0.2*\magicWandSpiralSize)$);%
+    \coordinate(-Curl2P1)at=($(-Curl2S)+(240:0.32*\magicWandSpiralSize)$);%
+    % \coordinate(-Curl2E)at=($(magicWand-L4P1)+(0.0*\magicWandSpiralSize,0.1*\magicWandSpiralSize)$);%
+    \coordinate(-Curl2E)at=($(magicWand-L4P1)+(0.05*\magicWandSpiralSize,0.055*\magicWandSpiralSize)%
+        +(140:0.5*\magicWandSpiralLineWidth+0.5*\magicWandCurlLineWidth+0.01*\magicWandSpiralSize)$);%
+    \coordinate(-Curl2P2)at=($(-Curl2E)+(185:0.5*\magicWandSpiralSize)$);%
+    %
+    \newcommand{\OverlayLine}[4]{%
+        \path[use path=##1,draw=##2##3,line width=##4];%
+    }
+    \newcommand{\OverlayLineCoordDot}[4]{%
+        \fill[color=##2##3](##1)circle(0.5*##4);%
+    }
+    \newcommand{\OverlayLineDots}[5]{%
+        \OverlayLineCoordDot{##4}{TikzCol_magicWandCurl1}{##1}{##2};%
+        \OverlayLineCoordDot{##5}{TikzCol_magicWandCurl1}{##1}{##2};%
+        \OverlayLine{##3}{TikzCol_magicWandCurl1}{##1}{##2};%
+        % \OverlayLine{\LFourFull}{TikzCol_magicWandSpiral1}{##1}{##2};%
+    }%
+    %
+    \fill[color=TikzCol_magicWandCurl1](-Curl1S)circle(0.5*\magicWandCurlLineWidth);%
+    \fill[color=TikzCol_magicWandCurl1](-Curl1E)circle(0.5*\magicWandCurlLineWidth);%
+    \fill[color=TikzCol_magicWandCurl1](-Curl2S)circle(0.5*\magicWandCurlLineWidth);%
+    \fill[color=TikzCol_magicWandCurl1](-Curl2E)circle(0.5*\magicWandCurlLineWidth);%
+    %
+    % \newcommand{\LOneAngle}{-10}%
+    % \path[magicWandCurlLine,save path=\LOne]%
+    %     (-Curl1S)%
+    %     to[out=90-\LOneAngle,in=160+\LOneAngle](-Curl1E)%
+    % ;%
+    \coordinate(-Curl1C)at($(-Curl1S) !.5! (-Curl1E)$);%
+    \path[magicWandCurlLine,save path=\LOne]%
+        (-Curl1S)..controls%
+            ($(-Curl1S)+(90:0.22*\magicWandSpiralSize)$)%
+            and%
+            ($(-Curl1E)+(170:0.22*\magicWandSpiralSize)$)%
+        ..(-Curl1E)%
+    ;%
+    \OverlayLineDots{\magicWandOverlayColorShiftTwo}{\magicWandCurlOverlayWidthFactor*\magicWandCurlLineWidth}{\LOne}{-Curl1S}{-Curl1E}%
+    %
+    \coordinate(-Curl2C1)at($(-Curl2S) !.5! (-Curl2P1)$);%
+    \coordinate(-Curl2C2)at($(-Curl2P1) !.5! (-Curl2P2)$);%
+    \coordinate(-Curl2C3)at($(-Curl2P2) !.5! (-Curl2E)$);%
+    \path[magicWandCurlLine,save path=\LTwo]%
+        (-Curl2S)%
+        ..controls%
+            %to[out=310,in=310]%
+            % ($(magicWand-frame.south west)+(0.7*\magicWandSpiralSize,0.4*\magicWandSpiralSize)$)%
+            % and%
+            % ($(magicWand-frame.south west)+(0.5*\magicWandSpiralSize,0.02*\magicWandSpiralSize)$)%
+            ($(-Curl2C1)+(350:0.2*\magicWandSpiralSize)$)%
+            and%
+            ($(-Curl2C1)+(310:0.25*\magicWandSpiralSize)$)%
+        ..%
+        (-Curl2P1)%
+        ..controls%
+            ($(-Curl2C2)+(250:0.25*\magicWandSpiralSize)$)%
+            and%
+            ($(-Curl2C2)+(160:0.25*\magicWandSpiralSize)$)%
+        ..%
+        (-Curl2P2)%
+        ..controls%
+            % ($(-Curl2C3)+(170:0.3*\magicWandSpiralSize)$)%
+            % and%
+            % ($(-Curl2C3)+(100:0.4*\magicWandSpiralSize)$)%
+            ($(magicWand-frame.north west)+(0.26*\magicWandSpiralSize,0)$)%
+            and%
+            ($(magicWand-frame.north west)+(0.57*\magicWandSpiralSize,0)$)%
+        ..%
+        (-Curl2E)%
+    ;%
+    \OverlayLineDots{\magicWandOverlayColorShiftTwo}{\magicWandCurlOverlayWidthFactor*\magicWandCurlLineWidth}{\LTwo}{-Curl2S}{-Curl2E}%
+    %
+    }%
+    \path($(-frame-inner.north west)+(-0.0*\magicSparkStarLineWidth,0.0*\magicSparkStarLineWidth)$)--($(-frame-inner.south east)+(0.0*\magicSparkStarLineWidth,-0.0*\magicSparkStarLineWidth)$);%
+    }%
+  },%
+  magicWandSparkyCurlLine/.style={%
+    draw=TikzCol_magicWandCurl1,%
+    line width=\magicWandCurlLineWidth%
+  },%
+  magicWandSpiralSparkyCurl/.pic={%
+    \scopenode[name=-frame,draw=none]{%
+    \scopenode[name=-frame-inner,draw=none]{%
+    \pic(magicWand){magicWandSpiral};%
+    % \coordinate(-Curl1S)at=($(magicWand-L1E)+(-0.15*\magicWandSpiralSize,-0.02*\magicWandSpiralSize)$);%
+    % \coordinate(-Curl1E)at=($(magicWand-L3E)+(-0.15*\magicWandSpiralSize,-0.04*\magicWandSpiralSize)$);%
+    % \coordinate(-Curl2S)at=($(-Curl1E)+(330:0.3*\magicWandSpiralSize)$);%
+    % \coordinate(-Curl2P1)at=($(-Curl2S)+(240:0.32*\magicWandSpiralSize)$);%
+    % \coordinate(-Curl2E)at=($(magicWand-L4P1)+(0.0*\magicWandSpiralSize,0.1*\magicWandSpiralSize)$);%
+    % \coordinate(-Curl2P2)at=($(-Curl2E)+(185:0.5*\magicWandSpiralSize)$);%
+    %
+    % \fill[color=TikzCol_magicWandCurl1](-Curl1S)circle(0.5*\magicWandCurlLineWidth);%
+    % \fill[color=TikzCol_magicWandCurl1](-Curl1E)circle(0.5*\magicWandCurlLineWidth);%
+    % \fill[color=TikzCol_magicWandCurl1](-Curl2S)circle(0.5*\magicWandCurlLineWidth);%
+    % \fill[color=TikzCol_magicWandCurl1](-Curl2E)circle(0.5*\magicWandCurlLineWidth);%
+    % %
+    % \coordinate(-Curl1C)at($(-Curl1S) !.5! (-Curl1E)$);%
+    % \path[magicWandCurlLine,save path=\CurlOne]%
+    %     (-Curl1S)..controls%
+    %         ($(-Curl1S)+(90:0.22*\magicWandSpiralSize)$)%
+    %         and%
+    %         ($(-Curl1E)+(170:0.22*\magicWandSpiralSize)$)%
+    %     ..(-Curl1E)%
+    % ;%
+    % \OverlayLineDots{\magicWandOverlayColorShiftTwo}{0.2*\magicWandCurlLineWidth}{\CurlOne}{-Curl1S}{-Curl1E}%
+    % %
+    % \coordinate(-Curl2C1)at($(-Curl2S) !.5! (-Curl2P1)$);%
+    % \coordinate(-Curl2C2)at($(-Curl2P1) !.5! (-Curl2P2)$);%
+    % \coordinate(-Curl2C3)at($(-Curl2P2) !.5! (-Curl2E)$);%
+    % \path[magicWandCurlLine,save path=\CurlTwo]%
+    %     (-Curl2S)%
+    %     ..controls%
+    %         ($(-Curl2C1)+(350:0.2*\magicWandSpiralSize)$)%
+    %         and%
+    %         ($(-Curl2C1)+(310:0.25*\magicWandSpiralSize)$)%
+    %     ..%
+    %     (-Curl2P1)%
+    %     ..controls%
+    %         ($(-Curl2C2)+(250:0.25*\magicWandSpiralSize)$)%
+    %         and%
+    %         ($(-Curl2C2)+(160:0.25*\magicWandSpiralSize)$)%
+    %     ..%
+    %     (-Curl2P2)%
+    %     ..controls%
+    %         ($(magicWand-frame.north west)+(0.26*\magicWandSpiralSize,0)$)%
+    %         and%
+    %         ($(magicWand-frame.north west)+(0.57*\magicWandSpiralSize,0)$)%
+    %     ..%
+    %     (-Curl2E)%
+    % ;%
+    % \OverlayLineDots{\magicWandOverlayColorShiftTwo}{0.2*\magicWandCurlLineWidth}{\CurlTwo}{-Curl2S}{-Curl2E}%
+    %
+    %
+    \newcommand{\OverlayLine}[4]{%
+        \path[use path=##1,draw=##2##3,line width=##4];%
+    }
+    \newcommand{\OverlayLineCoordDot}[4]{%
+        \fill[color=##2##3](##1)circle(0.5*##4);%
+    }
+    \newcommand{\OverlayLineDots}[5]{%
+        \OverlayLineCoordDot{##4}{TikzCol_magicWandCurl1}{##1}{##2};%
+        \OverlayLineCoordDot{##5}{TikzCol_magicWandCurl1}{##1}{##2};%
+        \OverlayLine{##3}{TikzCol_magicWandCurl1}{##1}{##2};%
+    }%
+    %
+    % \coordinate(-SCurl1S-draft)at=($(magicWand-L1E)+(-0.15*\magicWandSpiralSize,-0.02*\magicWandSpiralSize)$);%
+    % \coordinate(-SCurl1E-draft)at=($(magicWand-L3E)+(-0.15*\magicWandSpiralSize,-0.04*\magicWandSpiralSize)$);%
+    % \coordinate(-SCurl2S-draft)at=($(-SCurl1E-draft)+(335:0.3*\magicWandSpiralSize)$);%
+    % \coordinate(-SCurl4E-draft)at=($(magicWand-L4P1)+(0.0*\magicWandSpiralSize,0.1*\magicWandSpiralSize)$);%
+    % \fill[color=green](-SCurl1S-draft)circle(0.65*\magicWandCurlLineWidth);%
+    % \fill[color=green](-SCurl1E-draft)circle(0.65*\magicWandCurlLineWidth);%
+    % \fill[color=green](-SCurl2S-draft)circle(0.65*\magicWandCurlLineWidth);%
+    % \fill[color=green](-SCurl4E-draft)circle(0.65*\magicWandCurlLineWidth);%
+    %
+    \coordinate(-SCurl1S)at=($(magicWand-L1E)+(-0.12*\magicWandSpiralSize,-0.09*\magicWandSpiralSize)%
+        +(110:0.65*\magicWandSpiralLineWidth+0.5*\magicWandCurlLineWidth+0.01*\magicWandSpiralSize)$);% Shift away from the Line depending on the Line Width
+    \coordinate(-SCurl1E)at=($(magicWand-L3E)+(-0.09*\magicWandSpiralSize,-0.08*\magicWandSpiralSize)%
+        +(140:0.5*\magicWandSpiralLineWidth+0.5*\magicWandCurlLineWidth+0.01*\magicWandSpiralSize)$);%
+    \coordinate(-SCurl2S)at=($(magicWand-L4S)+(0.06*\magicWandSpiralSize,0.09*\magicWandSpiralSize)%
+        +(330:0.5*\magicWandSpiralLineWidth+0.5*\magicWandCurlLineWidth+0.01*\magicWandSpiralSize)$);%
+    \coordinate(-SCurl2E)at=($(-SCurl2S)+(288:0.19*\magicWandSpiralSize)$);%
+    \coordinate(-SCurl3S)at=($(-SCurl2S)+(260:0.31*\magicWandSpiralSize)$);%
+    \coordinate(-SCurl4E)at=($(magicWand-L4P1)+(0.05*\magicWandSpiralSize,0.055*\magicWandSpiralSize)%
+        +(140:0.5*\magicWandSpiralLineWidth+0.5*\magicWandCurlLineWidth+0.01*\magicWandSpiralSize)$);%
+    \coordinate(-SCurl4S)at=($(-SCurl4E)+(165:0.35*\magicWandSpiralSize)$);%
+    \coordinate(-SCurl3E)at=($(-SCurl4E)+(182:0.49*\magicWandSpiralSize)$);%
+    %
+    \coordinate(-CurlSpark1Anchor-Pre)at($(-SCurl2E)!.5!(-SCurl3S)$);%
+    \coordinate(-CurlSpark1Anchor)at($(-CurlSpark1Anchor-Pre)+(320:0.9*\magicWandCurlLineWidth)$);%
+    \coordinate(-CurlSpark2Anchor-Pre)at($(-SCurl3E)!.5!(-SCurl4S)$);%
+    \coordinate(-CurlSpark2Anchor)at($(-CurlSpark2Anchor-Pre)+(110:0.7*\magicWandCurlLineWidth)$);%
+    %
+    \scopenode[name=#1-magicSpark1,anchor=center,draw=none,%
+        at={(-CurlSpark1Anchor)}%
+    ]{\pic(-magicSpark1-pic){magicSparkX};}%
+    \scopenode[name=magicSpark2,anchor=center,draw=none,%
+        at={(-CurlSpark2Anchor)}%
+    ]{\pic(magicSpark2-pic){magicSparkX};}%
+    %
+    \fill[color=TikzCol_magicWandCurl1](-SCurl1S)circle(0.5*\magicWandCurlLineWidth);%
+    \fill[color=TikzCol_magicWandCurl1](-SCurl1E)circle(0.5*\magicWandCurlLineWidth);%
+    \fill[color=TikzCol_magicWandCurl1](-SCurl2S)circle(0.5*\magicWandCurlLineWidth);%
+    \fill[color=TikzCol_magicWandCurl1](-SCurl2E)circle(0.5*\magicWandCurlLineWidth);%
+    \fill[color=TikzCol_magicWandCurl1](-SCurl3S)circle(0.5*\magicWandCurlLineWidth);%
+    \fill[color=TikzCol_magicWandCurl1](-SCurl3E)circle(0.5*\magicWandCurlLineWidth);%
+    \fill[color=TikzCol_magicWandCurl1](-SCurl4S)circle(0.5*\magicWandCurlLineWidth);%
+    \fill[color=TikzCol_magicWandCurl1](-SCurl4E)circle(0.5*\magicWandCurlLineWidth);%
+    %
+    \coordinate(-SCurl1C)at($(-SCurl1S) !.5! (-SCurl1E)$);%
+    \coordinate(-SCurl2C)at($(-SCurl2S) !.5! (-SCurl2E)$);%
+    \coordinate(-SCurl3C)at($(-SCurl3S) !.5! (-SCurl3E)$);%
+    \coordinate(-SCurl4C)at($(-SCurl4S) !.5! (-SCurl4E)$);%
+    \path[magicWandSparkyCurlLine,save path=\SCurlOne]%
+        (-SCurl1S)..controls%
+            ($(-SCurl1S)+(90:0.22*\magicWandSpiralSize)$)%
+            and%
+            ($(-SCurl1E)+(170:0.22*\magicWandSpiralSize)$)%
+        ..(-SCurl1E)%
+    ;%
+    \OverlayLineDots{\magicWandOverlayColorShiftTwo}{0.2*\magicWandCurlLineWidth}{\SCurlOne}{-SCurl1S}{-SCurl1E}%
+    \path[magicWandSparkyCurlLine,save path=\SCurlTwo]%
+        (-SCurl2S)..controls%
+            ($(-SCurl2S)+(320:0.08*\magicWandSpiralSize)$)%
+            and%
+            ($(-SCurl2E)+(70:0.06*\magicWandSpiralSize)$)%
+        ..(-SCurl2E)%
+    ;%
+    \OverlayLineDots{\magicWandOverlayColorShiftTwo}{0.2*\magicWandCurlLineWidth}{\SCurlTwo}{-SCurl2S}{-SCurl2E}%
+    \path[magicWandSparkyCurlLine,save path=\SCurlThree]%
+        (-SCurl3S)..controls%
+            ($(-SCurl3S)+(185:0.31*\magicWandSpiralSize)$)%
+            and%
+            ($(-SCurl3E)+(250:0.28*\magicWandSpiralSize)$)%
+        ..(-SCurl3E)%
+    ;%
+    \OverlayLineDots{\magicWandOverlayColorShiftTwo}{0.2*\magicWandCurlLineWidth}{\SCurlThree}{-SCurl3S}{-SCurl3E}%
+    \path[magicWandSparkyCurlLine,save path=\SCurlFour]%
+        (-SCurl4S)..controls%
+            ($(-SCurl4S)+(15:0.12*\magicWandSpiralSize)$)%
+            and%
+            ($(-SCurl4E)+(130:0.08*\magicWandSpiralSize)$)%
+        ..(-SCurl4E)%
+    ;%
+    \OverlayLineDots{\magicWandOverlayColorShiftTwo}{0.2*\magicWandCurlLineWidth}{\SCurlFour}{-SCurl4S}{-SCurl4E}%
+    %
+    }%
+    \path($(-frame-inner.north west)+(-0.0*\magicSparkStarLineWidth,0.0*\magicSparkStarLineWidth)$)--($(-frame-inner.south east)+(0.0*\magicSparkStarLineWidth,-0.0*\magicSparkStarLineWidth)$);%
+    }%
+  },%
+  magicSparkDrawFill/.style={%
+    draw=TikzCol_magicSparkOneLineColor,%
+    fill=TikzCol_magicSparkOneFillColor,%
+    line width=\magicSparkOneLineWidth,%
+  },%
+  magicSparkOne/.pic={%
+    \scopenode[name=-frame,draw=none]{%
+    \scopenode[name=-frame-inner,draw=none]{%
+    \coordinate(-bottom)at(0.5*\magicSparkOneWidth,0);%
+    \coordinate(-TL)at(0,\magicSparkOneHeight);%
+    \coordinate(-TR)at($(-TL)+(\magicSparkOneWidth,0)$);%
+    \coordinate(-ML)at(0,0.9*\magicSparkOneHeight);%
+    \coordinate(-MR)at($(-ML)+(\magicSparkOneWidth,0)$);%
+    %
+    \coordinate(-coverB)at($(-bottom)+(90:1*\magicSparkOneLineWidth)$);%
+    \coordinate(-coverTL)at($(-TL)+(2.5*\magicSparkOneLineWidth,-1.0*\magicSparkOneLineWidth)$);%
+    \coordinate(-coverTR)at($(-TR)+(-2.5*\magicSparkOneLineWidth,-1.0*\magicSparkOneLineWidth)$);%
+    \coordinate(-coverML)at($(-coverTL|-#1-coverB)!.9!(-coverTL)$);%
+    \coordinate(-coverMR)at($(-coverTR|-#1-coverB)!.9!(-coverTR)$);%
+    %
+    \newcommand{\AngleOne}{30}
+    \newcommand{\AngleTwo}{0}
+    \newcommand{\AngleThree}{20}
+    \path[%
+        draw=TikzCol_magicSparkOneLineColor,%
+        fill=TikzCol_magicSparkOneFillColor,%
+        line width=\magicSparkOneLineWidth,%
+        save path=\circulation,%
+    ]%
+        (-bottom)%
+        to[out=90+\AngleOne,in=270-\AngleTwo](-ML)%
+        --(-TL)%
+        to[out=\AngleThree,in=180-\AngleThree](-TR)%
+        --(-MR)%
+        to[out=270+\AngleTwo,in=90-\AngleOne]cycle%
+    ;%
+    \path[%
+        draw=none,%
+        fill=TikzCol_magicSparkOneFillColor\magicWandOverlayColorShiftOne,%
+        line width=\magicSparkOneLineWidth,%
+        save path=\cover,%
+    ]
+        (-coverB)%
+        to[out=90+\AngleOne,in=270-\AngleTwo](-coverML)%
+        --(-coverTL)%
+        to[out=\AngleThree,in=180-\AngleThree](-coverTR)%
+        --(-coverMR)%
+        to[out=270+\AngleTwo,in=90-\AngleOne]cycle%
+    ;%
+    \path[save path=\clipMask,%
+        %draw,red,line width=0.01pt,%
+    ]%
+        (-bottom-|#1-TR)rectangle($(-TL)!.5!(-TR)$)%
+    ;%
+    \begin{scope}%
+        \clip[use path=\clipMask];%
+        \path[%
+            draw=none,%
+            fill=TikzCol_magicSparkOneFillColor\magicWandOverlayColorShiftOneDark,%
+            use path=\cover,%
+        ];%
+    \end{scope}%
+    }%
+    \path($(-frame-inner.north west)+(-0.55*\magicSparkOneLineWidth,0.3*\magicSparkOneLineWidth)$)--($(-frame-inner.south east)+(0.55*\magicSparkOneLineWidth,-1.0*\magicSparkOneLineWidth)$);%
+    }%
+  },%
+  magicSparkTwo/.pic={%
+    \scopenode[name=-frame,draw=none]{%
+    \scopenode[name=-frame-inner,draw=none]{%
+    \coordinate(-bottom)at(0.5*\magicSparkOneWidth,0);%
+    \coordinate(-TL)at(0,\magicSparkOneHeight);%
+    \coordinate(-TR)at($(-TL)+(\magicSparkOneWidth,0)$);%
+    \coordinate(-ML)at(0.1*\magicSparkOneWidth,0.9*\magicSparkOneHeight);%
+    \coordinate(-MR)at($(-ML)+(0.8*\magicSparkOneWidth,0)$);%
+    %
+    \coordinate(-coverB)at($(-bottom)+(90:1.0*\magicSparkOneLineWidth)$);%
+    \coordinate(-coverTL)at($(-TL)+(3.0*\magicSparkOneLineWidth,-1.0*\magicSparkOneLineWidth)$);%
+    \coordinate(-coverTR)at($(-TR)+(-3.0*\magicSparkOneLineWidth,-1.0*\magicSparkOneLineWidth)$);%
+    \coordinate(-coverML)at($(-coverTL|-#1-coverB)!.9!(-coverTL)$);%
+    \coordinate(-coverMR)at($(-coverTR|-#1-coverB)!.9!(-coverTR)$);%
+    %
+    \newcommand{\AngleOne}{20}
+    \newcommand{\AngleTwo}{0}
+    \newcommand{\AngleThree}{20}
+    \path[%
+        draw=TikzCol_magicSparkTwoLineColor,%
+        fill=TikzCol_magicSparkTwoFillColor,%
+        line width=\magicSparkOneLineWidth,%
+        save path=\circulation,%
+    ]%
+        (-bottom)%
+        to[out=90+\AngleOne,in=270-\AngleTwo](-ML)%
+        --(-TL)%
+        to[out=\AngleThree,in=180-\AngleThree](-TR)%
+        --(-MR)%
+        to[out=270+\AngleTwo,in=90-\AngleOne]cycle%
+    ;%
+    \path[%
+        draw=none,%
+        fill=TikzCol_magicSparkTwoFillColor\magicWandOverlayColorShiftOne,%
+        line width=\magicSparkOneLineWidth,%
+        save path=\cover,%
+    ]
+        (-coverB)%
+        to[out=90+\AngleOne,in=270-\AngleTwo](-coverML)%
+        --(-coverTL)%
+        to[out=\AngleThree,in=180-\AngleThree](-coverTR)%
+        --(-coverMR)%
+        to[out=270+\AngleTwo,in=90-\AngleOne]cycle%
+    ;%
+    \path[save path=\clipMask,%
+        %draw,red,line width=0.01pt,%
+    ]%
+        (-bottom-|#1-TR)rectangle($(-TL)!.5!(-TR)$)%
+    ;%
+    \begin{scope}%
+        \clip[use path=\clipMask];%
+        \path[%
+            draw=none,%
+            fill=TikzCol_magicSparkTwoFillColor\magicWandOverlayColorShiftOneDark,%
+            use path=\cover,%
+        ];%
+    \end{scope}%
+    }%
+    \path($(-frame-inner.north west)+(-0.75*\magicSparkOneLineWidth,0.3*\magicSparkOneLineWidth)$)--($(-frame-inner.south east)+(0.75*\magicSparkOneLineWidth,-1.5*\magicSparkOneLineWidth)$);%
+    }%
+  },%
+  magicSparkX/.pic={%
+    \scopenode[name=-frame,draw=none]{%
+    \scopenode[name=-frame-inner,draw=none]{%
+    \coordinate(-TL)at(0,1.0*\magicSparkXSize);%
+    \coordinate(-TR)at(1.0*\magicSparkXSize,1.0*\magicSparkXSize);%
+    \coordinate(-BR)at(1.0*\magicSparkXSize,0);%
+    \coordinate(-BL)at(0,0);%
+    %
+    \newcommand{\magicSparkXOverlayLine}[4]{%
+        \path[use path=##1,draw=##2##3,line width=##4];%
+    }
+    \newcommand{\magicSparkXOverlayLineCoordDot}[4]{%
+        \fill[color=##2##3](##1)circle(0.5*##4);%
+    }
+    \newcommand{\magicSparkXOverlayLineDots}[5]{%
+        \magicSparkXOverlayLineCoordDot{##4}{TikzCol_magicWandCurl1}{##1}{##2};%
+        \magicSparkXOverlayLineCoordDot{##5}{TikzCol_magicWandCurl1}{##1}{##2};%
+        \magicSparkXOverlayLine{##3}{TikzCol_magicWandCurl1}{##1}{##2};%
+    }%
+    %
+    \fill[color=TikzCol_magicSparkX1](-TL)circle(0.5*\magicSparkXLineWidth);%
+    \fill[color=TikzCol_magicSparkX1](-TR)circle(0.5*\magicSparkXLineWidth);%
+    \fill[color=TikzCol_magicSparkX1](-BR)circle(0.5*\magicSparkXLineWidth);%
+    \fill[color=TikzCol_magicSparkX1](-BL)circle(0.5*\magicSparkXLineWidth);%
+    %
+    \path[magicWandCurlLine,save path=\LOne]%
+        (-TL)%
+        --%
+        (-BR)%
+    ;%
+    \path[magicWandCurlLine,save path=\LTwo]%
+        (-TR)%
+        --%
+        (-BL)%
+    ;%
+    \magicSparkXOverlayLineDots{\magicWandOverlayColorShiftTwo}{1.5*\magicWandCurlOverlayWidthFactor*\magicWandCurlLineWidth}{\LOne}{-TL}{-BR}%
+    \magicSparkXOverlayLineDots{\magicWandOverlayColorShiftTwo}{1.5*\magicWandCurlOverlayWidthFactor*\magicWandCurlLineWidth}{\LTwo}{-TR}{-BL}%
+    }%
+    \path($(-frame-inner.north west)+(-0.0*\magicSparkXLineWidth,0.0*\magicSparkXLineWidth)$)--($(-frame-inner.south east)+(0.0*\magicSparkXLineWidth,-0.0*\magicSparkXLineWidth)$);%
+    }%
+  },%
+  magicSparkStarOne/.pic={%
+    \scopenode[name=-frame,draw=none]{%
+    \scopenode[name=-frame-inner,draw=none]{%
+    \newcommand{\InnerRadius}{0.2*\magicSparkStarSize};%
+    \coordinate(-Center)at(0.5*\magicSparkStarSize,0.5*\magicSparkStarSize);%
+    \coordinate(-LTip)at(0,0.5*\magicSparkStarSize);%
+    \coordinate(-TTip)at(0.5*\magicSparkStarSize,\magicSparkStarSize);%
+    \coordinate(-RTip)at(\magicSparkStarSize,0.5*\magicSparkStarSize);%
+    \coordinate(-BTip)at(0.5*\magicSparkStarSize,0);%
+    \coordinate(-MidTL)at($(-Center)+(135:\InnerRadius)$);%
+    \coordinate(-MidTR)at($(-Center)+(45:\InnerRadius)$);%
+    \coordinate(-MidBL)at($(-Center)+(225:\InnerRadius)$);%
+    \coordinate(-MidBR)at($(-Center)+(315:\InnerRadius)$);%
+    %
+    \newcommand{\coverDist}{.6};%
+    \coordinate(-coverLBPL)at($(-LTip)!\coverDist!(-Center)$);%
+    \coordinate(-coverLBPR)at(-Center);%
+    \coordinate(-coverLBPT)at($(-MidBL)!\coverDist!(-Center)$);%
+    \coordinate(-coverLTPL)at($(-LTip)!\coverDist!(-Center)$);%
+    \coordinate(-coverLTPR)at(-Center);%
+    \coordinate(-coverLTPT)at($(-MidTL)!\coverDist!(-Center)$);%
+    \coordinate(-coverTLPL)at($(-TTip)!\coverDist!(-Center)$);%
+    \coordinate(-coverTLPR)at(-Center);%
+    \coordinate(-coverTLPT)at($(-MidTL)!\coverDist!(-Center)$);%
+    \coordinate(-coverTRPL)at($(-TTip)!\coverDist!(-Center)$);%
+    \coordinate(-coverTRPR)at(-Center);%
+    \coordinate(-coverTRPT)at($(-MidTR)!\coverDist!(-Center)$);%
+    \coordinate(-coverRTPL)at($(-RTip)!\coverDist!(-Center)$);%
+    \coordinate(-coverRTPR)at(-Center);%
+    \coordinate(-coverRTPT)at($(-MidTR)!\coverDist!(-Center)$);%
+    \coordinate(-coverRBPL)at($(-RTip)!\coverDist!(-Center)$);%
+    \coordinate(-coverRBPR)at(-Center);%
+    \coordinate(-coverRBPT)at($(-MidBR)!\coverDist!(-Center)$);%
+    \coordinate(-coverBRPL)at($(-BTip)!\coverDist!(-Center)$);%
+    \coordinate(-coverBRPR)at(-Center);%
+    \coordinate(-coverBRPT)at($(-MidBR)!\coverDist!(-Center)$);%
+    \coordinate(-coverBLPL)at($(-BTip)!\coverDist!(-Center)$);%
+    \coordinate(-coverBLPR)at(-Center);%
+    \coordinate(-coverBLPT)at($(-MidBL)!\coverDist!(-Center)$);%
+    %
+    \path[line width=\magicSparkStarLineWidth,%
+        draw=TikzCol_magicSparkStarOneLineColor,%
+        fill=TikzCol_magicSparkStarOneFillColor,%
+        save path=\circulation,%
+    ]%
+        (-LTip)%
+        --%
+            (-MidTL)%
+        --%
+            (-TTip)%
+        --%
+            (-MidTR)%
+        --%
+            (-RTip)%
+        --%
+            (-MidBR)%
+        --%
+            (-BTip)%
+        --%
+            (-MidBL)%
+        --%
+            cycle%
+    ;%
+    %
+    \path[% fill=TikzCol_magicSparkStarOneFillColor\magicWandOverlayColorShiftOne,%
+        save path=\coverLB,%
+    ](-coverLBPL)--(-coverLBPR)--(-coverLBPT)--cycle;%
+    \path[save path=\coverLT](-coverLTPL)--(-coverLTPR)--(-coverLTPT)--cycle;%
+    \path[save path=\coverTL](-coverTLPL)--(-coverTLPR)--(-coverTLPT)--cycle;%
+    \path[save path=\coverTR](-coverTRPL)--(-coverTRPR)--(-coverTRPT)--cycle;%
+    \path[save path=\coverRT](-coverRTPL)--(-coverRTPR)--(-coverRTPT)--cycle;%
+    \path[save path=\coverRB](-coverRBPL)--(-coverRBPR)--(-coverRBPT)--cycle;%
+    \path[save path=\coverBR](-coverBRPL)--(-coverBRPR)--(-coverBRPT)--cycle;%
+    \path[save path=\coverBL](-coverBLPL)--(-coverBLPR)--(-coverBLPT)--cycle;%
+    %
+    \def\coverColorOne{TikzCol_magicSparkStarOneLineColor\magicWandOverlayColorShiftOne}%
+    \def\coverColorTwo{TikzCol_magicSparkStarOneLineColor\magicWandOverlayColorShiftTwoDark}%
+    \path[use path=\coverLB,fill=\coverColorOne];%
+    \path[use path=\coverTL,fill=\coverColorOne];%
+    \path[use path=\coverRT,fill=\coverColorOne];%
+    \path[use path=\coverBR,fill=\coverColorOne];%
+    \path[use path=\coverLT,fill=\coverColorTwo];%
+    \path[use path=\coverTR,fill=\coverColorTwo];%
+    \path[use path=\coverRB,fill=\coverColorTwo];%
+    \path[use path=\coverBL,fill=\coverColorTwo];%
+    }%
+    \path($(-frame-inner.north west)+(-1.4*\magicSparkStarLineWidth,1.4*\magicSparkStarLineWidth)$)--($(-frame-inner.south east)+(1.4*\magicSparkStarLineWidth,-1.4*\magicSparkStarLineWidth)$);%
+    }%
+  },%
+  magicSparkStarTwo/.pic={%
+    \scopenode[name=-frame,draw=none]{%
+    \scopenode[name=-frame-inner,draw=none]{%
+    \newcommand{\InnerRadius}{0.2*\magicSparkStarSize};%
+    \coordinate(-Center)at(0.5*\magicSparkStarSize,0.5*\magicSparkStarSize);%
+    \coordinate(-LTip)at(0,0.5*\magicSparkStarSize);%
+    \coordinate(-TTip)at(0.5*\magicSparkStarSize,\magicSparkStarSize);%
+    \coordinate(-RTip)at(\magicSparkStarSize,0.5*\magicSparkStarSize);%
+    \coordinate(-BTip)at(0.5*\magicSparkStarSize,0);%
+    \coordinate(-MidTL)at($(-Center)+(135:\InnerRadius)$);%
+    \coordinate(-MidTR)at($(-Center)+(45:\InnerRadius)$);%
+    \coordinate(-MidBL)at($(-Center)+(225:\InnerRadius)$);%
+    \coordinate(-MidBR)at($(-Center)+(315:\InnerRadius)$);%
+    %
+    \newcommand{\coverDist}{.5};%
+    \coordinate(-coverLBPL)at($(-LTip)!\coverDist!(-Center)$);%
+    \coordinate(-coverLBPR)at(-Center);%
+    \coordinate(-coverLBPT)at($(-MidBL)!\coverDist!(-Center)$);%
+    \coordinate(-coverLTPL)at($(-LTip)!\coverDist!(-Center)$);%
+    \coordinate(-coverLTPR)at(-Center);%
+    \coordinate(-coverLTPT)at($(-MidTL)!\coverDist!(-Center)$);%
+    \coordinate(-coverTLPL)at($(-TTip)!\coverDist!(-Center)$);%
+    \coordinate(-coverTLPR)at(-Center);%
+    \coordinate(-coverTLPT)at($(-MidTL)!\coverDist!(-Center)$);%
+    \coordinate(-coverTRPL)at($(-TTip)!\coverDist!(-Center)$);%
+    \coordinate(-coverTRPR)at(-Center);%
+    \coordinate(-coverTRPT)at($(-MidTR)!\coverDist!(-Center)$);%
+    \coordinate(-coverRTPL)at($(-RTip)!\coverDist!(-Center)$);%
+    \coordinate(-coverRTPR)at(-Center);%
+    \coordinate(-coverRTPT)at($(-MidTR)!\coverDist!(-Center)$);%
+    \coordinate(-coverRBPL)at($(-RTip)!\coverDist!(-Center)$);%
+    \coordinate(-coverRBPR)at(-Center);%
+    \coordinate(-coverRBPT)at($(-MidBR)!\coverDist!(-Center)$);%
+    \coordinate(-coverBRPL)at($(-BTip)!\coverDist!(-Center)$);%
+    \coordinate(-coverBRPR)at(-Center);%
+    \coordinate(-coverBRPT)at($(-MidBR)!\coverDist!(-Center)$);%
+    \coordinate(-coverBLPL)at($(-BTip)!\coverDist!(-Center)$);%
+    \coordinate(-coverBLPR)at(-Center);%
+    \coordinate(-coverBLPT)at($(-MidBL)!\coverDist!(-Center)$);%
+    %
+    \newcommand{\Angle}{30}%
+    \path[line width=\magicSparkStarLineWidth,%
+        draw=TikzCol_magicSparkStarOneLineColor,%
+        fill=TikzCol_magicSparkStarOneFillColor,%
+        save path=\circulation,%
+    ]%
+        (-LTip)%
+        to[out=\Angle,in=180+\Angle]%
+            (-MidTL)%
+        to[out=90-\Angle,in=270-\Angle]%
+            (-TTip)%
+        to[out=270+\Angle,in=90+\Angle]%
+            (-MidTR)%
+        to[out=360-\Angle,in=180-\Angle]%
+            (-RTip)%
+        to[out=180+\Angle,in=\Angle]%
+            (-MidBR)%
+        to[out=270-\Angle,in=90-\Angle]%
+            (-BTip)%
+        to[out=90+\Angle,in=270+\Angle]%
+            (-MidBL)%
+        to[out=180-\Angle,in=360-\Angle]%
+            cycle%
+    ;%
+    %
+    \path[% fill=TikzCol_magicSparkStarOneFillColor\magicWandOverlayColorShiftOne,%
+        save path=\coverLB,%
+    ](-coverLBPL)--(-coverLBPR)--(-coverLBPT)to[out=180-\Angle,in=360-\Angle]cycle;%
+    \path[save path=\coverLT](-coverLTPL)--(-coverLTPR)--(-coverLTPT)to[out=180+\Angle,in=\Angle]cycle;%
+    \path[save path=\coverTL](-coverTLPL)--(-coverTLPR)--(-coverTLPT)to[out=90-\Angle,in=270-\Angle]cycle;%
+    \path[save path=\coverTR](-coverTRPL)--(-coverTRPR)--(-coverTRPT)to[out=90+\Angle,in=270+\Angle]cycle;%
+    \path[save path=\coverRT](-coverRTPL)--(-coverRTPR)--(-coverRTPT)to[out=360-\Angle,in=180-\Angle]cycle;%
+    \path[save path=\coverRB](-coverRBPL)--(-coverRBPR)--(-coverRBPT)to[out=\Angle,in=180+\Angle]cycle;%
+    \path[save path=\coverBR](-coverBRPL)--(-coverBRPR)--(-coverBRPT)to[out=270-\Angle,in=90-\Angle]cycle;%
+    \path[save path=\coverBL](-coverBLPL)--(-coverBLPR)--(-coverBLPT)to[out=270+\Angle,in=90+\Angle]cycle;%
+    %
+    \def\coverColorOne{TikzCol_magicSparkStarOneLineColor\magicWandOverlayColorShiftOne}%
+    \def\coverColorTwo{TikzCol_magicSparkStarOneLineColor\magicWandOverlayColorShiftTwoDark}%
+    \path[use path=\coverLB,fill=\coverColorOne];%
+    \path[use path=\coverTL,fill=\coverColorOne];%
+    \path[use path=\coverRT,fill=\coverColorOne];%
+    \path[use path=\coverBR,fill=\coverColorOne];%
+    \path[use path=\coverLT,fill=\coverColorTwo];%
+    \path[use path=\coverTR,fill=\coverColorTwo];%
+    \path[use path=\coverRB,fill=\coverColorTwo];%
+    \path[use path=\coverBL,fill=\coverColorTwo];%
+    }%
+    \path($(-frame-inner.north west)+(-1.1*\magicSparkStarLineWidth,1.1*\magicSparkStarLineWidth)$)--($(-frame-inner.south east)+(1.1*\magicSparkStarLineWidth,-1.1*\magicSparkStarLineWidth)$);%
+    }%
+  },%
+  magicSparkStarThree/.pic={%
+    \scopenode[name=-frame,draw=none]{%
+    \scopenode[name=-frame-inner,draw=none]{%
+    \newcommand{\InnerRadius}{0.2*\magicSparkStarSize};%
+    \coordinate(-Center)at(0.5*\magicSparkStarSize,0.5*\magicSparkStarSize);%
+    \coordinate(-LTip)at(0,0.5*\magicSparkStarSize);%
+    \coordinate(-TTip)at(0.5*\magicSparkStarSize,\magicSparkStarSize);%
+    \coordinate(-RTip)at(\magicSparkStarSize,0.5*\magicSparkStarSize);%
+    \coordinate(-BTip)at(0.5*\magicSparkStarSize,0);%
+    \coordinate(-MidTL)at($(-Center)+(135:\InnerRadius)$);%
+    \coordinate(-MidTR)at($(-Center)+(45:\InnerRadius)$);%
+    \coordinate(-MidBL)at($(-Center)+(225:\InnerRadius)$);%
+    \coordinate(-MidBR)at($(-Center)+(315:\InnerRadius)$);%
+    %
+    \newcommand{\coverDist}{.6};%
+    \newcommand{\coverDistTip}{.4};%
+    \coordinate(-coverLBPL)at($(-LTip)!\coverDistTip!(-Center)$);%
+    \coordinate(-coverLBPR)at(-Center);%
+    \coordinate(-coverLBPT)at($(-MidBL)!\coverDist!(-Center)$);%
+    \coordinate(-coverLTPL)at($(-LTip)!\coverDistTip!(-Center)$);%
+    \coordinate(-coverLTPR)at(-Center);%
+    \coordinate(-coverLTPT)at($(-MidTL)!\coverDist!(-Center)$);%
+    \coordinate(-coverTLPL)at($(-TTip)!\coverDistTip!(-Center)$);%
+    \coordinate(-coverTLPR)at(-Center);%
+    \coordinate(-coverTLPT)at($(-MidTL)!\coverDist!(-Center)$);%
+    \coordinate(-coverTRPL)at($(-TTip)!\coverDistTip!(-Center)$);%
+    \coordinate(-coverTRPR)at(-Center);%
+    \coordinate(-coverTRPT)at($(-MidTR)!\coverDist!(-Center)$);%
+    \coordinate(-coverRTPL)at($(-RTip)!\coverDistTip!(-Center)$);%
+    \coordinate(-coverRTPR)at(-Center);%
+    \coordinate(-coverRTPT)at($(-MidTR)!\coverDist!(-Center)$);%
+    \coordinate(-coverRBPL)at($(-RTip)!\coverDistTip!(-Center)$);%
+    \coordinate(-coverRBPR)at(-Center);%
+    \coordinate(-coverRBPT)at($(-MidBR)!\coverDist!(-Center)$);%
+    \coordinate(-coverBRPL)at($(-BTip)!\coverDistTip!(-Center)$);%
+    \coordinate(-coverBRPR)at(-Center);%
+    \coordinate(-coverBRPT)at($(-MidBR)!\coverDist!(-Center)$);%
+    \coordinate(-coverBLPL)at($(-BTip)!\coverDistTip!(-Center)$);%
+    \coordinate(-coverBLPR)at(-Center);%
+    \coordinate(-coverBLPT)at($(-MidBL)!\coverDist!(-Center)$);%
+    %
+    \newcommand{\Angle}{30}%
+    \path[line width=\magicSparkStarLineWidth,%
+        draw=TikzCol_magicSparkStarOneLineColor,%
+        fill=TikzCol_magicSparkStarOneFillColor,%
+        save path=\circulation,%
+    ]%
+        (-LTip)%
+        to[out=\Angle,in=180]%
+            (-MidTL)%
+        to[out=90,in=270-\Angle]%
+            (-TTip)%
+        to[out=270+\Angle,in=90]%
+            (-MidTR)%
+        to[out=360,in=180-\Angle]%
+            (-RTip)%
+        to[out=180+\Angle,in=0]%
+            (-MidBR)%
+        to[out=270,in=90-\Angle]%
+            (-BTip)%
+        to[out=90+\Angle,in=270]%
+            (-MidBL)%
+        to[out=180,in=360-\Angle]%
+            cycle%
+    ;%
+    %
+    \path[% fill=TikzCol_magicSparkStarOneFillColor\magicWandOverlayColorShiftOne,%
+        save path=\coverLB,%
+    ](-coverLBPL)--(-coverLBPR)--(-coverLBPT)to[out=180,in=360-\Angle]cycle;%
+    \path[save path=\coverLT](-coverLTPL)--(-coverLTPR)--(-coverLTPT)to[out=180,in=\Angle]cycle;%
+    \path[save path=\coverTL](-coverTLPL)--(-coverTLPR)--(-coverTLPT)to[out=90,in=270-\Angle]cycle;%
+    \path[save path=\coverTR](-coverTRPL)--(-coverTRPR)--(-coverTRPT)to[out=90,in=270+\Angle]cycle;%
+    \path[save path=\coverRT](-coverRTPL)--(-coverRTPR)--(-coverRTPT)to[out=0,in=180-\Angle]cycle;%
+    \path[save path=\coverRB](-coverRBPL)--(-coverRBPR)--(-coverRBPT)to[out=0,in=180+\Angle]cycle;%
+    \path[save path=\coverBR](-coverBRPL)--(-coverBRPR)--(-coverBRPT)to[out=270,in=90-\Angle]cycle;%
+    \path[save path=\coverBL](-coverBLPL)--(-coverBLPR)--(-coverBLPT)to[out=270,in=90+\Angle]cycle;%
+    %
+    \def\coverColorOne{TikzCol_magicSparkStarOneLineColor\magicWandOverlayColorShiftOne}%
+    \def\coverColorTwo{TikzCol_magicSparkStarOneLineColor\magicWandOverlayColorShiftTwoDark}%
+    \path[use path=\coverLB,fill=\coverColorOne];%
+    \path[use path=\coverTL,fill=\coverColorOne];%
+    \path[use path=\coverRT,fill=\coverColorOne];%
+    \path[use path=\coverBR,fill=\coverColorOne];%
+    \path[use path=\coverLT,fill=\coverColorTwo];%
+    \path[use path=\coverTR,fill=\coverColorTwo];%
+    \path[use path=\coverRB,fill=\coverColorTwo];%
+    \path[use path=\coverBL,fill=\coverColorTwo];%
+    }%
+    \path($(-frame-inner.north west)+(-1.0*\magicSparkStarLineWidth,1.0*\magicSparkStarLineWidth)$)--($(-frame-inner.south east)+(1.0*\magicSparkStarLineWidth,-1.0*\magicSparkStarLineWidth)$);%
+    }%
+  },%
+  magicWandSpiralSpark/.pic={%
+    \scopenode[name=-frame,draw=none]{%
+    \scopenode[name=-frame-inner,draw=none]{%
+    \pic(magicWand){magicWandSpiral};%
+    \coordinate(ClipBL)at(magicWand-frame.south west);%
+    \scopenode[name=magicSpark1,anchor=north west,draw=none,%
+        % transform canvas={scale=0.3},%
+        at={($(magicWand-frame.north east)+(0.0*\magicWandSpiralSize,0.25*\magicWandSpiralSize)$)}%
+    ]{\pic(magicSpark1-pic)[rotate=300]{magicSparkTwo};}%
+    \scopenode[name=magicSpark2,anchor=north west,draw=none,%
+        at={($(magicWand-frame.north east)+(0.0*\magicWandSpiralSize,-0.05*\magicWandSpiralSize)$)}%
+    ]{\pic(magicSpark2-pic)[rotate=280]{magicSparkOne};}%
+    \scopenode[name=magicSpark3,anchor=north west,draw=none,%
+        at={($(magicWand-frame.north east)+(-0.06*\magicWandSpiralSize,-0.3*\magicWandSpiralSize)$)}%
+    ]{\pic(magicSpark3-pic)[rotate=47]{magicSparkStarTwo};}%
+    \coordinate(clipTR)at(magicSpark1-pic-TL -| magicSpark1-pic-TR);%
+    % \draw[blue](ClipBL)rectangle(clipTR);%
+    }%
+    \path($(-frame-inner.north west)+(-0.0*\magicSparkStarLineWidth,0.0*\magicSparkStarLineWidth)$)--($(-frame-inner.south east)+(0.0*\magicSparkStarLineWidth,-0.0*\magicSparkStarLineWidth)$);%
+    }%
+  },%
+  magicWandSpiralCurlSpark/.pic={%
+    \scopenode[name=-frame,draw=none]{%
+    \scopenode[name=-frame-inner,draw=none]{%
+    \pic(magicWand){magicWandSpiralCurl};%
+    \coordinate(ClipBL)at(magicWand-frame.south west);%
+    \scopenode[name=magicSpark1,anchor=north west,draw=none,%
+        % transform canvas={scale=0.3},%
+        at={($(magicWand-frame.north east)+(0.0*\magicWandSpiralSize,0.25*\magicWandSpiralSize)$)}%
+    ]{\pic(magicSpark1-pic)[rotate=300]{magicSparkTwo};}%
+    \scopenode[name=magicSpark2,anchor=north west,draw=none,%
+        at={($(magicWand-frame.north east)+(0.0*\magicWandSpiralSize,-0.05*\magicWandSpiralSize)$)}%
+    ]{\pic(magicSpark2-pic)[rotate=280]{magicSparkOne};}%
+    \scopenode[name=magicSpark3,anchor=north west,draw=none,%
+        at={($(magicWand-frame.north east)+(-0.06*\magicWandSpiralSize,-0.3*\magicWandSpiralSize)$)}%
+    ]{\pic(magicSpark3-pic)[rotate=47]{magicSparkStarTwo};}%
+    \coordinate(clipTR)at(magicSpark1-pic-TL -| magicSpark1-pic-TR);%
+    % \draw[blue](ClipBL)rectangle(clipTR);%
+    }%
+    \path($(-frame-inner.north west)+(-0.0*\magicSparkStarLineWidth,0.0*\magicSparkStarLineWidth)$)--($(-frame-inner.south east)+(0.0*\magicSparkStarLineWidth,-0.0*\magicSparkStarLineWidth)$);%
+    }%
+  },%
+  magicWandSpiralSparkyCurlSpark/.pic={%
+    \scopenode[name=-frame,draw=none]{%
+    \scopenode[name=-frame-inner,draw=none]{%
+    \pic(magicWand){magicWandSpiralSparkyCurl};%
+    \coordinate(ClipBL)at(magicWand-frame.south west);%
+    \scopenode[name=magicSpark1,anchor=north west,draw=none,%
+        % transform canvas={scale=0.3},%
+        at={($(magicWand-frame.north east)+(0.0*\magicWandSpiralSize,0.25*\magicWandSpiralSize)$)}%
+    ]{\pic(magicSpark1-pic)[rotate=300]{magicSparkTwo};}%
+    \scopenode[name=magicSpark2,anchor=north west,draw=none,%
+        at={($(magicWand-frame.north east)+(0.0*\magicWandSpiralSize,-0.05*\magicWandSpiralSize)$)}%
+    ]{\pic(magicSpark2-pic)[rotate=280]{magicSparkOne};}%
+    \scopenode[name=magicSpark3,anchor=north west,draw=none,%
+        at={($(magicWand-frame.north east)+(-0.06*\magicWandSpiralSize,-0.3*\magicWandSpiralSize)$)}%
+    ]{\pic(magicSpark3-pic)[rotate=47]{magicSparkStarTwo};}%
+    \coordinate(clipTR)at(magicSpark1-pic-TL -| magicSpark1-pic-TR);%
+    % \draw[blue](ClipBL)rectangle(clipTR);%
+    }%
+    \path($(-frame-inner.north west)+(-0.0*\magicSparkStarLineWidth,0.0*\magicSparkStarLineWidth)$)--($(-frame-inner.south east)+(0.0*\magicSparkStarLineWidth,-0.0*\magicSparkStarLineWidth)$);%
+    }%
+  }%
+}%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+\definecolor{TikzCol_kiwiSkinBright}{RGB}{171,141,51}%
+\definecolor{TikzCol_kiwiSkinBright2}{RGB}{135,90,55}%
+\definecolor{TikzCol_kiwiSkinMedium}{RGB}{115,80,55}%
+\definecolor{TikzCol_kiwiSkinDark}{RGB}{100,70,55}%
+\definecolor{TikzCol_kiwiHairBright}{RGB}{171,141,51}%
+\definecolor{TikzCol_kiwiHairDark}{RGB}{100,70,21}%
+\definecolor{TikzCol_kiwiGreenBright}{RGB}{139,205,30}%
+\definecolor{TikzCol_kiwiGreenMedium}{RGB}{130,152,15}%
+\definecolor{TikzCol_kiwiGreenMedium2}{RGB}{164,186,39}%
+\definecolor{TikzCol_kiwiGreenDark}{RGB}{100,124,13}%
+\definecolor{TikzCol_kiwiCoreWhite}{RGB}{240,255,240}%
+\definecolor{TikzCol_kiwiLineBright}{RGB}{215,239,93}%
+\definecolor{TikzCol_kiwiLineDark}{RGB}{93,121,26}%
+\colorlet{TikzCol_kiwiSeedShell}{TikzCol_kiwiGreenDark!30!black}%
+%
+\definecolor{TikzCol_eggShellWhite}{RGB}{240,234,224}% {240,234,214}% {239,235,220}% {245,235,230}%
+\definecolor{TikzCol_eggWhiteWhite}{RGB}{255,255,255}%
+\definecolor{TikzCol_eggYolkYellow}{RGB}{246,187,7}% {244,187,41}%
+\definecolor{TikzCol_eggYolkOrange}{RGB}{247,167,39}%
+%
+\colorlet{TikzCol_eggYolkOrangeShadow}{TikzCol_eggYolkOrange!80!black}%
+\colorlet{TikzCol_eggShellShadow}{TikzCol_eggShellWhite!80!black}%
+\colorlet{TikzCol_kiwiSkinShadow}{TikzCol_kiwiSkinBright2!85!black}%
+%
+\colorlet{TikzCol_eggYolkOrangeLight}{TikzCol_eggYolkOrange!30!white}%
+%
+\def\KiwiEggSize{10em}% 8pt, 12pt, 3ex
+\def\KiwiEggWidth{\KiwiEggSize}% 8pt, 12pt, 3ex
+\def\KiwiEggHeight{1.4*\KiwiEggSize}% 8pt, 12pt, 3ex
+\def\KiwiEggCrackOpenHeight{0.6*\KiwiEggHeight}
+\def\KiwiEggLineWidth{0.004*\KiwiEggSize}% 0.07
+%
+\def\KiwiEggSeedSize{0.025*\KiwiEggSize}% 8pt, 12pt, 3ex
+\tikzset{%
+  KiwiEggFusionCrackOpenLine/.style={%
+    draw=none,%
+    line width=\KiwiEggLineWidth%
+  },%
+  KiwiEggFusionCrackOpen/.pic={%
+    % \scopenode[name=-frame,draw=none]{%
+    % \scopenode[name=-frame-inner,draw=none]{%
+    %============================================
+    %==   Coordinates
+    %============================================
+    \coordinate(-BellyLeft)at(0,\KiwiEggCrackOpenHeight);%
+    \coordinate(-BellyRight)at($(-BellyLeft)+(\KiwiEggWidth,0)$);%
+    \coordinate(-BellyCenter)at($(-BellyLeft)!.5!(-BellyRight)$);%
+    \coordinate(-BellyCenterHigh)at($(-BellyCenter)+(0,0.25*\KiwiEggCrackOpenHeight)$);%
+    \coordinate(-BellyCenterLow)at($(-BellyCenter)+(0,-0.25*\KiwiEggCrackOpenHeight)$);%
+    \coordinate(-BottomCenter)at($(-BellyCenter)+(0,-\KiwiEggCrackOpenHeight)$);%
+    \coordinate(-ShellTopmostPeak)at($(-BellyCenterHigh)+(0.214*\KiwiEggSize,0.111*\KiwiEggSize)$);%
+    %
+    \coordinate(-EggYolkTop)at($(-BellyCenterHigh)!.2!(-BellyCenterLow)$);%
+    \coordinate(-EggYolkBottom)at($(-BellyCenterLow)!.3!(-BellyCenterHigh)$);%
+    \coordinate(-EggYolkTip)at($(-EggYolkBottom)+(17:0.32*\KiwiEggWidth)$);%
+    \coordinate(-KiwiCoreTop)at($(-BellyCenterHigh)!.2!(-BellyCenterLow)$);%
+    \coordinate(-KiwiCoreBottom)at($(-BellyCenterLow)!.3!(-BellyCenterHigh)$);%
+    \coordinate(-KiwiCoreTipOne)at($(-BellyCenter)+(-0.2*\KiwiEggSize,0.05*\KiwiEggSize)$);%
+    \coordinate(-KiwiCoreTipTwo)at($(-BellyCenter)+(-0.25*\KiwiEggSize,-0.06*\KiwiEggSize)$);%
+    %
+    \coordinate(-EggYolkShadowTop)at($(-EggYolkBottom)!.15!(-EggYolkTop)$);%
+    \coordinate(-EggShellShadowTop)at($(-BottomCenter)!.1!(-BellyCenterLow)$);%
+    \coordinate(-kiwiSkinShadowOutside)at($(-EggShellShadowTop)+(-0.3*\KiwiEggSize,0.06*\KiwiEggSize)$);%
+    %
+    \coordinate(-EggYolkLightT)at($(-EggYolkTop)!.1!(-EggYolkBottom)$);%
+    \coordinate(-EggYolkLightB)at($(-EggYolkTop)!.18!(-EggYolkBottom)$);%
+    \coordinate(-EggYolkLightR)at($(-EggYolkLightB)+(-3:0.12*\KiwiEggSize)$);%
+    %
+    %============================================
+    %==   More Setup
+    %============================================
+    %--------------------------------
+    % Picture Size
+    %--------------------------------
+    \path[save path=\Dimension]%
+        ($(-BellyLeft)+(-0.5*\KiwiEggLineWidth,0)$)%
+        |-($(-ShellTopmostPeak)+(0,1.05*\KiwiEggLineWidth)$)%
+        -|($(-BellyRight)+(0.026*\KiwiEggSize,0)$)%
+        |-($(-BottomCenter)+(0,-0.5*\KiwiEggLineWidth)$)%
+        -|cycle;%
+    % \clip[use path=\Dimension];%
+    %
+    %
+    %
+    %============================================
+    %==   Actual Picture Drawing
+    %============================================
+    %
+    % \newcommand{\CutFaceAngle}{60}%
+    % \path[draw]%
+    %     (-BellyLeft)%
+    %         to[out=\CutFaceAngle,in=180]%
+    %     (-BellyCenterHigh)%
+    %         --++(40:0.1*\KiwiEggSize)%
+    %         --++(-50:0.12*\KiwiEggSize)%
+    %         --
+    %     (-BellyRight)%
+    %         to[out=180+\CutFaceAngle,in=0]%
+    %     (-BellyCenterLow)%
+    %         to[out=180,in=360-\CutFaceAngle]%
+    %     cycle;
+    % \path[draw=green]%
+    %     (-BellyLeft)%
+    %         to[out=\CutFaceAngle,in=180]%
+    %     (-BellyCenterHigh)%
+    %         to[out=0,in=180-\CutFaceAngle]%
+    %     (-BellyRight)%
+    %         to[out=180+\CutFaceAngle,in=0]%
+    %     (-BellyCenterLow)%
+    %         to[out=180,in=360-\CutFaceAngle]%
+    %     cycle;
+    % \path[fill=none]%TikzCol_kiwiSkinMedium]%
+    %     (-BellyLeft)%
+    %         to[out=270,in=180]%
+    %     (-BottomCenter)%
+    %         to[out=0,in=290]%
+    %     (-BellyRight)%
+    %         --%
+    %     (-BellyCenterLow)%
+    %         to[out=180,in=360-\CutFaceAngle]%
+    %     cycle;
+    %
+    \newcommand{\BezierOneX}{0.0}%
+    \newcommand{\BezierOneY}{0.15}%
+    \newcommand{\BezierTwoX}{0.2}%
+    \newcommand{\BezierTwoY}{0.0}%
+    % \path[draw=green]%
+    %     (-BellyLeft)%
+    %         ..controls%
+    %             ++(\BezierOneX*\KiwiEggSize,\BezierOneY*\KiwiEggSize)%Relative to Start-Point
+    %             and%
+    %             ++(-\BezierTwoX*\KiwiEggSize,\BezierTwoY*\KiwiEggSize)%Relative to End-Point
+    %         ..%
+    %     (-BellyCenterHigh)%
+    %         ..controls%
+    %             ++(\BezierTwoX*\KiwiEggSize,\BezierTwoY*\KiwiEggSize)%
+    %             and%
+    %             ++(-\BezierOneX*\KiwiEggSize,\BezierOneY*\KiwiEggSize)%
+    %         ..%
+    %     (-BellyRight)%
+    %         ..controls%
+    %             ++(-\BezierOneX*\KiwiEggSize,-\BezierOneY*\KiwiEggSize)%
+    %             and%
+    %             ++(\BezierTwoX*\KiwiEggSize,-\BezierTwoY*\KiwiEggSize)%
+    %         ..%
+    %     (-BellyCenterLow)%
+    %         ..controls%
+    %             ++(-\BezierTwoX*\KiwiEggSize,-\BezierTwoY*\KiwiEggSize)%
+    %             and%
+    %             ++(\BezierOneX*\KiwiEggSize,-\BezierOneY*\KiwiEggSize)%
+    %         ..%
+    %     cycle;
+    \path[KiwiEggFusionCrackOpenLine,save path=\KiwiCut,fill=TikzCol_kiwiGreenBright]%
+        (-BellyLeft)%
+            ..controls%
+                ++(\BezierOneX*\KiwiEggSize,\BezierOneY*\KiwiEggSize)%Relative to Start-Point
+                and%
+                ++(-\BezierTwoX*\KiwiEggSize,\BezierTwoY*\KiwiEggSize)%Relative to End-Point
+            ..%
+        (-BellyCenterHigh)%
+            --%
+        (-BellyCenterLow)%
+            ..controls%
+                ++(-\BezierTwoX*\KiwiEggSize,-\BezierTwoY*\KiwiEggSize)%
+                and%
+                ++(\BezierOneX*\KiwiEggSize,-\BezierOneY*\KiwiEggSize)%
+            ..%
+        cycle;
+    \path[KiwiEggFusionCrackOpenLine,save path=\KiwiCutLight]%
+        ($(-BellyCenterHigh)!.6!(-KiwiCoreTop)$)%
+            ..controls%
+                ++(-0.25*\KiwiEggSize,-0.0*\KiwiEggSize)%Relative to Start-Point
+                and%
+                ++(0.04*\KiwiEggSize,0.1*\KiwiEggSize)%Relative to End-Point
+            ..%
+        ($(-BellyLeft)+(0.03*\KiwiEggSize,-0.07*\KiwiEggSize)$)%
+            --%
+        ($(-BellyLeft)+(0,-0.3*\KiwiEggSize)$)%
+            |-
+        (-BellyCenterHigh)%
+            --%
+        cycle;
+    \newcommand{\KiwiCoreLineBrightPattern}[3]{% Angle, Length
+        \path[draw=##3, line width=0.016*\KiwiEggSize]%
+            (-BellyCenter)--++(##1:##2);%
+        \fill[color=##3]($(-BellyCenter)+(##1:##2)$)circle(0.008*\KiwiEggSize);%
+    }%
+    \newcommand{\KiwiCoreLineBright}[2]{% Angle, Length
+        \KiwiCoreLineBrightPattern{##1}{##2}{TikzCol_kiwiLineBright}%
+    }%
+    \newcommand{\KiwiCoreLineDarkScaling}[2]{% Angle, Length
+        \path[fill=TikzCol_kiwiLineDark]%
+            (-BellyCenter)%
+                ..controls%
+                    ++(##1-10:0.8*##2)% (90-10:0.7*##2)
+                    and%
+                    ++(180+##1+15:0.4*##2)% (270+20:0.4*##2)
+                ..%
+            ($(-BellyCenter)+(##1:##2)$)%
+                ..controls%
+                    ++(180+##1-15:0.4*##2)% (270-20:0.4*##2)
+                    and%
+                    ++(##1+10:0.8*##2)% (90+10:0.7*##2)
+                ..%
+            cycle;%
+    }%
+    \newcommand{\KiwiCoreLineDarkPattern}[3]{% Angle, Length
+        \path[fill=##3]%
+            ($(-BellyCenter)+(##1-90:0.02*\KiwiEggSize)$)%
+                ..controls%
+                    ++(##1-0:0.8*##2)% (90-10:0.7*##2)
+                    and%
+                    ++(180+##1+10:0.5*##2)% (270+20:0.4*##2)
+                ..%
+            ($(-BellyCenter)+(##1:##2)$)%
+                ..controls%
+                    ++(180+##1-10:0.5*##2)% (270-20:0.4*##2)
+                    and%
+                    ++(##1+0:0.8*##2)% (90+10:0.7*##2)
+                ..%
+            ($(-BellyCenter)+(##1+90:0.02*\KiwiEggSize)$)%
+                --%
+            cycle;%
+    }%
+    \newcommand{\KiwiCoreLineDark}[2]{% Angle, Length
+        \KiwiCoreLineDarkPattern{##1}{##2}{TikzCol_kiwiLineDark}%
+    }%
+    \KiwiCoreLineDark{96}{0.18*\KiwiEggSize}%
+    \KiwiCoreLineDark{130}{0.20*\KiwiEggSize}%
+    \KiwiCoreLineDark{161}{0.31*\KiwiEggSize}%
+    \KiwiCoreLineDark{181}{0.36*\KiwiEggSize}%
+    \KiwiCoreLineDark{204}{0.26*\KiwiEggSize}%
+    \KiwiCoreLineDark{252}{0.16*\KiwiEggSize}%
+    \KiwiCoreLineBright{112}{0.19*\KiwiEggSize}%
+    \KiwiCoreLineBright{146}{0.27*\KiwiEggSize}%
+    \KiwiCoreLineBright{171}{0.39*\KiwiEggSize}%
+    \KiwiCoreLineBright{191}{0.35*\KiwiEggSize}%
+    \KiwiCoreLineBright{225}{0.18*\KiwiEggSize}%
+    \KiwiCoreLineBright{273}{0.15*\KiwiEggSize}%
+    \begin{scope}%
+        \clip[use path=\KiwiCut];%
+        \path[KiwiEggFusionCrackOpenLine,use path=\KiwiCutLight,fill=TikzCol_kiwiGreenBright!70!white];%
+        \clip[use path=\KiwiCutLight];%
+        \KiwiCoreLineDarkPattern{96}{0.18*\KiwiEggSize}{TikzCol_kiwiLineDark!70!white}%
+        \KiwiCoreLineDarkPattern{130}{0.20*\KiwiEggSize}{TikzCol_kiwiLineDark!70!white}%
+        \KiwiCoreLineDarkPattern{161}{0.31*\KiwiEggSize}{TikzCol_kiwiLineDark!70!white}%
+        \KiwiCoreLineBrightPattern{112}{0.19*\KiwiEggSize}{TikzCol_kiwiLineBright!70!white}%
+        \KiwiCoreLineBrightPattern{146}{0.27*\KiwiEggSize}{TikzCol_kiwiLineBright!70!white}%
+        \KiwiCoreLineBrightPattern{171}{0.39*\KiwiEggSize}{TikzCol_kiwiLineBright!70!white}%
+    \end{scope}%
+    \path[KiwiEggFusionCrackOpenLine,use path=\KiwiCut,draw=TikzCol_kiwiSkinDark];%
+    \path[KiwiEggFusionCrackOpenLine,line width=0.7*\KiwiEggLineWidth,draw=TikzCol_kiwiGreenMedium,fill=TikzCol_kiwiCoreWhite]%
+        (-KiwiCoreTop)%
+            ..controls%
+                ++(-0.0*\KiwiEggSize,-0.04*\KiwiEggSize)%
+                and%
+                ++(0.05*\KiwiEggSize,0*\KiwiEggSize)%
+            ..%
+        (-KiwiCoreTipOne)%
+            ..controls%
+                ++(0.03*\KiwiEggSize,-0.06*\KiwiEggSize)%
+                and%
+                ++(0.02*\KiwiEggSize,0.03*\KiwiEggSize)%
+            ..%
+        (-KiwiCoreTipTwo)%
+            ..controls%
+                ++(0.05*\KiwiEggSize,0.01*\KiwiEggSize)%
+                and%
+                ++(-0.04*\KiwiEggSize,0.03*\KiwiEggSize)%
+            ..%
+        (-KiwiCoreBottom)%
+            --%
+        cycle;%
+    \newcommand{\KiwiSeedLight}[5]{% Position, Angle, LightShift_X, LightShift_Y, LightRotation
+        \fill[white!55!TikzCol_kiwiSeedShell]($(##1)+(270+##2:0.5*\KiwiEggSeedSize)+(##3*\KiwiEggSeedSize,##4*\KiwiEggSeedSize)$)circle[x radius=0.07*\KiwiEggSeedSize,y radius=0.17*\KiwiEggSeedSize,rotate=##5];%ellipse(0.2*\KiwiEggSeedSize and 0.2*\KiwiEggSeedSize);
+    }%
+    \newcommand{\KiwiSeedOne}[5]{% Position, Angle, LightShift_X, LightShift_Y, LightRotation
+        \path[fill=TikzCol_kiwiSeedShell]%
+            (##1)%
+                ..controls%
+                    ($(##1)+(270+##2+50:0.3*\KiwiEggSeedSize)$)%
+                    and%
+                    ($(##1)+(270+##2+30:1.0*\KiwiEggSeedSize)$)%
+                ..%
+            ($(##1)+(270+##2:\KiwiEggSeedSize)$)%
+                ..controls%
+                    ($(##1)+(270+##2-30:1.0*\KiwiEggSeedSize)$)%
+                    and%
+                    ($(##1)+(270+##2-10:0.3*\KiwiEggSeedSize)$)%
+                ..%
+            cycle;%
+        \KiwiSeedLight{##1}{##2}{##3}{##4}{##5}%
+    }%
+    \newcommand{\KiwiSeedTwo}[5]{%
+        \path[fill=TikzCol_kiwiSeedShell]%
+            (##1)%
+                ..controls%
+                    ($(##1)+(270+##2+20:0.3*\KiwiEggSeedSize)$)%
+                    and%
+                    ($(##1)+(270+##2+30:1.1*\KiwiEggSeedSize)$)%
+                ..%
+            ($(##1)+(270+##2:\KiwiEggSeedSize)$)%
+                ..controls%
+                    ($(##1)+(270+##2-30:0.9*\KiwiEggSeedSize)$)%
+                    and%
+                    ($(##1)+(270+##2-40:0.3*\KiwiEggSeedSize)$)%
+                ..%
+            cycle;%
+        \KiwiSeedLight{##1}{##2}{##3}{##4}{##5}%
+    }%
+    \KiwiSeedOne{0.485*\KiwiEggSize,0.95*\KiwiEggSize}{201}{-0.1}{0.14}{-10}%
+    \KiwiSeedOne{0.45*\KiwiEggSize,0.93*\KiwiEggSize}{204}{-0.1}{0.14}{0}%
+    \KiwiSeedTwo{0.41*\KiwiEggSize,0.91*\KiwiEggSize}{200}{-0.1}{0.12}{14}%
+    \KiwiSeedOne{0.42*\KiwiEggSize,0.94*\KiwiEggSize}{207}{-0.1}{0.11}{10}%
+    \KiwiSeedOne{0.392*\KiwiEggSize,0.908*\KiwiEggSize}{213}{-0.12}{0.14}{12}%
+    \KiwiSeedTwo{0.34*\KiwiEggSize,0.93*\KiwiEggSize}{214}{-0.1}{0.1}{40}%
+    \KiwiSeedOne{0.365*\KiwiEggSize,0.905*\KiwiEggSize}{211}{-0.12}{0.11}{25}%
+    \KiwiSeedOne{0.335*\KiwiEggSize,0.907*\KiwiEggSize}{211}{-0.12}{0.13}{-5}%
+    \KiwiSeedTwo{0.31*\KiwiEggSize,0.895*\KiwiEggSize}{219}{-0.13}{0.09}{44}%
+    \KiwiSeedTwo{0.31*\KiwiEggSize,0.917*\KiwiEggSize}{201}{-0.1}{0.1}{29}%
+    \KiwiSeedOne{0.28*\KiwiEggSize,0.9*\KiwiEggSize}{240}{-0.18}{0.04}{14}%
+    \KiwiSeedTwo{0.265*\KiwiEggSize,0.878*\KiwiEggSize}{274}{-0.22}{0.0}{-18}%
+    \KiwiSeedOne{0.3*\KiwiEggSize,0.88*\KiwiEggSize}{260}{-0.2}{0.0}{12}%
+    \KiwiSeedTwo{0.305*\KiwiEggSize,0.86*\KiwiEggSize}{269}{-0.2}{0.0}{-10}%
+    \KiwiSeedTwo{0.268*\KiwiEggSize,0.845*\KiwiEggSize}{272}{-0.2}{0.0}{-13}%
+    \KiwiSeedTwo{0.30*\KiwiEggSize,0.841*\KiwiEggSize}{274}{-0.2}{0.0}{-9}%
+    \KiwiSeedOne{0.275*\KiwiEggSize,0.816*\KiwiEggSize}{244}{-0.17}{0.09}{22}%
+    \KiwiSeedTwo{0.264*\KiwiEggSize,0.804*\KiwiEggSize}{291}{-0.2}{-0.05}{-26}%
+    \KiwiSeedOne{0.24*\KiwiEggSize,0.782*\KiwiEggSize}{281}{-0.18}{0.04}{-81}%
+    \KiwiSeedOne{0.236*\KiwiEggSize,0.768*\KiwiEggSize}{299}{-0.2}{-0.08}{-40}%
+    \KiwiSeedOne{0.27*\KiwiEggSize,0.78*\KiwiEggSize}{309}{-0.2}{-0.09}{-33}%
+    \KiwiSeedTwo{0.268*\KiwiEggSize,0.756*\KiwiEggSize}{309}{-0.2}{-0.06}{-39}%
+    \KiwiSeedOne{0.298*\KiwiEggSize,0.778*\KiwiEggSize}{326}{-0.15}{-0.1}{-24}%
+    \KiwiSeedTwo{0.32*\KiwiEggSize,0.781*\KiwiEggSize}{332}{-0.15}{-0.1}{-13}%
+    \KiwiSeedOne{0.321*\KiwiEggSize,0.756*\KiwiEggSize}{334}{-0.09}{-0.1}{-23}%
+    \KiwiSeedOne{0.338*\KiwiEggSize,0.781*\KiwiEggSize}{360}{-0.05}{-0.14}{-13}%
+    \KiwiSeedOne{0.339*\KiwiEggSize,0.75*\KiwiEggSize}{366}{-0.04}{-0.1}{-10}%
+    \KiwiSeedTwo{0.366*\KiwiEggSize,0.771*\KiwiEggSize}{349}{-0.07}{-0.11}{0}%
+    \KiwiSeedOne{0.384*\KiwiEggSize,0.778*\KiwiEggSize}{355}{-0.04}{-0.12}{-14}%
+    \KiwiSeedOne{0.4*\KiwiEggSize,0.764*\KiwiEggSize}{361}{0}{-0.09}{0}%
+    \KiwiSeedTwo{0.425*\KiwiEggSize,0.774*\KiwiEggSize}{355}{-0.05}{-0.15}{12}%
+    \KiwiSeedOne{0.448*\KiwiEggSize,0.769*\KiwiEggSize}{358}{-0.04}{-0.1}{-12}%
+    \KiwiSeedTwo{0.446*\KiwiEggSize,0.734*\KiwiEggSize}{352}{-0.05}{-0.11}{9}%
+    \KiwiSeedTwo{0.468*\KiwiEggSize,0.758*\KiwiEggSize}{358}{-0.04}{-0.13}{12}%
+    \KiwiSeedTwo{0.487*\KiwiEggSize,0.735*\KiwiEggSize}{352}{-0.05}{-0.03}{-8}%
+    \path[KiwiEggFusionCrackOpenLine,save path=\KiwiSkin,fill=TikzCol_kiwiSkinBright2]% TikzCol_kiwiSkinMedium
+        (-BellyLeft)%
+            to[out=270,in=180]%
+        (-BottomCenter)%
+            --%
+        (-BellyCenterLow)%
+            ..controls%
+                ++(-\BezierTwoX*\KiwiEggSize,-\BezierTwoY*\KiwiEggSize)%
+                and%
+                ++(\BezierOneX*\KiwiEggSize,-\BezierOneY*\KiwiEggSize)%
+            ..%
+        cycle;
+    \path[save path=\KiwiSkinShadow]%
+        (-EggShellShadowTop)%
+            to[out=180,in=340]%
+        (-kiwiSkinShadowOutside)%
+            to[out=270,in=180]%
+        (-BottomCenter)%
+            --%
+        cycle;%
+    \begin{scope}%
+        \clip[use path=\KiwiSkin];%
+        \path[KiwiEggFusionCrackOpenLine,fill=TikzCol_kiwiSkinShadow,use path=\KiwiSkinShadow];%
+    \end{scope}%
+    \path[KiwiEggFusionCrackOpenLine,use path=\KiwiSkin,draw=TikzCol_kiwiSkinDark];%
+    \newcommand{\KiwiHair}[4]{% Position, Angle, Color, AdditionalOptions
+        \path[draw=##3, line width=0.03*\KiwiEggSize ##4]%
+            (##1)--++(##2:0.08*\KiwiEggSize);%
+        \fill[color=##3](##1)circle(0.015*\KiwiEggSize);%
+        \fill[color=##3]($(##1)+(##2:0.08*\KiwiEggSize)$)circle(0.015*\KiwiEggSize);%
+    }%
+    \KiwiHair{0.08*\KiwiEggSize,0.66*\KiwiEggSize}{280}{TikzCol_kiwiHairBright}{}%
+    \KiwiHair{0.17*\KiwiEggSize,0.62*\KiwiEggSize}{275}{TikzCol_kiwiHairDark}{}%
+    \KiwiHair{0.27*\KiwiEggSize,0.53*\KiwiEggSize}{265}{TikzCol_kiwiHairDark}{}%
+    \KiwiHair{0.35*\KiwiEggSize,0.58*\KiwiEggSize}{275}{TikzCol_kiwiHairBright}{}%
+    \KiwiHair{0.44*\KiwiEggSize,0.47*\KiwiEggSize}{260}{TikzCol_kiwiHairDark}{}%
+    \KiwiHair{0.36*\KiwiEggSize,0.39*\KiwiEggSize}{265}{TikzCol_kiwiHairDark}{}%
+    \KiwiHair{0.44*\KiwiEggSize,0.30*\KiwiEggSize}{280}{TikzCol_kiwiHairBright}{}%
+    \KiwiHair{0.11*\KiwiEggSize,0.5*\KiwiEggSize}{280}{TikzCol_kiwiHairDark}{}%
+    \KiwiHair{0.16*\KiwiEggSize,0.33*\KiwiEggSize}{272}{TikzCol_kiwiHairBright}{}%
+    \KiwiHair{0.24*\KiwiEggSize,0.2*\KiwiEggSize}{280}{TikzCol_kiwiHairDark}{}%
+    \KiwiHair{0.35*\KiwiEggSize,0.21*\KiwiEggSize}{260}{TikzCol_kiwiHairDark}{}%
+    \KiwiHair{0.26*\KiwiEggSize,0.37*\KiwiEggSize}{272}{TikzCol_kiwiHairBright}{}%
+    \KiwiHair{0.43*\KiwiEggSize,0.14*\KiwiEggSize}{275}{TikzCol_kiwiHairBright}{}%
+    \begin{scope}%
+        \clip[use path=\KiwiSkinShadow];%
+        \KiwiHair{0.43*\KiwiEggSize,0.14*\KiwiEggSize}{275}{TikzCol_kiwiHairBright!80!black}{}%
+    \end{scope}%
+    %
+    %
+    %
+    \path[KiwiEggFusionCrackOpenLine,draw,fill=TikzCol_eggShellWhite]%
+        (-BellyCenterHigh)%
+            --++(50:0.1*\KiwiEggSize)%
+            --++(-60:0.13*\KiwiEggSize)%
+            %--++(60:0.17*\KiwiEggSize)%
+            --(-ShellTopmostPeak)%
+            --++(-60:0.12*\KiwiEggSize)%
+            --++(50:0.1*\KiwiEggSize)%
+            --++(-77:0.15*\KiwiEggSize)%
+            --++(50:0.08*\KiwiEggSize)%
+            --++(-80:0.11*\KiwiEggSize)%
+            --++(55:0.05*\KiwiEggSize)%
+            --%
+        (-BellyRight)%
+            ..controls%
+                ++(-\BezierOneX*\KiwiEggSize,-\BezierOneY*\KiwiEggSize)%
+                and%
+                ++(\BezierTwoX*\KiwiEggSize,-\BezierTwoY*\KiwiEggSize)%
+            ..%
+        (-BellyCenterLow)%
+            --%
+        cycle;
+    \path[KiwiEggFusionCrackOpenLine,draw,fill=TikzCol_eggWhiteWhite]%
+        (-BellyCenterHigh)%
+            ..controls%
+                ++(\BezierTwoX*\KiwiEggSize,\BezierTwoY*\KiwiEggSize)%
+                and%
+                ++(-\BezierOneX*\KiwiEggSize,\BezierOneY*\KiwiEggSize)%
+            ..%
+        (-BellyRight)%
+            ..controls%
+                ++(-\BezierOneX*\KiwiEggSize,-\BezierOneY*\KiwiEggSize)%
+                and%
+                ++(\BezierTwoX*\KiwiEggSize,-\BezierTwoY*\KiwiEggSize)%
+            ..%
+        (-BellyCenterLow)%
+            --%
+        cycle;
+    % \path[draw,fill=red]%
+    %     (-EggYolkTop)%
+    %         ..controls%
+    %             ++(0.3*\KiwiEggSize,0*\KiwiEggSize)%
+    %             and%
+    %             ++(0.5*\KiwiEggSize,0*\KiwiEggSize)%
+    %         ..%
+    %     (-EggYolkBottom)%
+    %         --%
+    %     cycle;%
+    \path[KiwiEggFusionCrackOpenLine,save path=\EggYolk,fill=TikzCol_eggYolkOrange]%
+        (-EggYolkTop)%
+            ..controls%
+                ++(0.29*\KiwiEggSize,-0.02*\KiwiEggSize)%
+                and%
+                ++(0.0*\KiwiEggSize,0.0*\KiwiEggSize)%
+            ..%
+        (-EggYolkTip)%
+            ..controls%
+                ++(0.02*\KiwiEggSize,-0.08*\KiwiEggSize)%
+                and%
+                ++(0.1*\KiwiEggSize,-0.0*\KiwiEggSize)%
+            ..%
+        (-EggYolkBottom)%
+            --%
+        cycle;%
+    \path[KiwiEggFusionCrackOpenLine,fill=TikzCol_eggYolkOrangeLight]%
+        (-EggYolkLightT)%
+            ..controls%
+                ++(0.13*\KiwiEggSize,0.0*\KiwiEggSize)%
+                and%
+                ++(0.0*\KiwiEggSize,0.0*\KiwiEggSize)%
+            ..%
+        (-EggYolkLightR)%
+            ..controls%
+                ++(0.0*\KiwiEggSize,-0.01*\KiwiEggSize)%
+                and%
+                ++(0.07*\KiwiEggSize,0.007*\KiwiEggSize)%
+            ..%
+        (-EggYolkLightB)%
+            --%
+        cycle;%
+    \path[KiwiEggFusionCrackOpenLine,fill=TikzCol_eggYolkOrangeShadow]%
+        (-EggYolkShadowTop)%
+            ..controls%
+                ++(0.29*\KiwiEggSize,-0.02*\KiwiEggSize)%
+                and%
+                ++(0.0*\KiwiEggSize,0.0*\KiwiEggSize)%
+            ..%
+        (-EggYolkTip)%
+            ..controls%
+                ++(0.02*\KiwiEggSize,-0.08*\KiwiEggSize)%
+                and%
+                ++(0.1*\KiwiEggSize,-0.0*\KiwiEggSize)%
+            ..%
+        (-EggYolkBottom)%
+            --%
+        cycle;%
+    \path[KiwiEggFusionCrackOpenLine,use path=\EggYolk,draw];%
+    % overlay prevents the path from being considered in bounding-box calculation (note: if an added node on a path shall be considered, you can override it for that node with an option overlay=true)
+    \path[KiwiEggFusionCrackOpenLine,save path=\EggShellFront,fill=TikzCol_eggShellWhite,overlay=true]% TikzCol_kiwiSkinMedium
+        (-BottomCenter)%
+            to[out=0,in=285]%
+        (-BellyRight)%
+            --++(93+10:0.07*\KiwiEggSize)%
+            --++(-90-10:0.12*\KiwiEggSize)%
+            --++(90+40:0.05*\KiwiEggSize)%
+            --++(-90-10:0.10*\KiwiEggSize)%
+            --++(90+50:0.06*\KiwiEggSize)%
+            --++(-90-20:0.09*\KiwiEggSize)%
+            --++(90+70:0.14*\KiwiEggSize)%
+            --++(-90-15:0.09*\KiwiEggSize)%
+            --++(90+70:0.08*\KiwiEggSize)%
+            --++(-90-35:0.05*\KiwiEggSize)%
+            --++(90+50:0.05*\KiwiEggSize)%
+            --%
+        (-BellyCenterLow)%
+            --%
+        cycle;
+    \path[KiwiEggFusionCrackOpenLine,fill=TikzCol_eggShellShadow,overlay=true]% TikzCol_kiwiSkinMedium
+        (-BottomCenter)%
+            to[out=0,in=285]%
+        (-BellyRight)%
+            to[out=275,in=00]%
+        (-EggShellShadowTop)%
+            --%
+        cycle;
+    \path[KiwiEggFusionCrackOpenLine,use path=\EggShellFront,draw];%
+    % }%
+    % \path($(-frame-inner.north west)+(-0.6*\KiwiEggLineWidth,1.2*\KiwiEggLineWidth)$)--($(-frame-inner.south east)+(0.027*\KiwiEggSize,-0.0*\KiwiEggLineWidth)$);%
+    % }%
+  }%
+}%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+\definecolor{TikzCol_kiwiBittenOffGreen}{named}{TikzCol_kiwiGreenBright}%
+\definecolor{TikzCol_kiwiBittenOffSkin}{named}{TikzCol_kiwiSkinBright2}%
+\definecolor{TikzCol_kiwiBittenOffSkinDark}{named}{TikzCol_kiwiSkinDark}%
+\definecolor{TikzCol_kiwiBittenOffHairBright}{named}{TikzCol_kiwiHairBright}%
+\definecolor{TikzCol_kiwiBittenOffHairDark}{named}{TikzCol_kiwiHairDark}%
+\definecolor{TikzCol_kiwiBittenOffGreenMedium}{named}{TikzCol_kiwiGreenMedium}%
+\definecolor{TikzCol_kiwiBittenOffCoreWhite}{named}{TikzCol_kiwiCoreWhite}%
+\definecolor{TikzCol_kiwiBittenOffLineBright}{named}{TikzCol_kiwiLineBright}%
+\definecolor{TikzCol_kiwiBittenOffLineDark}{named}{TikzCol_kiwiLineDark}%
+\definecolor{TikzCol_kiwiBittenOffSeedShell}{named}{TikzCol_kiwiSeedShell}%
+%
+\definecolor{TikzCol_kiwiBittenOffSkinShadow}{named}{TikzCol_kiwiSkinShadow}%
+%
+\def\KiwiBittenOffSize{10em}% 8pt, 12pt, 3ex
+\def\KiwiBittenOffWidth{\KiwiBittenOffSize}% 8pt, 12pt, 3ex
+\def\KiwiBittenOffHeight{1.4*\KiwiBittenOffSize}% 8pt, 12pt, 3ex
+\def\KiwiBittenOffBellyHeight{0.45*\KiwiBittenOffHeight}
+        \def\KiwiBittenOffCrackOpenHeight{0.6*\KiwiBittenOffHeight}
+\def\KiwiBittenOffLineWidth{0.004*\KiwiBittenOffSize}% 0.07
+%
+\def\KiwiBittenOffSeedSize{0.025*\KiwiBittenOffSize}% 8pt, 12pt, 3ex
+\tikzset{%
+  Kiwi_BittenOffLine/.style={%
+    draw=none,%
+    line width=\KiwiBittenOffLineWidth%
+  },%
+  Kiwi_BittenOff/.pic={%
+    % \scopenode[name=-frame,draw=none]{%
+    % \scopenode[name=-frame-inner,draw=none]{%
+    %============================================
+    %==   Coordinates
+    %============================================
+    \coordinate(-zezero)at(0,0);%
+    \coordinate(-TopCenter)at(0.5*\KiwiBittenOffWidth,\KiwiBittenOffHeight);%
+    \coordinate(-BottomCenter)at(0.5*\KiwiBittenOffWidth,0);%
+    \coordinate(-BellyLeft)at(0,\KiwiBittenOffBellyHeight);%
+    \coordinate(-BellyRight)at($(-BellyLeft)+(\KiwiBittenOffWidth,0)$);%
+    \coordinate(-BellyCenter)at($(-BellyLeft)!.5!(-BellyRight)$);%
+    \coordinate(-BellyCenterHigh)at($(-BellyCenter)+(0,0.25*\KiwiBittenOffCrackOpenHeight)$);%
+    \coordinate(-BellyCenterLow)at($(-BellyCenter)+(0,-0.25*\KiwiBittenOffCrackOpenHeight)$);%
+    %
+    \coordinate(-KiwiCoreTop)at($(-TopCenter)+(0,-0.06*\KiwiBittenOffHeight)$);%
+    \coordinate(-KiwiCoreTopL)at($(-KiwiCoreTop)+(-0.08*\KiwiBittenOffWidth,-0.02*\KiwiBittenOffHeight)$);%
+    \coordinate(-KiwiCoreTopR)at($(-KiwiCoreTop)+(0.07*\KiwiBittenOffWidth,-0.01*\KiwiBittenOffHeight)$);%
+    \coordinate(-KiwiCoreBottom)at($(-KiwiCoreTop)+(0.04*\KiwiBittenOffWidth,-0.27*\KiwiBittenOffHeight)$);%
+    \coordinate(-KiwiCoreTipT)at($(-KiwiCoreTop)+(-0.18*\KiwiBittenOffWidth,-0.32*\KiwiBittenOffHeight)$);%
+    \coordinate(-KiwiCoreTipOne)at(0.24*\KiwiBittenOffWidth,0.59*\KiwiBittenOffHeight);%
+    \coordinate(-KiwiCoreTipTwo)at(0.21*\KiwiBittenOffWidth,0.55*\KiwiBittenOffHeight);%
+    \coordinate(-KiwiCoreTipB)at(0.35*\KiwiBittenOffWidth,0.56*\KiwiBittenOffHeight);%
+    %
+    % \coordinate(-BiteLB)at(0.011*\KiwiBittenOffWidth,0.6*\KiwiBittenOffHeight);%
+    \coordinate(-BiteLB)at(0.006*\KiwiBittenOffWidth,0.53*\KiwiBittenOffHeight);%
+    \coordinate(-BiteRT)at(0.26*\KiwiBittenOffWidth,0.958*\KiwiBittenOffHeight);%
+    %
+    \coordinate(-BiteShadowAnchorLB)at($(-BiteLB-|#1-zezero)+(0,0.01*\KiwiBittenOffHeight)$);%
+    \coordinate(-BiteShadowAnchorRT)at($(-TopCenter)+(0.04*\KiwiBittenOffWidth,0)$);%
+    %
+    %============================================
+    %==   Macros
+    %============================================
+    %--------------------------------
+    % Macros for the Lines around the Core
+    %--------------------------------
+    \newcommand{\KiwiCoreLineBrightPattern}[4]{% Center, Angle, Length, Color
+        \path[draw=##4, line width=0.016*\KiwiBittenOffSize]%
+            (##1)--++(##2:##3);%
+        \fill[color=##4]($(##1)+(##2:##3)$)circle(0.008*\KiwiBittenOffSize);%
+    }%
+    \newcommand{\KiwiCoreLineBright}[3]{% Center, Angle, Length
+        \KiwiCoreLineBrightPattern{##1}{##2}{##3}{TikzCol_kiwiBittenOffLineBright}%
+    }%
+    \newcommand{\KiwiCoreLineBrightPatternNarrow}[4]{% Center, Angle, Length, Color
+        \path[draw=##4,line cap=round, line width=0.01*\KiwiBittenOffSize]%
+            (##1)--++(##2:##3);%
+    }%
+    \newcommand{\KiwiCoreLineBrightNarrow}[3]{% Center, Angle, Length
+        \KiwiCoreLineBrightPatternNarrow{##1}{##2}{##3}{TikzCol_kiwiBittenOffLineBright}%
+    }%
+    \newcommand{\KiwiCoreLineDarkScaling}[2]{% Angle, Length
+        \path[fill=TikzCol_kiwiBittenOffLineDark]%
+            (-BellyCenter)%
+                ..controls%
+                    ++(##1-10:0.8*##2)% (90-10:0.7*##2)
+                    and%
+                    ++(180+##1+15:0.4*##2)% (270+20:0.4*##2)
+                ..%
+            ($(-BellyCenter)+(##1:##2)$)%
+                ..controls%
+                    ++(180+##1-15:0.4*##2)% (270-20:0.4*##2)
+                    and%
+                    ++(##1+10:0.8*##2)% (90+10:0.7*##2)
+                ..%
+            cycle;%
+    }%
+    \newcommand{\KiwiCoreLineDarkPattern}[4]{% Center, Angle, Length
+        \path[fill=##4]%
+            ($(##1)+(##2-90:0.02*\KiwiBittenOffSize)$)%
+                ..controls%
+                    ++(##2-0:0.8*##3)% (90-10:0.7*##2)
+                    and%
+                    ++(180+##2+10:0.5*##3)% (270+20:0.4*##2)
+                ..%
+            ($(##1)+(##2:##3)$)%
+                ..controls%
+                    ++(180+##2-10:0.5*##3)% (270-20:0.4*##2)
+                    and%
+                    ++(##2+0:0.8*##3)% (90+10:0.7*##2)
+                ..%
+            ($(##1)+(##2+90:0.02*\KiwiBittenOffSize)$)%
+                --%
+            cycle;%
+    }%
+    \newcommand{\KiwiCoreLineDark}[3]{% Center, Angle, Length
+        \KiwiCoreLineDarkPattern{##1}{##2}{##3}{TikzCol_kiwiBittenOffLineDark}%
+    }%
+    \newcommand{\KiwiCoreLineDarkPatternNarrow}[4]{% Center, Angle, Length
+        \path[fill=##4]%
+            ($(##1)+(##2-90:0.012*\KiwiBittenOffSize)$)%
+                ..controls%
+                    ++(##2-0:0.8*##3)% (90-10:0.7*##2)
+                    and%
+                    ++(180+##2+10:0.5*##3)% (270+20:0.4*##2)
+                ..%
+            ($(##1)+(##2:##3)$)%
+                ..controls%
+                    ++(180+##2-10:0.5*##3)% (270-20:0.4*##2)
+                    and%
+                    ++(##2+0:0.8*##3)% (90+10:0.7*##2)
+                ..%
+            ($(##1)+(##2+90:0.012*\KiwiBittenOffSize)$)%
+                --%
+            cycle;%
+    }%
+    \newcommand{\KiwiCoreLineDarkNarrow}[3]{% Center, Angle, Length
+        \KiwiCoreLineDarkPatternNarrow{##1}{##2}{##3}{TikzCol_kiwiBittenOffLineDark}%
+    }%
+    %
+    %--------------------------------
+    % Macros for the Hair of the Skin
+    %--------------------------------
+    \newcommand{\KiwiHair}[4]{% Position, Angle, Color, AdditionalOptions
+        \path[draw=##3, line width=0.03*\KiwiBittenOffSize ##4]%
+            (##1)--++(##2:0.08*\KiwiBittenOffSize);%
+        \fill[color=##3](##1)circle(0.015*\KiwiBittenOffSize);%
+        \fill[color=##3]($(##1)+(##2:0.08*\KiwiBittenOffSize)$)circle(0.015*\KiwiBittenOffSize);%
+    }%
+    %
+    %--------------------------------
+    % Macros for the Seeds
+    %--------------------------------
+    \newcommand{\KiwiSeedLight}[5]{% Position, Angle, LightShift_X, LightShift_Y, LightRotation
+        \fill[white!55!TikzCol_kiwiBittenOffSeedShell]($(##1)+(270+##2:0.5*\KiwiBittenOffSeedSize)+(##3*\KiwiBittenOffSeedSize,##4*\KiwiBittenOffSeedSize)$)circle[x radius=0.07*\KiwiBittenOffSeedSize,y radius=0.17*\KiwiBittenOffSeedSize,rotate=##5];%ellipse(0.2*\KiwiBittenOffSeedSize and 0.2*\KiwiBittenOffSeedSize);
+    }%
+    \newcommand{\KiwiSeedLightLine}[6]{% Position, Angle, LightShift_X, LightShift_Y, 6: Color LightRotation
+        \draw[##6,line width=0.08*\KiwiBittenOffSeedSize,line cap=round]($(##1)+(270+##2:0.5*0.75*\KiwiBittenOffSeedSize)+(##3*0.75*\KiwiBittenOffSeedSize,##4*0.75*\KiwiBittenOffSeedSize)$)to[out=##5+20,in=##5+180-20]++(##5:0.17*\KiwiBittenOffSeedSize);%
+    }%
+    \newcommand{\KiwiSeedOne}[5]{% Position, Angle, LightShift_X, LightShift_Y, LightRotation
+        \path[fill=TikzCol_kiwiBittenOffSeedShell]%
+            (##1)%
+                ..controls%
+                    ($(##1)+(270+##2+50:0.3*\KiwiBittenOffSeedSize)$)%
+                    and%
+                    ($(##1)+(270+##2+30:1.0*\KiwiBittenOffSeedSize)$)%
+                ..%
+            ($(##1)+(270+##2:\KiwiBittenOffSeedSize)$)%
+                ..controls%
+                    ($(##1)+(270+##2-30:1.0*\KiwiBittenOffSeedSize)$)%
+                    and%
+                    ($(##1)+(270+##2-10:0.3*\KiwiBittenOffSeedSize)$)%
+                ..%
+            cycle;%
+        \KiwiSeedLight{##1}{##2}{##3}{##4}{##5}%
+    }%
+    \newcommand{\KiwiSeedTwo}[5]{%
+        \path[fill=TikzCol_kiwiBittenOffSeedShell]%
+            (##1)%
+                ..controls%
+                    ($(##1)+(270+##2+20:0.3*\KiwiBittenOffSeedSize)$)%
+                    and%
+                    ($(##1)+(270+##2+30:1.1*\KiwiBittenOffSeedSize)$)%
+                ..%
+            ($(##1)+(270+##2:\KiwiBittenOffSeedSize)$)%
+                ..controls%
+                    ($(##1)+(270+##2-30:0.9*\KiwiBittenOffSeedSize)$)%
+                    and%
+                    ($(##1)+(270+##2-40:0.3*\KiwiBittenOffSeedSize)$)%
+                ..%
+            cycle;%
+        \KiwiSeedLight{##1}{##2}{##3}{##4}{##5}%
+    }%
+    \newcommand{\KiwiSeedNarrow}[6]{% 6: Color of LightLine
+        \path[fill=TikzCol_kiwiBittenOffSeedShell]%
+            (##1)%
+                ..controls%
+                    ($(##1)+(270+##2+60:0.3*\KiwiBittenOffSeedSize)$)%
+                    and%
+                    ($(##1)+(270+##2+20:0.8*\KiwiBittenOffSeedSize)$)%
+                ..%
+            ($(##1)+(270+##2:0.75*\KiwiBittenOffSeedSize)$)%
+                ..controls%
+                    ($(##1)+(270+##2-20:0.8*\KiwiBittenOffSeedSize)$)%
+                    and%
+                    ($(##1)+(270+##2-60:0.3*\KiwiBittenOffSeedSize)$)%
+                ..%
+            cycle;%
+        \KiwiSeedLightLine{##1}{##2}{##3}{##4}{##5}{##6}%
+    }%
+    \newcommand{\KiwiSeedThree}[5]{%
+        \KiwiSeedNarrow{##1}{##2}{##3}{##4}{##5}{white!99!TikzCol_kiwiBittenOffSeedShell}% white!15!TikzCol_kiwiBittenOffSeedShell
+    }%
+    \newcommand{\KiwiSeedFour}[5]{%
+        \KiwiSeedNarrow{##1}{##2}{##3}{##4}{##5}{white!99!TikzCol_kiwiBittenOffSeedShell}% white!40!TikzCol_kiwiBittenOffSeedShell
+    }%
+    %
+    %============================================
+    %==   More Setup
+    %============================================
+    %--------------------------------
+    % Picture Size
+    %--------------------------------
+    \path[save path=\Dimension]%
+        ($(-BellyLeft)+(-0.52*\KiwiBittenOffLineWidth,0)$)%
+        |-($(-TopCenter)+(0,0.019*\KiwiBittenOffHeight)$)%
+        -|($(-BellyRight)+(0.64*\KiwiBittenOffLineWidth,0)$)%
+        |-($(-BottomCenter)+(0,-0.026*\KiwiBittenOffHeight)$)%
+        -|cycle;%
+    \clip[use path=\Dimension];%
+    %
+    %
+    %
+    %============================================
+    %==   Actual Picture Drawing
+    %============================================
+    %Blossom Root
+    \path[Kiwi_BittenOffLine,line cap=round,line width=9*\KiwiBittenOffLineWidth,draw=TikzCol_kiwiBittenOffSkinDark,fill=none,]%
+        ($(-BottomCenter)+(-0.1*\KiwiBittenOffWidth,-0.002*\KiwiBittenOffHeight)$)%
+            to[out=10,in=180-10]%
+        ($(-BottomCenter)+(0.1*\KiwiBittenOffWidth,-0.002*\KiwiBittenOffHeight)$)%
+        ;%
+    \path[Kiwi_BittenOffLine,line join=round,draw=TikzCol_kiwiBittenOffSkinDark!95!red,fill=TikzCol_kiwiBittenOffSkinDark!95!red]%
+        ($(-BottomCenter)+(0.04*\KiwiBittenOffWidth,0.005*\KiwiBittenOffHeight)$)%
+            --%
+        ++(0.045*\KiwiBittenOffWidth,-0.024*\KiwiBittenOffHeight)%
+            --%
+        ++(0.01*\KiwiBittenOffWidth,0.014*\KiwiBittenOffHeight)%
+            --%
+        ++(0.02*\KiwiBittenOffWidth,-0.014*\KiwiBittenOffHeight)%
+            --%
+        ++(-0.008*\KiwiBittenOffWidth,0.024*\KiwiBittenOffHeight)%
+            --%
+        cycle;%
+    %Blossom Leaf
+    \path[Kiwi_BittenOffLine,line join=round,draw=TikzCol_kiwiBittenOffSkinDark!90!white,fill=TikzCol_kiwiBittenOffSkinDark!90!white]%
+        ($(-BottomCenter)+(-0.017*\KiwiBittenOffWidth,0.005*\KiwiBittenOffHeight)$)%
+            to[out=220,in=30]%
+        ++(-0.11*\KiwiBittenOffWidth,-0.029*\KiwiBittenOffHeight)%
+            to[out=100,in=220]%
+        ++(0.01*\KiwiBittenOffWidth,0.029*\KiwiBittenOffHeight)%
+            --%
+        cycle;%
+    %Threads
+    \newcommand{\StringColor}{TikzCol_kiwiBittenOffSkinDark!70!black}%
+    \newcommand{\StringLengthCut}{0.008}%
+    \path[Kiwi_BittenOffLine,line cap=round,line width=5*\KiwiBittenOffLineWidth,draw=TikzCol_kiwiBittenOffSkin,fill=none]%
+        ($(-TopCenter)+(-0.03*\KiwiBittenOffWidth,-0.002*\KiwiBittenOffHeight)$)%
+            to[out=10,in=180-10]%
+        ($(-TopCenter)+(0.03*\KiwiBittenOffWidth,-0.002*\KiwiBittenOffHeight)$)%
+        ;%
+    \path[Kiwi_BittenOffLine,line cap=round,draw=\StringColor]%
+        ($(-TopCenter)+(-0.028*\KiwiBittenOffWidth,-0.0*\KiwiBittenOffLineWidth)$)%
+            to[out=80,in=250]%
+        ++(-0.01*\KiwiBittenOffWidth,0.03*\KiwiBittenOffWidth-\StringLengthCut*\KiwiBittenOffWidth)%
+        ;%
+    \path[Kiwi_BittenOffLine,line cap=round,draw=\StringColor]%
+        ($(-TopCenter)+(-0.018*\KiwiBittenOffWidth,-0.0*\KiwiBittenOffLineWidth)$)%
+            to[out=105,in=280]%
+        ++(-0.006*\KiwiBittenOffWidth,0.024*\KiwiBittenOffWidth-\StringLengthCut*\KiwiBittenOffWidth)%
+        ;%
+    \path[Kiwi_BittenOffLine,line cap=round,draw=\StringColor]%
+        ($(-TopCenter)+(-0.006*\KiwiBittenOffWidth,-0.0*\KiwiBittenOffLineWidth)$)%
+            to[out=130,in=310]%
+        ++(-0.005*\KiwiBittenOffWidth,0.028*\KiwiBittenOffWidth-\StringLengthCut*\KiwiBittenOffWidth)%
+        ;%
+    \path[Kiwi_BittenOffLine,line cap=round,draw=\StringColor]%
+        ($(-TopCenter)+(0.004*\KiwiBittenOffWidth,-0.0*\KiwiBittenOffLineWidth)$)%
+            to[out=110,in=210]%
+        ++(0.008*\KiwiBittenOffWidth,0.032*\KiwiBittenOffWidth-\StringLengthCut*\KiwiBittenOffWidth)%
+        ;%
+    \path[Kiwi_BittenOffLine,line cap=round,draw=\StringColor]%
+        ($(-TopCenter)+(0.015*\KiwiBittenOffWidth,-0.0*\KiwiBittenOffLineWidth)$)%
+            to[out=75,in=295]%
+        ++(0.00*\KiwiBittenOffWidth,0.026*\KiwiBittenOffWidth-\StringLengthCut*\KiwiBittenOffWidth)%
+        ;%
+    \path[Kiwi_BittenOffLine,line cap=round,draw=\StringColor]%
+        ($(-TopCenter)+(0.028*\KiwiBittenOffWidth,-0.0*\KiwiBittenOffLineWidth)$)%
+            to[out=60,in=220]%
+        ++(0.005*\KiwiBittenOffWidth,0.031*\KiwiBittenOffWidth-\StringLengthCut*\KiwiBittenOffWidth)%
+        ;%
+    %
+    %Kiwi Brown Skin
+    \path[Kiwi_BittenOffLine,save path=\KiwiSkin,fill=TikzCol_kiwiBittenOffSkin]%
+        (-BellyLeft)%
+            % ..controls%
+            %     ++(0,0.5*\KiwiBittenOffHeight)%
+            %     and%
+            %     ++(-0.2*\KiwiBittenOffWidth,0)%
+            % ..%
+            to[out=90,in=262]%
+        (-BiteLB)%
+            to[out=10,in=290]%
+        (-BiteRT)%
+            to[out=29,in=183]%
+        (-TopCenter)%
+            ..controls%
+                ++(0.2*\KiwiBittenOffWidth,0)%
+                and%
+                ++(0,0.5*\KiwiBittenOffHeight)%
+            ..%
+        (-BellyRight)%
+            ..controls%
+                ++(0,-0.5*\KiwiBittenOffHeight)%
+                and%
+                ++(0.15*\KiwiBittenOffWidth,0)%
+            ..%
+        (-BottomCenter)%
+            ..controls%
+                ++(-0.15*\KiwiBittenOffWidth,0)%
+                and%
+                ++(0,-0.5*\KiwiBittenOffHeight)%
+            ..%
+        cycle;
+    %
+    \KiwiHair{0.06*\KiwiBittenOffSize,0.66*\KiwiBittenOffSize}{280}{TikzCol_kiwiBittenOffHairBright}{}%
+    \KiwiHair{0.17*\KiwiBittenOffSize,0.62*\KiwiBittenOffSize}{275}{TikzCol_kiwiBittenOffHairDark}{}%
+    \KiwiHair{0.27*\KiwiBittenOffSize,0.51*\KiwiBittenOffSize}{265}{TikzCol_kiwiBittenOffHairDark}{}%
+    \KiwiHair{0.25*\KiwiBittenOffSize,0.67*\KiwiBittenOffSize}{285}{TikzCol_kiwiBittenOffHairDark}{}%
+    \KiwiHair{0.35*\KiwiBittenOffSize,0.6*\KiwiBittenOffSize}{275}{TikzCol_kiwiBittenOffHairBright}{}%
+    \KiwiHair{0.44*\KiwiBittenOffSize,0.47*\KiwiBittenOffSize}{260}{TikzCol_kiwiBittenOffHairDark}{}%
+    \KiwiHair{0.36*\KiwiBittenOffSize,0.39*\KiwiBittenOffSize}{265}{TikzCol_kiwiBittenOffHairDark}{}%
+    \KiwiHair{0.27*\KiwiBittenOffSize,0.34*\KiwiBittenOffSize}{260}{TikzCol_kiwiBittenOffHairDark}{}%
+    \KiwiHair{0.44*\KiwiBittenOffSize,0.30*\KiwiBittenOffSize}{257}{TikzCol_kiwiBittenOffHairBright}{}%
+    \KiwiHair{0.05*\KiwiBittenOffSize,0.5*\KiwiBittenOffSize}{280}{TikzCol_kiwiBittenOffHairDark}{}%
+    \KiwiHair{0.13*\KiwiBittenOffSize,0.33*\KiwiBittenOffSize}{272}{TikzCol_kiwiBittenOffHairBright}{}%
+    \KiwiHair{0.21*\KiwiBittenOffSize,0.18*\KiwiBittenOffSize}{280}{TikzCol_kiwiBittenOffHairDark}{}%
+    \KiwiHair{0.35*\KiwiBittenOffSize,0.14*\KiwiBittenOffSize}{260}{TikzCol_kiwiBittenOffHairDark}{}%
+    \KiwiHair{0.17*\KiwiBittenOffSize,0.47*\KiwiBittenOffSize}{272}{TikzCol_kiwiBittenOffHairBright}{}%
+    \KiwiHair{0.46*\KiwiBittenOffSize,0.14*\KiwiBittenOffSize}{275}{TikzCol_kiwiBittenOffHairBright}{}%
+    \KiwiHair{0.55*\KiwiBittenOffSize,0.11*\KiwiBittenOffSize}{278}{TikzCol_kiwiBittenOffHairBright}{}%
+    \KiwiHair{0.66*\KiwiBittenOffSize,0.13*\KiwiBittenOffSize}{266}{TikzCol_kiwiBittenOffHairBright}{}%
+    \KiwiHair{0.76*\KiwiBittenOffSize,0.16*\KiwiBittenOffSize}{254}{TikzCol_kiwiBittenOffHairDark}{}%
+    \KiwiHair{0.86*\KiwiBittenOffSize,0.25*\KiwiBittenOffSize}{257}{TikzCol_kiwiBittenOffHairBright}{}%
+    \KiwiHair{0.54*\KiwiBittenOffSize,0.29*\KiwiBittenOffSize}{263}{TikzCol_kiwiBittenOffHairDark}{}%
+    \KiwiHair{0.64*\KiwiBittenOffSize,0.33*\KiwiBittenOffSize}{279}{TikzCol_kiwiBittenOffHairBright}{}%
+    \KiwiHair{0.78*\KiwiBittenOffSize,0.31*\KiwiBittenOffSize}{264}{TikzCol_kiwiBittenOffHairDark}{}%
+    \KiwiHair{0.55*\KiwiBittenOffSize,0.46*\KiwiBittenOffSize}{281}{TikzCol_kiwiBittenOffHairDark}{}%
+    \KiwiHair{0.67*\KiwiBittenOffSize,0.49*\KiwiBittenOffSize}{276}{TikzCol_kiwiBittenOffHairDark}{}%
+    \KiwiHair{0.79*\KiwiBittenOffSize,0.47*\KiwiBittenOffSize}{261}{TikzCol_kiwiBittenOffHairBright}{}%
+    \KiwiHair{0.92*\KiwiBittenOffSize,0.41*\KiwiBittenOffSize}{262}{TikzCol_kiwiBittenOffHairDark}{}%
+    \KiwiHair{0.94*\KiwiBittenOffSize,0.58*\KiwiBittenOffSize}{266}{TikzCol_kiwiBittenOffHairDark}{}%
+    \KiwiHair{0.84*\KiwiBittenOffSize,0.61*\KiwiBittenOffSize}{272}{TikzCol_kiwiBittenOffHairBright}{}%
+    \KiwiHair{0.48*\KiwiBittenOffSize,0.63*\KiwiBittenOffSize}{270}{TikzCol_kiwiBittenOffHairDark}{}%
+    \KiwiHair{0.59*\KiwiBittenOffSize,0.60*\KiwiBittenOffSize}{278}{TikzCol_kiwiBittenOffHairBright}{}%
+    \KiwiHair{0.7*\KiwiBittenOffSize,0.65*\KiwiBittenOffSize}{276}{TikzCol_kiwiBittenOffHairDark}{}%
+    \KiwiHair{0.4*\KiwiBittenOffSize,0.72*\KiwiBittenOffSize}{281}{TikzCol_kiwiBittenOffHairBright}{}%
+    \KiwiHair{0.52*\KiwiBittenOffSize,0.77*\KiwiBittenOffSize}{279}{TikzCol_kiwiBittenOffHairBright}{}%
+    \KiwiHair{0.66*\KiwiBittenOffSize,0.79*\KiwiBittenOffSize}{267}{TikzCol_kiwiBittenOffHairBright}{}%
+    \KiwiHair{0.57*\KiwiBittenOffWidth,0.63*\KiwiBittenOffHeight}{278}{TikzCol_kiwiBittenOffHairDark}{}%
+    \KiwiHair{0.76*\KiwiBittenOffWidth,0.6*\KiwiBittenOffHeight}{262}{TikzCol_kiwiBittenOffHairDark}{}%
+    \KiwiHair{0.84*\KiwiBittenOffWidth,0.56*\KiwiBittenOffHeight}{263}{TikzCol_kiwiBittenOffHairDark}{}%
+    \KiwiHair{0.92*\KiwiBittenOffWidth,0.54*\KiwiBittenOffHeight}{273}{TikzCol_kiwiBittenOffHairDark}{}%
+    \KiwiHair{0.6*\KiwiBittenOffWidth,0.74*\KiwiBittenOffHeight}{265}{TikzCol_kiwiBittenOffHairBright}{}%
+    \KiwiHair{0.67*\KiwiBittenOffWidth,0.67*\KiwiBittenOffHeight}{278}{TikzCol_kiwiBittenOffHairDark}{}%
+    \KiwiHair{0.83*\KiwiBittenOffWidth,0.68*\KiwiBittenOffHeight}{267}{TikzCol_kiwiBittenOffHairBright}{}%
+    \KiwiHair{0.93*\KiwiBittenOffWidth,0.66*\KiwiBittenOffHeight}{264}{TikzCol_kiwiBittenOffHairDark}{}%
+    \KiwiHair{0.9*\KiwiBittenOffWidth,0.78*\KiwiBittenOffHeight}{271}{TikzCol_kiwiBittenOffHairDark}{}%
+    \KiwiHair{0.83*\KiwiBittenOffWidth,0.87*\KiwiBittenOffHeight}{276}{TikzCol_kiwiBittenOffHairBright}{}%
+    \KiwiHair{0.77*\KiwiBittenOffWidth,0.82*\KiwiBittenOffHeight}{279}{TikzCol_kiwiBittenOffHairDark}{}%
+    \KiwiHair{0.69*\KiwiBittenOffWidth,0.78*\KiwiBittenOffHeight}{277}{TikzCol_kiwiBittenOffHairBright}{}%
+    \KiwiHair{0.6*\KiwiBittenOffWidth,0.85*\KiwiBittenOffHeight}{275}{TikzCol_kiwiBittenOffHairDark}{}%
+    \KiwiHair{0.7*\KiwiBittenOffWidth,0.88*\KiwiBittenOffHeight}{265}{TikzCol_kiwiBittenOffHairDark}{}%
+    \KiwiHair{0.76*\KiwiBittenOffWidth,0.92*\KiwiBittenOffHeight}{273}{TikzCol_kiwiBittenOffHairDark}{}%
+    \KiwiHair{0.58*\KiwiBittenOffWidth,0.98*\KiwiBittenOffHeight}{266}{TikzCol_kiwiBittenOffHairDark}{}%
+    \KiwiHair{0.66*\KiwiBittenOffWidth,0.96*\KiwiBittenOffHeight}{265}{TikzCol_kiwiBittenOffHairBright}{}%
+    %
+    %Dark Kiwi Skin Shadow
+    \path[save path=\KiwiSkinShadow]%
+        (0.23*\KiwiBittenOffWidth,0.02*\KiwiBittenOffHeight)%
+            ..controls%
+                ++(0.6*\KiwiBittenOffWidth,-0.04*\KiwiBittenOffHeight)%
+                and%
+                ++(0.1*\KiwiBittenOffWidth,-0.6*\KiwiBittenOffHeight)%
+            ..%
+        (0.94*\KiwiBittenOffWidth,0.8*\KiwiBittenOffHeight)%
+            -|%
+        (\KiwiBittenOffWidth,-0.02*\KiwiBittenOffHeight)%
+            -|%
+        cycle;%
+    \begin{scope}%
+        \clip[use path=\KiwiSkin];%
+        \path[Kiwi_BittenOffLine,use path=\KiwiSkinShadow,fill=black,opacity=.2];%
+    \end{scope}%
+    %
+    \path[save path=\KiwiSkinShine]%
+        (0*\KiwiBittenOffWidth,0.2*\KiwiBittenOffHeight)%
+            |-%
+        (0.8*\KiwiBittenOffWidth,\KiwiBittenOffHeight)%
+            ..controls%
+                ++(-0.4*\KiwiBittenOffWidth,0.04*\KiwiBittenOffHeight)%
+                and%
+                ++(0.1*\KiwiBittenOffWidth,0.5*\KiwiBittenOffHeight)%
+            ..%
+        cycle;%
+    \begin{scope}%
+        \clip[use path=\KiwiSkin];%
+        \path[Kiwi_BittenOffLine,use path=\KiwiSkinShine,fill=yellow!80!white,opacity=.2];%
+    \end{scope}%
+    %
+    \path[Kiwi_BittenOffLine,use path=\KiwiSkin,draw=TikzCol_kiwiBittenOffSkinDark,line cap=round,line join=round];%
+    %
+    %Kiwi Bitten-off Part
+    \newcommand{\KiwiBiteTopLine}{%
+            to[out=215,in=40]%
+        (0.1*\KiwiBittenOffWidth,0.73*\KiwiBittenOffHeight)%
+            to[out=250,in=50]%
+        %(0.019*\KiwiBittenOffWidth,0.545*\KiwiBittenOffHeight)%
+        ($(-BiteLB)+(0.013*\KiwiBittenOffWidth,0.015*\KiwiBittenOffHeight)$)%
+            to[out=230,in=75]%
+    }%
+    \newcommand{\KiwiBiteBottomLine}{%
+            ..controls%
+                ++(-0.015*\KiwiBittenOffWidth,-0.05*\KiwiBittenOffHeight)%
+                and%
+                ++(-0.05*\KiwiBittenOffWidth,-0.01*\KiwiBittenOffHeight)%
+            ..%
+        (0.11*\KiwiBittenOffWidth,0.48*\KiwiBittenOffHeight)%
+            to[out=-20,in=200]%
+        (0.33*\KiwiBittenOffWidth,0.5*\KiwiBittenOffHeight)%
+            to[out=-5,in=215]%
+        (0.56*\KiwiBittenOffWidth,0.52*\KiwiBittenOffHeight)%
+            to[out=20,in=240]%
+        (0.68*\KiwiBittenOffWidth,0.6*\KiwiBittenOffHeight)%
+            to[out=40,in=280]%
+        (0.79*\KiwiBittenOffWidth,0.79*\KiwiBittenOffHeight)%
+            to[out=70,in=330]%
+        (0.69*\KiwiBittenOffWidth,0.95*\KiwiBittenOffHeight)%
+            to[out=140,in=5]%
+        (0.54*\KiwiBittenOffWidth,0.99*\KiwiBittenOffHeight)%
+            to[out=170,in=7]%
+        (0.4*\KiwiBittenOffWidth,0.985*\KiwiBittenOffHeight)%
+            to[out=174,in=25]%
+    }%
+    \path[Kiwi_BittenOffLine,save path=\KiwiBite,fill=TikzCol_kiwiGreenBright]%
+        (-BiteLB)%
+            \KiwiBiteBottomLine
+        (-BiteRT)%
+            \KiwiBiteTopLine
+        cycle;%
+    %
+    %Lines around the Core
+    \KiwiCoreLineBright{0.51*\KiwiBittenOffWidth,0.65*\KiwiBittenOffHeight}{300}{0.05*\KiwiBittenOffSize}%
+    \KiwiCoreLineDark{0.475*\KiwiBittenOffWidth,0.65*\KiwiBittenOffHeight}{295}{0.08*\KiwiBittenOffSize}%
+    \KiwiCoreLineBright{0.46*\KiwiBittenOffWidth,0.62*\KiwiBittenOffHeight}{290}{0.07*\KiwiBittenOffSize}%
+    \KiwiCoreLineDark{0.42*\KiwiBittenOffWidth,0.64*\KiwiBittenOffHeight}{285}{0.12*\KiwiBittenOffSize}%
+    \KiwiCoreLineBright{0.40*\KiwiBittenOffWidth,0.6*\KiwiBittenOffHeight}{280}{0.09*\KiwiBittenOffSize}%
+    \KiwiCoreLineDark{0.38*\KiwiBittenOffWidth,0.6*\KiwiBittenOffHeight}{260}{0.12*\KiwiBittenOffSize}%
+    \KiwiCoreLineBright{0.345*\KiwiBittenOffWidth,0.58*\KiwiBittenOffHeight}{250}{0.08*\KiwiBittenOffSize}%
+    \KiwiCoreLineDark{0.315*\KiwiBittenOffWidth,0.58*\KiwiBittenOffHeight}{235}{0.09*\KiwiBittenOffSize}%
+    \KiwiCoreLineBright{0.294*\KiwiBittenOffWidth,0.58*\KiwiBittenOffHeight}{215}{0.15*\KiwiBittenOffSize}%
+    % %
+    \KiwiCoreLineDarkNarrow{0.24*\KiwiBittenOffWidth,0.565*\KiwiBittenOffHeight}{195}{0.1*\KiwiBittenOffSize}% "Anchor" Line
+    \KiwiCoreLineBrightNarrow{0.27*\KiwiBittenOffWidth,0.579*\KiwiBittenOffHeight}{178}{0.08*\KiwiBittenOffSize}%
+    \KiwiCoreLineDarkNarrow{0.29*\KiwiBittenOffWidth,0.576*\KiwiBittenOffHeight}{153}{0.08*\KiwiBittenOffSize}%
+    \KiwiCoreLineBrightNarrow{0.28*\KiwiBittenOffWidth,0.594*\KiwiBittenOffHeight}{140}{0.03*\KiwiBittenOffSize}%
+    \KiwiCoreLineDarkNarrow{0.31*\KiwiBittenOffWidth,0.59*\KiwiBittenOffHeight}{135}{0.05*\KiwiBittenOffSize}%
+    \KiwiCoreLineBrightNarrow{0.31*\KiwiBittenOffWidth,0.61*\KiwiBittenOffHeight}{130}{0.01*\KiwiBittenOffSize}%
+    %
+    % Seeds
+    \KiwiSeedThree{0.41*\KiwiBittenOffWidth,0.91*\KiwiBittenOffHeight}{217}{-0.2}{0.15}{-1}%
+    \KiwiSeedThree{0.405*\KiwiBittenOffWidth,0.9*\KiwiBittenOffHeight}{221}{-0.2}{0.14}{-4}%
+    \KiwiSeedThree{0.4*\KiwiBittenOffWidth,0.891*\KiwiBittenOffHeight}{225}{-0.2}{0.13}{-7}%
+    \KiwiSeedThree{0.393*\KiwiBittenOffWidth,0.882*\KiwiBittenOffHeight}{230}{-0.2}{0.12}{-9}%
+    \KiwiSeedThree{0.388*\KiwiBittenOffWidth,0.871*\KiwiBittenOffHeight}{231}{-0.2}{0.1}{-10}%
+    \KiwiSeedThree{0.384*\KiwiBittenOffWidth,0.861*\KiwiBittenOffHeight}{238}{-0.2}{0.12}{-12}%
+    \KiwiSeedThree{0.378*\KiwiBittenOffWidth,0.852*\KiwiBittenOffHeight}{235}{-0.2}{0.11}{-11}%
+    \KiwiSeedThree{0.374*\KiwiBittenOffWidth,0.842*\KiwiBittenOffHeight}{245}{-0.2}{0.12}{-12}%
+    \KiwiSeedThree{0.369*\KiwiBittenOffWidth,0.832*\KiwiBittenOffHeight}{248}{-0.2}{0.1}{-11}%
+    \KiwiSeedThree{0.368*\KiwiBittenOffWidth,0.822*\KiwiBittenOffHeight}{250}{-0.2}{0.12}{-14}%
+    \KiwiSeedThree{0.363*\KiwiBittenOffWidth,0.813*\KiwiBittenOffHeight}{253}{-0.2}{0.11}{-13}%
+    \KiwiSeedThree{0.361*\KiwiBittenOffWidth,0.805*\KiwiBittenOffHeight}{258}{-0.1}{0.14}{-15}%
+    \KiwiSeedThree{0.357*\KiwiBittenOffWidth,0.795*\KiwiBittenOffHeight}{254}{-0.1}{0.14}{-11}%
+    \KiwiSeedThree{0.383*\KiwiBittenOffWidth,0.897*\KiwiBittenOffHeight}{232}{-0.18}{0.11}{-7}%
+    \KiwiSeedThree{0.375*\KiwiBittenOffWidth,0.888*\KiwiBittenOffHeight}{236}{-0.18}{0.11}{-9}%
+    \KiwiSeedThree{0.36*\KiwiBittenOffWidth,0.853*\KiwiBittenOffHeight}{240}{-0.16}{0.14}{-11}%
+    \KiwiSeedThree{0.355*\KiwiBittenOffWidth,0.843*\KiwiBittenOffHeight}{238}{-0.16}{0.14}{-13}%
+    \KiwiSeedThree{0.35*\KiwiBittenOffWidth,0.832*\KiwiBittenOffHeight}{241}{-0.13}{0.14}{-14}%
+    \KiwiSeedThree{0.343*\KiwiBittenOffWidth,0.811*\KiwiBittenOffHeight}{243}{-0.1}{0.14}{-17}%
+    \KiwiSeedThree{0.341*\KiwiBittenOffWidth,0.801*\KiwiBittenOffHeight}{246}{-0.1}{0.14}{-15}%
+    \KiwiSeedThree{0.337*\KiwiBittenOffWidth,0.792*\KiwiBittenOffHeight}{248}{-0.1}{0.14}{-14}%
+    \KiwiSeedThree{0.336*\KiwiBittenOffWidth,0.784*\KiwiBittenOffHeight}{253}{-0.1}{0.14}{-16}%
+    \KiwiSeedThree{0.357*\KiwiBittenOffWidth,0.784*\KiwiBittenOffHeight}{251}{-0.1}{0.14}{-14}%
+    \KiwiSeedThree{0.352*\KiwiBittenOffWidth,0.776*\KiwiBittenOffHeight}{253}{-0.1}{0.14}{-13}%
+    \KiwiSeedThree{0.336*\KiwiBittenOffWidth,0.77*\KiwiBittenOffHeight}{254}{-0.1}{0.14}{-11}%
+    \KiwiSeedThree{0.344*\KiwiBittenOffWidth,0.761*\KiwiBittenOffHeight}{250}{-0.1}{0.14}{-12}%
+    \KiwiSeedThree{0.344*\KiwiBittenOffWidth,0.752*\KiwiBittenOffHeight}{252}{-0.1}{0.14}{-10}%
+    \KiwiSeedThree{0.339*\KiwiBittenOffWidth,0.744*\KiwiBittenOffHeight}{250}{-0.1}{0.14}{-16}%
+    \KiwiSeedThree{0.332*\KiwiBittenOffWidth,0.738*\KiwiBittenOffHeight}{251}{-0.1}{0.14}{-10}%
+    \KiwiSeedThree{0.33*\KiwiBittenOffWidth,0.729*\KiwiBittenOffHeight}{249}{-0.1}{0.14}{-14}%
+    \KiwiSeedThree{0.332*\KiwiBittenOffWidth,0.72*\KiwiBittenOffHeight}{251}{-0.1}{0.12}{-12}%
+    \KiwiSeedThree{0.332*\KiwiBittenOffWidth,0.711*\KiwiBittenOffHeight}{252}{-0.1}{0.11}{-13}%
+    \KiwiSeedThree{0.329*\KiwiBittenOffWidth,0.699*\KiwiBittenOffHeight}{248}{-0.12}{0.14}{-11}%
+    \KiwiSeedThree{0.326*\KiwiBittenOffWidth,0.69*\KiwiBittenOffHeight}{254}{-0.12}{0.11}{-16}%
+    \KiwiSeedThree{0.324*\KiwiBittenOffWidth,0.68*\KiwiBittenOffHeight}{250}{-0.12}{0.11}{-18}%
+    \KiwiSeedThree{0.322*\KiwiBittenOffWidth,0.671*\KiwiBittenOffHeight}{257}{-0.12}{0.11}{-14}%
+    \KiwiSeedThree{0.321*\KiwiBittenOffWidth,0.661*\KiwiBittenOffHeight}{259}{-0.12}{0.11}{-11}%
+    \KiwiSeedThree{0.322*\KiwiBittenOffWidth,0.648*\KiwiBittenOffHeight}{245}{-0.12}{0.11}{-10}%
+    \KiwiSeedThree{0.32*\KiwiBittenOffWidth,0.637*\KiwiBittenOffHeight}{238}{-0.12}{0.11}{-12}%
+    \KiwiSeedThree{0.302*\KiwiBittenOffWidth,0.637*\KiwiBittenOffHeight}{232}{-0.12}{0.11}{-9}%
+    % %
+    \KiwiSeedTwo{0.265*\KiwiBittenOffSize,0.86*\KiwiBittenOffSize}{244}{-0.2}{0.0}{22}%
+    \KiwiSeedTwo{0.277*\KiwiBittenOffSize,0.873*\KiwiBittenOffSize}{239}{-0.2}{0.0}{25}%
+    \KiwiSeedTwo{0.296*\KiwiBittenOffSize,0.88*\KiwiBittenOffSize}{234}{-0.2}{0.0}{21}%
+    \KiwiSeedOne{0.317*\KiwiBittenOffSize,0.869*\KiwiBittenOffSize}{222}{-0.2}{0.0}{29}%
+    \KiwiSeedTwo{0.3*\KiwiBittenOffSize,0.86*\KiwiBittenOffSize}{231}{-0.2}{0.0}{30}%
+    \KiwiSeedOne{0.287*\KiwiBittenOffSize,0.85*\KiwiBittenOffSize}{234}{-0.2}{0.0}{26}%
+    \KiwiSeedTwo{0.27*\KiwiBittenOffSize,0.842*\KiwiBittenOffSize}{240}{-0.2}{0.0}{-10}%
+    \KiwiSeedTwo{0.255*\KiwiBittenOffSize,0.837*\KiwiBittenOffSize}{261}{-0.2}{0.0}{-13}%
+    \KiwiSeedTwo{0.228*\KiwiBittenOffSize,0.839*\KiwiBittenOffSize}{274}{-0.2}{0.0}{-9}%
+    \KiwiSeedOne{0.23*\KiwiBittenOffSize,0.82*\KiwiBittenOffSize}{274}{-0.17}{0.09}{22}%
+    \KiwiSeedTwo{0.207*\KiwiBittenOffSize,0.802*\KiwiBittenOffSize}{281}{-0.17}{0.09}{22}%
+    \KiwiSeedTwo{0.229*\KiwiBittenOffSize,0.804*\KiwiBittenOffSize}{291}{-0.2}{-0.05}{-26}%
+    \KiwiSeedOne{0.21*\KiwiBittenOffSize,0.782*\KiwiBittenOffSize}{287}{-0.18}{0.04}{-81}%
+    \KiwiSeedOne{0.226*\KiwiBittenOffSize,0.768*\KiwiBittenOffSize}{299}{-0.2}{-0.08}{-40}%
+    \KiwiSeedOne{0.2*\KiwiBittenOffSize,0.764*\KiwiBittenOffSize}{293}{-0.2}{-0.08}{-31}%
+    \KiwiSeedOne{0.255*\KiwiBittenOffSize,0.78*\KiwiBittenOffSize}{319}{-0.2}{-0.09}{-33}%
+    \KiwiSeedTwo{0.237*\KiwiBittenOffSize,0.76*\KiwiBittenOffSize}{316}{-0.2}{-0.06}{-39}%
+    \KiwiSeedOne{0.28*\KiwiBittenOffSize,0.787*\KiwiBittenOffSize}{325}{-0.15}{-0.1}{-24}%
+    \KiwiSeedTwo{0.31*\KiwiBittenOffSize,0.793*\KiwiBittenOffSize}{317}{-0.15}{-0.1}{-13}%
+    \KiwiSeedOne{0.306*\KiwiBittenOffSize,0.771*\KiwiBittenOffSize}{334}{-0.09}{-0.1}{-23}%
+    \KiwiSeedOne{0.331*\KiwiBittenOffSize,0.792*\KiwiBittenOffSize}{330}{-0.05}{-0.14}{-13}%
+    \KiwiSeedTwo{0.361*\KiwiBittenOffSize,0.783*\KiwiBittenOffSize}{316}{-0.07}{-0.11}{0}%
+    \KiwiSeedOne{0.381*\KiwiBittenOffSize,0.796*\KiwiBittenOffSize}{323}{-0.04}{-0.12}{-14}%
+    \KiwiSeedOne{0.4*\KiwiBittenOffSize,0.794*\KiwiBittenOffSize}{325}{0}{-0.09}{0}%
+    \KiwiSeedTwo{0.417*\KiwiBittenOffSize,0.815*\KiwiBittenOffSize}{326}{-0.05}{-0.15}{12}%
+    \KiwiSeedOne{0.45*\KiwiBittenOffSize,0.832*\KiwiBittenOffSize}{327}{-0.04}{-0.1}{-12}%
+    \KiwiSeedTwo{0.435*\KiwiBittenOffSize,0.812*\KiwiBittenOffSize}{335}{-0.05}{-0.11}{9}%
+    \KiwiSeedTwo{0.468*\KiwiBittenOffSize,0.828*\KiwiBittenOffSize}{336}{-0.04}{-0.13}{12}%
+    \KiwiSeedTwo{0.48*\KiwiBittenOffSize,0.85*\KiwiBittenOffSize}{341}{-0.05}{-0.03}{-8}%
+    % %
+    \KiwiSeedTwo{0.495*\KiwiBittenOffWidth,0.62*\KiwiBittenOffHeight}{349}{-0.05}{-0.03}{-10}%
+    \KiwiSeedTwo{0.508*\KiwiBittenOffWidth,0.629*\KiwiBittenOffHeight}{358}{-0.05}{-0.03}{-8}%
+    \KiwiSeedOne{0.52*\KiwiBittenOffWidth,0.639*\KiwiBittenOffHeight}{3}{-0.05}{-0.03}{-12}%
+    \KiwiSeedTwo{0.53*\KiwiBittenOffWidth,0.654*\KiwiBittenOffHeight}{5}{-0.05}{-0.03}{-14}%
+    \KiwiSeedOne{0.542*\KiwiBittenOffWidth,0.664*\KiwiBittenOffHeight}{9}{-0.05}{-0.03}{-9}%
+    \KiwiSeedTwo{0.507*\KiwiBittenOffWidth,0.61*\KiwiBittenOffHeight}{341}{-0.05}{-0.03}{-10}%
+    \KiwiSeedTwo{0.523*\KiwiBittenOffWidth,0.62*\KiwiBittenOffHeight}{350}{-0.05}{-0.03}{-8}%
+    \KiwiSeedOne{0.535*\KiwiBittenOffWidth,0.633*\KiwiBittenOffHeight}{356}{-0.05}{-0.03}{-12}%
+    \KiwiSeedTwo{0.549*\KiwiBittenOffWidth,0.644*\KiwiBittenOffHeight}{355}{-0.05}{-0.03}{-14}%
+    \KiwiSeedTwo{0.537*\KiwiBittenOffWidth,0.612*\KiwiBittenOffHeight}{346}{-0.05}{-0.03}{-11}%
+    \KiwiSeedOne{0.548*\KiwiBittenOffWidth,0.623*\KiwiBittenOffHeight}{349}{-0.05}{-0.03}{-13}%
+    % %
+    \KiwiSeedFour{0.55*\KiwiBittenOffWidth,0.67*\KiwiBittenOffHeight}{156}{-0.12}{0.11}{25}%
+    \KiwiSeedFour{0.553*\KiwiBittenOffWidth,0.662*\KiwiBittenOffHeight}{138}{-0.12}{0.11}{25}%
+    \KiwiSeedFour{0.553*\KiwiBittenOffWidth,0.654*\KiwiBittenOffHeight}{123}{-0.12}{0.11}{25}%
+    %
+    % Shine on the lower flat area of the Bite Mark
+    \begin{scope}%
+        \clip[use path=\KiwiBite];%
+        %\path[save path=\KiwiBiteShadeLower,shade,inner color=white,outer color=TikzCol_kiwiGreenBright,opacity=.8]%
+        \newcommand{\KiwiBiteShadeLowerArch}{%
+                to[out=0,in=200]%
+            (0.77*\KiwiBittenOffWidth,0.63*\KiwiBittenOffHeight)%
+        }%
+        \path[save path=\KiwiBiteShadeLower,shade,bottom color=yellow,top color=TikzCol_kiwiGreenBright,opacity=.3]%
+            (-BiteShadowAnchorLB)%
+                \KiwiBiteShadeLowerArch%
+                |-%
+            (0.0*\KiwiBittenOffWidth,0.4*\KiwiBittenOffHeight)%
+                |-%
+            cycle;
+    %
+    % Lighty Shine sideways in Bite-Mark
+    \path[save path=\KiwiBiteShineSide]%
+        (0.15*\KiwiBittenOffWidth,0.46*\KiwiBittenOffHeight)%
+            ..controls%
+                ++(0.3*\KiwiBittenOffWidth,0.04*\KiwiBittenOffHeight)%
+                and%
+                ++(0.15*\KiwiBittenOffWidth,-0.4*\KiwiBittenOffHeight)%
+            ..%
+        (0.7*\KiwiBittenOffWidth,0.99*\KiwiBittenOffHeight)%
+            -|%
+        (\KiwiBittenOffWidth,0*\KiwiBittenOffHeight)%
+            -|%
+        cycle;%
+        \path[save path=\KiwiBiteShadeLowerNegative]%
+            (-BiteShadowAnchorLB)%
+                \KiwiBiteShadeLowerArch%
+                -|%
+            (1*\KiwiBittenOffWidth,1*\KiwiBittenOffHeight)%
+                -|%
+            cycle;
+        \clip[use path=\KiwiBiteShadeLowerNegative];%
+        \path[Kiwi_BittenOffLine,use path=\KiwiBiteShineSide,fill=yellow!50!white,opacity=.2];%
+    \end{scope}%
+    %
+    %White Kiwi Core
+    \path[KiwiEggFusionCrackOpenLine,save path=\KiwiCore,line width=0.7*\KiwiEggLineWidth,fill=TikzCol_kiwiBittenOffCoreWhite]% draw=TikzCol_kiwiGreenMedium
+        (-KiwiCoreTopL)%
+            to[out=250,in=85]%
+        (-KiwiCoreTipT)%
+            to[out=230,in=20]%
+        (-KiwiCoreTipOne)%
+            % ..controls%
+            %     ++(0.03*\KiwiBittenOffSize,-0.06*\KiwiBittenOffSize)%
+            %     and%
+            %     ++(0.02*\KiwiBittenOffSize,0.03*\KiwiBittenOffSize)%
+            % ..%
+            to[out=280,in=30]%
+        (-KiwiCoreTipTwo)%
+            ..controls%
+                ++(0.05*\KiwiBittenOffSize,0.01*\KiwiBittenOffSize)%
+                and%
+                ++(-0.04*\KiwiBittenOffSize,0.03*\KiwiBittenOffSize)%
+            ..%
+        (-KiwiCoreTipB)%
+            to[out=30,in=240]%
+        (-KiwiCoreBottom)%
+            % ..controls%
+            %     ++(50:0.13*\KiwiBittenOffSize)%
+            %     and%
+            %     ++(330:0.03*\KiwiBittenOffSize)%
+            % ..%
+            to[out=70,in=280]%
+        (-KiwiCoreTopR)%
+            % to[out=100,in=70]%
+            ..controls%
+                ++(-0.01*\KiwiBittenOffWidth,0.04*\KiwiBittenOffHeight)%
+                and%
+                ++(0.03*\KiwiBittenOffWidth,0.02*\KiwiBittenOffHeight)%
+            ..%
+        cycle;%
+    %
+    \newcommand{\BiteShadowArch}{%
+            ..controls%
+                ++(0:0.5*\KiwiBittenOffSize)%
+                and%
+                ++(260:0.3*\KiwiBittenOffSize)%
+            ..%
+    }%
+    \path[save path=\KiwiBiteShadow]%
+        (-BiteShadowAnchorRT)%
+            -|%
+        (-BiteShadowAnchorLB)%
+            \BiteShadowArch%
+        cycle;
+    %
+    %More Nuances
+    %     Slight Shade over the White Kiwi Core
+    \path[save path=\KiwiCoreSlightShadeCutTop]%
+        (-BiteShadowAnchorLB)%
+            \BiteShadowArch%
+        (-BiteShadowAnchorRT)%
+            -|%
+        (-BellyLeft)%
+            |-%
+        (-BottomCenter)%
+            -|%
+        cycle;
+    \begin{scope}%
+        % \tikzfading[name=fade out,inner color=transparent!0,outer color=transparent!100]%
+        %
+        % \clip[use path=\KiwiCoreSlightShadeCutTop];%
+        \clip[use path=\KiwiCore];%
+                    % \path[save path=\KiwiCoreSlightShadeVOne,shade,inner color=yellow,outer color=white,opacity=.9]%,fill=yellow,path fading=radial,opacity=.4]%
+                    %     (0.23*\KiwiBittenOffWidth,0.8*\KiwiBittenOffHeight)%
+                    %         to[out=340,in=110]%
+                    %     (0.53*\KiwiBittenOffWidth,0.65*\KiwiBittenOffHeight)%
+                    %         |-%
+                    %     % (0.15*\KiwiBittenOffWidth,0.5*\KiwiBittenOffHeight)%
+                    %     (0.01*\KiwiBittenOffWidth,0.35*\KiwiBittenOffHeight)%
+                    %         |-%
+                    %     cycle;
+        % \path[save path=\KiwiCoreSlightShadeHigh,shade,inner color=yellow,outer color=white,opacity=.9]%,fill=yellow,path fading=radial,opacity=.4]%
+        %     (0.23*\KiwiBittenOffWidth,0.68*\KiwiBittenOffHeight)%
+        %         to[out=0,in=210]%
+        %     (0.65*\KiwiBittenOffWidth,0.75*\KiwiBittenOffHeight)%
+        %         |-%
+        %     % (0.15*\KiwiBittenOffWidth,0.5*\KiwiBittenOffHeight)%
+        %     (0.1*\KiwiBittenOffWidth,0.35*\KiwiBittenOffHeight)%
+        %         |-%
+        %     cycle;
+        \path[save path=\KiwiCoreSlightShade,shade,inner color=yellow,outer color=white,opacity=.4]%,fill=yellow,path fading=radial,opacity=.4]%
+            (0.23*\KiwiBittenOffWidth,0.62*\KiwiBittenOffHeight)%
+                to[out=0,in=210]%
+            (0.65*\KiwiBittenOffWidth,0.71*\KiwiBittenOffHeight)%
+                |-%
+            % (0.15*\KiwiBittenOffWidth,0.5*\KiwiBittenOffHeight)%
+            (0.1*\KiwiBittenOffWidth,0.4*\KiwiBittenOffHeight)%
+                |-%
+            cycle;
+        % \path[use path=\KiwiCoreSlightShade,fill=yellow,opacity=.3];%
+        % \path[scope fading=north](0,0);%,fit fading=false,fading transform={rotate=90},top color=blue,bottom color=yellow,middle color=red] (0,0);
+    \end{scope}%
+    % \path[draw,shade,fill=blue,path fading=south](0,0)rectangle(2,2);
+    %
+    %Draw Bite Shadow
+    \path[Kiwi_BittenOffLine,use path=\KiwiCore,line join=round,draw=TikzCol_kiwiGreenMedium];%Re-Draw Core Edge Line
+    \begin{scope}%
+        \clip[use path=\KiwiBite];%
+        \path[save path=\KiwiBiteShadow,top color=black,bottom color=black!10!white, middle color=black!90!white, shading angle=55,opacity=.3]%,fill=black,opacity=.2]%
+            (-BiteShadowAnchorRT)%
+                -|%
+            (-BiteShadowAnchorLB)%
+                \BiteShadowArch%
+            cycle;
+        % \path[use path=\KiwiBiteShadow,fill=black,opacity=.2];%
+    \end{scope}%
+    %
+    \path[Kiwi_BittenOffLine,use path=\KiwiBite,draw=TikzCol_kiwiBittenOffSkinDark];%
+    % \path[Kiwi_BittenOffLine,draw=TikzCol_kiwiBittenOffSkinDark,line join=round](0,4)--(2,2)--(4,4);%
+    %
+    %
+    %
+    %
+    % Dev-Phase: Skin Reference Line
+    % \draw[green](-BellyLeft)..controls++(0,0.5*\KiwiBittenOffHeight)and++(-0.2*\KiwiBittenOffWidth,0)..(-TopCenter);%
+    % }%
+    % \path($(-frame-inner.north west)+(-0.0*\KiwiBittenOffLineWidth,0.0*\KiwiBittenOffLineWidth)$)--($(-frame-inner.south east)+(0.0*\KiwiBittenOffSize,-0.0*\KiwiBittenOffLineWidth)$);%
+    % }%
+  }%
+}%
+%
+%
+%
+%
+%
+\def\KiwiCutPlaneShadeSize{10em}% 8pt, 12pt, 3ex
+\def\KiwiCutPlaneShadeWidth{\KiwiCutPlaneShadeSize}% 8pt, 12pt, 3ex
+\def\KiwiCutPlaneShadeHeight{\KiwiCutPlaneShadeSize}% 8pt, 12pt, 3ex
+\def\KiwiCutPlaneShadeFleshWidth{0.85*\KiwiCutPlaneShadeWidth}% 8pt, 12pt, 3ex
+\def\KiwiCutPlaneShadeFleshHeight{0.85*0.6*\KiwiCutPlaneShadeHeight}%
+\def\KiwiCutPlaneShadeLineWidth{0.004*\KiwiCutPlaneShadeSize}% 0.07
+%
+\def\KiwiCutPlaneShadeSeedSize{0.025*\KiwiCutPlaneShadeSize}% 8pt, 12pt, 3ex
+%
+\tikzset{%
+  KiwiCutPlaneShadeLine/.style={%
+    draw=none,%
+    line width=\KiwiCutPlaneShadeLineWidth%
+  },%
+  KiwiCutPlaneShade/.pic={%
+    \coordinate(-BellyLeft)at(-0.5*\KiwiCutPlaneShadeFleshWidth,0);%
+    \coordinate(-BellyRight)at($(-BellyLeft)+(\KiwiCutPlaneShadeFleshWidth,0)$);%
+    \coordinate(-BellyCenter)at($(-BellyLeft)!.5!(-BellyRight)$);%
+    \coordinate(-BellyCenterHigh)at($(-BellyCenter)+(0,0.5*\KiwiCutPlaneShadeFleshHeight)$);%
+    \coordinate(-BellyCenterLow)at($(-BellyCenter)+(0,-0.5*\KiwiCutPlaneShadeFleshHeight)$);%
+    %
+    \coordinate(-KiwiCoreTopAnchor)at($(-BellyCenterHigh)!.25!(-BellyCenterLow)$);%
+    \coordinate(-KiwiCoreBottomAnchor)at($(-BellyCenterLow)!.25!(-BellyCenterHigh)$);%
+    %
+    \coordinate(-KiwiCoreTopL)at($(-KiwiCoreTopAnchor)+(-0.04*\KiwiCutPlaneShadeWidth,0.01*\KiwiCutPlaneShadeHeight)$);%
+    \coordinate(-KiwiCoreTopR)at($(-KiwiCoreTopAnchor)+(0.14*\KiwiCutPlaneShadeWidth,-0.04*\KiwiCutPlaneShadeHeight)$);%
+    \coordinate(-KiwiCoreBottom)at($(-KiwiCoreBottomAnchor)+(0.07*\KiwiCutPlaneShadeWidth,0.04*\KiwiCutPlaneShadeFleshHeight)$);%
+    \coordinate(-KiwiCoreLTipOne)at($(-BellyCenter)+(-0.2*\KiwiCutPlaneShadeSize,0.05*\KiwiCutPlaneShadeSize)$);%
+    \coordinate(-KiwiCoreLTipTwo)at($(-BellyCenter)+(-0.25*\KiwiCutPlaneShadeSize,-0.06*\KiwiCutPlaneShadeSize)$);%
+    \coordinate(-KiwiCoreRTipOne)at($(-BellyCenter)+(0.27*\KiwiCutPlaneShadeSize,-0.01*\KiwiCutPlaneShadeSize)$);%
+    %
+    %
+    \newcommand{\BezierOneX}{0.0}%
+    \newcommand{\BezierOneY}{0.15}%
+    \newcommand{\BezierTwoX}{0.2}%
+    \newcommand{\BezierTwoY}{0.0}%
+    %
+    \newcommand{\KiwiCutPlaneShadeCutPathDef}[5]{%
+        (##1)%
+            ..controls%
+                ++(\BezierOneX*\KiwiCutPlaneShadeSize*##5,\BezierOneY*\KiwiCutPlaneShadeSize*##5)%Relative to Start-Point
+                and%
+                ++(-\BezierTwoX*\KiwiCutPlaneShadeSize*##5,\BezierTwoY*\KiwiCutPlaneShadeSize*##5)%Relative to End-Point
+            ..%
+        (##2)%
+            ..controls%
+                ++(\BezierTwoX*\KiwiCutPlaneShadeSize*##5,-\BezierTwoY*\KiwiCutPlaneShadeSize*##5)%
+                and%
+                ++(-\BezierOneX*\KiwiCutPlaneShadeSize*##5,\BezierOneY*\KiwiCutPlaneShadeSize*##5)%
+            ..%
+        (##3)%
+            ..controls%
+                ++(-\BezierOneX*\KiwiCutPlaneShadeSize*##5,-\BezierOneY*\KiwiCutPlaneShadeSize*##5)%
+                and%
+                ++(\BezierTwoX*\KiwiCutPlaneShadeSize*##5,-\BezierTwoY*\KiwiCutPlaneShadeSize*##5)%
+            ..%
+        (##4)%
+            ..controls%
+                ++(-\BezierTwoX*\KiwiCutPlaneShadeSize*##5,-\BezierTwoY*\KiwiCutPlaneShadeSize*##5)%
+                and%
+                ++(\BezierOneX*\KiwiCutPlaneShadeSize*##5,-\BezierOneY*\KiwiCutPlaneShadeSize*##5)%
+            ..%
+        cycle
+    }%
+    \newcommand{\KiwiCutPlaneShadeCutPathScaled}[3]{%
+        % \let\xoffset\undefined%
+        % \newlength\xoffset%
+        % \dimendef\xoffset=0%
+        % \pgfmathsetlength{\xoffset}{1-##1}%
+        % \dimendef\yoffset=0%
+        % \pgfmathsetlength{\yoffset}{1-##1}%
+        \path[KiwiCutPlaneShadeLine,save path=\KiwiCut,%
+            fill=##2,%
+            opacity=##3,%
+            % draw=##2,
+            % path fading=circle with fuzzy edge 20 percent,%
+            % inner color=TikzCol_kiwiGreenBright,outer color=TikzCol_KiwiCutPlaneShadeFill,%
+        ]%
+            \KiwiCutPlaneShadeCutPathDef%
+                % {$(-BellyLeft)+(\pgfmathparse{1-##1}\pgfmathresult*\KiwiCutPlaneShadeWidth,0)$}%
+                % {$(-BellyCenterHigh)+(0,\pgfmathparse{-1+##1}\pgfmathresult*\KiwiCutPlaneShadeFleshHeight)$}%
+                % {$(-BellyRight)+(\pgfmathparse{-1+##1}\pgfmathresult*\KiwiCutPlaneShadeWidth,0)$}%
+                % {$(-BellyCenterLow)+(0,\pgfmathparse{1-##1}\pgfmathresult*\KiwiCutPlaneShadeFleshHeight)$}%
+                {-##1*0.5*\KiwiCutPlaneShadeFleshWidth,0}%
+                {0,##1*0.5*\KiwiCutPlaneShadeFleshHeight}%
+                {##1*0.5*\KiwiCutPlaneShadeFleshWidth,0}%
+                {0,-##1*0.5*\KiwiCutPlaneShadeFleshHeight}%
+            {##1};
+        % \let\xoffset\undefined%
+        % \let\yoffset\undefined%
+    }%
+    \newcommand{\KiwiCutPlaneShadeCutFade}[2]{% ##1: Steps, ##2: Max-Scale
+        \tikzmath{\opacstep=1/(##1+1);}%
+        \tikzmath{\scalestep=(##2-1)/##1;}%
+        \tikzmath{\scalecur=##2;}%
+        \foreach\i in {1,...,##1}{%
+            \tikzmath{\scalecur=\scalecur-(\i-1)*\scalestep;}%
+            % \tikzmath{\smoothen=1;}
+            \tikzmath{\smoothen=1/(sqrt(\i));}
+            % \tikzmath{\smoothen=0.9^(\i-1);}
+            % \tikzmath{\smoothen=1/(\i^(1/\i));}
+            % \tikzmath{\smoothen=\i^(1/\i);}
+            % \tikzmath{\smoothen=\i/(sqrt(\i));}
+            % \node at (2,1+\i){\scalecur  \opacstep};
+            \KiwiCutPlaneShadeCutPathScaled{\scalecur}{TikzCol_kiwiGreenBright}{\i*\opacstep*\smoothen}%
+        }%
+        \let\scalecur\undefined%
+        \let\scalestep\undefined%
+        \let\opacstep\undefined%
+    }%
+    %
+    \KiwiCutPlaneShadeCutFade{40}{1.3}%
+    \path[KiwiCutPlaneShadeLine,save path=\KiwiCut,%
+        fill=TikzCol_kiwiGreenBright,%
+        % path fading=circle with fuzzy edge 20 percent,%
+        % inner color=TikzCol_kiwiGreenBright,outer color=TikzCol_KiwiCutPlaneShadeFill,%
+    ]%
+        \KiwiCutPlaneShadeCutPathDef{-BellyLeft}{-BellyCenterHigh}{-BellyRight}{-BellyCenterLow}{1};
+    %
+    \newcommand{\KiwiCoreLineBrightPattern}[3]{% Angle, Length
+        \path[draw=##3, line width=0.016*\KiwiCutPlaneShadeSize,line cap=round]%
+            (-BellyCenter)--++(##1:##2);%
+        %\fill[color=##3]($(-BellyCenter)+(##1:##2)$)circle(0.008*\KiwiCutPlaneShadeSize);%
+    }%
+    \newcommand{\KiwiCoreLineBright}[2]{% Angle, Length
+        \KiwiCoreLineBrightPattern{##1}{##2}{TikzCol_kiwiLineBright}%
+    }%
+    \newcommand{\KiwiCoreLineDarkScaling}[2]{% Angle, Length
+        \path[fill=TikzCol_kiwiLineDark]%
+            (-BellyCenter)%
+                ..controls%
+                    ++(##1-10:0.8*##2)% (90-10:0.7*##2)
+                    and%
+                    ++(180+##1+15:0.4*##2)% (270+20:0.4*##2)
+                ..%
+            ($(-BellyCenter)+(##1:##2)$)%
+                ..controls%
+                    ++(180+##1-15:0.4*##2)% (270-20:0.4*##2)
+                    and%
+                    ++(##1+10:0.8*##2)% (90+10:0.7*##2)
+                ..%
+            cycle;%
+    }%
+    \newcommand{\KiwiCoreLineDarkPattern}[3]{% Angle, Length
+        \path[fill=##3]%
+            ($(-BellyCenter)+(##1-90:0.02*\KiwiCutPlaneShadeSize)$)%
+                ..controls%
+                    ++(##1-0:0.8*##2)% (90-10:0.7*##2)
+                    and%
+                    ++(180+##1+10:0.5*##2)% (270+20:0.4*##2)
+                ..%
+            ($(-BellyCenter)+(##1:##2)$)%
+                ..controls%
+                    ++(180+##1-10:0.5*##2)% (270-20:0.4*##2)
+                    and%
+                    ++(##1+0:0.8*##2)% (90+10:0.7*##2)
+                ..%
+            ($(-BellyCenter)+(##1+90:0.02*\KiwiCutPlaneShadeSize)$)%
+                --%
+            cycle;%
+    }%
+    \newcommand{\KiwiCoreLineDark}[2]{% Angle, Length
+        \KiwiCoreLineDarkPattern{##1}{##2}{TikzCol_kiwiLineDark}%
+    }%
+    \KiwiCoreLineDark{96}{0.19*\KiwiCutPlaneShadeSize}%
+    \KiwiCoreLineBright{112}{0.21*\KiwiCutPlaneShadeSize}%
+    \KiwiCoreLineDark{130}{0.21*\KiwiCutPlaneShadeSize}%
+    \KiwiCoreLineBright{146}{0.27*\KiwiCutPlaneShadeSize}%
+    \KiwiCoreLineDark{161}{0.31*\KiwiCutPlaneShadeSize}%
+    \KiwiCoreLineBright{171}{0.39*\KiwiCutPlaneShadeSize}%
+    \KiwiCoreLineDark{181}{0.36*\KiwiCutPlaneShadeSize}%
+    \KiwiCoreLineBright{191}{0.35*\KiwiCutPlaneShadeSize}%
+    \KiwiCoreLineDark{204}{0.26*\KiwiCutPlaneShadeSize}%
+    \KiwiCoreLineBright{222}{0.19*\KiwiCutPlaneShadeSize}%
+    \KiwiCoreLineDark{240}{0.16*\KiwiCutPlaneShadeSize}%
+    \KiwiCoreLineBright{263}{0.15*\KiwiCutPlaneShadeSize}%
+    %
+    \KiwiCoreLineBright{83}{0.19*\KiwiCutPlaneShadeSize}%
+    \KiwiCoreLineDark{67}{0.19*\KiwiCutPlaneShadeSize}%
+    \KiwiCoreLineBright{51}{0.21*\KiwiCutPlaneShadeSize}%
+    \KiwiCoreLineDark{36}{0.21*\KiwiCutPlaneShadeSize}%
+    \KiwiCoreLineBright{26}{0.27*\KiwiCutPlaneShadeSize}%
+    \KiwiCoreLineDark{15}{0.3*\KiwiCutPlaneShadeSize}%
+    \KiwiCoreLineBright{7}{0.37*\KiwiCutPlaneShadeSize}%
+    \KiwiCoreLineDark{359}{0.35*\KiwiCutPlaneShadeSize}%
+    \KiwiCoreLineBright{350}{0.35*\KiwiCutPlaneShadeSize}%
+    \KiwiCoreLineDark{339}{0.27*\KiwiCutPlaneShadeSize}%
+    \KiwiCoreLineBright{326}{0.24*\KiwiCutPlaneShadeSize}%
+    \KiwiCoreLineDark{313}{0.20*\KiwiCutPlaneShadeSize}%
+    \KiwiCoreLineBright{300}{0.19*\KiwiCutPlaneShadeSize}%
+    \KiwiCoreLineDark{285}{0.17*\KiwiCutPlaneShadeSize}%
+    \path[KiwiCutPlaneShadeLine,line width=0.7*\KiwiCutPlaneShadeLineWidth,draw=TikzCol_kiwiGreenMedium,fill=TikzCol_kiwiCoreWhite]%
+        (-KiwiCoreTopL)%
+            ..controls%
+                ++(-0.0*\KiwiCutPlaneShadeSize,-0.04*\KiwiCutPlaneShadeSize)%
+                and%
+                ++(0.05*\KiwiCutPlaneShadeSize,0*\KiwiCutPlaneShadeSize)%
+            ..%
+        (-KiwiCoreLTipOne)%
+            ..controls%
+                ++(0.03*\KiwiCutPlaneShadeSize,-0.06*\KiwiCutPlaneShadeSize)%
+                and%
+                ++(0.02*\KiwiCutPlaneShadeSize,0.03*\KiwiCutPlaneShadeSize)%
+            ..%
+        (-KiwiCoreLTipTwo)%
+            ..controls%
+                ++(0.05*\KiwiCutPlaneShadeSize,0.01*\KiwiCutPlaneShadeSize)%
+                and%
+                ++(-0.07*\KiwiCutPlaneShadeSize,0.05*\KiwiCutPlaneShadeSize)%
+            ..%
+        (-KiwiCoreBottom)%
+            ..controls%
+                ++(0.05*\KiwiCutPlaneShadeSize,0.01*\KiwiCutPlaneShadeSize)%
+                and%
+                ++(-0.15*\KiwiCutPlaneShadeSize,-0.02*\KiwiCutPlaneShadeSize)%
+            ..%
+        (-KiwiCoreRTipOne)%
+            ..controls%
+                ++(-0.02*\KiwiCutPlaneShadeSize,0.02*\KiwiCutPlaneShadeSize)%
+                and%
+                ++(0.03*\KiwiCutPlaneShadeSize,-0.04*\KiwiCutPlaneShadeSize)%
+            ..%
+        (-KiwiCoreTopR)%
+            ..controls%
+                ++(-0.07*\KiwiCutPlaneShadeSize,-0.01*\KiwiCutPlaneShadeSize)%
+                and%
+                ++(0.06*\KiwiCutPlaneShadeSize,-0.015*\KiwiCutPlaneShadeSize)%
+            ..%
+        cycle;%
+    \newcommand{\KiwiSeedLight}[5]{% Position, Angle, LightShift_X, LightShift_Y, LightRotation
+        \fill[white!55!TikzCol_kiwiSeedShell]($(##1)+(270+##2:0.5*\KiwiCutPlaneShadeSeedSize)+(##3*\KiwiCutPlaneShadeSeedSize,##4*\KiwiCutPlaneShadeSeedSize)$)circle[x radius=0.07*\KiwiCutPlaneShadeSeedSize,y radius=0.17*\KiwiCutPlaneShadeSeedSize,rotate=##5];%ellipse(0.2*\KiwiCutPlaneShadeSeedSize and 0.2*\KiwiCutPlaneShadeSeedSize);
+    }%
+    \newcommand{\KiwiSeedOne}[5]{% Position, Angle, LightShift_X, LightShift_Y, LightRotation
+        \path[fill=TikzCol_kiwiSeedShell]%
+            (##1)%
+                ..controls%
+                    ($(##1)+(270+##2+50:0.3*\KiwiCutPlaneShadeSeedSize)$)%
+                    and%
+                    ($(##1)+(270+##2+30:1.0*\KiwiCutPlaneShadeSeedSize)$)%
+                ..%
+            ($(##1)+(270+##2:\KiwiCutPlaneShadeSeedSize)$)%
+                ..controls%
+                    ($(##1)+(270+##2-30:1.0*\KiwiCutPlaneShadeSeedSize)$)%
+                    and%
+                    ($(##1)+(270+##2-10:0.3*\KiwiCutPlaneShadeSeedSize)$)%
+                ..%
+            cycle;%
+        \KiwiSeedLight{##1}{##2}{##3}{##4}{##5}%
+    }%
+    \newcommand{\KiwiSeedTwo}[5]{%
+        \path[fill=TikzCol_kiwiSeedShell]%
+            (##1)%
+                ..controls%
+                    ($(##1)+(270+##2+20:0.3*\KiwiCutPlaneShadeSeedSize)$)%
+                    and%
+                    ($(##1)+(270+##2+30:1.1*\KiwiCutPlaneShadeSeedSize)$)%
+                ..%
+            ($(##1)+(270+##2:\KiwiCutPlaneShadeSeedSize)$)%
+                ..controls%
+                    ($(##1)+(270+##2-30:0.9*\KiwiCutPlaneShadeSeedSize)$)%
+                    and%
+                    ($(##1)+(270+##2-40:0.3*\KiwiCutPlaneShadeSeedSize)$)%
+                ..%
+            cycle;%
+        \KiwiSeedLight{##1}{##2}{##3}{##4}{##5}%
+    }%
+    \KiwiSeedOne{-0.011*\KiwiCutPlaneShadeWidth,0.133*\KiwiCutPlaneShadeHeight}{181}{-0.09}{0.11}{-11}%
+    \KiwiSeedTwo{-0.027*\KiwiCutPlaneShadeWidth,0.14*\KiwiCutPlaneShadeHeight}{195}{-0.11}{0.15}{8}%
+    \KiwiSeedOne{-0.043*\KiwiCutPlaneShadeWidth,0.154*\KiwiCutPlaneShadeHeight}{187}{-0.12}{0.13}{-7}%
+    \KiwiSeedOne{-0.045*\KiwiCutPlaneShadeWidth,0.13*\KiwiCutPlaneShadeHeight}{201}{-0.13}{0.12}{-10}%
+    \KiwiSeedOne{-0.06*\KiwiCutPlaneShadeWidth,0.11*\KiwiCutPlaneShadeHeight}{204}{-0.11}{0.14}{0}%
+    \KiwiSeedTwo{-0.09*\KiwiCutPlaneShadeWidth,0.089*\KiwiCutPlaneShadeHeight}{200}{-0.1}{0.12}{14}%
+    \KiwiSeedOne{-0.08*\KiwiCutPlaneShadeWidth,0.109*\KiwiCutPlaneShadeHeight}{207}{-0.1}{0.11}{10}%
+    \KiwiSeedOne{-0.108*\KiwiCutPlaneShadeWidth,0.08*\KiwiCutPlaneShadeHeight}{213}{-0.12}{0.14}{12}%
+    \KiwiSeedTwo{-0.16*\KiwiCutPlaneShadeWidth,0.09*\KiwiCutPlaneShadeHeight}{214}{-0.1}{0.1}{40}%
+    \KiwiSeedOne{-0.135*\KiwiCutPlaneShadeWidth,0.065*\KiwiCutPlaneShadeHeight}{211}{-0.12}{0.11}{25}%
+    \KiwiSeedOne{-0.165*\KiwiCutPlaneShadeWidth,0.067*\KiwiCutPlaneShadeHeight}{211}{-0.12}{0.13}{-5}%
+    \KiwiSeedTwo{-0.19*\KiwiCutPlaneShadeWidth,0.055*\KiwiCutPlaneShadeHeight}{219}{-0.13}{0.09}{44}%
+    \KiwiSeedTwo{-0.19*\KiwiCutPlaneShadeWidth,0.077*\KiwiCutPlaneShadeHeight}{201}{-0.1}{0.1}{29}%
+    \KiwiSeedOne{-0.22*\KiwiCutPlaneShadeWidth,0.06*\KiwiCutPlaneShadeHeight}{240}{-0.18}{0.04}{14}%
+    \KiwiSeedTwo{-0.235*\KiwiCutPlaneShadeWidth,0.038*\KiwiCutPlaneShadeHeight}{274}{-0.22}{0.0}{-18}%
+    \KiwiSeedOne{-0.2*\KiwiCutPlaneShadeWidth,0.04*\KiwiCutPlaneShadeHeight}{260}{-0.2}{0.0}{12}%
+    \KiwiSeedTwo{-0.195*\KiwiCutPlaneShadeWidth,0.02*\KiwiCutPlaneShadeHeight}{269}{-0.2}{0.0}{-10}%
+    \KiwiSeedTwo{-0.232*\KiwiCutPlaneShadeWidth,0.005*\KiwiCutPlaneShadeHeight}{272}{-0.2}{0.0}{-13}%
+    \KiwiSeedTwo{-0.2*\KiwiCutPlaneShadeWidth,0.001*\KiwiCutPlaneShadeHeight}{274}{-0.2}{0.0}{-9}%
+    \KiwiSeedOne{-0.225*\KiwiCutPlaneShadeWidth,-0.022*\KiwiCutPlaneShadeHeight}{244}{-0.17}{0.09}{22}%
+    \KiwiSeedTwo{-0.236*\KiwiCutPlaneShadeWidth,-0.032*\KiwiCutPlaneShadeHeight}{291}{-0.2}{-0.05}{-26}%
+    \KiwiSeedOne{-0.26*\KiwiCutPlaneShadeWidth,-0.055*\KiwiCutPlaneShadeHeight}{281}{-0.18}{0.04}{-81}%
+    \KiwiSeedOne{-0.264*\KiwiCutPlaneShadeWidth,-0.07*\KiwiCutPlaneShadeHeight}{299}{-0.2}{-0.08}{-40}%
+    \KiwiSeedOne{-0.23*\KiwiCutPlaneShadeWidth,-0.063*\KiwiCutPlaneShadeHeight}{309}{-0.2}{-0.09}{-33}%
+    \KiwiSeedTwo{-0.232*\KiwiCutPlaneShadeWidth,-0.084*\KiwiCutPlaneShadeHeight}{309}{-0.2}{-0.06}{-39}%
+    \KiwiSeedOne{-0.201*\KiwiCutPlaneShadeWidth,-0.078*\KiwiCutPlaneShadeHeight}{326}{-0.15}{-0.1}{-24}%
+    \KiwiSeedTwo{-0.18*\KiwiCutPlaneShadeWidth,-0.083*\KiwiCutPlaneShadeHeight}{332}{-0.15}{-0.1}{-13}%
+    \KiwiSeedOne{-0.179*\KiwiCutPlaneShadeWidth,-0.058*\KiwiCutPlaneShadeHeight}{334}{-0.09}{-0.1}{-23}%
+    \KiwiSeedOne{-0.162*\KiwiCutPlaneShadeWidth,-0.088*\KiwiCutPlaneShadeHeight}{360}{-0.05}{-0.14}{-13}%
+    \KiwiSeedOne{-0.161*\KiwiCutPlaneShadeWidth,-0.058*\KiwiCutPlaneShadeHeight}{366}{-0.04}{-0.1}{-10}%
+    \KiwiSeedTwo{-0.134*\KiwiCutPlaneShadeWidth,-0.071*\KiwiCutPlaneShadeHeight}{349}{-0.07}{-0.11}{0}%
+    \KiwiSeedOne{-0.116*\KiwiCutPlaneShadeWidth,-0.078*\KiwiCutPlaneShadeHeight}{355}{-0.04}{-0.12}{-14}%
+    \KiwiSeedOne{-0.1*\KiwiCutPlaneShadeWidth,-0.068*\KiwiCutPlaneShadeHeight}{361}{0}{-0.09}{0}%
+    \KiwiSeedTwo{-0.075*\KiwiCutPlaneShadeWidth,-0.078*\KiwiCutPlaneShadeHeight}{355}{-0.05}{-0.15}{12}%
+    \KiwiSeedOne{-0.052*\KiwiCutPlaneShadeWidth,-0.073*\KiwiCutPlaneShadeHeight}{358}{-0.04}{-0.1}{-12}%
+    \KiwiSeedTwo{-0.054*\KiwiCutPlaneShadeWidth,-0.104*\KiwiCutPlaneShadeHeight}{352}{-0.05}{-0.11}{9}%
+    \KiwiSeedTwo{-0.032*\KiwiCutPlaneShadeWidth,-0.083*\KiwiCutPlaneShadeHeight}{358}{-0.04}{-0.13}{12}%
+    \KiwiSeedTwo{-0.013*\KiwiCutPlaneShadeWidth,-0.095*\KiwiCutPlaneShadeHeight}{352}{-0.05}{-0.03}{-8}%
+    \KiwiSeedOne{-0.0*\KiwiCutPlaneShadeWidth,-0.081*\KiwiCutPlaneShadeHeight}{4}{-0.02}{-0.08}{-8}%
+    %
+    \KiwiSeedTwo{0.004*\KiwiCutPlaneShadeWidth,0.15*\KiwiCutPlaneShadeHeight}{188}{-0.09}{0.12}{7}%
+    \KiwiSeedOne{0.005*\KiwiCutPlaneShadeWidth,0.124*\KiwiCutPlaneShadeHeight}{176}{-0.11}{0.11}{-14}%
+    \KiwiSeedOne{0.021*\KiwiCutPlaneShadeWidth,0.133*\KiwiCutPlaneShadeHeight}{178}{-0.09}{0.11}{-11}%
+    \KiwiSeedTwo{0.034*\KiwiCutPlaneShadeWidth,0.113*\KiwiCutPlaneShadeHeight}{174}{-0.11}{0.15}{8}%
+    \KiwiSeedOne{0.053*\KiwiCutPlaneShadeWidth,0.107*\KiwiCutPlaneShadeHeight}{176}{-0.12}{0.13}{-7}%
+    \KiwiSeedOne{0.055*\KiwiCutPlaneShadeWidth,0.133*\KiwiCutPlaneShadeHeight}{171}{-0.13}{0.12}{-10}%
+    \KiwiSeedOne{0.07*\KiwiCutPlaneShadeWidth,0.11*\KiwiCutPlaneShadeHeight}{173}{-0.11}{0.14}{0}%
+    \KiwiSeedOne{0.087*\KiwiCutPlaneShadeWidth,0.109*\KiwiCutPlaneShadeHeight}{166}{-0.1}{0.11}{-5}%
+    \KiwiSeedTwo{0.096*\KiwiCutPlaneShadeWidth,0.092*\KiwiCutPlaneShadeHeight}{159}{-0.04}{0.12}{-9}%
+    \KiwiSeedOne{0.118*\KiwiCutPlaneShadeWidth,0.09*\KiwiCutPlaneShadeHeight}{159}{-0.12}{0.14}{-10}%
+    \KiwiSeedOne{0.145*\KiwiCutPlaneShadeWidth,0.092*\KiwiCutPlaneShadeHeight}{161}{-0.12}{0.11}{-12}%
+    \KiwiSeedTwo{0.155*\KiwiCutPlaneShadeWidth,0.078*\KiwiCutPlaneShadeHeight}{134}{-0.07}{0.1}{-25}%
+    \KiwiSeedOne{0.175*\KiwiCutPlaneShadeWidth,0.067*\KiwiCutPlaneShadeHeight}{139}{-0.1}{0.13}{-28}%
+    \KiwiSeedTwo{0.184*\KiwiCutPlaneShadeWidth,0.055*\KiwiCutPlaneShadeHeight}{129}{0.13}{0.09}{-35}%
+    \KiwiSeedTwo{0.2*\KiwiCutPlaneShadeWidth,0.077*\KiwiCutPlaneShadeHeight}{135}{0.1}{0.1}{-28}%
+    \KiwiSeedOne{0.21*\KiwiCutPlaneShadeWidth,0.064*\KiwiCutPlaneShadeHeight}{122}{0.18}{0.07}{-26}%
+    % % % %
+    \KiwiSeedOne{0.21*\KiwiCutPlaneShadeWidth,0.04*\KiwiCutPlaneShadeHeight}{118}{0.19}{0.1}{-21}%
+    \KiwiSeedTwo{0.235*\KiwiCutPlaneShadeWidth,0.038*\KiwiCutPlaneShadeHeight}{125}{0.2}{0.1}{-22}%
+    \KiwiSeedTwo{0.239*\KiwiCutPlaneShadeWidth,0.02*\KiwiCutPlaneShadeHeight}{111}{0.2}{0.07}{-24}%
+    \KiwiSeedTwo{0.256*\KiwiCutPlaneShadeWidth,0.01*\KiwiCutPlaneShadeHeight}{105}{0.18}{0.04}{-19}%
+    \KiwiSeedTwo{0.28*\KiwiCutPlaneShadeWidth,0.004*\KiwiCutPlaneShadeHeight}{99}{0.19}{0.0}{-19}%
+    \KiwiSeedOne{0.274*\KiwiCutPlaneShadeWidth,-0.007*\KiwiCutPlaneShadeHeight}{81}{-0.02}{-0.05}{70}%
+    \KiwiSeedOne{0.266*\KiwiCutPlaneShadeWidth,-0.02*\KiwiCutPlaneShadeHeight}{70}{-0.06}{0.04}{61}%
+    \KiwiSeedTwo{0.246*\KiwiCutPlaneShadeWidth,-0.022*\KiwiCutPlaneShadeHeight}{55}{-0.03}{0.05}{49}%
+    \KiwiSeedOne{0.235*\KiwiCutPlaneShadeWidth,-0.032*\KiwiCutPlaneShadeHeight}{41}{0.02}{-0.03}{22}%
+    \KiwiSeedOne{0.214*\KiwiCutPlaneShadeWidth,-0.024*\KiwiCutPlaneShadeHeight}{38}{-0.02}{-0.09}{33}%
+    \KiwiSeedTwo{0.212*\KiwiCutPlaneShadeWidth,-0.042*\KiwiCutPlaneShadeHeight}{41}{-0.02}{-0.06}{39}%
+    \KiwiSeedOne{0.192*\KiwiCutPlaneShadeWidth,-0.059*\KiwiCutPlaneShadeHeight}{46}{-0.03}{-0.1}{24}%
+    \KiwiSeedTwo{0.19*\KiwiCutPlaneShadeWidth,-0.033*\KiwiCutPlaneShadeHeight}{32}{-0.07}{-0.12}{22}%
+    \KiwiSeedOne{0.174*\KiwiCutPlaneShadeWidth,-0.058*\KiwiCutPlaneShadeHeight}{34}{0.02}{-0.1}{13}%
+    \KiwiSeedOne{0.163*\KiwiCutPlaneShadeWidth,-0.075*\KiwiCutPlaneShadeHeight}{38}{0.01}{-0.14}{19}%
+    \KiwiSeedOne{0.15*\KiwiCutPlaneShadeWidth,-0.053*\KiwiCutPlaneShadeHeight}{36}{-0.04}{-0.1}{16}%
+    \KiwiSeedTwo{0.135*\KiwiCutPlaneShadeWidth,-0.071*\KiwiCutPlaneShadeHeight}{39}{-0.07}{-0.11}{30}%
+    \KiwiSeedOne{0.117*\KiwiCutPlaneShadeWidth,-0.08*\KiwiCutPlaneShadeHeight}{21}{-0.04}{-0.12}{4}%
+    \KiwiSeedOne{0.101*\KiwiCutPlaneShadeWidth,-0.096*\KiwiCutPlaneShadeHeight}{1}{0}{-0.09}{0}%
+    \KiwiSeedTwo{0.076*\KiwiCutPlaneShadeWidth,-0.109*\KiwiCutPlaneShadeHeight}{355}{-0.05}{-0.15}{12}%
+    \KiwiSeedOne{0.053*\KiwiCutPlaneShadeWidth,-0.098*\KiwiCutPlaneShadeHeight}{358}{-0.04}{-0.1}{-12}%
+    \KiwiSeedTwo{0.055*\KiwiCutPlaneShadeWidth,-0.129*\KiwiCutPlaneShadeHeight}{352}{-0.05}{-0.11}{9}%
+    \KiwiSeedTwo{0.033*\KiwiCutPlaneShadeWidth,-0.091*\KiwiCutPlaneShadeHeight}{358}{-0.04}{-0.13}{12}%
+    \KiwiSeedTwo{0.014*\KiwiCutPlaneShadeWidth,-0.095*\KiwiCutPlaneShadeHeight}{352}{-0.05}{-0.03}{-8}%
+  },%
+  KiwiCutPlaneCenterDeko/.pic={%
+    \coordinate(-BellyLeft)at(-0.5*\KiwiCutPlaneShadeFleshWidth,0);%
+    \coordinate(-BellyRight)at($(-BellyLeft)+(\KiwiCutPlaneShadeFleshWidth,0)$);%
+    \coordinate(-BellyCenter)at($(-BellyLeft)!.5!(-BellyRight)$);%
+    \coordinate(-BellyCenterHigh)at($(-BellyCenter)+(0,0.5*\KiwiCutPlaneShadeFleshHeight)$);%
+    \coordinate(-BellyCenterLow)at($(-BellyCenter)+(0,-0.5*\KiwiCutPlaneShadeFleshHeight)$);%
+    %
+    \coordinate(-KiwiCoreTopAnchor)at($(-BellyCenterHigh)!.25!(-BellyCenterLow)$);%
+    \coordinate(-KiwiCoreBottomAnchor)at($(-BellyCenterLow)!.25!(-BellyCenterHigh)$);%
+    %
+    \coordinate(-KiwiCoreTopL)at($(-KiwiCoreTopAnchor)+(-0.04*\KiwiCutPlaneShadeWidth,0.01*\KiwiCutPlaneShadeHeight)$);%
+    \coordinate(-KiwiCoreTopR)at($(-KiwiCoreTopAnchor)+(0.14*\KiwiCutPlaneShadeWidth,-0.04*\KiwiCutPlaneShadeHeight)$);%
+    \coordinate(-KiwiCoreBottom)at($(-KiwiCoreBottomAnchor)+(0.07*\KiwiCutPlaneShadeWidth,0.04*\KiwiCutPlaneShadeFleshHeight)$);%
+    \coordinate(-KiwiCoreLTipOne)at($(-BellyCenter)+(-0.2*\KiwiCutPlaneShadeSize,0.05*\KiwiCutPlaneShadeSize)$);%
+    \coordinate(-KiwiCoreLTipTwo)at($(-BellyCenter)+(-0.25*\KiwiCutPlaneShadeSize,-0.06*\KiwiCutPlaneShadeSize)$);%
+    \coordinate(-KiwiCoreRTipOne)at($(-BellyCenter)+(0.27*\KiwiCutPlaneShadeSize,-0.01*\KiwiCutPlaneShadeSize)$);%
+    %
+    %
+    \newcommand{\KiwiCoreLineBrightPattern}[3]{% Angle, Length
+        \path[draw=##3, line width=0.016*\KiwiCutPlaneShadeSize,line cap=round]%
+            (-BellyCenter)--++(##1:##2);%
+        %\fill[color=##3]($(-BellyCenter)+(##1:##2)$)circle(0.008*\KiwiCutPlaneShadeSize);%
+    }%
+    \newcommand{\KiwiCoreLineBright}[2]{% Angle, Length
+        \KiwiCoreLineBrightPattern{##1}{##2}{TikzCol_kiwiLineBright}%
+    }%
+    \newcommand{\KiwiCoreLineDarkScaling}[2]{% Angle, Length
+        \path[fill=TikzCol_kiwiLineDark]%
+            (-BellyCenter)%
+                ..controls%
+                    ++(##1-10:0.8*##2)% (90-10:0.7*##2)
+                    and%
+                    ++(180+##1+15:0.4*##2)% (270+20:0.4*##2)
+                ..%
+            ($(-BellyCenter)+(##1:##2)$)%
+                ..controls%
+                    ++(180+##1-15:0.4*##2)% (270-20:0.4*##2)
+                    and%
+                    ++(##1+10:0.8*##2)% (90+10:0.7*##2)
+                ..%
+            cycle;%
+    }%
+    \newcommand{\KiwiCoreLineDarkPattern}[3]{% Angle, Length
+        \path[fill=##3]%
+            ($(-BellyCenter)+(##1-90:0.02*\KiwiCutPlaneShadeSize)$)%
+                ..controls%
+                    ++(##1-0:0.8*##2)% (90-10:0.7*##2)
+                    and%
+                    ++(180+##1+10:0.5*##2)% (270+20:0.4*##2)
+                ..%
+            ($(-BellyCenter)+(##1:##2)$)%
+                ..controls%
+                    ++(180+##1-10:0.5*##2)% (270-20:0.4*##2)
+                    and%
+                    ++(##1+0:0.8*##2)% (90+10:0.7*##2)
+                ..%
+            ($(-BellyCenter)+(##1+90:0.02*\KiwiCutPlaneShadeSize)$)%
+                --%
+            cycle;%
+    }%
+    \newcommand{\KiwiCoreLineDark}[2]{% Angle, Length
+        \KiwiCoreLineDarkPattern{##1}{##2}{TikzCol_kiwiLineDark}%
+    }%
+    \KiwiCoreLineDark{96}{0.19*\KiwiCutPlaneShadeSize}%
+    \KiwiCoreLineBright{112}{0.21*\KiwiCutPlaneShadeSize}%
+    \KiwiCoreLineDark{130}{0.21*\KiwiCutPlaneShadeSize}%
+    \KiwiCoreLineBright{146}{0.27*\KiwiCutPlaneShadeSize}%
+    \KiwiCoreLineDark{161}{0.31*\KiwiCutPlaneShadeSize}%
+    \KiwiCoreLineBright{171}{0.39*\KiwiCutPlaneShadeSize}%
+    \KiwiCoreLineDark{181}{0.36*\KiwiCutPlaneShadeSize}%
+    \KiwiCoreLineBright{191}{0.35*\KiwiCutPlaneShadeSize}%
+    \KiwiCoreLineDark{204}{0.26*\KiwiCutPlaneShadeSize}%
+    \KiwiCoreLineBright{222}{0.19*\KiwiCutPlaneShadeSize}%
+    \KiwiCoreLineDark{240}{0.16*\KiwiCutPlaneShadeSize}%
+    \KiwiCoreLineBright{263}{0.15*\KiwiCutPlaneShadeSize}%
+    %
+    \KiwiCoreLineBright{83}{0.19*\KiwiCutPlaneShadeSize}%
+    \KiwiCoreLineDark{67}{0.19*\KiwiCutPlaneShadeSize}%
+    \KiwiCoreLineBright{51}{0.21*\KiwiCutPlaneShadeSize}%
+    \KiwiCoreLineDark{36}{0.21*\KiwiCutPlaneShadeSize}%
+    \KiwiCoreLineBright{26}{0.27*\KiwiCutPlaneShadeSize}%
+    \KiwiCoreLineDark{15}{0.3*\KiwiCutPlaneShadeSize}%
+    \KiwiCoreLineBright{7}{0.37*\KiwiCutPlaneShadeSize}%
+    \KiwiCoreLineDark{359}{0.35*\KiwiCutPlaneShadeSize}%
+    \KiwiCoreLineBright{350}{0.35*\KiwiCutPlaneShadeSize}%
+    \KiwiCoreLineDark{339}{0.27*\KiwiCutPlaneShadeSize}%
+    \KiwiCoreLineBright{326}{0.24*\KiwiCutPlaneShadeSize}%
+    \KiwiCoreLineDark{313}{0.20*\KiwiCutPlaneShadeSize}%
+    \KiwiCoreLineBright{300}{0.19*\KiwiCutPlaneShadeSize}%
+    \KiwiCoreLineDark{285}{0.17*\KiwiCutPlaneShadeSize}%
+    \path[KiwiCutPlaneShadeLine,line width=0.7*\KiwiCutPlaneShadeLineWidth,draw=TikzCol_kiwiGreenMedium,fill=TikzCol_kiwiCoreWhite]%
+        (-KiwiCoreTopL)%
+            ..controls%
+                ++(-0.0*\KiwiCutPlaneShadeSize,-0.04*\KiwiCutPlaneShadeSize)%
+                and%
+                ++(0.05*\KiwiCutPlaneShadeSize,0*\KiwiCutPlaneShadeSize)%
+            ..%
+        (-KiwiCoreLTipOne)%
+            ..controls%
+                ++(0.03*\KiwiCutPlaneShadeSize,-0.06*\KiwiCutPlaneShadeSize)%
+                and%
+                ++(0.02*\KiwiCutPlaneShadeSize,0.03*\KiwiCutPlaneShadeSize)%
+            ..%
+        (-KiwiCoreLTipTwo)%
+            ..controls%
+                ++(0.05*\KiwiCutPlaneShadeSize,0.01*\KiwiCutPlaneShadeSize)%
+                and%
+                ++(-0.07*\KiwiCutPlaneShadeSize,0.05*\KiwiCutPlaneShadeSize)%
+            ..%
+        (-KiwiCoreBottom)%
+            ..controls%
+                ++(0.05*\KiwiCutPlaneShadeSize,0.01*\KiwiCutPlaneShadeSize)%
+                and%
+                ++(-0.15*\KiwiCutPlaneShadeSize,-0.02*\KiwiCutPlaneShadeSize)%
+            ..%
+        (-KiwiCoreRTipOne)%
+            ..controls%
+                ++(-0.02*\KiwiCutPlaneShadeSize,0.02*\KiwiCutPlaneShadeSize)%
+                and%
+                ++(0.03*\KiwiCutPlaneShadeSize,-0.04*\KiwiCutPlaneShadeSize)%
+            ..%
+        (-KiwiCoreTopR)%
+            ..controls%
+                ++(-0.07*\KiwiCutPlaneShadeSize,-0.01*\KiwiCutPlaneShadeSize)%
+                and%
+                ++(0.06*\KiwiCutPlaneShadeSize,-0.015*\KiwiCutPlaneShadeSize)%
+            ..%
+        cycle;%
+    \newcommand{\KiwiSeedLight}[5]{% Position, Angle, LightShift_X, LightShift_Y, LightRotation
+        \fill[white!55!TikzCol_kiwiSeedShell]($(##1)+(270+##2:0.5*\KiwiCutPlaneShadeSeedSize)+(##3*\KiwiCutPlaneShadeSeedSize,##4*\KiwiCutPlaneShadeSeedSize)$)circle[x radius=0.07*\KiwiCutPlaneShadeSeedSize,y radius=0.17*\KiwiCutPlaneShadeSeedSize,rotate=##5];%ellipse(0.2*\KiwiCutPlaneShadeSeedSize and 0.2*\KiwiCutPlaneShadeSeedSize);
+    }%
+    \newcommand{\KiwiSeedOne}[5]{% Position, Angle, LightShift_X, LightShift_Y, LightRotation
+        \path[fill=TikzCol_kiwiSeedShell]%
+            (##1)%
+                ..controls%
+                    ($(##1)+(270+##2+50:0.3*\KiwiCutPlaneShadeSeedSize)$)%
+                    and%
+                    ($(##1)+(270+##2+30:1.0*\KiwiCutPlaneShadeSeedSize)$)%
+                ..%
+            ($(##1)+(270+##2:\KiwiCutPlaneShadeSeedSize)$)%
+                ..controls%
+                    ($(##1)+(270+##2-30:1.0*\KiwiCutPlaneShadeSeedSize)$)%
+                    and%
+                    ($(##1)+(270+##2-10:0.3*\KiwiCutPlaneShadeSeedSize)$)%
+                ..%
+            cycle;%
+        \KiwiSeedLight{##1}{##2}{##3}{##4}{##5}%
+    }%
+    \newcommand{\KiwiSeedTwo}[5]{%
+        \path[fill=TikzCol_kiwiSeedShell]%
+            (##1)%
+                ..controls%
+                    ($(##1)+(270+##2+20:0.3*\KiwiCutPlaneShadeSeedSize)$)%
+                    and%
+                    ($(##1)+(270+##2+30:1.1*\KiwiCutPlaneShadeSeedSize)$)%
+                ..%
+            ($(##1)+(270+##2:\KiwiCutPlaneShadeSeedSize)$)%
+                ..controls%
+                    ($(##1)+(270+##2-30:0.9*\KiwiCutPlaneShadeSeedSize)$)%
+                    and%
+                    ($(##1)+(270+##2-40:0.3*\KiwiCutPlaneShadeSeedSize)$)%
+                ..%
+            cycle;%
+        \KiwiSeedLight{##1}{##2}{##3}{##4}{##5}%
+    }%
+    \KiwiSeedOne{-0.011*\KiwiCutPlaneShadeWidth,0.133*\KiwiCutPlaneShadeHeight}{181}{-0.09}{0.11}{-11}%
+    \KiwiSeedTwo{-0.027*\KiwiCutPlaneShadeWidth,0.14*\KiwiCutPlaneShadeHeight}{195}{-0.11}{0.15}{8}%
+    \KiwiSeedOne{-0.043*\KiwiCutPlaneShadeWidth,0.154*\KiwiCutPlaneShadeHeight}{187}{-0.12}{0.13}{-7}%
+    \KiwiSeedOne{-0.045*\KiwiCutPlaneShadeWidth,0.13*\KiwiCutPlaneShadeHeight}{201}{-0.13}{0.12}{-10}%
+    \KiwiSeedOne{-0.06*\KiwiCutPlaneShadeWidth,0.11*\KiwiCutPlaneShadeHeight}{204}{-0.11}{0.14}{0}%
+    \KiwiSeedTwo{-0.09*\KiwiCutPlaneShadeWidth,0.089*\KiwiCutPlaneShadeHeight}{200}{-0.1}{0.12}{14}%
+    \KiwiSeedOne{-0.08*\KiwiCutPlaneShadeWidth,0.109*\KiwiCutPlaneShadeHeight}{207}{-0.1}{0.11}{10}%
+    \KiwiSeedOne{-0.108*\KiwiCutPlaneShadeWidth,0.08*\KiwiCutPlaneShadeHeight}{213}{-0.12}{0.14}{12}%
+    \KiwiSeedTwo{-0.16*\KiwiCutPlaneShadeWidth,0.09*\KiwiCutPlaneShadeHeight}{214}{-0.1}{0.1}{40}%
+    \KiwiSeedOne{-0.135*\KiwiCutPlaneShadeWidth,0.065*\KiwiCutPlaneShadeHeight}{211}{-0.12}{0.11}{25}%
+    \KiwiSeedOne{-0.165*\KiwiCutPlaneShadeWidth,0.067*\KiwiCutPlaneShadeHeight}{211}{-0.12}{0.13}{-5}%
+    \KiwiSeedTwo{-0.19*\KiwiCutPlaneShadeWidth,0.055*\KiwiCutPlaneShadeHeight}{219}{-0.13}{0.09}{44}%
+    \KiwiSeedTwo{-0.19*\KiwiCutPlaneShadeWidth,0.077*\KiwiCutPlaneShadeHeight}{201}{-0.1}{0.1}{29}%
+    \KiwiSeedOne{-0.22*\KiwiCutPlaneShadeWidth,0.06*\KiwiCutPlaneShadeHeight}{240}{-0.18}{0.04}{14}%
+    \KiwiSeedTwo{-0.235*\KiwiCutPlaneShadeWidth,0.038*\KiwiCutPlaneShadeHeight}{274}{-0.22}{0.0}{-18}%
+    \KiwiSeedOne{-0.2*\KiwiCutPlaneShadeWidth,0.04*\KiwiCutPlaneShadeHeight}{260}{-0.2}{0.0}{12}%
+    \KiwiSeedTwo{-0.195*\KiwiCutPlaneShadeWidth,0.02*\KiwiCutPlaneShadeHeight}{269}{-0.2}{0.0}{-10}%
+    \KiwiSeedTwo{-0.232*\KiwiCutPlaneShadeWidth,0.005*\KiwiCutPlaneShadeHeight}{272}{-0.2}{0.0}{-13}%
+    \KiwiSeedTwo{-0.2*\KiwiCutPlaneShadeWidth,0.001*\KiwiCutPlaneShadeHeight}{274}{-0.2}{0.0}{-9}%
+    \KiwiSeedOne{-0.225*\KiwiCutPlaneShadeWidth,-0.022*\KiwiCutPlaneShadeHeight}{244}{-0.17}{0.09}{22}%
+    \KiwiSeedTwo{-0.236*\KiwiCutPlaneShadeWidth,-0.032*\KiwiCutPlaneShadeHeight}{291}{-0.2}{-0.05}{-26}%
+    \KiwiSeedOne{-0.26*\KiwiCutPlaneShadeWidth,-0.055*\KiwiCutPlaneShadeHeight}{281}{-0.18}{0.04}{-81}%
+    \KiwiSeedOne{-0.264*\KiwiCutPlaneShadeWidth,-0.07*\KiwiCutPlaneShadeHeight}{299}{-0.2}{-0.08}{-40}%
+    \KiwiSeedOne{-0.23*\KiwiCutPlaneShadeWidth,-0.063*\KiwiCutPlaneShadeHeight}{309}{-0.2}{-0.09}{-33}%
+    \KiwiSeedTwo{-0.232*\KiwiCutPlaneShadeWidth,-0.084*\KiwiCutPlaneShadeHeight}{309}{-0.2}{-0.06}{-39}%
+    \KiwiSeedOne{-0.201*\KiwiCutPlaneShadeWidth,-0.078*\KiwiCutPlaneShadeHeight}{326}{-0.15}{-0.1}{-24}%
+    \KiwiSeedTwo{-0.18*\KiwiCutPlaneShadeWidth,-0.083*\KiwiCutPlaneShadeHeight}{332}{-0.15}{-0.1}{-13}%
+    \KiwiSeedOne{-0.179*\KiwiCutPlaneShadeWidth,-0.058*\KiwiCutPlaneShadeHeight}{334}{-0.09}{-0.1}{-23}%
+    \KiwiSeedOne{-0.162*\KiwiCutPlaneShadeWidth,-0.088*\KiwiCutPlaneShadeHeight}{360}{-0.05}{-0.14}{-13}%
+    \KiwiSeedOne{-0.161*\KiwiCutPlaneShadeWidth,-0.058*\KiwiCutPlaneShadeHeight}{366}{-0.04}{-0.1}{-10}%
+    \KiwiSeedTwo{-0.134*\KiwiCutPlaneShadeWidth,-0.071*\KiwiCutPlaneShadeHeight}{349}{-0.07}{-0.11}{0}%
+    \KiwiSeedOne{-0.116*\KiwiCutPlaneShadeWidth,-0.078*\KiwiCutPlaneShadeHeight}{355}{-0.04}{-0.12}{-14}%
+    \KiwiSeedOne{-0.1*\KiwiCutPlaneShadeWidth,-0.068*\KiwiCutPlaneShadeHeight}{361}{0}{-0.09}{0}%
+    \KiwiSeedTwo{-0.075*\KiwiCutPlaneShadeWidth,-0.078*\KiwiCutPlaneShadeHeight}{355}{-0.05}{-0.15}{12}%
+    \KiwiSeedOne{-0.052*\KiwiCutPlaneShadeWidth,-0.073*\KiwiCutPlaneShadeHeight}{358}{-0.04}{-0.1}{-12}%
+    \KiwiSeedTwo{-0.054*\KiwiCutPlaneShadeWidth,-0.104*\KiwiCutPlaneShadeHeight}{352}{-0.05}{-0.11}{9}%
+    \KiwiSeedTwo{-0.032*\KiwiCutPlaneShadeWidth,-0.083*\KiwiCutPlaneShadeHeight}{358}{-0.04}{-0.13}{12}%
+    \KiwiSeedTwo{-0.013*\KiwiCutPlaneShadeWidth,-0.095*\KiwiCutPlaneShadeHeight}{352}{-0.05}{-0.03}{-8}%
+    \KiwiSeedOne{-0.0*\KiwiCutPlaneShadeWidth,-0.081*\KiwiCutPlaneShadeHeight}{4}{-0.02}{-0.08}{-8}%
+    %
+    \KiwiSeedTwo{0.004*\KiwiCutPlaneShadeWidth,0.15*\KiwiCutPlaneShadeHeight}{188}{-0.09}{0.12}{7}%
+    \KiwiSeedOne{0.005*\KiwiCutPlaneShadeWidth,0.124*\KiwiCutPlaneShadeHeight}{176}{-0.11}{0.11}{-14}%
+    \KiwiSeedOne{0.021*\KiwiCutPlaneShadeWidth,0.133*\KiwiCutPlaneShadeHeight}{178}{-0.09}{0.11}{-11}%
+    \KiwiSeedTwo{0.034*\KiwiCutPlaneShadeWidth,0.113*\KiwiCutPlaneShadeHeight}{174}{-0.11}{0.15}{8}%
+    \KiwiSeedOne{0.053*\KiwiCutPlaneShadeWidth,0.107*\KiwiCutPlaneShadeHeight}{176}{-0.12}{0.13}{-7}%
+    \KiwiSeedOne{0.055*\KiwiCutPlaneShadeWidth,0.133*\KiwiCutPlaneShadeHeight}{171}{-0.13}{0.12}{-10}%
+    \KiwiSeedOne{0.07*\KiwiCutPlaneShadeWidth,0.11*\KiwiCutPlaneShadeHeight}{173}{-0.11}{0.14}{0}%
+    \KiwiSeedOne{0.087*\KiwiCutPlaneShadeWidth,0.109*\KiwiCutPlaneShadeHeight}{166}{-0.1}{0.11}{-5}%
+    \KiwiSeedTwo{0.096*\KiwiCutPlaneShadeWidth,0.092*\KiwiCutPlaneShadeHeight}{159}{-0.04}{0.12}{-9}%
+    \KiwiSeedOne{0.118*\KiwiCutPlaneShadeWidth,0.09*\KiwiCutPlaneShadeHeight}{159}{-0.12}{0.14}{-10}%
+    \KiwiSeedOne{0.145*\KiwiCutPlaneShadeWidth,0.092*\KiwiCutPlaneShadeHeight}{161}{-0.12}{0.11}{-12}%
+    \KiwiSeedTwo{0.155*\KiwiCutPlaneShadeWidth,0.078*\KiwiCutPlaneShadeHeight}{134}{-0.07}{0.1}{-25}%
+    \KiwiSeedOne{0.175*\KiwiCutPlaneShadeWidth,0.067*\KiwiCutPlaneShadeHeight}{139}{-0.1}{0.13}{-28}%
+    \KiwiSeedTwo{0.184*\KiwiCutPlaneShadeWidth,0.055*\KiwiCutPlaneShadeHeight}{129}{0.13}{0.09}{-35}%
+    \KiwiSeedTwo{0.2*\KiwiCutPlaneShadeWidth,0.077*\KiwiCutPlaneShadeHeight}{135}{0.1}{0.1}{-28}%
+    \KiwiSeedOne{0.21*\KiwiCutPlaneShadeWidth,0.064*\KiwiCutPlaneShadeHeight}{122}{0.18}{0.07}{-26}%
+    % % % %
+    \KiwiSeedOne{0.21*\KiwiCutPlaneShadeWidth,0.04*\KiwiCutPlaneShadeHeight}{118}{0.19}{0.1}{-21}%
+    \KiwiSeedTwo{0.235*\KiwiCutPlaneShadeWidth,0.038*\KiwiCutPlaneShadeHeight}{125}{0.2}{0.1}{-22}%
+    \KiwiSeedTwo{0.239*\KiwiCutPlaneShadeWidth,0.02*\KiwiCutPlaneShadeHeight}{111}{0.2}{0.07}{-24}%
+    \KiwiSeedTwo{0.256*\KiwiCutPlaneShadeWidth,0.01*\KiwiCutPlaneShadeHeight}{105}{0.18}{0.04}{-19}%
+    \KiwiSeedTwo{0.28*\KiwiCutPlaneShadeWidth,0.004*\KiwiCutPlaneShadeHeight}{99}{0.19}{0.0}{-19}%
+    \KiwiSeedOne{0.274*\KiwiCutPlaneShadeWidth,-0.007*\KiwiCutPlaneShadeHeight}{81}{-0.02}{-0.05}{70}%
+    \KiwiSeedOne{0.266*\KiwiCutPlaneShadeWidth,-0.02*\KiwiCutPlaneShadeHeight}{70}{-0.06}{0.04}{61}%
+    \KiwiSeedTwo{0.246*\KiwiCutPlaneShadeWidth,-0.022*\KiwiCutPlaneShadeHeight}{55}{-0.03}{0.05}{49}%
+    \KiwiSeedOne{0.235*\KiwiCutPlaneShadeWidth,-0.032*\KiwiCutPlaneShadeHeight}{41}{0.02}{-0.03}{22}%
+    \KiwiSeedOne{0.214*\KiwiCutPlaneShadeWidth,-0.024*\KiwiCutPlaneShadeHeight}{38}{-0.02}{-0.09}{33}%
+    \KiwiSeedTwo{0.212*\KiwiCutPlaneShadeWidth,-0.042*\KiwiCutPlaneShadeHeight}{41}{-0.02}{-0.06}{39}%
+    \KiwiSeedOne{0.192*\KiwiCutPlaneShadeWidth,-0.059*\KiwiCutPlaneShadeHeight}{46}{-0.03}{-0.1}{24}%
+    \KiwiSeedTwo{0.19*\KiwiCutPlaneShadeWidth,-0.033*\KiwiCutPlaneShadeHeight}{32}{-0.07}{-0.12}{22}%
+    \KiwiSeedOne{0.174*\KiwiCutPlaneShadeWidth,-0.058*\KiwiCutPlaneShadeHeight}{34}{0.02}{-0.1}{13}%
+    \KiwiSeedOne{0.163*\KiwiCutPlaneShadeWidth,-0.075*\KiwiCutPlaneShadeHeight}{38}{0.01}{-0.14}{19}%
+    \KiwiSeedOne{0.15*\KiwiCutPlaneShadeWidth,-0.053*\KiwiCutPlaneShadeHeight}{36}{-0.04}{-0.1}{16}%
+    \KiwiSeedTwo{0.135*\KiwiCutPlaneShadeWidth,-0.071*\KiwiCutPlaneShadeHeight}{39}{-0.07}{-0.11}{30}%
+    \KiwiSeedOne{0.117*\KiwiCutPlaneShadeWidth,-0.08*\KiwiCutPlaneShadeHeight}{21}{-0.04}{-0.12}{4}%
+    \KiwiSeedOne{0.101*\KiwiCutPlaneShadeWidth,-0.096*\KiwiCutPlaneShadeHeight}{1}{0}{-0.09}{0}%
+    \KiwiSeedTwo{0.076*\KiwiCutPlaneShadeWidth,-0.109*\KiwiCutPlaneShadeHeight}{355}{-0.05}{-0.15}{12}%
+    \KiwiSeedOne{0.053*\KiwiCutPlaneShadeWidth,-0.098*\KiwiCutPlaneShadeHeight}{358}{-0.04}{-0.1}{-12}%
+    \KiwiSeedTwo{0.055*\KiwiCutPlaneShadeWidth,-0.129*\KiwiCutPlaneShadeHeight}{352}{-0.05}{-0.11}{9}%
+    \KiwiSeedTwo{0.033*\KiwiCutPlaneShadeWidth,-0.091*\KiwiCutPlaneShadeHeight}{358}{-0.04}{-0.13}{12}%
+    \KiwiSeedTwo{0.014*\KiwiCutPlaneShadeWidth,-0.095*\KiwiCutPlaneShadeHeight}{352}{-0.05}{-0.03}{-8}%
+  }%
+}%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+\definecolor{TikzCol_SunIcoOrangeOne}{RGB}{253,184,19}%
+\definecolor{TikzCol_SunIcoOrangeTwo}{RGB}{252,121,19}%
+\definecolor{TikzCol_SunIcoYellowOne}{RGB}{252,212,64}%
+\definecolor{TikzCol_SunIcoYellowTwo}{RGB}{250,240,54}%
+%
+% \colorlet{TikzCol_SunIcoFill}{TikzCol_SunIcoYellowOne!90!white}%
+% \colorlet{TikzCol_SunIcoFill2}{TikzCol_SunIcoOrangeOne!99!white}%
+%
+\def\SunIcoSize{10em}% 8pt, 12pt, 3ex
+\def\SunIcoWidth{\SunIcoSize}% 8pt, 12pt, 3ex
+\def\SunIcoHeight{\SunIcoSize}% 8pt, 12pt, 3ex
+\def\SunIcoLineWidth{0.004*\SunIcoSize}% 0.07
+\def\SunIcoRadiusOne{0.5*\SunIcoSize}%
+\def\SunIcoRadiusTwo{0.6*\SunIcoSize}%
+\def\SunIcoRadiusThree{0.7*\SunIcoSize}%
+\def\SunIcoRadiusExtern{0.8*\SunIcoSize}%
+%
+\def\SunIcoRadiusPeakOne{1.0*\SunIcoSize}%
+\def\SunIcoRadiusPeakTwo{1.1*\SunIcoSize}%
+\def\SunIcoRadiusPeakThree{1.0*\SunIcoSize}%
+\def\SunIcoRadiusPeakFour{1.2*\SunIcoSize}%
+\def\SunIcoRadiusPeakFive{1.2*\SunIcoSize}%
+\def\SunIcoRadiusPeakSix{1.2*\SunIcoSize}%
+\def\SunIcoRadiusPeakSeven{1.1*\SunIcoSize}%
+%
+\newcommand{\SunIcoDrawBodyOne}[2]{% Color1, Color2
+    \path[%
+        % fill=TikzCol_kiwiSunFill2,%
+        top color=#1,bottom color=#2,middle color=#1,shading angle=24,%
+        path fading=circle with fuzzy edge 20 percent,%
+    ](0,0)circle(\SunIcoRadiusThree);%
+    \path[%
+        top color=#2,bottom color=#1,middle color=#2,shading angle=24,%
+        path fading=circle with fuzzy edge 20 percent,%
+    ](0,0)circle(\SunIcoRadiusTwo);%
+}%
+\newcommand{\SunIcoDrawBodyTwo}[2]{% Color1, Color2
+    \path[%
+        % fill=TikzCol_kiwiSunFill2,%
+        top color=#1,bottom color=#2,middle color=#1,shading angle=24,%
+        path fading=circle with fuzzy edge 20 percent,%
+    ](0,0)circle(\SunIcoRadiusThree);%
+    \path[%
+        % fill=TikzCol_SunIcoFill2,%
+        inner color=#2!70!#1,outer color=#2,%
+        path fading=circle with fuzzy edge 20 percent,%
+        xshift=-0.075*\SunIcoRadiusTwo,yshift=0.075*\SunIcoRadiusTwo,%
+    ](0,0)circle(0.95*\SunIcoRadiusTwo);%
+    % \path[%
+    %     top color=TikzCol_SunIcoFill,bottom color=TikzCol_SunIcoFill2,middle color=TikzCol_SunIcoFill,shading angle=24,%
+    %     path fading=circle with fuzzy edge 20 percent,%
+    %     xshift=-0.3*\SunIcoRadiusOne,yshift=0.3*\SunIcoRadiusOne,%
+    % ](0,0)circle(0.8*\SunIcoRadiusOne);%
+    \path[%
+        preaction={%
+            inner color=#1,outer color=#2,%
+            path fading=circle with fuzzy edge 20 percent,%
+        },%
+        preaction={%
+            inner color=#1,outer color=#2!90!#1,%
+            path fading=circle with fuzzy edge 20 percent,%
+        },%
+        xshift=-0.25*\SunIcoRadiusOne,yshift=0.3*\SunIcoRadiusOne,%
+    ](0,0)circle(0.8*\SunIcoRadiusOne);%
+}%
+\newcommand{\SunIcoDrawBodyThree}[3]{% Inner Color, Outer Color, Most Out / Border Color
+    \path[%
+        fill=#3,%
+        opacity=0.8,%
+        path fading=circle with fuzzy edge 20 percent,%
+    ](0,0)circle(\SunIcoRadiusExtern);%
+    \path[%
+        preaction={%
+            fill=#3,%
+        },%
+        preaction={%
+            inner color=#1,outer color=#2,%
+            path fading=circle with fuzzy edge 20 percent,%
+        },%
+        preaction={%
+            inner color=#1,outer color=#2,%
+            path fading=circle with fuzzy edge 20 percent,%
+        },%
+    ](0,0)circle(\SunIcoRadiusThree);%
+    \path[%
+        top color=#1!20!white,bottom color=#2!80!white,%
+        path fading=circle with fuzzy edge 20 percent,%
+        yshift=0.15*\SunIcoRadiusThree,%
+    ](0,0)circle(0.85*\SunIcoRadiusThree);%
+}%
+\newcommand{\SunIcoDrawBodyFour}[3]{% Bright Color, Darker Color, Ring Color
+    \path[%
+        preaction={%
+            fill=#3,%
+        },%
+        preaction={%
+            inner color=#2,outer color=#1,%
+            path fading=circle with fuzzy edge 20 percent,%
+        },%
+        preaction={%
+            inner color=#2,outer color=#1,%
+            path fading=circle with fuzzy edge 20 percent,%
+        },%
+    ](0,0)circle(\SunIcoRadiusThree);%
+    \path[%
+        preaction={%
+            inner color=#2,outer color=#3,%
+            path fading=circle with fuzzy edge 20 percent,%
+        },%
+        preaction={%
+            fill=#3,%
+            path fading=circle with fuzzy edge 20 percent,%
+        },%
+    ](0,0)circle(\SunIcoRadiusTwo);%
+    \path[%
+        preaction={%
+            inner color=#1,outer color=#2,%
+            path fading=circle with fuzzy edge 20 percent,%
+        },%
+    ](0,0)circle(0.9*\SunIcoRadiusTwo);%
+    \path[%
+        top color=#1!60!white,bottom color=#2,%
+        path fading=circle with fuzzy edge 20 percent,%
+        yshift=0.1*\SunIcoRadiusThree,%
+    ](0,0)circle(0.7*\SunIcoRadiusTwo);%
+}
+\newcommand{\SunIcoDrawBodyFive}[3]{% Bright Color, Darker Color, Ring Color
+    \path[%
+        preaction={%
+            fill=#3,%
+        },%
+        preaction={%
+            inner color=#2,outer color=#1,%
+            path fading=circle with fuzzy edge 20 percent,%
+        },%
+        preaction={%
+            inner color=#2,outer color=#1,%
+            path fading=circle with fuzzy edge 20 percent,%
+        },%
+    ](0,0)circle(\SunIcoRadiusThree);%
+    \path[%
+        preaction={%
+            top color=#2,bottom color=#2!60!white,shading angle=24,%
+            path fading=circle with fuzzy edge 20 percent,%
+        },%
+    ](0,0)circle(\SunIcoRadiusThree);%
+    \path[%
+        preaction={%
+            top color=#2,bottom color=#3,shading angle=24,%
+            path fading=circle with fuzzy edge 20 percent,%
+        },%
+        xshift=-0.03*\SunIcoRadiusThree,yshift=0.04*\SunIcoRadiusThree,%
+    ](0,0)circle(0.95*\SunIcoRadiusThree);%
+    \path[%
+        preaction={%
+            top color=#1,bottom color=#3,shading angle=24,%
+            path fading=circle with fuzzy edge 20 percent,%
+        },%
+        xshift=-0.05*\SunIcoRadiusThree,yshift=0.08*\SunIcoRadiusThree,%
+    ](0,0)circle(0.8*\SunIcoRadiusThree);%
+    \path[%
+        preaction={%
+            top color=#1!20!white,bottom color=#3!85!#1,middle color=#3!55!#1,shading angle=24,%
+            path fading=circle with fuzzy edge 20 percent,%
+        },%
+        xshift=-0.15*\SunIcoRadiusThree,yshift=0.21*\SunIcoRadiusThree,%
+    ](0,0)circle(0.75*\SunIcoRadiusThree);%
+    \path[%
+    % draw,
+        preaction={%
+            top color=#1,bottom color=#3!55!#1,middle color=#3!45!#1,shading angle=24,%
+            path fading=circle with fuzzy edge 20 percent,%
+        },%
+        xshift=-0.15*\SunIcoRadiusThree,yshift=0.27*\SunIcoRadiusThree,%
+    ](0,0)circle(0.65*\SunIcoRadiusThree);%
+    \path[%
+        preaction={%
+            top color=#1!50!white,bottom color=#3!50!#1,middle color=#3!20!#1,shading angle=24,%
+            path fading=circle with fuzzy edge 20 percent,%
+        },%
+        xshift=-0.28*\SunIcoRadiusThree,yshift=0.48*\SunIcoRadiusThree,%
+    ](0,0)circle(0.4*\SunIcoRadiusThree);%
+}%
+\newcommand{\SunIcoDrawBodySix}[3]{% Bright Color, Darker Color, Ring Color
+    \path[%
+        preaction={%
+            fill=#3,%
+        },%
+        preaction={%
+            inner color=#2,outer color=#1,%
+            path fading=circle with fuzzy edge 20 percent,%
+        },%
+        preaction={%
+            inner color=#2,outer color=#1,%
+            path fading=circle with fuzzy edge 20 percent,%
+        },%
+    ](0,0)circle(\SunIcoRadiusThree);%
+    \path[%
+        preaction={%
+            top color=#2,bottom color=#2!60!white,shading angle=24,%
+            path fading=circle with fuzzy edge 20 percent,%
+        },%
+    ](0,0)circle(\SunIcoRadiusThree);%
+    \path[%
+        preaction={%
+            top color=#2,bottom color=#3,shading angle=24,%
+            path fading=circle with fuzzy edge 20 percent,%
+        },%
+        xshift=-0.03*\SunIcoRadiusThree,yshift=0.04*\SunIcoRadiusThree,%
+    ](0,0)circle(0.95*\SunIcoRadiusThree);%
+    \path[%
+        preaction={%
+            top color=#1,bottom color=#3,shading angle=24,%
+            path fading=circle with fuzzy edge 20 percent,%
+        },%
+        xshift=-0.05*\SunIcoRadiusThree,yshift=0.08*\SunIcoRadiusThree,%
+    ](0,0)circle(0.8*\SunIcoRadiusThree);%
+    \path[%
+        preaction={%
+            top color=#1!20!white,bottom color=#3!85!#1,middle color=#3!55!#1,shading angle=24,%
+            path fading=circle with fuzzy edge 20 percent,%
+        },%
+        xshift=-0.15*\SunIcoRadiusThree,yshift=0.21*\SunIcoRadiusThree,%
+    ](0,0)circle(0.75*\SunIcoRadiusThree);%
+}%
+%
+\newcommand{\SunIcoDrawPeakOne}[3]{% NumberPeaks, ColorTopBottom, ColorMiddle
+    \tikzmath{\peakNum=#1;}%
+    \tikzmath{\radStep=360/\peakNum;}%
+    \path[line join=miter,%
+        top color=#2,bottom color=#2,middle color=#3,shading angle=24,%
+    ]%
+        (90:\SunIcoRadiusPeakOne)%
+        \foreach\i in{1,...,\peakNum}{%
+            ..controls%
+                ++({270+(\i-1)*\radStep-25}:0.35*\SunIcoRadiusPeakOne)%
+                and%
+                ++({270+(\i)*\radStep+25}:0.35*\SunIcoRadiusPeakOne)%
+            ..%
+            (90+\i*\radStep:\SunIcoRadiusPeakOne)%
+        }%
+        ;%
+}%
+\newcommand{\SunIcoDrawPeakOneVarOne}[4]{% NumberPeaks, ColorPeaksTopBottom, ColorPeaksMiddle, ColorHalo
+    \SunIcoDrawPeakOne{#1}{#2}{#3}%
+    %
+    \path[%
+        preaction={
+        top color=#4,bottom color=#4,middle color=#4,shading angle=24,%
+            path fading=circle with fuzzy edge 20 percent,%
+        },%
+        preaction={
+            fill=#4,%
+            path fading=circle with fuzzy edge 20 percent,%
+        },%
+    ](0,0)circle(0.95*\SunIcoRadiusExtern);%
+}%
+\newcommand{\SunIcoDrawPeakTwo}[2]{% NumberPeaks, Color
+    \tikzmath{\peakNum=#1;}%
+    \tikzmath{\radStep=360/\peakNum;}%
+    \dimendef\circumShare=0%
+    % \pgfmathsetlength{\circumShare}{2*pi*\SunIcoRadiusPeakTwo/\peakNum}%
+    \pgfmathsetlength{\circumShare}{\SunIcoRadiusPeakTwo-\SunIcoRadiusThree}%
+    \pgfmathsetlength{\circumShare}{\circumShare/sqrt(\peakNum)}%
+    \pgfmathsetlength{\circumShare}{3.2*\circumShare}%
+    % \tikzmath{\circumShare=2*pi*\SunIcoRadiusPeakTwo/\peakNum;}
+        \newcommand{\ScaleDraw}[3]{%
+            \path[fill=##2,opacity=##3]%
+                let \p1=(\i*\radStep:{(1-##1)*\SunIcoRadiusPeakTwo}) in%
+                (\x1,\y1)--%
+                ($(\x1,\y1)+({180-0.5*\radStep+(\i)*\radStep}:{0.8*(1-##1*2)*\circumShare})$)--%
+                ($(\x1,\y1)+({180-1.3*\radStep+(\i)*\radStep}:{0.7*(1-##1*2)*\circumShare})$)--%
+                ($(\x1,\y1)+({180-0.7*\radStep+(\i)*\radStep-##1*2*\radStep}:{1.1*(1-##1*3.5)*\circumShare})$)%
+                    to[in={90+(\i)*\radStep-0.5*\radStep},out={-90+(\i)*\radStep+0.5*\radStep}]%
+                ($(\x1,\y1)+({180+0.7*\radStep+(\i)*\radStep+##1*2*\radStep}:{1.1*(1-##1*3.5)*\circumShare})$)--%
+                ($(\x1,\y1)+({180+1.3*\radStep+(\i)*\radStep}:{0.7*(1-##1*2)*\circumShare})$)--%
+                ($(\x1,\y1)+({180+0.5*\radStep+(\i)*\radStep}:{0.8*(1-##1*2)*\circumShare})$)--%
+            cycle;%
+        }%
+    \tikzmath{%
+        \FadeSteps=10;%
+        \CenterScale=0.09;%
+        \FadeStep=\CenterScale/(\FadeSteps+1);%
+        \OpacStep=1.0/(\FadeSteps+1);%
+    }%
+    \foreach\i in{1,...,\peakNum}{%
+        \foreach\j in{1,...,\FadeSteps}{%
+            \tikzmath{%
+                \smoothen=1/(sqrt(\j));%
+                \curScale=(\j-1)*\FadeStep;%
+            }%
+            \ScaleDraw{\curScale}{#2}{\j*\OpacStep*\smoothen}%
+        }%
+        \ScaleDraw{\CenterScale}{#2}{1}%
+    }%
+    \let\circumShare\undefined%
+}%
+        \newcommand{\SunIcoDrawPeakThreeScaleDraw}[4]{% ColorInner, ColorOuter, Scaling Factor, Opacity
+            \path[top color=#2,bottom color=#1,shading angle=\i*\radStep,opacity=#4]%
+                (90+0.5*\radStep+\i*\radStep:\SunIcoRadiusTwo)%
+                    to[out={90+\i*\radStep+0.5*\radStep},in={270+\i*\radStep-(1-4*#3)*0.75*\radStep}]%
+                ({90+0.25*\radStep+\i*\radStep+#3*0.4*\radStep}:{\SunIcoRadiusPeakThree*(1-#3)})%
+                    to[out={-90+\i*\radStep+2*#3*\radStep},in={90+\i*\radStep-0.0*\radStep}]%
+                (90+\i*\radStep:\SunIcoRadiusTwo)%
+                    to[out={180+\i*\radStep+0.04*\radStep},in={0+\i*\radStep+0.46*\radStep}]%
+            cycle;%
+            \path[top color=#2,bottom color=#1,shading angle=\i*\radStep,opacity=#4]%
+                (90-0.5*\radStep+\i*\radStep:\SunIcoRadiusTwo)%
+                    to[out={90+\i*\radStep-0.5*\radStep},in={270+\i*\radStep+(1-4*#3)*0.75*\radStep}]%
+                ({90-0.25*\radStep+\i*\radStep-#3*0.4*\radStep}:{\SunIcoRadiusPeakThree*(1-#3)})%
+                    to[out={-90+\i*\radStep-2*#3*\radStep},in={90+\i*\radStep+0.0*\radStep}]%
+                (90+\i*\radStep:\SunIcoRadiusTwo)%
+                    to[out={0+\i*\radStep-0.04*\radStep},in={180+\i*\radStep-0.46*\radStep}]%
+            cycle;%
+        }%
+\newcommand{\SunIcoDrawPeakThree}[3]{% NumberPeaks, ColorInner, ColorOuter
+    \tikzmath{\peakNum=#1;}%
+    \tikzmath{\radStep=360/\peakNum;}%
+    \foreach\i in{1,...,\peakNum}{%
+        \SunIcoDrawPeakThreeScaleDraw{#2}{#3}{0}{1}%
+    }%
+}%
+\newcommand{\SunIcoDrawPeakThreeFade}[3]{% NumberPeaks, ColorInner, ColorOuter
+    \tikzmath{\peakNum=#1;}%
+    \tikzmath{\radStep=360/\peakNum;}%
+    \tikzmath{%
+        \FadeSteps=10;%
+        \CenterScale=0.12;%
+        \FadeStep=\CenterScale/(\FadeSteps);%
+        \OpacStep=1.0/(\FadeSteps+1);%
+    }%
+    \foreach\i in{1,...,\peakNum}{%
+        \foreach\j in{1,...,\FadeSteps}{%
+            \tikzmath{%
+                \smoothen=1/(sqrt(\j));%
+                \curScale=(\j-1)*\FadeStep;%
+            }%
+            \SunIcoDrawPeakThreeScaleDraw{#2}{#3}{\curScale}{\j*\OpacStep*\smoothen}%
+        }%
+        \SunIcoDrawPeakThreeScaleDraw{#2}{#3}{\CenterScale}{1}%
+    }%
+}%
+\newcommand{\SunIcoDrawPeakFour}[4]{% NumberPeaks, ColorInner, ColorOuter, ColorEdge
+    \tikzmath{\peakNum=#1;}%
+    \tikzmath{\radStep=360/\peakNum;}%
+    \newcommand{\leafPath}{%
+            (90+0.55*\radStep+\idx*\radStep:\SunIcoRadiusThree)%
+                to[out={95+\idx*\radStep+0.5*\radStep},in={215+\idx*\radStep-0.75*\radStep}]%
+            ({90-0.15*\radStep+\idx*\radStep}:{\SunIcoRadiusPeakFour})%
+                ..controls%
+                    ++({255+(\idx)*\radStep-0}:0.25*\radStep*\SunIcoRadiusPeakFour*0.03)%
+                    and%
+                    ++({80+(\idx)*\radStep+0}:0.35*\radStep*\SunIcoRadiusPeakFour*0.03)%
+                ..%
+            (90-0.65*\radStep+\idx*\radStep:\SunIcoRadiusThree)%
+                to[out={180+\idx*\radStep-0.5*\radStep},in={0+\idx*\radStep+0.4*\radStep}]%
+        cycle%
+    }%
+    \newcommand{\edgePath}{%
+            ({90-0.15*\radStep+\idx*\radStep}:{\SunIcoRadiusPeakFour})%
+                ..controls%
+                    ++({255+(\idx)*\radStep-0}:0.25*\radStep*\SunIcoRadiusPeakFour*0.03)%
+                    and%
+                    ++({80+(\idx)*\radStep+0}:0.35*\radStep*\SunIcoRadiusPeakFour*0.03)%
+                ..%
+            (90-0.65*\radStep+\idx*\radStep:\SunIcoRadiusThree)%
+                to[out={-90+\idx*\radStep},in={-90+\idx*\radStep}]%
+            (0.04*\radStep+90-0.65*\radStep+\idx*\radStep:\SunIcoRadiusThree)%
+                ..controls%
+                    ++({82+(\idx)*\radStep+0}:0.35*\radStep*\SunIcoRadiusPeakFour*0.03)%
+                    and%
+                    ++({257+(\idx)*\radStep-0}:0.27*\radStep*\SunIcoRadiusPeakFour*0.03)%
+                ..%
+            ({0.025*\radStep+90-0.15*\radStep+\idx*\radStep}:{\SunIcoRadiusPeakFour})%
+            --%
+        cycle
+    }%
+    \newcommand{\DrawLeaf}[1]{%
+        \tikzmath{\idx=##1;}%
+        \path[top color=#3,bottom color=#2,shading angle=##1*\radStep,save path=\tmppath]% middle color=#2,
+            \leafPath%
+        ;%
+        \begin{scope}%
+            \clip[use path=\tmppath];%
+            \path[fill=#4]% middle color=#2,
+                \edgePath%
+            ;%
+        \end{scope}%
+    }%
+    \foreach\i in{1,...,\peakNum}{%
+        \DrawLeaf{\i}%
+    }%
+    \begin{scope}%
+        \clip[use path=\tmppath];%
+        \DrawLeaf{1}%
+    \end{scope}%
+}%
+\newcommand{\SunIcoDrawPeakFourVarOne}[4]{% NumberPeaks, ColorInner, ColorOuter, ColorEdge
+    \SunIcoDrawPeakFour{#1}{#2}{#3}{#4}%
+    \path[%
+        fill=#4,%
+        opacity=0.4,%
+        path fading=circle with fuzzy edge 20 percent,%
+    ](0,0)circle(1.1*\SunIcoRadiusExtern);%
+}%
+\newcommand{\SunIcoDrawPeakFourVarTwo}[4]{% NumberPeaks, ColorInner, ColorOuter, ColorEdge
+    %Here, the left side of the last leaf is not wrapped behind the first
+    \tikzmath{\peakNum=#1;}%
+    \tikzmath{\radStep=360/\peakNum;}%
+    \foreach\i in{1,...,\peakNum}{%
+        \path[top color=#3,bottom color=#2,shading angle=\i*\radStep,save path=\tmppath]% middle color=#2,
+            (90+0.55*\radStep+\i*\radStep:\SunIcoRadiusThree)%
+                to[out={95+\i*\radStep+0.5*\radStep},in={215+\i*\radStep-0.75*\radStep}]%
+            ({90-0.15*\radStep+\i*\radStep}:{\SunIcoRadiusPeakFour})%
+                ..controls%
+                    ++({255+(\i)*\radStep-0}:0.25*\radStep*\SunIcoRadiusPeakFour*0.03)%
+                    and%
+                    ++({80+(\i)*\radStep+0}:0.35*\radStep*\SunIcoRadiusPeakFour*0.03)%
+                ..%
+            (90-0.65*\radStep+\i*\radStep:\SunIcoRadiusThree)%
+                to[out={180+\i*\radStep-0.5*\radStep},in={0+\i*\radStep+0.4*\radStep}]%
+        cycle;%
+        \begin{scope}
+            \clip[use path=\tmppath];%
+            \path[fill=#4]% middle color=#2,
+                ({90-0.15*\radStep+\i*\radStep}:{\SunIcoRadiusPeakFour})%
+                    ..controls%
+                        ++({255+(\i)*\radStep-0}:0.25*\radStep*\SunIcoRadiusPeakFour*0.03)%
+                        and%
+                        ++({80+(\i)*\radStep+0}:0.35*\radStep*\SunIcoRadiusPeakFour*0.03)%
+                    ..%
+                (90-0.65*\radStep+\i*\radStep:\SunIcoRadiusThree)%
+                    to[out={180+\i*\radStep-0.0*\radStep},in={0+\i*\radStep+0.5*\radStep}]%
+                (0.04*\radStep+90-0.65*\radStep+\i*\radStep:\SunIcoRadiusThree)%
+                    ..controls%
+                        ++({82+(\i)*\radStep+0}:0.35*\radStep*\SunIcoRadiusPeakFour*0.03)%
+                        and%
+                        ++({257+(\i)*\radStep-0}:0.27*\radStep*\SunIcoRadiusPeakFour*0.03)%
+                    ..%
+                ({0.025*\radStep+90-0.15*\radStep+\i*\radStep}:{\SunIcoRadiusPeakFour})%
+                --%
+            cycle;%
+        \end{scope}
+    }%
+}%
+\newcommand{\SunIcoDrawPeakFive}[4]{% NumberPeaks, ColorInner, ColorOuter, ColorEdge
+    \tikzmath{\peakNum=#1;}%
+    \tikzmath{\radStep=360/\peakNum;}%
+    \foreach\i in{1,...,\peakNum}{%
+        \path[top color=#3,bottom color=#2,shading angle=\i*\radStep]%
+            (90+0.5*\radStep+\i*\radStep:\SunIcoRadiusTwo)%
+                to[out={90+\i*\radStep+0.5*\radStep},in={270+\i*\radStep-0.75*\radStep}]%
+            ({90+0.25*\radStep+\i*\radStep}:{\SunIcoRadiusPeakFive})%
+                to[out={-90+\i*\radStep},in={90+\i*\radStep-0.0*\radStep}]%
+            (90-0.65*\radStep+\i*\radStep:\SunIcoRadiusTwo)%
+                to[out={180+\i*\radStep-0.0*\radStep},in={0+\i*\radStep+0.5*\radStep}]%
+        cycle;%
+    }%
+}%
+\newcommand{\SunIcoDrawPeakSix}[3]{% NumberPeaks, ColorInner, ColorOuter
+    \tikzmath{\peakNum=#1;}%
+    \tikzmath{\radStep=360/\peakNum;}%
+        \newcommand{\ScaleDraw}[2]{% Scaling Factor, ColorTrans
+            \path[fill=#2!##2!#3]%
+                ({90-0.5*\radStep+\i*\radStep+##1*1.4*\radStep}:\SunIcoRadiusThree)%
+                    to[out={90+\i*\radStep+0.3*\radStep},in={270+\i*\radStep+(1-1*##1)*1.5*\radStep}]%
+                ({90+0.1*\radStep+\i*\radStep-##1*0.4*\radStep}:{\SunIcoRadiusPeakSix*(1-##1)})%
+                    to[out={-75+\i*\radStep-(6.0*##1)*\radStep},in={90+\i*\radStep-0.3*\radStep}]%
+                ({90+0.5*\radStep+\i*\radStep-##1*0.7*\radStep}:\SunIcoRadiusThree)%
+                    to[out={0+\i*\radStep+0.4*\radStep},in={180+\i*\radStep-0.4*\radStep}]%
+            cycle;%
+        }%
+    \tikzmath{%
+        \FadeSteps=10;%
+        \CenterScale=0.15;%
+        \FadeStep=\CenterScale/(\FadeSteps);%
+        int \ColTransStep;%
+        \ColTransStep=100/(\FadeSteps);%
+    }%
+    \foreach\i in{1,...,\peakNum}{%
+        \foreach\j in{1,...,\FadeSteps}{%
+            \tikzmath{%
+                \curScale=(\j-1)*\FadeStep;%
+                \curColTrans=(\j-1)*\ColTransStep;%
+            }%
+            \ScaleDraw{\curScale}{\curColTrans}%
+        }%
+        \ScaleDraw{\CenterScale}{100}%
+        % \ScaleDraw{0}{100}%
+    }%
+}%
+\newcommand{\SunIcoDrawPeakSeven}[3]{% NumberPeaks, ColorInner, ColorOuter
+    \tikzmath{\peakNum=#1;}%
+    \tikzmath{\radStep=360/\peakNum;}%
+    \foreach\i in{1,...,\peakNum}{%
+        \path[top color=#3,bottom color=#2,shading angle=24,save path=\tmppath]% middle color=#2, shading angle=\i*\radStep
+            (90+0.175*\radStep+\i*\radStep:\SunIcoRadiusThree)%
+                --%
+            ({90-0.0*\radStep+\i*\radStep}:{\SunIcoRadiusPeakSeven})%
+                --%
+            (90-0.175*\radStep+\i*\radStep:\SunIcoRadiusThree)%
+                --%
+        cycle;%
+        \path[top color=#2,bottom color=#3,shading angle=24,save path=\tmppath]% middle color=#2,
+            (90+0.65*\radStep+\i*\radStep:\SunIcoRadiusThree)%
+                --%
+            ({90+0.5*\radStep+\i*\radStep}:{0.8*\SunIcoRadiusPeakSeven})%
+                --%
+            (90+0.35*\radStep+\i*\radStep:\SunIcoRadiusThree)%
+                --%
+        cycle;%
+    }%
+}%
+\newcommand{\SunIcoDrawPeakToDoOne}[1]{% NumberPeaks
+    \tikzmath{\peakNum=#1;}%
+    \tikzmath{\radStep=360/\peakNum;}%
+    \path[draw,line join=miter]%
+        (90:\SunIcoRadiusPeakOne)%
+        \foreach\i in{1,...,\peakNum}{%
+            ..controls%
+                ++({270+(\i-1)*\radStep}:0.3*\SunIcoRadiusPeakOne)%
+                and%
+                ++({0+(\i-1)*\radStep}:0.3*\SunIcoRadiusPeakOne)%
+            ..%
+            (90+\i*\radStep:\SunIcoRadiusPeakOne)%
+        }%
+        ;%
+}%
+\newcommand{\SunIcoDrawPeakToDoTwo}[3]{% NumberPeaks, ColorInner, ColorOuter
+    % Variation / Early State of PeakSix. Can be turned into something own, looks quite appealing
+    \tikzmath{\peakNum=#1;}%
+    \tikzmath{\radStep=360/\peakNum;}%
+        \newcommand{\ScaleDraw}[2]{% Scaling Factor, ColorTrans
+            \path[fill=#2!##2!#3]%
+                (90-0.5*\radStep+\i*\radStep:\SunIcoRadiusThree)%
+                    to[out={90+\i*\radStep-0.5*\radStep},in={270+\i*\radStep+(1-4*##1)*0.75*\radStep}]%
+                ({90-0.25*\radStep+\i*\radStep-##1*0.4*\radStep}:{\SunIcoRadiusPeakSix*(1-##1)})%
+                    to[out={-90+\i*\radStep-2*##1*\radStep},in={90+\i*\radStep+0.0*\radStep}]%
+                (90+0.5*\radStep+\i*\radStep:\SunIcoRadiusThree)%
+                    to[out={0+\i*\radStep+0.0*\radStep},in={180+\i*\radStep-0.5*\radStep}]%
+            cycle;%
+        }%
+    \tikzmath{%
+        \FadeSteps=3;%
+        \CenterScale=0.12;%
+        \FadeStep=\CenterScale/(\FadeSteps);%
+        \OpacStep=1.0/(\FadeSteps+1);%
+    }%
+    \foreach\i in{1,...,\peakNum}{%
+        % \foreach\j in{1,...,\FadeSteps}{%
+        %     \tikzmath{%
+        %         \smoothen=1/(sqrt(\j));%
+        %         \curScale=(\j-1)*\FadeStep;%
+        %     }%
+        %     \ScaleDraw{\curScale}{\j*\OpacStep*\smoothen}%
+        % }%
+        % \ScaleDraw{\CenterScale}{1}%
+        \ScaleDraw{0}{100}%
+    }%
+}%
+%
+\tikzset{%
+  SunIcoLine/.style={%
+    draw=none,%
+    line width=\SunIcoLineWidth%
+  },%
+  SunB1P1/.pic={% Body 1, Peaks 1
+    % Peaks
+    \tikzmath{\peakNum=12;}%
+    \SunIcoDrawPeakOneVarOne{\peakNum}{TikzCol_SunIcoOrangeOne!99!white}{TikzCol_SunIcoYellowOne!90!white}{TikzCol_SunIcoYellowTwo}%
+    %
+    %Round Body
+    \SunIcoDrawBodyOne{TikzCol_SunIcoOrangeOne!99!white}{TikzCol_SunIcoYellowOne!90!white}%
+  },%
+  SunB2P2/.pic={% Body 1, Peaks 1
+    % Peaks
+    \tikzmath{\peakNum=12;}%
+    \SunIcoDrawPeakTwo{\peakNum}{TikzCol_SunIcoYellowTwo}% TikzCol_SunIcoYellowOne, TikzCol_SunIcoYellowTwo, TikzCol_SunIcoOrangeOne
+    %
+    %Round Body
+    \SunIcoDrawBodyTwo{TikzCol_SunIcoYellowOne!90!white}{TikzCol_SunIcoOrangeOne!99!white}%
+  },%
+  SunB1P3/.pic={% Body 1, Peaks 1
+    % Peaks
+    \tikzmath{\peakNum=8;}%
+    \SunIcoDrawPeakThreeFade{\peakNum}{TikzCol_SunIcoYellowTwo}{TikzCol_SunIcoOrangeOne}%{TikzCol_SunIcoYellowOne}% No Halo here
+    %
+    %Round Body
+    \SunIcoDrawBodyOne{TikzCol_SunIcoOrangeOne!99!white}{TikzCol_SunIcoYellowOne!90!white}%
+  },%
+  SunB3P4/.pic={% Body 1, Peaks 1
+    % Peaks
+    \tikzmath{\peakNum=11;}%
+    \SunIcoDrawPeakFour{\peakNum}{TikzCol_SunIcoOrangeOne!80!TikzCol_SunIcoOrangeTwo}{TikzCol_SunIcoYellowTwo}{TikzCol_SunIcoOrangeTwo}%
+    %
+    %Round Body
+    \SunIcoDrawBodyThree{TikzCol_SunIcoYellowTwo}{TikzCol_SunIcoOrangeOne}{TikzCol_SunIcoOrangeTwo}%
+  },%
+  SunB5P5/.pic={% Body 1, Peaks 1
+    % Peaks
+    \tikzmath{\peakNum=12;}%
+    \SunIcoDrawPeakFive{\peakNum}{TikzCol_SunIcoOrangeOne!80!TikzCol_SunIcoOrangeTwo}{TikzCol_SunIcoYellowTwo}{TikzCol_SunIcoOrangeTwo}%
+    %
+    %Round Body
+    \SunIcoDrawBodyFive{TikzCol_SunIcoYellowTwo}{TikzCol_SunIcoOrangeOne}{TikzCol_SunIcoOrangeTwo}%
+  },%
+  SunB4P6/.pic={% Body 1, Peaks 1
+    % Peaks
+    \tikzmath{\peakNum=12;}%
+    \SunIcoDrawPeakSix{\peakNum}{TikzCol_SunIcoYellowTwo}{TikzCol_SunIcoOrangeTwo}%{TikzCol_SunIcoYellowTwo}{TikzCol_SunIcoOrangeOne!10!TikzCol_SunIcoOrangeTwo}%
+    %
+    %Round Body
+    \SunIcoDrawBodyFour{TikzCol_SunIcoYellowTwo}{TikzCol_SunIcoOrangeOne}{TikzCol_SunIcoOrangeTwo}%
+  },%
+  SunB6P7/.pic={% Body 1, Peaks 1
+    % Peaks
+    \tikzmath{\peakNum=12;}%
+    \SunIcoDrawPeakSeven{\peakNum}{TikzCol_SunIcoYellowTwo}{TikzCol_SunIcoOrangeTwo}%{TikzCol_SunIcoYellowTwo}{TikzCol_SunIcoOrangeOne!10!TikzCol_SunIcoOrangeTwo}%
+    %
+    %Round Body
+    \SunIcoDrawBodySix{TikzCol_SunIcoYellowTwo}{TikzCol_SunIcoOrangeOne}{TikzCol_SunIcoOrangeTwo}%
+  }%
+}%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+\colorlet{TikzCol_kiwiSun1}{TikzCol_kiwiGreenBright}%
+\colorlet{TikzCol_kiwiSun2}{TikzCol_kiwiGreenMedium}%
+\colorlet{TikzCol_kiwiSun3}{TikzCol_kiwiGreenMedium2}%
+\colorlet{TikzCol_kiwiSun4}{TikzCol_kiwiGreenDark}%
+\colorlet{TikzCol_kiwiSunSkin1}{TikzCol_kiwiSkinDark}%
+%
+\def\KiwiSunSize{10em}% 8pt, 12pt, 3ex
+\def\KiwiSunWidth{\KiwiSunSize}% 8pt, 12pt, 3ex
+\def\KiwiSunHeight{\KiwiSunSize}% 8pt, 12pt, 3ex
+\def\KiwiSunFleshWidth{0.85*\KiwiSunWidth}% 8pt, 12pt, 3ex
+\def\KiwiSunFleshHeight{0.85*0.6*\KiwiSunHeight}%
+\def\KiwiSunLineWidth{0.004*\KiwiSunSize}% 0.07
+\def\KiwiSunRadius{0.6*\KiwiSunSize}%
+\def\KiwiSunRadiusTwo{0.7*\KiwiSunSize}%
+\def\KiwiSunRadiusExtern{0.8*\KiwiSunSize}%
+%
+\def\KiwiSunSeedSize{0.025*\KiwiSunSize}% 8pt, 12pt, 3ex
+\tikzset{%
+  KiwiSunLine/.style={%
+    draw=none,%
+    line width=\KiwiSunLineWidth%
+  },%
+  KiwiSunFlower/.pic={%
+    % Peak 3 + Body 1 | 2
+    % Peak 4 + Body 3 | 5 | 6 | 4
+    % Peak 6 + Body 4 | 6 | 5
+    %
+    % \SunIcoDrawPeakThreeFade{8}{TikzCol_kiwiSunSkin1}{TikzCol_kiwiSun1}% Nice
+    \SunIcoDrawPeakFour{11}{TikzCol_SunIcoYellowOne}{TikzCol_kiwiSun1}{TikzCol_kiwiSunSkin1}% Nice
+    % \SunIcoDrawPeakSix{12}{TikzCol_kiwiSun1}{TikzCol_kiwiSunSkin1}% Quite alright
+    % \SunIcoDrawPeakOneVarOne{12}{TikzCol_kiwiSun3}{TikzCol_kiwiSun1}{TikzCol_kiwiSunSkin1}% Hm, mediocre
+    % \SunIcoDrawPeakTwo{12}{TikzCol_kiwiSun3}% Rather no
+    % \SunIcoDrawPeakOne{12}{TikzCol_kiwiSun3}{TikzCol_kiwiSun1}% Rather not
+    % \SunIcoDrawPeakFive{12}{TikzCol_kiwiSun3}{TikzCol_kiwiSun1}{TikzCol_kiwiSunSkin1}% Not
+    % \SunIcoDrawPeakSeven{12}{TikzCol_kiwiSun1}{TikzCol_kiwiSunSkin1}% Nope
+    %
+    % \SunIcoDrawBodyOne{TikzCol_kiwiSun3}{TikzCol_kiwiSun1}%
+    % \SunIcoDrawBodyTwo{TikzCol_kiwiSun3}{TikzCol_kiwiSun1}%
+    \SunIcoDrawBodyThree{TikzCol_kiwiSun4}{TikzCol_kiwiSun1}{TikzCol_kiwiSunSkin1}%
+    % \SunIcoDrawBodyFour{TikzCol_kiwiSun3}{TikzCol_kiwiSun1}{TikzCol_kiwiSun2}%
+    % \SunIcoDrawBodyFive{TikzCol_kiwiSun3}{TikzCol_kiwiSun2}{TikzCol_kiwiSun1}%
+    % \SunIcoDrawBodySix{TikzCol_kiwiSun3}{TikzCol_kiwiSun2}{TikzCol_kiwiSun1}%
+    %
+    % \scopenode[name=-tmp,draw=none,anchor=center,at={(0,0)}]{%
+    %     \node(tmpPic){\includegraphics[scale=1.2]{./workStateTmp.pdf}};%
+    % };%
+    %
+    %
+    % \path[%
+    %     fill=TikzCol_kiwiGreenBright,%
+    %     path fading=circle with fuzzy edge 20 percent,%
+    %     % inner color=TikzCol_kiwiGreenBright,outer color=TikzCol_kiwiSunFill,%
+    % ](0,0)circle(0.7*\KiwiSunRadius);%
+    %
+    % \scopenode[name=-KiwiCut,draw=none,anchor=center,at={(0,0)}]{%
+    %     \pic(-KiwiCutPic)[scale=1.6]% scale=0.6, xscale=0.3,yscale=0.4, rotate=90
+    %     {KiwiCutPlaneCenterDeko};}% KiwiCutPlaneCenterDeko  KiwiCutPlaneShade
+    % \scopenode[name=-KiwiCut,draw=none,anchor=center,at={(0,0)}]{%
+    %     \pic(-KiwiCutPic)[scale=1.4]% scale=0.6, xscale=0.3,yscale=0.4, rotate=90
+    %     {KiwiCutPlaneShade};};%
+    \pic(-KiwiCutPic)[scale=1.6]at(0,0){KiwiCutPlaneCenterDeko};%
+  },%
+  KiwiSunB1P3/.pic={%
+    \path[KiwiSunLine,%
+        fill=TikzCol_kiwiSunSkin1,%
+    ](0,0)circle(\SunIcoRadiusTwo);%
+    \SunIcoDrawPeakThreeFade{8}{TikzCol_kiwiSun1}{TikzCol_SunIcoYellowOne}%
+    %
+    \SunIcoDrawBodyOne{TikzCol_kiwiSun4}{TikzCol_kiwiSun1}%
+    %
+    \pic(-KiwiCutPic)[scale=1.4]at(0,0){KiwiCutPlaneCenterDeko};%
+  },%
+  KiwiSunB2P3/.pic={%
+    \path[KiwiSunLine,%
+        fill=TikzCol_kiwiSunSkin1,%
+    ](0,0)circle(\SunIcoRadiusTwo);%
+    \SunIcoDrawPeakThreeFade{8}{TikzCol_SunIcoOrangeOne}{TikzCol_kiwiSun2}%
+    % \SunIcoDrawPeakThreeFade{8}{TikzCol_kiwiSunSkin1}{TikzCol_SunIcoOrangeOne}%
+    %
+    \SunIcoDrawBodyTwo{TikzCol_kiwiSun2!50!TikzCol_SunIcoYellowOne}{TikzCol_kiwiSun1}%
+    %
+    \pic(-KiwiCutPic)[scale=1.4]at(0,0){KiwiCutPlaneCenterDeko};%
+  },%
+  KiwiSunB6P6/.pic={%
+    \path[KiwiSunLine,%
+        fill=TikzCol_kiwiSunSkin1,%
+    ](0,0)circle(\SunIcoRadiusTwo);%
+    \SunIcoDrawPeakSix{12}{TikzCol_kiwiSun1}{TikzCol_kiwiSunSkin1}%
+    %
+    % \SunIcoDrawBodyFive{TikzCol_kiwiSun3}{TikzCol_kiwiSun2}{TikzCol_kiwiSun1}%
+    \SunIcoDrawBodySix{TikzCol_kiwiSun1}{TikzCol_kiwiSun2}{TikzCol_kiwiSun4}%
+    %
+    \pic(-KiwiCutPic)[scale=1.4]at(0,0){KiwiCutPlaneCenterDeko};%
+  }%
+}%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+% \definecolor{TikzCol_RadioTowerLine}{named}{black}%
+\definecolor{TikzCol_RadioTowerLine}{RGB}{13,96,139}
+%
+\def\RadioTowerLineWidth{1.4pt}%
+\def\RadioTowerSize{4.5em}% 80*0.6pt % 80*\RadioTowerLineWidth %
+\def\RadioTowerWidth{0.7*\RadioTowerSize}%
+\def\RadioTowerHeight{\RadioTowerSize}%
+\def\RadioTowerAntennaRadius{0.04*\RadioTowerSize}%
+%
+\tikzset{%
+  RadioTowerLine/.style={%
+    draw=TikzCol_RadioTowerLine,%
+    line width=\RadioTowerLineWidth,%
+    line join=round,%
+    line cap=round%
+  },%
+  RadioTower/.pic={%
+    \newcommand{\RadioTowerIntersectOnePos}{0.4}%
+    \newcommand{\RadioTowerIntersectTwoPos}{0.7}%
+    \coordinate(-TowerBottomL)at(0,0);%
+    \coordinate(-TowerBottomR)at(\RadioTowerWidth,0);%
+    \coordinate(-TowerTip)at(0.5*\RadioTowerWidth,\RadioTowerHeight);%
+    \coordinate(-TowerAntennaCenter)at($(-TowerTip)+(0,\RadioTowerAntennaRadius)$);%
+    \path[RadioTowerLine,line join=round,line cap=round]%
+        (-TowerBottomL)%
+        --%
+        (-TowerTip)%
+            coordinate[pos=\RadioTowerIntersectOnePos](-IntersectOneL)%
+            coordinate[pos=\RadioTowerIntersectTwoPos](-IntersectTwoL)%
+        --%
+        (-TowerBottomR)%
+            coordinate[pos=1-\RadioTowerIntersectOnePos](-IntersectOneR)%
+            coordinate[pos=1-\RadioTowerIntersectTwoPos](-IntersectTwoR)%
+    ;%
+    %
+    \path[RadioTowerLine,line join=round,line cap=round]%
+        (\RadioTowerWidth,0)%
+        --%
+        (-IntersectOneL)%
+    ;%
+    \path[RadioTowerLine,line join=round,line cap=round]%
+        (0,0)%
+        --%
+        (-IntersectOneR)%
+    ;%
+    \path[RadioTowerLine,line join=round,line cap=round]%
+        (-IntersectOneL)%
+        --%
+        (-IntersectTwoR)%
+    ;%
+    \path[RadioTowerLine,line join=round,line cap=round]%
+        (-IntersectOneR)%
+        --%
+        (-IntersectTwoL)%
+    ;%
+    %
+    \draw[RadioTowerLine](-TowerAntennaCenter)circle(\RadioTowerAntennaRadius);%
+  },%
+  RadioTowerWFloor/.pic={%
+    \pic(-RadioTowerPic){RadioTower};%
+    \coordinate(-FloorTwoL)at($(-RadioTowerPic-TowerBottomL)+(-0.1*\RadioTowerSize,0)$);%
+    \coordinate(-FloorTwoR)at($(-RadioTowerPic-TowerBottomR)+(0.1*\RadioTowerSize,0)$);%
+    \coordinate(-FloorOneL)at($(-FloorTwoL)+(0,-0.06*\RadioTowerHeight)$);%
+    \coordinate(-FloorOneR)at(-FloorOneL-|#1-FloorTwoR);%
+    \path[RadioTowerLine,line join=round,line cap=round]%
+        (-FloorTwoL)%
+        --%
+        (-FloorTwoR)%
+    ;%
+    \path[RadioTowerLine,line join=round,line cap=round]%
+        (-FloorOneL)%
+        --%
+        (-FloorOneR)%
+    ;%
+  },%
+  RadioTowerWRadioWave/.pic={%
+    \pic(-RadioTowerPic){RadioTower};%
+    \newcommand{\RadioWave}[2]{%
+        %\draw[RadioTowerLine](-RadioTowerPic-TowerAntennaCenter)+(##1,0)arc[start angle=0,end angle=360,radius=##1];%
+        \draw[RadioTowerLine,line width=0.8*\RadioTowerLineWidth](-RadioTowerPic-TowerAntennaCenter)+(-##2:##1)arc(-##2:##2:##1);%
+        \draw[RadioTowerLine,line width=0.8*\RadioTowerLineWidth](-RadioTowerPic-TowerAntennaCenter)+(180-##2:##1)arc(180-##2:180+##2:##1);%
+    }%
+    \RadioWave{3.0*\RadioTowerAntennaRadius}{30}%
+    \RadioWave{5.0*\RadioTowerAntennaRadius}{30}%
+    \RadioWave{7.0*\RadioTowerAntennaRadius}{30}%
+  },%
+  RadioTowerWFloorWRadioWave/.pic={%
+    \pic(-RadioTowerWFloorPic){RadioTowerWFloor};%
+    \newcommand{\RadioWave}[2]{%
+        %\draw[RadioTowerLine](-RadioTowerPic-TowerAntennaCenter)+(##1,0)arc[start angle=0,end angle=360,radius=##1];%
+        \draw[RadioTowerLine,line width=0.8*\RadioTowerLineWidth](-RadioTowerWFloorPic-RadioTowerPic-TowerAntennaCenter)+(-##2:##1)arc(-##2:##2:##1);%
+        \draw[RadioTowerLine,line width=0.8*\RadioTowerLineWidth](-RadioTowerWFloorPic-RadioTowerPic-TowerAntennaCenter)+(180-##2:##1)arc(180-##2:180+##2:##1);%
+    }%
+    \RadioWave{3.0*\RadioTowerAntennaRadius}{30}%
+    \RadioWave{5.0*\RadioTowerAntennaRadius}{30}%
+    \RadioWave{7.0*\RadioTowerAntennaRadius}{30}%
+  }%
+}%
+%
+% Usage Suggestion:
+%    \scopenode[name=RadioTower,draw=none,anchor=north west,at={(0,0)}]{%
+%    \pic(RadioTowerPic){RadioTowerWFloorWRadioWave};%
+%    }
+%
+%
+%
+%
+%

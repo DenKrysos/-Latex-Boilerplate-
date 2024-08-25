@@ -1,0 +1,120 @@
+% REMARK:
+%  This package is not recommended to be used together with a KOMA Class.
+%  Hence, I suggest, leaving this alone (i.e. don't input this file here).
+%  But rather input the other File ("ToC_tableOf_ContFigTabAlg.tex"), which configures the Table/List of Content, Figures, Tables, Algorithms for KOMA.
+%
+\usepackage[%
+    %subfigure, % Don't issue this option. Subfig & Subfigure are not used. Instead Subcaption is in use. Loading the former two in conjunction causes problems.
+]{tocloft}%Ermöglicht customization von Inhaltsverzeichnis, Abbildungsverzeichnis und Tabellenverzeichnis
+%
+\cftsetpnumwidth{1.8em}% '1.8em' is just barely sufficient for a 'XIII' | '2.15em' for 'XVII'
+%
+%
+%
+%======================================
+% Configuration
+%======================================
+%
+% - - - - - - - - - - - - - - - -
+%  Removing the Printing of the Title (like "List of Figures") from commands like "\listoffigures"
+%
+% - - - - - - - - - -
+%   Variant 1)
+%      -> Instead of calling \listoffigures, use
+%        % \makeatletter%
+%        % \@starttoc{lof}% Print List of Figures
+%        % \makeatother%
+%
+%
+% - - - - - - - - - -
+%   Variant 2)
+%      -> Use the following boilerplate. Removes the header construction suggested by "tocloft"
+%        % {\makeatletter%
+%        % \let\@cftmakeloftitle\relax%
+%        % \listoffigures% Print List of Figures
+%        % \makeatother}%
+%
+%
+% - - - - - - - - - -
+%   Variant 3)
+%      -> As an extension to Variant 2), I defined the following command, which can then be used instead of \listoffigures
+\makeatletter%
+\newcommand{\tableofcontentsDenKr}{%
+	\chapter*{\contentsname}%
+	\label{chapnt:ToC}%
+% 	\markboth{\nameref{#2}}{\nameref{#3}}%
+	\markboth{\contentsname}{\contentsname}%
+    \let\@cftmaketoctitle\relax%
+    \tableofcontents%
+}%
+\newcommand{\listoffiguresDenKr}{%
+    \chapnt{\listfigurename}[chapnt:LoF]%
+    \let\@cftmakeloftitle\relax%
+    \listoffigures%
+}%
+\makeatother%
+\makeatletter%
+\newcommand{\listoftablesDenKr}{%
+    \chapnt{\listtablename}[chapnt:LoT]%
+    \let\@cftmakelottitle\relax%
+    \listoftables%
+}%
+\makeatother%
+\makeatletter%
+\newcommand{\listofalgorithmsDenKr}{%
+    \chapnt{\listalgorithmname}[chapnt:LoA]%
+    \let\@cftmakeloatitle\relax% \@listalgorithmcfname \@cftmakeloalgtitle
+	% \addcontentsline{toc}{chapter}{\listalgorithmname}%
+    \listofalgorithms%
+}%
+\makeatother%
+%
+%
+% - - - - - - - - - -
+% NECESSITIES
+%  -  -  -  -
+% A self-made custom definition of the \listofalgorithms cmd
+%    Because with the package algorithm/algpseudocode/algorithmicx, one cannot easily remove the Chapter-Heading, as their definition of the listofalgorithms doesn't comply with tocloft.
+%    So I created an own, based on the toclofts listoffigures
+\makeatletter%
+\AddToHook{begindocument/before}{% Because the algorithm-concerning package must be loaded
+\renewcommand{\listofalgorithms}{%
+    \@cfttocstart \par \begingroup %
+    \parindent\z@ \parskip\cftparskip %
+    \addpenalty \@secpenalty %
+    % \if@cfthaschapter \vspace*{\cftbeforeloftitleskip } \else %
+    %                   \vspace {\cftbeforeloftitleskip } \fi%
+    \@cftpagestyle %
+    {%
+        % \interlinepenalty \@M %
+        % {\cftloftitlefont \listalgorithmname }%
+        % {\cftafterloftitle } %
+        % \par \nobreak \vskip \cftafterloftitleskip \@afterheading%
+        \@mkboth{\MakeUppercase\listalgorithmname}%
+                {\MakeUppercase\listalgorithmname}%
+    }%
+    \let\l@algorithm\l@figure%
+    \@starttoc{loa}\endgroup %
+    \@cfttocfinish%
+}%
+}
+\makeatother%
+%
+%
+% - - - - - - - - - -
+%   Variant 4)
+%      -> Redefine the following.
+%         - This the default definition of the "\listoffigures" command by "tocloft.sty". There you could remove the "\@cftmakeloftitle"
+%        % \renewcommand{\listoffigures}{%
+%        %   \@cfttocstart%
+%        %   \par%
+%        %   \begingroup%
+%        %     \parindent\z@ \parskip\cftparskip%
+%        %     \@cftmakeloftitle%
+%        %     \if@cfttocbibind%
+%        %       \@cftdobiblof%
+%        %     \fi%
+%        %     \@starttoc{lof}%
+%        %   \endgroup%
+%        %   \@cfttocfinish}%
+%        % \fi%

@@ -1,0 +1,57 @@
+\usepackage[utf8]{inputenc}%
+%
+%
+%##########################
+% With pdfLaTeX: `fontenc'
+%##########################
+%|=======================||||
+\usepackage[T1]{fontenc}%|| Fine for pdfLaTeX, pre-Lua(La)Tex
+\newcommand{\DenKrFontEngine}{fontenc}%
+%|=======================||||
+% % %\usepackage[scaled]{uarial}
+% % % \usepackage{bookman}
+%|===================||||
+% \usepackage{lmodern}%|| Lädt Latin Modern Font und setzt es fürs Dokument
+%|===================||||
+% % %Ist weniger Pixelig in pdf als Latex Standart
+%|====================||||
+\usepackage{textcomp}%|| Lädt Text Companion Font
+%|====================||||
+% % %Stellt insbesondere Zeichen zur verfügung, wie
+% % %baht, bullet, copyright, musicalnote, onequarter, section, and yen
+% % %------------------------------------------------
+% % % Standartschriftart festlegen:
+% % % Mögliche Werte
+% % % \rmdefault - Roman (Serifen) Font
+% % % \sfdefault - Sans Serif Font
+% % % \ttdefault - TypeWriter Font
+%|=========================================||||
+% \renewcommand*{\familydefault}{\rmdefault}%||
+%|=========================================||||
+% % %Die drei Schriftfamilien einstellen:
+%|==============================||||
+% \renewcommand*{\rmdefault}{lmr}%||
+%|==============================||||
+% % % Standartmäßig verfügbare Schriftarten:
+% % % cmr 	Computer Modern Roman (default)
+% % % lmr 	Latin Modern Roman
+% % % pbk 	Bookman
+% % % bch 	Charter
+% % % pnc 	New Century Schoolbook
+% % % ppl 	Palatino
+% % % ptm 	Times
+%|===============================||||
+% \renewcommand*{\sfdefault}{lmss}%||
+%|===============================||||
+% % % Standartmäßig verfügbare Schriftarten:
+% % % cmss 	Computer Modern Sans Serif (default)
+% % % lmss 	Latin Modern Sans Serif
+% % % pag 	Avant Garde
+% % % phv 	Helvetica
+%|===============================||||
+% \renewcommand*{\ttdefault}{lmtt}%||
+%|===============================||||
+%
+% % %Different Font for math. Sets automatically (and only) the font setup for math-environments
+%|====================||||
+% \usepackage[T1,small,euler-digits]{eulervm}%

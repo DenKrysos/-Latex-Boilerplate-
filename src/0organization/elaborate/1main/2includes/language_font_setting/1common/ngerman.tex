@@ -1,0 +1,39 @@
+%
+%________________________________________________________________________
+%------------------------------------------------------------------------
+%					Setups für Cleveref
+%/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+\AtEndPreamble{%
+\crefname{chapter}{Kapitel}{Kapiteln}%
+\crefname{section}{Abschnitt}{Abschnitten}%
+\crefname{part}{Teil}{Teilen}%
+\crefname{figure}{Abbildung}{Abbildungen}%
+\crefname{table}{Tabelle}{Tabellen}%
+\crefname{listing}{Listing}{Listings}%
+\crefname{equation}{Formel}{Formeln}%
+\crefname{algorithm}{Algorithmus}{Algorithmen}%
+}%
+%/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+%					Cleveref fertig
+%------------------------------------------------------------------------
+%________________________________________________________________________
+%
+%
+%
+%
+%________________________________________________________________________
+%------------------------------------------------------------------------
+%					Setups für List-of (Contents/Figures/Tables/Listings/Algorithms)
+%/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+\AddToHook{begindocument/before}{%
+\ifdefined\lstlistlistingname%
+    \renewcommand{\lstlistlistingname}{Listingsverzeichnis}%
+\else\fi%
+\ifdefined\listalgorithmname%
+    \renewcommand{\listalgorithmname}{Algorithmenverzeichnis}%
+\else\fi%
+}%
+%/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+%					Cleveref fertig
+%------------------------------------------------------------------------
+%________________________________________________________________________

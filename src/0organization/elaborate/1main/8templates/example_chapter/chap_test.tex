@@ -1,0 +1,30 @@
+\documentclass[class=scrbook, crop=false]{standalone}
+\usepackage[subpreambles=true]{standalone}
+\usepackage{import}
+
+
+\begin{document}
+Example-Citation:
+\cite{DenKr_denkrement1_indeco}
+\\%
+Some special characters:
+»«.
+\\%
+Some Example Macro:
+\gerguiquote{My Enquote}.
+\\%
+Example Acronym:
+\gls{fsa}
+
+A TikZ figure will be rendered below this line
+
+\begin{figure}[ht]
+\centering
+a
+%\subimport{../}{diagram.tex}
+\label{fig:tikzexample}
+\caption{A nice simple diagram}
+\end{figure}
+
+\textcolor{red}{some red text}
+\end{document}

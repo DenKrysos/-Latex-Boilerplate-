@@ -1,0 +1,122 @@
+\DeclareBibliographyDriver{report}{%
+  \usebibmacro{bibindex}%
+  \usebibmacro{begentry}%
+  \usebibmacro{author}%
+  \setunit{\labelnamepunct}\newblock%
+  \usebibmacro{title}%
+  \newunit%
+  \printlist{language}%
+  \newunit\newblock%
+  \usebibmacro{byauthor}%
+  \newunit\newblock%
+  \printfield{type}%
+  \setunit*{\addspace}%
+  \printfield{number}%
+  \newunit\newblock%
+  \printfield{version}%
+  \newunit%
+  \printfield{note}%
+  \newunit\newblock%
+  \usebibmacro{institution+location+date}%
+  \newunit\newblock%
+  \usebibmacro{chapter+pages}%
+  \newunit%
+  \printfield{pagetotal}%
+  \newunit\newblock%
+  \iftoggle{bbx:isbn}%
+    {\printfield{isrn}}%
+    {}%
+  \newunit\newblock%
+  \usebibmacro{doi+eprint+url}%
+  \newunit\newblock%
+  \usebibmacro{addendum+pubstate}%
+  \setunit{\bibpagerefpunct}\newblock%
+  \usebibmacro{pageref}%
+  \newunit\newblock%
+  \iftoggle{bbx:related}%
+    {\usebibmacro{related:init}%
+     \usebibmacro{related}}%
+    {}%
+  \usebibmacro{finentry}}%
+%
+\renewbibmacro*{institution+location+date}{%
+  \printlist{location}%
+  \iflistundef{institution}
+    {\setunit*{\addcomma\space}}%
+    {\setunit*{\addcolon\space}}%
+  \textsf{\printlist{institution}}%
+  \setunit*{\adddot\space}%
+  \usebibmacro{date}%
+  \newunit}%
+%
+\renewbibmacro*{publisher+location+date}{%
+  \printlist{location}%
+  \iflistundef{publisher}%
+    {\setunit*{\addcomma\space}}%
+    {\setunit*{\addcolon\space}}%
+  \printlist{publisher}%
+  \setunit*{\adddot\space}%
+  \usebibmacro{date}%
+  \newunit}%
+%
+\DeclareBibliographyDriver{misc}{%
+  \usebibmacro{bibindex}%
+  \usebibmacro{begentry}%
+  \usebibmacro{author/editor+others/translator+others}%
+  \setunit{\labelnamepunct}\newblock%
+  \usebibmacro{title}%
+  \newunit%
+  \printlist{language}%
+  \newunit\newblock%
+  \usebibmacro{byauthor}%
+  \newunit\newblock%
+  \usebibmacro{byeditor+others}%
+  \newunit\newblock%
+  \printfield{howpublished}%
+  \newunit\newblock%
+  \printfield{type}%
+  \newunit%
+  \printfield{version}%
+  \newunit%
+  \printfield{note}%
+  \newunit\newblock%
+  \usebibmacro{organization+location+date}%
+  \newunit\newblock%
+  \usebibmacro{doi+eprint+url}%
+  \newunit\newblock%
+  \usebibmacro{addendum+pubstate}%
+  \setunit{\bibpagerefpunct}\newblock%
+  \usebibmacro{pageref}%
+  \newunit\newblock%
+  \iftoggle{bbx:related}%
+    {\usebibmacro{related:init}%
+     \usebibmacro{related}}%
+    {}%
+  \usebibmacro{finentry}}%
+%
+\renewbibmacro*{organization+location+date}{%
+  \printlist{location}%
+  \iflistundef{organization}%
+    {\setunit*{\addcomma\space}}%
+    {\setunit*{\addcolon\space}}%
+  \textsf{\printlist{organization}}%
+  \setunit*{\addcomma\space}%
+  \usebibmacro{date}%
+  \newunit}%
+%
+%
+%==========================================================================================
+%------------------------------------------------------------------------------------------
+%------------------------------------------------------------------------------------------
+%__________________________________________________________________________________________
+%
+\DefineBibliographyStrings{ngerman}{andothers={et\addabbrvspace al\adddot}}%
+%
+% \renewcommand*{\bibpagespunct}{\addcolon}%       % Zeichen vor der Seitenangabe
+\renewcommand*{\multinamedelim}{\addcomma\space}%  % Kommas zwischen Autoren [default]
+\renewcommand*{\finalnamedelim}{\addcomma\space}%  % Entfernt das 'und' zwischen den letzten beiden Namen einer Liste
+\renewcommand*{\nameyeardelim}{\addcomma\space}%   % Bei Zitaten Komma vor Jahr
+\defbibheading{quell}{\section{Quellenverzeichnis}}%
+\defbibheading{lit}{\section{Literaturverzeichnis}}%
+\setcounter{biburllcpenalty}{9000}%
+\setcounter{biburlucpenalty}{9000}%Allow URLs to break, if run into margin

@@ -1,0 +1,96 @@
+%________________________________________________________________________
+%------------------------------------------------------------------------
+%					Acronyms, Abbreviations, Glossary  /  Abkürzungen, Glossar und weiteres
+%						glossaries
+%/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+% Glossaries muss NACH hyperref, babel, polyglossia, inputenc and fontenc geladen werden
+% When hyperref is loaded via utilizing \AtEndPreamble{}, glossaries should also be loaded in that way, where this is pastet after hyperref. (Code from \AtEndPreamble{} is executed in the order it was populated)
+% See PassOptions for fp on Top
+% \AtEndPreamble{%
+\let\printglossary\relax%
+\let\theglossary\relax%
+\let\endtheglossary\relax%
+\usepackage[%
+	acronym=true,% acronyms
+% 	nomain,%
+% 	nonumberlist,%
+	nopostdot,%
+	seeautonumberlist,%
+	shortcuts,%
+	section=chapter,%
+	toc=false,%
+	nogroupskip=true,%
+    prefix,% makes -extra load -prefix
+]{glossaries-extra}% glossaries  glossaries-extra
+%------------------------
+%     Without '-extra':
+% - - - - - - - - - - - -
+%\usepackage{glossaries-prefix}%
+%\setacronymstyle{short-long}%
+%------------------------
+%     With 'glossaries-extra':
+% - - - - - - - - - - - -
+%   Indispensable with '-extra', to have any kind of true 'Gls-first' output
+\setabbreviationstyle[acronym]{short-long}%
+%/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+%					glossaries fertig
+%------------------------------------------------------------------------
+%________________________________________________________________________
+%
+%
+%
+%________________________________________________________________________
+%------------------------------------------------------------------------
+%               Configuring / Customization
+%				(Additional Glossaries & Keys)
+%/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+\newglossary{symbol}{sym}{sbl}{List of Symbols}%
+\input{"\DenKrAllMainRootDirPATH/3settings/4customization/glossaries_keys".tex}%
+%---------------------------------------
+% makeglossaries is well placed on that spot
+\ifdef{\DenKrTikzStandaloneNotInclude}{}{%
+\makeglossaries%
+}%
+%/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+%					glossaries fertig
+%------------------------------------------------------------------------
+%________________________________________________________________________
+%
+%
+%
+%________________________________________________________________________
+%------------------------------------------------------------------------
+%							Setups für Glossaries
+%       (Style for the \printglossaries output is included "inDocument")
+%       (Additional added keys are included in Preamble, with the package)
+%/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+\input{"\DenKrAllMainRootDirPATH/3settings/4customization/glossaries_cmds".tex}%
+% - - - - - -
+\newcommand{\loadGlsIfExists}[1]{\IfFileExists{#1}{\loadglsentries{#1}}{}}%
+%
+\loadGlsIfExists{\DenKrSupplyRootDir/glossaries.tex}%
+\loadGlsIfExists{\DenKrSupplyRootDir/glossaries2.tex}%
+% - - - - - -
+%\glsdisablehyper% Disables Hyperlinks
+\renewcommand{\glossarysection}[2][]{}%Completely removes the section heading (re-defines the internally used command to just do nothing)
+% }%
+%/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+%							Glossaries fertig
+%------------------------------------------------------------------------
+%________________________________________________________________________
+%
+%
+%
+%
+%
+%________________________________________________________________________
+%------------------------------------------------------------------------
+%							Setups für Glossaries
+%       (Additionally defined cmds/macros are included "pre-Document")
+%       (Additional added keys are included in Preamble, with the package)
+%/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+\input{"\DenKrAllMainRootDirPATH/3settings/4customization/glossaries_style".tex}%
+%/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+%							Glossaries fertig
+%------------------------------------------------------------------------
+%________________________________________________________________________

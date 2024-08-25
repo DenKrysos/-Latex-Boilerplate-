@@ -1,0 +1,59 @@
+%
+% That one is a little wonky. It noodles around with the \chapterformat, which is somewhat uncool.
+%
+\KOMAoptions{%
+    chapterprefix=false%
+}%
+\setkomafont{chapter}{\sffamily\bfseries\huge\color{DenKrKomaColor_ChapterHeading}}%
+\RedeclareSectionCommand[%
+    beforeskip=0ex,%
+    %innerskip=0pt,%
+    %afterskip=1.725\baselineskip plus .115\baselineskip minus .192\baselineskip%
+]{chapter}%
+\makeatletter\@ifundefined{DenKrSetChapter}{}{\DenKrSetChapter}\makeatother% Workaround to reset to my macro after RedeclareSectionCommand
+%
+% \makeatletter%
+% \def\s@plit<#1#2>{%
+%   \ifx\empty#2%
+%     #1%
+%   \else%
+%     #1\\\s@plit<#2>%
+%   \fi}%
+% \def\Split#1#2{\s@plit<#2\empty>}%
+% % \Split{1}{10}
+% \makeatother%
+\def\chapSplit#1#2{%
+    \StrSplit{#2}{#1}\tempa\tempb%
+    \tempa\let\tempa\empty%
+    \unless\ifx\tempb\empty\def\tempa{\\\chapSplit{#1}\tempb}\fi%
+    \tempa%
+}%
+%
+\renewcommand*{\chapterformat}{%
+    \smash{\textcolor{DenKrKomaColor_ChapterHeading}{\rule[-5pt]{2pt}{10cm}}}%
+    \enspace%
+    \tikz[baseline]{%
+        \node[draw=none,shape=rectangle,inner sep=0,align=right,text width=0.01em,anchor=base,font={\color{DenKrKomaColor_ChapterHeading}\fontsize{60pt}{60pt}\selectfont\mdseries}]{%
+            % \color{DenKrKomaColor_ChapterHeading}\fontsize{60pt}{60pt}\selectfont\rlap{\mdseries%
+            % %\thechapter%
+            % %\autodot
+            % }%
+            \raggedleft\chapSplit{1}{\thechapter}%
+            \autodot%
+        }%
+    }%
+}%
+%
+\renewcommand*\DenKrKOMAHookFormatChapter[3]{%
+    \parbox[b]{\dimexpr\textwidth-0.5em\relax}{%
+        \raggedleft{%
+            \ifstrempty{#2}{}{%
+                \textcolor{DenKrKomaColor_ChapterHeading}{\large\scshape\chapapp}%
+                \par%
+            }%
+            \Huge\bfseries#3%
+        }%
+    }%
+    \hfill%
+    \makebox[0pt][l]{#2}%
+}%

@@ -1,0 +1,14 @@
+% That one here is very "light-weight". It actually only changes the format of the Chapter-Number.
+%    Hence, be careful when changing the Design mid-document
+%
+\KOMAoptions{%
+    chapterprefix=false%
+}%
+\setkomafont{chapter}{\sffamily\bfseries\huge\color{DenKrKomaColor_ChapterHeading}}%
+\renewcommand*{\chapterformat}{%
+    \usekomafont{chapter}%
+    \thechapter\enskip%
+    \textcolor{gray!50}{\rule[-\dp\strutbox]{2pt}{\baselineskip}}\enskip%
+}%
+%
+\renewcommand*\DenKrKOMAHookFormatChapter\DenKrKOMAHookFormatChapterOriginal%

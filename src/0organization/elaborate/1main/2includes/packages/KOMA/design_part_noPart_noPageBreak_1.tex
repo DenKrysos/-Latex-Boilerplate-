@@ -1,0 +1,18 @@
+\setkomafont{part}{\sffamily\bfseries\huge\color{DenKrKomaColor_PartHeading}}%
+\renewcommand*{\partformat}{%
+    {\usekomafont{part}\partname~\thepart}%
+}%
+%
+%
+\makeatletter%
+\renewcommand*\DenKrKOMAHookFormatPartWithPrefix[3]{%
+    \begin{center}%
+        \usekomafont{part}%
+        \hspace*{-5em}%
+        \textcolor{DenKrKomaColor_SectionHeading!70!gray}{\rule[0.0ex]{0.3ex}{1.5ex}}%
+        \textcolor{DenKrKomaColor_SectionHeading!70!gray}{\rule[0.6ex]{1.7em}{0.3ex}}%
+        %\textcolor{DenKrKomaColor_SectionHeading!70!gray}{\rule[0.0ex]{0.3ex}{1.5ex}}%
+        #3%
+    \end{center}%
+}%
+\makeatother%

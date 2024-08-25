@@ -1,0 +1,111 @@
+%/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+%			Algorithms, (Key-Word Formatted Pseudo-Code)
+%		(Typesetting Assistance / Stylistic Enhancement / Visual Separation / Text Formatting)
+%________________________________________________________________________
+\usepackage{algorithm}%
+\usepackage{algpseudocode}%
+%________________________________________________________________________
+%			END Algorithms
+%/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+%
+%
+%
+%/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+%			Declarations, Definitions, Macros
+%________________________________________________________________________
+\makeatletter%
+\newenvironment{algorithm_breakable}%
+  {% \begin{algorithm_breakable}
+   \begin{center}%
+     \refstepcounter{algorithm}% New algorithm
+     \hrule height.8pt depth0pt \kern2pt% \@fs@pre for \@fs@ruled
+     \renewcommand{\caption}[2][\relax]{% Make a new \caption
+       {\raggedright\textbf{\fname@algorithm~\thealgorithm} ##2\par}%
+       \ifx\relax##1\relax % #1 is \relax
+         \addcontentsline{loa}{algorithm}{\protect\numberline{\thealgorithm}##2}%
+       \else % #1 is not \relax
+         \addcontentsline{loa}{algorithm}{\protect\numberline{\thealgorithm}##1}%
+       \fi%
+       \kern2pt\hrule\kern2pt%
+     }%
+  }{% \end{algorithm_breakable}
+     \kern2pt\hrule\relax% \@fs@post for \@fs@ruled
+   \end{center}%
+  }%
+\makeatother%
+%________________________________________________________________________
+%			END Definitions
+%/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+%
+%
+%
+%/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+%			Some Configuration
+%________________________________________________________________________
+% To have a global Configuration of Algorithms' Font
+%    (Since 'algorithm', 'algorithmicx' or 'algpseudocode' don't supply own means for configuring such a thing, I do it that way)
+% Configure to your likings the font preferences via the following Macro.
+% Then paste it into EACH and EVERY Algorithm environment. For that, one would have different options:
+%  - Paste already in the surrounding "Wrapper/Float Environment", like \begin{algorithm} / \begin{algorithm_breakable}, Before the \caption{}
+%  - Then it also affects the Caption, i.e. makes it a smaller font size, etc.
+%  - Put it only inside the inner environment, like \begin{algorithmic}
+%     -> Then it only affects the algorithm body and NOT the Caption.
+%     -> E.g. directly on the opening like:
+%              \begin{algorithmic}[1]\denkrAlgorithmFont%
+%  - Do this according to the remainder of your setup, to keep this uniform with other floats.
+%  -> In my preference, The caption for Figures, etc, are also set to be smaller. Hence I put it directly in the surrounding {algorithm} environment.
+\newcommand{\denkrAlgorithmFont}{\small}%
+%________________________________________________________________________
+%			END Config
+%/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+%
+%
+%
+%/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+%			Customization
+%		(New Blocks, Cmds and stuff)
+%________________________________________________________________________
+% To create an Indentation of some Lines (Indents by \algorithmicindent)
+\algdef{SE}[SUBALG]{Indent}{EndIndent}{}{\algorithmicend}%
+\algtext*{Indent}%
+\algtext*{EndIndent}%
+%
+% Parenthesis, Brackets, Curly Braces (and some other Symbols) seem to not format perfectly, regarding size and vertical Alignment, under certain circumstances.
+%   (It just doesn't look right to me.) (And sometimes creates unwanted vertical Space)
+%    For that, consider wrapping them into the following Macro
+\newcommand{\algvfit}[1]{\raisebox{0.25\height}{\scalebox{0.8}{#1}}}%
+% A "dynamic" Version. Args: #1 Scaling Factor  #2 Raising Factor  #3 Content
+\newcommand{\algvfitd}[3]{\raisebox{#2\height}{\scalebox{#1}{#3}}}%
+%________________________________________________________________________
+%			END Customization
+%/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+%
+%
+%
+%/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+%			Info
+%________________________________________________________________________
+% First, my personal, favourite CHOICE:
+%  »algorithmicx« with »algpseudocode«
+%
+% Now, some more elaboration:
+% Your Possibilities to choose:
+%    - algorithm - float wrapper for algorithms.
+%    - algorithmic/algcompatible - first algorithm typesetting environment.
+%    - algorithmicx - second algorithm typesetting environment.
+%    - algpseudocode - layout for algorithmicx.
+%    - algorithm2e - third algorithm typesetting environment.
+% - - - - - - -
+% - "algorithmicx" with "algpseudocode" are superior to "algorithmic"
+% - With "\usepackage{algpseudocode}", you don’t need to manually load the algorithmicx package, as this is done by algpseudocode
+% - I think "algorithmicx" offers pretty much the same functionality compared to "algorithm2e", but with clearer syntax
+% - "algorithmicx" is like "algorithmic" upgraded
+% - - - - - - -
+%
+% With "algpseudocode", there are additional layouts:
+% - algcompatible (fully compatible with the algorithmic package),
+% - algpascal (aims to create a formatted pascal program, you can transform a pascal program into an algpascal algorithm description with some basic substitution rules).
+% - algc (just like the algpascal, but for c. This layout is incomplete).
+%________________________________________________________________________
+%			END Info
+%/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\

@@ -1,0 +1,96 @@
+%
+%________________________________________________________________________
+%------------------------------------------------------------------------
+%					Addendum
+%				Some additional Appendices
+%/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+%
+%
+%
+%
+%
+%
+%
+%================================================================
+%      Glossary
+%================================================================
+%
+%Displays 'only' Acronyms
+% \secnt{\DenKrGlossHeadSecAcronyms}%
+% \printglossary[type=\acronymtype,style=list]%
+%
+%
+%
+%
+%
+%
+%#################################################################
+%##=========================================================######
+%##---------------------------------------------------------######
+%\section*{References}
+%##=========================================================######
+%#################################################################
+% trigger a \newpage just before the given reference
+% number - used to balance the columns on the last page
+% adjust value as needed - may need to be readjusted if
+% the document is modified later
+%\IEEEtriggeratref{8}
+% The "triggered" command can be changed if desired:
+%\IEEEtriggercmd{\enlargethispage{-5in}}
+%
+% references section
+%
+%\nocite{*}
+%
+\newcommand{\DenKrBibliographyFileInclusion}{%
+\bibliography{%
+\DenKrLiteratureDir/literature_own.bib,%
+\DenKrLiteratureDir/literature_misc.bib,%
+\DenKrLiteratureDir/literature_thirdParty.bib%
+}%
+}%
+%
+\expandafter\ifstrequal\expandafter{\DenKrLayout}{IEEEtranNoBiblatex}{%
+\bibliographystyle{IEEEtran}%
+\DenKrBibliographyFileInclusion%
+}{%
+\expandafter\ifstrequal\expandafter{\DenKrLayout}{wiley}{%
+\bibliographystyle{\DenKrLayoutRootDir/class/MSP}%
+\DenKrBibliographyFileInclusion%
+}{%
+\expandafter\ifstrequal\expandafter{\DenKrLayout}{MDPI}{%
+\bibliographystyle{\DenKrLayoutRootDir/Definitions/mdpi}%
+\DenKrBibliographyFileInclusion%
+}{%
+\printbibliography[env=bibliographyDenKrEnv]%
+}}}%
+%
+%
+%
+%
+%
+%
+%#################################################################
+%##=========================================================######
+%##---------------------------------------------------------######
+%\section*{Biographies}
+%##=========================================================######
+%#################################################################
+\expandafter\ifstrequal\expandafter{\DenKrLayoutIncludeBiographies}{0}{}{%
+\input{"\DenKrSegmentationSubDir/0701_biographies".tex}%
+}%
+%
+%
+%
+%
+%
+%#################################################################
+%##=========================================================######
+%##---------------------------------------------------------######
+% - - - Tempory active while working state.
+% -  -  -  Deactivated before \begin{document}
+%##=========================================================######
+%#################################################################
+%\TempDisplayPreparation%
+\DisplayDenKrCommandsLegend%
+%

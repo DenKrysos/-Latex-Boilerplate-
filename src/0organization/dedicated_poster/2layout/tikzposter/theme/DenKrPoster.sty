@@ -1,0 +1,588 @@
+%%###########################################################%%
+%%        vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv        %%
+%%-----------------------------------------------------------%%
+% Theme Definition for Class »tikzposter«
+%    --> \usepackage{DenKrPoster}
+%    --> \usetheme{DenKrPoster}
+%
+%  Author:
+%      - Dennis Krummacker
+%  Created:
+%      2022-04-09
+%  Last Update:
+%      2022-04-10
+%%------------------------------------------------------------%%
+%%        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^        %%
+%%============================================================%%
+%
+%
+%
+%
+%
+%
+%________________________________________________________________________
+%------------------------------------------------------------------------
+%				Title Page Format
+%/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+% place logo to right of centered title
+%     0.9 + 0.82 + 0.9
+\settitle{\centering\vbox{%
+    \centering%
+    \begin{minipage}[c]{0.08\linewidth}%
+        \hspace*{\baselineskip}
+    \end{minipage}%
+    \begin{minipage}[c]{0.78\linewidth}%
+        \centering%
+        \color{titlefgcolor}%
+        {\bfseries\Huge%\sc%
+        \@title%
+        \par}%
+        \vspace*{1em}%
+        {\huge \@author \par}%
+        \vspace*{1em}%
+        {\LARGE \@institute}%
+    \end{minipage}%
+    \begin{minipage}[c]{0.9\linewidth}% This is always placed rightmost aside the others. Hence, the actual width doesn't really matter and is just put a high value, to fill the space and by that press the other blocks to the left
+        %\centering%
+        \@titlegraphic%
+    \end{minipage}%
+}}%
+%
+%________________________________________________________________________
+%------------------------------------------------------------------------
+%			More Theme-related Settings
+%/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+\tikzposterlatexaffectionproofoff% Turns of this stupid "Latex Tikzposter" Mark in the lower right corner
+%
+%
+%
+%
+%
+%
+%________________________________________________________________________
+%------------------------------------------------------------------------
+%			Colors
+%/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+% First, some Color Definitions
+%------------------------------------------------------------------------
+%=== Primary Color Palette
+\definecolor{DenKrPoster_GreenBlueDarkOne}{RGB}{50, 130, 150}%
+\definecolor{DenKrPoster_GreenBlueDarkTwo}{RGB}{17, 102, 153}%
+%
+%------------------------------------------------------------------------
+%=== Secondary Color Palette
+\definecolor{DenKrPoster_GreenBlueLightOne}{RGB}{95, 158, 160}%
+\definecolor{DenKrPoster_GreenBlueLightTwo}{RGB}{14, 82, 122}%
+%
+%------------------------------------------------------------------------
+%=== Tertiary Color Palette
+\definecolor{DenKrPoster_OrangeDarkOne}{named}{orange}%
+\definecolor{DenKrPoster_OrangeLightOne}{RGB}{215, 135, 96}%
+\definecolor{DenKrPoster_VioletOne}{RGB}{112, 36, 255}%
+\definecolor{DenKrPoster_VioletTwo}{RGB}{87, 36, 255}%
+\definecolor{DenKrPoster_IceBlueOne}{RGB}{36, 193, 255}%
+%
+%========================================================================
+%=== Color Palette, Define tikzposter
+\definecolorpalette{DenKrPosterPalette}{%
+    \definecolor{colorOne}{named}{DenKrPoster_GreenBlueDarkOne}%
+    \definecolor{colorTwo}{named}{DenKrPoster_GreenBlueLightOne}%
+    \definecolor{colorThree}{named}{DenKrPoster_OrangeDarkOne}%
+}%
+%
+%========================================================================
+%=== Color Style, Define tikzposter
+\definecolorstyle{DenKrPosterColorStyle}{%
+    \usecolorpalette{DenKrPosterPalette}%
+}{%
+	% Background Colors
+	\colorlet{backgroundcolor}{colorOne!30!white}%
+	\colorlet{framecolor}{colorOne!100!white}%
+	% Title Colors
+	\colorlet{titlefgcolor}{black!100!colorOne}%
+	\colorlet{titlebgcolor}{colorTwo}% colorOne!50!white
+	% Block Colors
+	\colorlet{blocktitlebgcolor}{colorTwo}%
+	\colorlet{blocktitlefgcolor}{Purple!0!white}%
+	\colorlet{blockbodybgcolor}{white}%
+	\colorlet{blockbodyfgcolor}{black}%
+	% Innerblock Colors
+	\colorlet{innerblocktitlebgcolor}{white}%
+	\colorlet{innerblocktitlefgcolor}{black}%
+	\colorlet{innerblockbodybgcolor}{colorTwo!30!white}%
+	\colorlet{innerblockbodyfgcolor}{black}%
+	% Note colors
+	\colorlet{notefgcolor}{black}%
+	\colorlet{notebgcolor}{colorThree!40!white}%
+	\colorlet{notefrcolor}{colorThree!70!black}% noteframecolor not working, instead: notefrcolor
+}%
+%
+%
+%
+%
+%
+%
+%________________________________________________________________________
+%------------------------------------------------------------------------
+%			Style Layout
+%/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+%
+%------------------------------------------------------------------------
+%=== Background, Define tikzposter
+\definebackgroundstyle{DenKrPosterBGShadeRay}{%
+    \path[inner sep=0pt,line width=2pt,save path=\bgpath]%
+        (bottomleft)rectangle(topright);%
+    \path[use path=\bgpath,%
+        fill=backgroundcolor%
+    ];%
+    \coordinate(topleft)at(bottomleft|-topright);%
+    \coordinate(bottomright)at(bottomleft-|topright);%
+    \coordinate(bgcenter)at(0,0);%
+    %
+    \coordinate(shadingRadiusTopX)at($(topleft)!.4!(topright)$);%
+    \coordinate(shadingRadiusTopY)at($(topleft)!.3!(bottomleft)$);%
+    \coordinate(shadingRadiusTop)at(shadingRadiusTopX|-shadingRadiusTopY);%
+    \path[shading=radial,%
+        outer color=backgroundcolor,%
+        inner color=backgroundcolor!20!colorOne,%
+        %shading angle=135+30%
+    ]%
+        let\p1=($(topright)-(shadingRadiusTop)$),\n1={veclen(\x1,\y1)}%
+        in(topright)circle[radius=\n1];
+    %
+    \coordinate(shadingLeftAnchor)at($(topleft)!.4!(bottomleft)$);%
+    \coordinate(shadingLeftRadiusPre)at(shadingLeftAnchor-|topright);%
+    \coordinate(shadingLeftRadius)at($(shadingLeftAnchor)!.2!(shadingLeftRadiusPre)$);%
+    \path[shading=radial,%
+        outer color=backgroundcolor,%
+        inner color=backgroundcolor!40!colorOne,%
+        %shading angle=135+30%
+    ]%
+        let\p1=($(shadingLeftAnchor)-(shadingLeftRadius)$),\n1={veclen(\x1,\y1)}%
+        in(shadingLeftAnchor)circle[radius=\n1];
+    %
+    \coordinate(shadingRightAnchor)at($(bottomright)!.1!(topright)$);%
+    \coordinate(shadingRightRadiusPre)at(shadingRightAnchor-|topleft);%
+    \coordinate(shadingRightRadius)at($(shadingRightAnchor)!.4!(shadingRightRadiusPre)$);%
+    \path[shading=radial,%
+        outer color=backgroundcolor,%
+        inner color=backgroundcolor!10!colorOne,%
+        %shading angle=135+30%
+    ]%
+        let\p1=($(shadingRightAnchor)-(shadingRightRadius)$),\n1={veclen(\x1,\y1)}%
+        in(shadingRightAnchor)circle[radius=\n1];
+    %
+    \tikzstyle{accentLine}=[%
+        line join=round,line cap=round,%
+        line width=0.003*\textwidth,%
+        draw=none%
+    ]%
+    \tikzstyle{accentLineLight}=[%
+        accentLine,%
+        draw=backgroundcolor!70!white%
+    ]%
+    \tikzstyle{accentLineDark}=[%
+        accentLine,%
+        draw=backgroundcolor!60!colorOne%
+    ]%
+    % \tikzstyle{accentLineMedium}=[%
+    %     accentLine,%
+    %     draw=backgroundcolor!90!colorOne%
+    % ]%
+    %
+    % \coordinate(accentLineMediumAnchorPre)at($(topleft)!.0!(topright)$);%
+    % \coordinate(accentLineMediumAnchor)at($(accentLineMediumAnchorPre)+(0,1.0\textheight)$);%
+    % \path[accentLineMedium](accentLineMediumAnchor)--++(-65:2.9*\textheight);%
+    % \path[accentLineMedium](accentLineMediumAnchor)--++(-75:2.9*\textheight);%
+    % \path[accentLineMedium](accentLineMediumAnchor)--++(-85:2.9*\textheight);%
+    %
+    \path[accentLineLight](bottomleft)--++(10:0.5*\textheight);%
+    \path[accentLineLight](bottomleft)--++(30:0.7*\textheight);%
+    \path[accentLineLight](bottomleft)--++(55:0.98*\textheight);%
+    \path[accentLineLight](bottomleft)--++(75:0.75*\textheight);%
+    \path[accentLineLight](bottomleft)--++(85:0.6*\textheight);%
+    %
+    \coordinate(shadingRadiusBottomX)at($(bottomleft)!.2!(bottomright)$);%
+    \coordinate(shadingRadiusBottomY)at($(bottomleft)!.1!(topleft)$);%
+    \coordinate(shadingRadiusBottom)at(shadingRadiusBottomX|-shadingRadiusBottomY);%
+    \path[shading=radial,%
+        outer color=backgroundcolor,%
+        inner color=backgroundcolor!10!white,%
+        %opacity=0.9%
+    ]%
+        let\p1=($(bottomleft)-(shadingRadiusBottom)$),\n1={veclen(\x1,\y1)}%
+        in(bottomleft)circle[radius=\n1];
+    %
+    \coordinate(accentLineDarkAnchorPre)at($(bottomright)!.6!(topright)$);%
+    \coordinate(accentLineDarkAnchor)at($(accentLineDarkAnchorPre)+(0.2\textwidth,0)$);%
+    \path[accentLineDark](accentLineDarkAnchor)--++(135:0.4*\textheight);%
+    \path[accentLineDark](accentLineDarkAnchor)--++(155:0.6*\textheight);%
+    \path[accentLineDark](accentLineDarkAnchor)--++(175:0.7*\textheight);%
+    \path[accentLineDark](accentLineDarkAnchor)--++(195:0.65*\textheight);%
+    %
+    \path[use path=\bgpath,%
+        draw=colorOne%
+    ];%
+}%
+%
+%------------------------------------------------------------------------
+%=== Title, Define tikzposter
+\definetitlestyle{DenKrPosterTitleSeparationLine}{%
+    width=\textwidth, linewidth=5pt, titletotopverticalspace=0in%
+}{%
+    \begin{scope}[line width=\titlelinewidth,]%
+    \draw[color=colorThree,round cap-round cap]%
+    (\titleposleft,\titleposbottom)--(\titleposright,\titleposbottom);%
+    \end{scope}%
+}%
+\tikzstyle{DenKrPosterTitleFrame}=[%
+    draw=framecolor,%
+    line width=0.003\textwidth,%
+    line join=round,%
+]
+\tikzstyle{DenKrPosterTitleFill}=[%
+    shading=axis,%
+    top color=titlebgcolor,%
+    bottom color=titlebgcolor!80!black,%
+    middle color=titlebgcolor!50!white,%
+]
+\newcommand{\DenKrPosterTitleAccent}{%
+    \coordinate(accentOneAnchorT)at($(titleTR)+(-0.015\titlewidth,0)$);%
+    \coordinate(accentOneAnchorB)at($(titleBR)!.2!(titleBL)$);%
+    \coordinate(accentTwoAnchorT)at($(titleTR)+(-0.007\titlewidth,0)$);%
+    \coordinate(accentTwoAnchorB)at($(accentOneAnchorB)+(0.02\textwidth,0)$);%
+    \path[%
+        top color=white,%
+        bottom color=blocktitlebgcolor,%
+    ]%
+        (accentOneAnchorT)%
+        ..controls%
+            ++(180+4:1.1\titleheight)%Relative to Start-Point
+            and%
+            ++(5:1.2\titleheight)%Relative to End-Point
+        ..%
+        (accentOneAnchorB)%
+        ..controls%
+            ++(1:1.5\titleheight)%Relative to End-Point
+            and%
+            ++(180+10:1.0\titleheight)%Relative to Start-Point
+        ..%
+        cycle%
+    ;%
+    \path[%
+        right color=white,%
+        left color=blocktitlebgcolor,%
+    ]%
+        (accentTwoAnchorT)%
+        ..controls%
+            ++(180+10:0.75\titleheight)%Relative to Start-Point
+            and%
+            ++(2:1.4\titleheight)%Relative to End-Point
+        ..%
+        (accentTwoAnchorB)%
+        ..controls%
+            ++(1:1.65\titleheight)%Relative to End-Point
+            and%
+            ++(180+25:0.7\titleheight)%Relative to Start-Point
+        ..%
+        cycle%
+    ;%
+}
+\definetitlestyle{DenKrPosterTitleTrapez}{%
+    width=\textwidth,%
+    %linewidth=0.003\textwidth,% 5pt, 0.002\textwidth
+    titletotopverticalspace=0in%
+}{%
+    \begin{scope}[line width=\titlelinewidth,]%
+    \coordinate(titleTL)at(\titleposleft,\titlepostop);%
+    \coordinate(titleTR)at(\titleposright,\titlepostop);%
+    \coordinate(titleTC)at($(titleTL)!.5!(titleTR)$);%
+    \coordinate(titleBL)at(\titleposleft,\titleposbottom);%
+    \coordinate(titleBR)at(\titleposright,\titleposbottom);%
+    \coordinate(titleBC)at($(titleBL)!.5!(titleBR)$);%
+    \coordinate(titleL)at($(titleTL)!.5!(titleBL)$);%
+    \coordinate(titleR)at($(titleTR)!.5!(titleBR)$);%
+    \coordinate(titleBLIn)at($(titleBL)!.05!(titleBR)$);%
+    \coordinate(titleBRIn)at($(titleBR)!.05!(titleBL)$);%
+    \path[%
+        DenKrPosterTitleFill,%
+        save path=\titleFrame,%
+    ]
+        (titleTL)%
+        --(titleTR)%
+        [rounded corners=30]%
+        --(titleR)%
+        --(titleBRIn)%
+        --(titleBLIn)%
+        --(titleL)%
+        [sharp corners]%
+        --cycle%
+    ;%
+    \DenKrPosterTitleAccent
+    \path[%
+        DenKrPosterTitleFrame,%
+        use path=\titleFrame,%
+    ];%
+    \end{scope}%
+}%
+\definetitlestyle{DenKrPosterTitleSlanted}{%
+    width=\textwidth,%
+    %linewidth=0.003\textwidth,% 5pt, 0.002\textwidth
+    titletotopverticalspace=0in%
+}{%
+    \begin{scope}[line width=\titlelinewidth,]%
+    \coordinate(titleTL)at(\titleposleft,\titlepostop);%
+    \coordinate(titleTR)at(\titleposright,\titlepostop);%
+    \coordinate(titleTC)at($(titleTL)!.5!(titleTR)$);%
+    \coordinate(titleBL)at(\titleposleft,\titleposbottom);%
+    \coordinate(titleBR)at(\titleposright,\titleposbottom);%
+    \coordinate(titleBC)at($(titleBL)!.5!(titleBR)$);%
+    \coordinate(titleL)at($(titleTL)!.5!(titleBL)$);%
+    \coordinate(titleR)at($(titleTR)!.5!(titleBR)$);%
+    \coordinate(titleBLIn)at($(titleBL)!.05!(titleBR)$);%
+    \coordinate(titleBRIn)at($(titleBR)!.05!(titleBL)$);%
+    \let\titleheight\undefined%
+    \newlength\titleheight%
+    \setlength\titleheight{\titlepostop-\titleposbottom}%
+    \let\titlewidth\undefined%
+    \newlength\titlewidth%
+    \setlength\titlewidth{\titleposright-\titleposleft}%
+    \path[%
+        DenKrPosterTitleFill,%
+        save path=\titleFrame,%
+    ]
+        (titleTL)%
+        --(titleTR)%
+        [rounded corners=20]%
+        ..controls%
+            ++(180+50:0.5\titleheight)%Relative to Start-Point
+            and%
+            ++(30:0.6\titleheight)%Relative to End-Point
+        ..%
+        (titleBRIn)%
+        --(titleBLIn)%
+        ..controls%
+            ++(180-30:0.6\titleheight)%
+            and%
+            ++(-50:0.5\titleheight)%
+        ..%
+        cycle%
+    ;%
+    \DenKrPosterTitleAccent
+    %\draw[red](titleL)--($(titleL)+(\titlewidth,0)$);
+    \path[%
+        DenKrPosterTitleFrame,%
+        use path=\titleFrame,%
+    ];%
+    \end{scope}%
+}%
+%
+%------------------------------------------------------------------------
+%=== Block, Define tikzposter
+\tikzstyle{DenKrPosterBlockFrameline}=[%
+    line width=0.002\textwidth,%
+    line join=round,%
+    line cap=round,%
+]
+\tikzstyle{DenKrPosterBlockTitleFrameline}=[%
+    DenKrPosterBlockFrameline,%
+]
+\newcommand{\DenKrPosterBlockTitleDiamond}{%
+    \let\diamondwidth\undefined%
+    \newlength\diamondwidth%
+    \setlength\diamondwidth{2em}%
+    \coordinate(blocktitleTL)at($(blocktitle.north west)+(\diamondwidth,0)$);%
+    \coordinate(blocktitleBL)at($(blocktitle.south west)+(\diamondwidth,0)$);%
+    \coordinate(blocktitleTR)at($(blocktitle.north east)+(-\diamondwidth,0)$);%
+    \coordinate(blocktitleBR)at($(blocktitle.south east)+(-\diamondwidth,0)$);%
+    \path[DenKrPosterBlockTitleFrameline,%
+        draw=framecolor,%
+        %fill=blocktitlebgcolor,%
+        shading=axis,%
+        top color=blocktitlebgcolor!40!white,%
+        bottom color=blocktitlebgcolor!70!white,%
+        middle color=blocktitlebgcolor,%
+        rounded corners=\blockroundedcorners%
+    ]%
+        %(blocktitle.south west)rectangle(blocktitle.north east)%
+        ($(blocktitle.west)+(-0,0)$)%
+        [rounded corners=10]%
+        --(blocktitleTL)%
+        --(blocktitleTR)%
+        [sharp corners]%
+        --($(blocktitle.east)+(0,0)$)%
+        [rounded corners=10]%
+        --(blocktitleBR)%
+        --(blocktitleBL)%
+        [sharp corners]%
+        --cycle%
+    ;%
+}%
+%
+\defineblockstyle{DenKrPosterBlockSimple}{%
+    titlewidthscale=0.9, bodywidthscale=1,roundedcorners=5%
+}{%
+    \draw[color=framecolor, fill=blockbodybgcolor,%
+    rounded corners=\blockroundedcorners] (blockbody.south west)%
+    rectangle (blockbody.north east);%
+    \ifBlockHasTitle%
+    \draw[color=framecolor, fill=blocktitlebgcolor,%
+    rounded corners=\blockroundedcorners] (blocktitle.south west)%
+    rectangle (blocktitle.north east);%
+    \fi%
+}%
+%
+\defineblockstyle{DenKrPosterBlockDiamond}{%
+    titlewidthscale=1,% 0.9
+    bodywidthscale=1,%
+    roundedcorners=10,%
+    % titleinnersep=6mm,%
+    % bodyinnersep=1c,%
+    % titleleft,%
+    % titleoffsetx=0pt,%
+    % titleoffsety=0pt,%
+    % bodyoffsetx=0mm,%
+    % bodyoffsety=15mm,%
+    % bodyverticalshift=10mm,%
+    % linewidth=2pt%
+}{%
+    % \let\framelinewidth\undefined%
+    % \newlength\framelinewidth%
+    % \setlength\framelinewidth{0.002\textwidth}%
+    \path[DenKrPosterBlockFrameline,%
+        draw=framecolor,fill=blockbodybgcolor,%
+        rounded corners=\blockroundedcorners%
+    ]%
+        (blockbody.north east|-blocktitle.east)%
+        --(blockbody.south east)%
+        --(blockbody.south west)%
+        [sharp corners]%
+        --(blockbody.north west|-blocktitle.west)%
+        --cycle%
+    ;%
+    \ifBlockHasTitle%
+    \DenKrPosterBlockTitleDiamond%
+    \fi%
+}%
+\defineblockstyle{DenKrPosterBlockDiamondOpaque}{%
+    titlewidthscale=1,% 0.9
+    bodywidthscale=1,%
+    roundedcorners=10,%
+}{%
+    % \let\framelinewidth\undefined%
+    % \newlength\framelinewidth%
+    % \setlength\framelinewidth{0.002\textwidth}%
+    \path[DenKrPosterBlockFrameline,%
+        save path=\blockBody,%
+        fill=blockbodybgcolor,%
+        opacity=0.7,%
+        rounded corners=\blockroundedcorners%
+    ]%
+        (blockbody.north east|-blocktitle.east)%
+        --(blockbody.south east)%
+        --(blockbody.south west)%
+        [sharp corners]%
+        --(blockbody.north west|-blocktitle.west)%
+        --cycle%
+    ;%
+    \path[DenKrPosterBlockFrameline,%
+        use path=\blockBody,%
+        draw=framecolor,%
+        rounded corners=\blockroundedcorners%
+    ];%
+    \ifBlockHasTitle%
+    \DenKrPosterBlockTitleDiamond%
+    \fi%
+}%
+\defineblockstyle{DenKrPosterBlockDiamondHead}{%
+    titlewidthscale=1,% 0.9
+    bodywidthscale=1,%
+    roundedcorners=10,%
+}{%
+    % \let\framelinewidth\undefined%
+    % \newlength\framelinewidth%
+    % \setlength\framelinewidth{0.002\textwidth}%
+    \ifBlockHasTitle%
+    \DenKrPosterBlockTitleDiamond%
+    \fi%
+}%
+\defineblockstyle{DenKrPosterBlockDiamondBodyFrame}{%
+    titlewidthscale=1,% 0.9
+    bodywidthscale=1,%
+    roundedcorners=10,%
+}{%
+    % \let\framelinewidth\undefined%
+    % \newlength\framelinewidth%
+    % \setlength\framelinewidth{0.002\textwidth}%
+    \path[DenKrPosterBlockFrameline,%
+        save path=\blockBody,%
+        fill=none,%
+        rounded corners=\blockroundedcorners%
+    ]%
+        (blockbody.north east|-blocktitle.east)%
+        --(blockbody.south east)%
+        --(blockbody.south west)%
+        [sharp corners]%
+        --(blockbody.north west|-blocktitle.west)%
+        --cycle%
+    ;%
+    \path[DenKrPosterBlockFrameline,%
+        use path=\blockBody,%
+        draw=framecolor,%
+        rounded corners=\blockroundedcorners%
+    ];%
+    \ifBlockHasTitle%
+    \DenKrPosterBlockTitleDiamond%
+    \fi%
+}%
+\defineblockstyle{DenKrPosterBlockDiamondSubtleBody}{%
+    titlewidthscale=1,% 0.9
+    bodywidthscale=1,%
+    roundedcorners=10,%
+}{%
+    % \let\framelinewidth\undefined%
+    % \newlength\framelinewidth%
+    % \setlength\framelinewidth{0.002\textwidth}%
+    % Todo
+    \path[DenKrPosterBlockFrameline,%
+        save path=\blockBody,%
+        fill=none,%
+        rounded corners=\blockroundedcorners%
+    ]%
+        (blockbody.north east|-blocktitle.east)%
+        --(blockbody.south east)%
+        --(blockbody.south west)%
+        [sharp corners]%
+        --(blockbody.north west|-blocktitle.west)%
+        --cycle%
+    ;%
+    \path[DenKrPosterBlockFrameline,%
+        use path=\blockBody,%
+        draw=framecolor,%
+        rounded corners=\blockroundedcorners%
+    ];%
+    \ifBlockHasTitle%
+    \DenKrPosterBlockTitleDiamond%
+    \fi%
+}%
+%
+%------------------------------------------------------------------------
+%=== InnerBlock, Define tikzposter
+%
+%
+%
+%
+%
+%
+%________________________________________________________________________
+%------------------------------------------------------------------------
+%			Theme Definition
+%/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+\definelayouttheme{DenKrPoster}{%
+    \usecolorstyle[colorPalette=DenKrPosterPalette]{DenKrPosterColorStyle}%
+    \usebackgroundstyle{DenKrPosterBGShadeRay}% DenKrPosterBGShadeRay
+    \usetitlestyle{DenKrPosterTitleTrapez}% DenKrPosterTitleTrapez, DenKrPosterTitleSlanted, Envelope
+    \useblockstyle{DenKrPosterBlockDiamondOpaque}% DenKrPosterBlockDiamond, DenKrPosterBlockDiamondOpaque, DenKrPosterBlockDiamondHead, DenKrPosterBlockDiamondBodyFrame, Basic
+    \useinnerblockstyle{Default}% Default
+    \usenotestyle{Sticky}% Sticky
+}%

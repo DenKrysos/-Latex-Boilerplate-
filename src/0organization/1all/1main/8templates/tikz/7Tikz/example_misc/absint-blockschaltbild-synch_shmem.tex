@@ -1,0 +1,527 @@
+% Author: Dennis Krummacker%
+\ifdefined\DenKr\documentclass[tikz,fontsize=11pt,class=scrbook]{standalone}\begin{document}\else%
+\input{"./2ProjectSetup".tex}%
+\input{"\DenKrAllMainRootDirPATH/2includes/packages/preamble_pre".tex}%
+\documentclass[tikz,fontsize=11pt,class=scrbook]{standalone}% I.e. the content from \input{"\DenKrLayoutMainRootDir/2layout/tikz_standalone/preamble_1_class".tex}%
+\input{"\DenKrInternalLayoutRootDir/tikz_standalone/1TikzStandalonePicIncludeThis".tex}%
+\DenKrTikzStandalonePre\fi%
+%
+%
+%
+% \input{./organization/settings_listings.tex}%
+% 
+%
+\newcommand\nodedistance{2cm}%
+\newcommand\innabst{0.8em}% Abstand zwischen Text und Zellenrand
+%
+\let\breite\undefined%
+\newlength\breite%
+\settowidth{\breite}{\large \textbf{Interfacename}}%
+\setlength\breite{\breite+\innabst+\innabst+1em}%
+%
+% Define the layers to draw the diagram
+% \pgfdeclarelayer{background}%
+\pgfdeclarelayer{background_shmem}%
+%\pgfdeclarelayer{foreground}
+\pgfsetlayers{background,background_shmem,main}%,foreground}
+%
+%
+\begin{tikzpicture}[%
+	scale = \tikzpicturescale,%
+	auto,%
+	node distance=\nodedistance,%
+]%
+\newcommand{\cnt}{2}%
+%
+\definecolor{critred}{RGB}{255,70,40}%
+\definecolor{entryred}{RGB}{255,50,50}%
+\definecolor{slightblue}{RGB}{230,230,255}%
+\definecolor{bg_shmem}{RGB}{210,210,235}%
+\definecolor{processblue}{RGB}{180,180,255}%
+\definecolor{processblue2}{RGB}{90,180,250}%
+%
+\definecolor{arrowshmemcolor}{RGB}{80,180,110}%
+\definecolor{arrowsynchcolor}{RGB}{90,90,250}%
+\definecolor{arrowactcolor}{RGB}{250,90,110}%
+%
+\tikzstyle{arrowshmem}=[arrow,draw=arrowshmemcolor]%
+\tikzstyle{arrowsynch}=[arrowkomm,->,draw=arrowsynchcolor]%
+\tikzstyle{arrowact}=[arrowwait,->,draw=arrowactcolor]%
+%
+\tikzstyle{background_block}=[%
+	rectangle,%
+	rounded corners,%
+	minimum width=3cm,%
+	minimum height=1cm,%
+	text centered,%
+	draw=black,%
+	fill=slightblue%
+]%
+\tikzstyle{process_block}=[%
+	rectangle,%
+	minimum width=3cm,%
+	minimum height=1cm,%
+	text centered,%
+	align=center,%
+	inner sep=\innabst,%
+	draw=black,%
+	fill=processblue%
+]%
+\tikzstyle{processsplit_block}=[%
+	processsplitl=#1,%
+	rectangle split part fill={processblue,processblue2},%
+	rectangle split part align={center, left, left, left},%
+	inner ysep=2ex,%
+]%
+%
+%
+% \bfseries%
+%
+%\draw[color=slightblue,fill] (-0.5,-4.5) rectangle (10.5,0.5);
+%
+%
+%
+%
+\begin{pgfonlayer}{main}%
+%
+%
+%
+\node(main)%
+	[processsplit_block=2]%
+	{\nodepart{one}\ico{main()}%
+	\nodepart{two}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ldots\\%
+	\lstinline[language=C_var,basicstyle=\ttfamily]%
+	{sem_wait(&mainsynch);}\\%
+	\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ldots\\%
+	\lstinline[language=C_var,basicstyle=\ttfamily]%
+	{sem_wait(&sem_shmem);}\\%
+	\ \ \ \ \textcolor{red}{critical section}\\%
+	\ \ \ \ \lstinline[language=C_var,basicstyle=\ttfamily]%
+	{//ggf.}\\%
+	\ \ \ \ \lstinline[language=C_var,basicstyle=\ttfamily]%
+	{sem_post(&sem_send);}\\%
+	\lstinline[language=C_var,basicstyle=\ttfamily]%
+	{sem_post(&sem_shmem);}\\%
+	\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ldots%
+	};%
+\node(main_main_rechts)[shape=coordinate]%
+	at($(main.text split east)+(0,-1.5\baselineskip)$){};%
+\node(main_main_links)[shape=coordinate]%
+	at($(main.text split west)+(0,-1.5\baselineskip)$){};%
+\node(main_shmem)[shape=coordinate]%
+	at($(main.text split east)+(0,-4.5\baselineskip)$){};%
+\node(main_send)[shape=coordinate]%
+	at($(main.text split west)+(0,-6.5\baselineskip)$){};%
+%
+%
+\node(wlan_mon)%
+	[processsplit_block=2,
+	anchor=north east,%
+	xshift=-\nodedistance]%
+	at(main.north west)%
+	{\nodepart{one}\ico{WLAN\_Monitor()}%
+	\nodepart{two}\textcolor{eclipse_keyword1}{loop}(channel)\{\\%
+	\ \ \ \lstinline[language=C_var,basicstyle=\ttfamily]%
+	{//Measure Channel}\\%
+	\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ldots\\%
+	\ \ \ \lstinline[language=C_var,basicstyle=\ttfamily]%
+	{sem_wait(&sem_shmem);}\\%
+	\ \ \ \ \ \ \ \textcolor{red}{critical section}\\%
+	\ \ \ \ \ \ \ \lstinline[language=C_var,basicstyle=\ttfamily]%
+	{sem_post(&sem_send);}\\%
+	\ \ \ \ \ \ \ \lstinline[language=C_var,basicstyle=\ttfamily]%
+	{//If "Autonomous"}\\%
+	\ \ \ \ \ \ \ \lstinline[language=C_var,basicstyle=\ttfamily]%
+	{sem_post(&mainsynch);}\\%
+	\ \ \ \lstinline[language=C_var,basicstyle=\ttfamily]%
+	{sem_post(&sem_shmem);}\\%
+	\}%
+	};%
+\node(wlan_mon_shmem)[shape=coordinate]%
+	at($(wlan_mon.text split west)+(0,-4.5\baselineskip)$){};%
+\node(wlan_mon_main)[shape=coordinate]%
+	at($(wlan_mon.text split east)+(0,-8\baselineskip)$){};%
+\node(wlan_mon_send)[shape=coordinate]%
+	at($(wlan_mon.text split east)+(0,-5.5\baselineskip)$){};%
+%
+%
+\node(stat_mon)%
+	[processsplit_block=2,%
+	anchor=north west,%
+	xshift=\nodedistance]%
+	at(main.north east)%
+	{\nodepart{one}\ico{station\_mon()}%
+	\nodepart{two}%
+	\lstinline[language=C_var,basicstyle=\ttfamily]%
+	{//Detect Anomaly or}\\%
+	\lstinline[language=C_var,basicstyle=\ttfamily]%
+	{//major changes on Device}\\%
+	\lstinline[language=C_var,basicstyle=\ttfamily]%
+	{sem_wait(&sem_shmem);}\\%
+	\ \ \ \ \textcolor{red}{critical section}\\%
+	\ \ \ \ \lstinline[language=C_var,basicstyle=\ttfamily]%
+	{sem_post(&mainsynch);}\\%
+	\lstinline[language=C_var,basicstyle=\ttfamily]%
+	{sem_post(&sem_shmem);}%
+	};%
+\node(stat_mon_shmem)[shape=coordinate]%
+	at($(stat_mon.text split east)+(0,-3.5\baselineskip)$){};%
+\node(stat_mon_main)[shape=coordinate]%
+	at($(stat_mon.text split west)+(0,-5\baselineskip)$){};%
+%
+%
+\node(ctrl_send)%
+	[processsplit_block=2,
+	anchor=north,%
+	yshift=-\nodedistance]%
+	at(main.south)%
+	{\nodepart{one}\ico{ctrl\_send()}%
+	\nodepart{two}%
+	\lstinline[language=C_var,basicstyle=\ttfamily]%
+	{sem_wait(&sem_send);}\\%
+	\lstinline[language=C_var,basicstyle=\ttfamily]%
+	{sem_wait(&sem_shmem);}\\%
+	\ \ \ \ \textcolor{red}{critical section}\\%
+	\lstinline[language=C_var,basicstyle=\ttfamily]%
+	{sem_post(&sem_shmem);}\\%
+	\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ldots%
+	};%
+\node(ctrl_send_shmem)[shape=coordinate]%
+	at($(ctrl_send.text split west)+(0,-2.5\baselineskip)$){};%
+\node(ctrl_send_send)[shape=coordinate]%
+	at($(ctrl_send.text split west)+(0,-1\baselineskip)$){};%
+%
+%
+\node(ctrl_recv)%
+	[processsplit_block=2,%
+	anchor=north,%
+	yshift=-\nodedistance]%
+	at(stat_mon.south)%
+	{\nodepart{one}\ico{ctrl\_recv()}%
+	\nodepart{two}%
+	\textcolor{eclipse_keyword1}{recv}(ctrl\_socket, blocked);\\%
+	\lstinline[language=C_var,basicstyle=\ttfamily]%
+	{sem_wait(&sem_shmem);}\\%
+	\ \ \ \ \textcolor{red}{critical section}\\%
+	\ \ \ \ \lstinline[language=C_var,basicstyle=\ttfamily]%
+	{sem_post(&mainsynch);}\\%
+	\lstinline[language=C_var,basicstyle=\ttfamily]%
+	{sem_post(&sem_shmem);}%
+	};%
+\node(ctrl_recv_shmem)[shape=coordinate]%
+	at($(ctrl_recv.text split east)+(0,-2.5\baselineskip)$){};%
+\node(ctrl_recv_main)[shape=coordinate]%
+	at($(ctrl_recv.text split west)+(0,-4\baselineskip)$){};%
+%
+%
+\node(timeout)%
+	[processsplit_block=2,
+	anchor=north,%
+	yshift=-\nodedistance]%
+	at(wlan_mon.south)%
+	{\nodepart{one}\ico{timeout()}%
+	\nodepart{two}\lstinline[language=C_var,basicstyle=\ttfamily]%
+	{//Wait TO Duration}\\%
+	\lstinline[language=C_var,basicstyle=\ttfamily]%
+	{sem_wait(&sem_shmem);}\\%
+	\ \ \ \ \textcolor{red}{critical section}\\%
+	\ \ \ \ \lstinline[language=C_var,basicstyle=\ttfamily]%
+	{sem_post(&mainsynch);}\\%
+	\lstinline[language=C_var,basicstyle=\ttfamily]%
+	{sem_post(&sem_shmem);}%
+	};%
+\node(timeout_shmem)[shape=coordinate]%
+	at($(timeout.text split west)+(0,-2.5\baselineskip)$){};%
+\node(timeout_main)[shape=coordinate]%
+	at($(timeout.text split east)+(0,-4\baselineskip)$){};%
+%
+%
+\node(shmem1)%
+	[process,%
+	minimum width=4.5cm]%
+	at(-5,-14.5)%
+	{Shared Memory Header};%
+\node(shmem1_1)%
+	[processsplitl=5,anchor=north east]%
+	at(shmem1.south east)%
+	{\nodepart{one}%
+	\lstinline[language=C_var,basicstyle=\ttfamily]%
+	{char *ShMem;}%
+	\nodepart{two}%
+	\lstinline[language=C_var,basicstyle=\ttfamily]%
+	{sem_t sem_shmem;}%
+	\nodepart{three}%
+	\lstinline[language=C_var,basicstyle=\ttfamily]%
+	{int msgsize;}%
+	\nodepart{four}%
+	\lstinline[language=C_var,basicstyle=\ttfamily]%
+	{enum Message_Type;}%
+	\nodepart{five}%
+	\lstinline[language=C_var,basicstyle=\ttfamily]%
+	{char flags;}%
+	};%
+\path[draw,fill=orange!15]($(shmem1.south west)+(0.5\pgflinewidth,0)$)%
+	|-($(shmem1_1.south west)+(0,0.5\pgflinewidth)$)%
+	|-($(shmem1.south west)+(0.5\pgflinewidth,0)$);%	
+%
+%
+\node(shmem_ram)%
+	[processsplit=12,%
+	anchor=north west,%
+	xshift=3cm,%
+	yshift=0.5cm,%
+	rectangle split part fill=white,%
+	inner ysep=2ex,%
+	minimum width=4.5cm]%
+	at(shmem1.north east)%
+	{\nodepart{one}\ico{. . .}%
+	\nodepart{two}\ico{0 1 1 1 1 1 0 1}%
+	\nodepart{three}\ico{1 0 1 0 1 1 0 1}%
+	\nodepart{four}\ico{0 1 1 0 0 1 1 0}%
+	\nodepart{five}\ico{. . .}%
+	\nodepart{six}\ico{0 1 1 1 0 1 1 0}%
+	\nodepart{seven}\ico{0 1 1 1 0 0 1 1}%
+	\nodepart{eight}\ico{0 1 0 0 0 0 0 1}%
+	\nodepart{nine}\ico{1 0 1 0 0 1 1 1}%
+	\nodepart{ten}\ico{1 1 0 0 1 1 1 0}%
+	\nodepart{eleven}\ico{0 1 1 0 1 1 1 1}%
+	\nodepart{twelve}\ico{. . .}%
+	\nodepart{thirteen}\ico{1 1 0 1 1 0 1 1}%
+	\nodepart{fourteen}\ico{0 1 1 0 1 0 1 0}%
+	\nodepart{fifteen}\ico{1 1 1 1 1 1 1 1}%
+	\nodepart{sixteen}%
+	};%
+\node(ram_auszug)[cleartext,anchor=south,yshift=1ex]%
+	at(shmem_ram.north){{\large RAM Auszug}};%
+\node[cleartext,anchor=west,xshift=2.25ex]%
+	at(shmem_ram.text east){\ldots};%
+\node[cleartext,anchor=west,xshift=2.25ex]%
+	at(shmem_ram.two east){0x2F};%
+\node[cleartext,anchor=west,xshift=2.25ex]%
+	at(shmem_ram.three east){0x31};%
+\node[cleartext,anchor=west,xshift=2.25ex]%
+	at(shmem_ram.four east){0x32};%
+\node[cleartext,anchor=west,xshift=2.25ex]%
+	at(shmem_ram.five east){\ldots};%
+\node[cleartext,anchor=west,xshift=2.25ex]%
+	at(shmem_ram.six east){0xD9};%
+\node[cleartext,anchor=west,xshift=2.25ex]%
+	at(shmem_ram.seven east){0xDA};%
+\node[cleartext,anchor=west,xshift=2.25ex]%
+	at(shmem_ram.eight east){0xDB};%
+\node[cleartext,anchor=west,xshift=2.25ex]%
+	at(shmem_ram.nine east){0xDC};%
+\node[cleartext,anchor=west,xshift=2.25ex]%
+	at(shmem_ram.ten east){0xDD};%
+\node[cleartext,anchor=west,xshift=2.25ex]%
+	at(shmem_ram.eleven east){0xDE};%
+\node[cleartext,anchor=west,xshift=2.25ex]%
+	at(shmem_ram.twelve east){\ldots};%
+%
+\node(zeitpunkt1)%
+	[rectangle,draw=arrowshmemcolor,line width=2pt,%
+	align=center,anchor=south,rotate=-90,yshift=1.75cm]%
+	at(shmem_ram.three east){ShMem zum\\Zeitpunkt $T_1$};%
+%
+\node[rectangle,draw=arrowshmemcolor,loosely dotted,line width=2pt,%
+	align=center,anchor=south,rotate=-90,yshift=1.75cm]%
+	at(shmem_ram.nine east){ShMem zum\\Zeitpunkt $T_2$};%
+%
+\let\shmemsep\undefined%
+\newlength\shmemsep%
+\setlength\shmemsep{1ex}%
+%
+\path[draw=arrowshmemcolor,line width=2.5pt]%
+	($(shmem_ram.text split west)+(-\shmemsep,\shmemsep)$)%
+	|-($(shmem_ram.four split east)+(\shmemsep,-\shmemsep)$)%
+	|-($(shmem_ram.text split west)+(-\shmemsep,\shmemsep)$);%
+\path[draw=arrowshmemcolor,line width=2.5pt,loosely dotted]%
+	($(shmem_ram.six split west)+(-\shmemsep,\shmemsep)$)%
+	|-($(shmem_ram.eleven split east)+(\shmemsep,-\shmemsep)$)%
+	|-($(shmem_ram.six split west)+(-\shmemsep,\shmemsep)$);%
+%
+%
+\path[arrow,draw=black,%
+	shorten >=1.5ex,%
+	shorten <=0.5ex]%
+	($(shmem1_1.text east)!.5!(shmem1_1.north east)$)%
+	-|($(shmem1_1.text east)!.5!(shmem_ram.two west)$)%
+	|-(shmem_ram.two west);
+%
+\path[arrow,draw=black,%
+	shorten >=1.5ex,%
+	shorten <=0.5ex]%
+	($(shmem1_1.text east)!.5!(shmem1_1.text split east)$)%
+	-|($(shmem1_1.text east)!.5!(shmem_ram.seven west)$)%
+	|-(shmem_ram.seven west);
+%
+%
+\let\shmemoutersep\undefined%
+\newlength\shmemoutersep%
+\setlength\shmemoutersep{0.5cm}%
+%
+\node(shmemborderLeft)[shape=coordinate]at($(shmem1.west)+(-\shmemoutersep,0)$){};%
+\node(shmemborderTop)[shape=coordinate]at($(ram_auszug.north)+(0,\shmemoutersep+4ex)$){};%
+\node(shmemborderRight)[shape=coordinate]at($(zeitpunkt1.north)+(\shmemoutersep,0)$){};%
+\node(shmemborderBottom)[shape=coordinate]at($(shmem_ram.south)+(0,-\shmemoutersep)$){};%
+\node(shmemborderTopLeft)[shape=coordinate]at(shmemborderLeft|-shmemborderTop){};%
+\path[draw,dashed,ultra thick]%
+	(shmemborderLeft|-shmemborderTop)|-%
+	(shmemborderTop)-|%
+	(shmemborderRight)|-%
+	(shmemborderBottom)-|%
+	(shmemborderLeft|-shmemborderTop);%
+%
+\node[cleartext,anchor=north,yshift=-1ex]%
+	at($(shmemborderLeft|-shmemborderTop)!.5!(shmemborderRight|-shmemborderTop)$)%
+	{\textbf{\Large Shared Memory (ShMem)}};%
+%
+%
+%
+%
+\node(shmem1_top1)[shape=coordinate]%
+	at($(shmem1.north west)!1/7!(shmem1.north east)$){};%
+\node(shmem1_top2)[shape=coordinate]%
+	at($(shmem1.north west)!2/7!(shmem1.north east)$){};%
+\node(shmem1_top3)[shape=coordinate]%
+	at($(shmem1.north west)!3/7!(shmem1.north east)$){};%
+\node(shmem1_top4)[shape=coordinate]%
+	at($(shmem1.north west)!4/7!(shmem1.north east)$){};%
+\node(shmem1_top5)[shape=coordinate]%
+	at($(shmem1.north west)!5/7!(shmem1.north east)$){};%
+\node(shmem1_top6)[shape=coordinate]%
+	at($(shmem1.north west)!6/7!(shmem1.north east)$){};%
+%
+%
+\node(timeout_links_unten)[shape=coordinate]%
+	at($(timeout.west|-shmemborderTopLeft)+(-1em,2em)$){};%
+\node(wlan_mon_links_unten)[shape=coordinate]%
+	at($(wlan_mon.west|-shmemborderTopLeft)+(-2em,1em)$){};%
+\node(ctrl_recv_rechts_unten)[shape=coordinate]%
+	at($(ctrl_recv.east|-shmemborderTopLeft)+(1em,2em)$){};%
+\node(stat_mon_rechts_unten)[shape=coordinate]%
+	at($(stat_mon.east|-shmemborderTopLeft)+(2em,1em)$){};%
+\node(main_rechts_unten)[shape=coordinate]%
+	at($(main.east|-shmemborderTopLeft)+(1em,3em)$){};%
+\node(ctrl_send_links_unten)[shape=coordinate]%
+	at($(ctrl_send.west|-shmemborderTopLeft)+(-1em,4em)$){};%
+%
+%
+%
+%
+\path[draw,arrowshmem](timeout_shmem)%
+	-|(timeout_links_unten)%
+	-|(shmem1_top2);
+\path[draw,arrowshmem](wlan_mon_shmem)%
+	-|(wlan_mon_links_unten)%
+	-|(shmem1_top1);
+\path[draw,arrowshmem](ctrl_recv_shmem)%
+	-|(ctrl_recv_rechts_unten)%
+	-|(shmem1_top5);
+\path[draw,arrowshmem](stat_mon_shmem)%
+	-|(stat_mon_rechts_unten)%
+	-|(shmem1_top6);
+\path[draw,arrowshmem](ctrl_send_shmem)%
+	-|(ctrl_send_links_unten)%
+	-|(shmem1_top3);
+\path[draw,arrowshmem](main_shmem)%
+	-|(main_rechts_unten)%
+	-|(shmem1_top4);
+%
+%
+%
+%
+\path[draw,arrowsynch](stat_mon_main)%
+	-|($(stat_mon_main)!.2!(main_main_rechts)$)%
+	|-($(main_main_rechts)+(0,0.3\baselineskip)$);
+\path[draw,arrowsynch](ctrl_recv_main)%
+	-|($(ctrl_recv_main)!.4!(main_main_rechts)$)%
+	|-($(main_main_rechts)+(0,-0.3\baselineskip)$);
+\path[draw,arrowsynch](wlan_mon_main)%
+	-|($(wlan_mon_main)!.2!(main_main_links)$)%
+	|-($(main_main_links)+(0,0.3\baselineskip)$);
+\path[draw,arrowsynch](timeout_main)%
+	-|($(timeout_main)!.4!(main_main_links)$)%
+	|-($(main_main_links)+(0,-0.3\baselineskip)$);
+%
+%
+\path[draw,arrowsynch](main_send)%
+	--($(main_send)+(-1em,0)$)%
+	|-($(ctrl_send_send)+(0,0.3\baselineskip)$);
+\path[draw,arrowsynch](wlan_mon_send)%
+	-|($(wlan_mon_send)!.6!(ctrl_send_send)$)%
+	|-($(ctrl_send_send)+(0,-0.3\baselineskip)$);
+%
+%
+\draw[arrowact]%
+	($(main.text split west)!.7!(main.north west)$)%
+	--node[pos=0.5,anchor=south]
+		{\textcolor{arrowactcolor}{Startet}}%
+	($(wlan_mon.text split east)!.7!(wlan_mon.north east)$);%
+\draw[arrowact]%
+	($(main.text split west)!.3!(main.north west)$)%
+	--node[pos=0.5,anchor=north]
+		{\textcolor{arrowactcolor}{Terminiert}}%
+	($(wlan_mon.text split east)!.3!(wlan_mon.north east)$);%
+%
+%
+%
+%
+\end{pgfonlayer}%
+%
+%
+%
+%
+	\begin{pgfonlayer}{background_shmem}%
+% 	    \path[fill=slightblue!50]%
+	    \path[fill=bg_shmem]%
+	    	(shmemborderTopLeft)%
+	    		rectangle%
+	    	(shmemborderRight|-shmemborderBottom);%
+	\end{pgfonlayer}%
+%
+%
+%
+%
+%
+%
+%
+	% Background
+	\begin{pgfonlayer}{background}%
+	%Ermittle Top Koordinate (Node mit oberster Kante)
+	%und left Koordinate (Node mit linkster Kante)
+		\path let \p1 = (main.north),%North
+			\p2 = (wlan_mon.west)%West
+			in node (topleft)[shape=coordinate,inner sep=0pt] at (\x2,\y1) {};%
+	%Ermittle Bottom Koordinate (Node mit unterster Kante)
+	%und right Koordinate (Node mit rechtester Kante)
+		\path let \p3 = (shmem_ram.south),%South
+			\p4 = (stat_mon.east)%East
+			in node (bottomright)[shape=coordinate,inner sep=0pt] at (\x4,\y3) {};%
+	%
+	    \path[fill=slightblue]%
+	    	($(topleft)+(-0.25-3em,0.25)$)%
+	    		rectangle%
+	    	($(bottomright)+(0.25+3em,-0.25-0.5)$);%
+	\end{pgfonlayer}%
+%
+%
+%
+%
+% \node(testpunkt)[shape=circle,draw=green,fill=red,
+% inner sep=0pt,text width=0.75em]%
+% at(shmemswitch_etc.east){};%
+%
+%
+%
+%
+%
+%
+%
+%
+\normalfont%
+%
+\end{tikzpicture}%
+%
+%
+\ifdefined\DenKr\end{document}\else\DenKrTikzStandalonePost\fi%

@@ -1,0 +1,66 @@
+%
+%________________________________________________________________________
+%------------------------------------------------------------------------
+%					Addendum
+%				Some additional Appendices
+%/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+%
+%
+%
+%
+%
+%
+%#################################################################
+%##=========================================================######
+%##---------------------------------------------------------######
+%\section*{References}
+%##=========================================================######
+%#################################################################
+% references section
+%
+%\nocite{*}
+%
+%=======
+% No general Insertion of References with Posters
+% %  Instead insert the Makro \DenKrPosterReferences from "2layout/tikzposter/makros_poster.tex" where appropriate
+% %     i.e. in most cases likely just as the very first entry inside the last \begin{columns}\end{columns}
+%=======
+% \block{References}{
+%     \vspace{-1em}
+%     \begin{footnotesize}
+%     \printbibliography[heading=none]
+%     \end{footnotesize}
+% }
+%
+%
+%
+%
+%
+%
+%#################################################################
+%##=========================================================######
+%##---------------------------------------------------------######
+%\section*{Biographies}
+%##=========================================================######
+%#################################################################
+% \expandafter\ifstrequal\expandafter{\DenKrLayoutIncludeBiographies}{0}{}{%
+% \input{"\DenKrSegmentationSubDir/0701_biographies".tex}%
+% }%
+%
+%
+%
+%
+%
+%#################################################################
+%##=========================================================######
+%##---------------------------------------------------------######
+% - - - Tempory active while working state.
+% -  -  -  Deactivated before \begin{document}
+%##=========================================================######
+%#################################################################
+\expandafter\ifstrequal\expandafter{\DenKrCommentsUsage}{0}{}{%
+\block{Temp | Draft}{%
+    \TempDisplayPreparation
+}%
+}%
+%

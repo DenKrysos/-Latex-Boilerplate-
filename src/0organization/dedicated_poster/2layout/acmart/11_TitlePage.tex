@@ -1,0 +1,189 @@
+%
+% \input{"\DenKrSupplyRootDir/TitlePage_Data".tex}%
+%
+%________________________________________________________________________
+%------------------------------------------------------------------------
+%					Paper Title
+%/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+% Titles are generally capitalized except for words such as a, an, and, as, at, but, by, for, in, nor, of, on, or, the, to and up, which are usually not capitalized unless they are the first or last word of the title. Linebreaks \\ can be used within to get better formatting as desired. Do not put math or special symbols in the title.
+%
+\title{\TitlePageDataTitle}%
+%
+%
+%
+%
+%
+%
+%________________________________________________________________________
+%------------------------------------------------------------------------
+%					Use for Special Paper Notices
+%/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+%\IEEEspecialpapernotice{(Invited Paper)}%
+%
+%
+%
+%
+%
+%
+%________________________________________________________________________
+%------------------------------------------------------------------------
+%					Authors
+%/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+\expandafter\ifstrequal\expandafter{\DenKrBlindReview}{1}{}{%
+\input{"\DenKrLayoutSupplyAuthorDir/acmart/authors".tex}%
+}%
+% - - - - - - - - - - - - - - - - - - -
+%
+%
+%
+%
+%
+%
+%________________________________________________________________________
+%------------------------------------------------------------------------
+%					Make the Title Area
+%/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+\maketitle%
+%
+%
+%
+%
+%
+%
+%________________________________________________________________________
+%------------------------------------------------------------------------
+%					Abstract
+%/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+% As a general rule, do not put math, special symbols or citations in the abstract
+\begin{abstract}% Abstract of not more than 250 words.
+%\textcolor{green}{Look into "\DenKrLayoutRootDir/TitlePage.tex"}
+\input{"\DenKrSegmentationSubDir/0100_abstract".tex}
+\end{abstract}%
+%
+%
+%
+%
+%
+%
+%________________________________________________________________________
+%------------------------------------------------------------------------
+%					Keywords
+%/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+\keywords{
+\TitlePageDataKeywords%
+}%
+% no keywords
+%
+%
+%
+%
+%
+%
+%________________________________________________________________________
+%------------------------------------------------------------------------
+%				CCS (ACM Computing Classification System)
+%/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+%Visit the page
+%    http://dl.acm.org/ccs.cfm
+%to generate your appropriate Code
+\begin{CCSXML}
+<ccs2012>
+   <concept>
+       <concept_id>10003033.10003099.10003102</concept_id>
+       <concept_desc>Networks~Programmable networks</concept_desc>
+       <concept_significance>500</concept_significance>
+       </concept>
+   <concept>
+       <concept_id>10003033.10003099.10003104</concept_id>
+       <concept_desc>Networks~Network management</concept_desc>
+       <concept_significance>100</concept_significance>
+       </concept>
+   <concept>
+       <concept_id>10003033.10003099.10003105</concept_id>
+       <concept_desc>Networks~Network monitoring</concept_desc>
+       <concept_significance>100</concept_significance>
+       </concept>
+   <concept>
+       <concept_id>10003033.10003099.10003100</concept_id>
+       <concept_desc>Networks~Cloud computing</concept_desc>
+       <concept_significance>100</concept_significance>
+       </concept>
+   <concept>
+       <concept_id>10003033.10003099.10003037</concept_id>
+       <concept_desc>Networks~Naming and addressing</concept_desc>
+       <concept_significance>500</concept_significance>
+       </concept>
+   <concept>
+       <concept_id>10003033.10003034.10003038</concept_id>
+       <concept_desc>Networks~Programming interfaces</concept_desc>
+       <concept_significance>300</concept_significance>
+       </concept>
+   <concept>
+       <concept_id>10003033.10003039</concept_id>
+       <concept_desc>Networks~Network protocols</concept_desc>
+       <concept_significance>300</concept_significance>
+       </concept>
+   <concept>
+       <concept_id>10010520.10010575.10010577</concept_id>
+       <concept_desc>Computer systems organization~Reliability</concept_desc>
+       <concept_significance>300</concept_significance>
+       </concept>
+   <concept>
+       <concept_id>10010520.10010575.10010578</concept_id>
+       <concept_desc>Computer systems organization~Availability</concept_desc>
+       <concept_significance>100</concept_significance>
+       </concept>
+   <concept>
+       <concept_id>10010520.10010575.10010579</concept_id>
+       <concept_desc>Computer systems organization~Maintainability and maintenance</concept_desc>
+       <concept_significance>500</concept_significance>
+       </concept>
+   <concept>
+       <concept_id>10010520.10010575.10011743</concept_id>
+       <concept_desc>Computer systems organization~Fault-tolerant network topologies</concept_desc>
+       <concept_significance>300</concept_significance>
+       </concept>
+   <concept>
+       <concept_id>10010520.10010521.10010537.10003100</concept_id>
+       <concept_desc>Computer systems organization~Cloud computing</concept_desc>
+       <concept_significance>100</concept_significance>
+       </concept>
+   <concept>
+       <concept_id>10010520.10010521.10010537.10010540</concept_id>
+       <concept_desc>Computer systems organization~Peer-to-peer architectures</concept_desc>
+       <concept_significance>100</concept_significance>
+       </concept>
+   <concept>
+       <concept_id>10011007.10011006.10011066.10011070</concept_id>
+       <concept_desc>Software and its engineering~Application specific development environments</concept_desc>
+       <concept_significance>500</concept_significance>
+       </concept>
+   <concept>
+       <concept_id>10011007.10011006.10011066.10011068</concept_id>
+       <concept_desc>Software and its engineering~Software as a service orchestration system</concept_desc>
+       <concept_significance>300</concept_significance>
+       </concept>
+   <concept>
+       <concept_id>10011007.10011006.10011072</concept_id>
+       <concept_desc>Software and its engineering~Software libraries and repositories</concept_desc>
+       <concept_significance>100</concept_significance>
+       </concept>
+ </ccs2012>
+\end{CCSXML}
+
+\ccsdesc[500]{Networks~Programmable networks}
+\ccsdesc[100]{Networks~Network management}
+\ccsdesc[100]{Networks~Network monitoring}
+\ccsdesc[100]{Networks~Cloud computing}
+\ccsdesc[500]{Networks~Naming and addressing}
+\ccsdesc[300]{Networks~Programming interfaces}
+\ccsdesc[300]{Networks~Network protocols}
+\ccsdesc[300]{Computer systems organization~Reliability}
+\ccsdesc[100]{Computer systems organization~Availability}
+\ccsdesc[500]{Computer systems organization~Maintainability and maintenance}
+\ccsdesc[300]{Computer systems organization~Fault-tolerant network topologies}
+\ccsdesc[100]{Computer systems organization~Cloud computing}
+\ccsdesc[100]{Computer systems organization~Peer-to-peer architectures}
+\ccsdesc[500]{Software and its engineering~Application specific development environments}
+\ccsdesc[300]{Software and its engineering~Software as a service orchestration system}
+\ccsdesc[100]{Software and its engineering~Software libraries and repositories}

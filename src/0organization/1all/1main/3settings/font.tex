@@ -1,0 +1,28 @@
+%________________________________________________________________________
+%------------------------------------------------------------------------
+%							Font/Schriftarten Setup
+%/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+%\usepackage[scaled]{uarial}
+% \usepackage{bookman}
+%\usepackage{textcomp}%
+%------------------------------------------------
+% \renewcommand*{\ttdefault}{lmtt}%
+%<-------------------->
+% Create a command to format as typewrite with enabled hyphenation
+% (Silbentrennung)
+% 	Usage: \texttthyph{}
+%<-------------------->
+\makeatletter%
+\DeclareRobustCommand\ttfamily%
+        {\not@math@alphabet\ttfamily\mathtt%
+         \fontfamily\ttdefault\selectfont\hyphenchar\font=-1\relax}%
+\makeatother%
+\DeclareTextFontCommand{\texttthyph}{\ttfamily\hyphenchar\font=45\relax}%
+% Standartmäßig verfügbare Schriftarten:
+% cmtt 	Computer Modern Typewriter (default)
+% lmtt 	Latin Modern
+% pcr 	Courier
+%/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+%							Font/Schriftarten done
+%------------------------------------------------------------------------
+%________________________________________________________________________

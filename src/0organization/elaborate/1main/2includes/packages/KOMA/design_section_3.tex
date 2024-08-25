@@ -1,0 +1,11 @@
+\setkomafont{section}{\sffamily\bfseries\Large\color{DenKrKomaColor_SectionHeading}}%
+%
+\renewcommand*\sectionformat\sectionformatOriginal%
+%
+%%%%% Simple + underline
+\renewcommand*{\DenKrKOMAHookFormatSection}[4]{%
+    \parbox[c]{\linewidth}{%
+        \raggedsection{\hskip #2{\color{DenKrKomaColor_SectionHeading}#3}}{#4}\par%
+        \kern-.75\ht\strutbox\rule{\linewidth}{1pt}%
+    }%
+}%

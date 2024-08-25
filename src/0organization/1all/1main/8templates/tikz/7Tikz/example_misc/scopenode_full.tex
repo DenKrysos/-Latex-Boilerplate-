@@ -1,0 +1,175 @@
+% Author: Dennis Krummacker%
+\ifdefined\DenKr\documentclass[tikz,fontsize=11pt,class=scrbook]{standalone}\begin{document}\else%
+\input{"./2ProjectSetup".tex}%
+\input{"\DenKrAllMainRootDirPATH/2includes/packages/preamble_pre".tex}%
+\documentclass[tikz,fontsize=11pt,class=scrbook]{standalone}% I.e. the content from \input{"\DenKrLayoutMainRootDir/2layout/tikz_standalone/preamble_1_class".tex}%
+\input{"\DenKrInternalLayoutRootDir/tikz_standalone/1TikzStandalonePicIncludeThis".tex}%
+\DenKrTikzStandalonePre\fi%
+%
+%
+%
+\makeatletter
+\newbox\tikz@sand@box
+\newcount\tikz@scope@depth
+\tikz@scope@depth111\relax
+\def\scopenode[#1]#2{%
+    \begin{pgfinterruptboundingbox}%
+        \advance\tikz@scope@depth111\relax%
+        % process the user option
+        \begin{scope}[name=tempscopenodename,at={(0,0)},anchor=center,#1]%
+            % try to extract positioning information: name, at, anchor
+            \global\let\tikz@fig@name\tikz@fig@name%
+            \global\let\tikz@node@at\tikz@node@at%
+            \global\let\tikz@anchor\tikz@anchor%
+        \end{scope}%
+        \let\tikz@scopenode@name\tikz@fig@name%
+        \let\tikz@scopenode@at\tikz@node@at%
+        \let\tikz@scopenode@anchor\tikz@anchor%
+        % try to typeset this scope
+        % we only need bounding box information
+        % the box itself will be discard
+        \setbox\tikz@sand@box=\hbox{%
+            \begin{scope}[local bounding box=tikz@sand@box\the\tikz@scope@depth,#1]%
+                #2%
+            \end{scope}%
+        }%
+        % goodbye. haha
+        \setbox\tikz@sand@box=\hbox{}%
+        % now typeset again
+        \begin{scope}[local bounding box=\tikz@scopenode@name]%
+            % use the bounding box information to reposition the scope
+            \pgftransformshift{\pgfpointanchor{tikz@sand@box\the\tikz@scope@depth}{\tikz@scopenode@anchor}%
+                               \pgf@x-\pgf@x\pgf@y-\pgf@y}%
+            \pgftransformshift{\tikz@scopenode@at}%
+            \begin{scope}[#1]%
+                #2
+            \end{scope}%
+        \end{scope}%
+        \pgfkeys{/pgf/freeze local bounding box=\tikz@scopenode@name}%
+        \global\let\tikz@scopenode@name@smuggle\tikz@scopenode@name%
+    \end{pgfinterruptboundingbox}%
+    % make up the bounding box
+    \path(\tikz@scopenode@name@smuggle.south west)(\tikz@scopenode@name@smuggle.north east);%
+    % draw something, not necessary
+    \draw[#1](\tikz@scopenode@name@smuggle.south west)rectangle(\tikz@scopenode@name@smuggle.north east);%
+}
+
+\tikz{
+    \scopenode[name=A,at={(5,10)},right]{
+        \scopenode[name=Aa,at={(0,3)},right]{
+            \scopenode[name=Aa1,at={(2,2)},opacity=.4]{
+                \fill(0,0)rectangle(1,1)rectangle(2,2)rectangle(3,3);
+            }
+            \scopenode[name=Aa2,at={(Aa1.east)},right,opacity=.7]{
+                \fill(0,0)rectangle(1,1)rectangle(2,2)rectangle(3,3);
+            }
+            \scopenode[name=Aa3,at={(Aa2.east)},right,opacity=1]{
+                \fill(0,0)rectangle(1,1)rectangle(2,2)rectangle(3,3);
+            }
+        }
+        \scopenode[name=Ab,at={(Aa.south west)},below,red]{
+            \scopenode[name=Ab1,at={(2,2)},opacity=.4]{
+                \fill(0,0)rectangle(1,1)rectangle(2,2)rectangle(3,3);
+            }
+            \scopenode[name=Ab2,at={(Ab1.east)},right,opacity=.7]{
+                \fill(0,0)rectangle(1,1)rectangle(2,2)rectangle(3,3);
+            }
+            \scopenode[name=Ab3,at={(Ab2.east)},right,opacity=1]{
+                \fill(0,0)rectangle(1,1)rectangle(2,2)rectangle(3,3);
+            }
+        }
+        \scopenode[name=Ac,at={(Ab.south east)},below,blue]{
+            \scopenode[name=Ac1,at={(2,2)},opacity=.4]{
+                \fill(0,0)rectangle(1,1)rectangle(2,2)rectangle(3,3);
+            }
+            \scopenode[name=Ac2,at={(Ac1.east)},right,opacity=.7]{
+                \fill(0,0)rectangle(1,1)rectangle(2,2)rectangle(3,3);
+            }
+            \scopenode[name=Ac3,at={(Ac2.east)},right,opacity=1]{
+                \fill(0,0)rectangle(1,1)rectangle(2,2)rectangle(3,3);
+            }
+        }
+    }
+    \scopenode[name=B,at={(A.south west)},below,line width=10.4]{
+        \scopenode[name=Ba,at={(0,3)},right]{
+            \scopenode[name=Ba1,at={(2,2)},opacity=.4]{
+                \fill(0,0)rectangle(1,1)rectangle(2,2)rectangle(3,3);
+            }
+            \scopenode[name=Ba2,at={(Ba1.east)},right,opacity=.7]{
+                \fill(0,0)rectangle(1,1)rectangle(2,2)rectangle(3,3);
+            }
+            \scopenode[name=Ba3,at={(Ba2.east)},right,opacity=1]{
+                \fill(0,0)rectangle(1,1)rectangle(2,2)rectangle(3,3);
+            }
+        }
+        \scopenode[name=Bb,at={(Ba.south west)},below,red]{
+            \scopenode[name=Bb1,at={(2,2)},opacity=.4]{
+                \fill(0,0)rectangle(1,1)rectangle(2,2)rectangle(3,3);
+            }
+            \scopenode[name=Bb2,at={(Bb1.east)},right,opacity=.7]{
+                \fill(0,0)rectangle(1,1)rectangle(2,2)rectangle(3,3);
+            }
+            \scopenode[name=Bb3,at={(Bb2.east)},right,opacity=1]{
+                \fill(0,0)rectangle(1,1)rectangle(2,2)rectangle(3,3);
+            }
+        }
+        \scopenode[name=Bc,at={(Bb.south east)},below,blue]{
+            \scopenode[name=Bc1,at={(2,2)},opacity=.4]{
+                \fill(0,0)rectangle(1,1)rectangle(2,2)rectangle(3,3);
+            }
+            \scopenode[name=Bc2,at={(Bc1.east)},right,opacity=.7]{
+                \fill(0,0)rectangle(1,1)rectangle(2,2)rectangle(3,3);
+            }
+            \scopenode[name=Bc3,at={(Bc2.east)},right,opacity=1]{
+                \fill(0,0)rectangle(1,1)rectangle(2,2)rectangle(3,3);
+            }
+        }
+    }
+    \scopenode[name=C,at={(B.south west)},below,line width=20.4]{
+        \scopenode[name=Ca,at={(0,3)},right]{
+            \scopenode[name=Ca1,at={(2,2)},opacity=.4]{
+                \fill(0,0)rectangle(1,1)rectangle(2,2)rectangle(3,3);
+            }
+            \scopenode[name=Ca2,at={(Ca1.east)},right,opacity=.7]{
+                \fill(0,0)rectangle(1,1)rectangle(2,2)rectangle(3,3);
+            }
+            \scopenode[name=Ca3,at={(Ca2.east)},right,opacity=1]{
+                \fill(0,0)rectangle(1,1)rectangle(2,2)rectangle(3,3);
+            }
+        }
+        \scopenode[name=Cb,at={(Ca.south west)},below,red]{
+            \scopenode[name=Cb1,at={(2,2)},opacity=.4]{
+                \fill(0,0)rectangle(1,1)rectangle(2,2)rectangle(3,3);
+            }
+            \scopenode[name=Cb2,at={(Cb1.east)},right,opacity=.7]{
+                \fill(0,0)rectangle(1,1)rectangle(2,2)rectangle(3,3);
+            }
+            \scopenode[name=Cb3,at={(Cb2.east)},right,opacity=1]{
+                \fill(0,0)rectangle(1,1)rectangle(2,2)rectangle(3,3);
+            }
+        }
+        \scopenode[name=Cc,at={(Cb.south east)},below,blue]{
+            \scopenode[name=Cc1,at={(2,2)},opacity=.4]{
+                \fill(0,0)rectangle(1,1)rectangle(2,2)rectangle(3,3);
+            }
+            \scopenode[name=Cc2,at={(Cc1.east)},right,opacity=.7]{
+                \fill(0,0)rectangle(1,1)rectangle(2,2)rectangle(3,3);
+            }
+            \scopenode[name=Cc3,at={(Cc2.east)},right,opacity=1]{
+                \fill(0,0)rectangle(1,1)rectangle(2,2)rectangle(3,3);
+            }
+        }
+    }
+%   \foreach\A in{A,B,C}{
+%       \draw[yellow,bend right,line width=10](-10,15)to(\A.west);
+%       \foreach\a in{a,b,c}{
+%           \draw[green,line width=5](-10,15)--(\A\a.north);
+%           \foreach\n in{1,2,3}{
+%               \draw(-10,15)--(\A\a\n.east);
+%           }
+%       }
+%   }
+}
+%
+%
+\ifdefined\DenKr\end{document}\else\DenKrTikzStandalonePost\fi%

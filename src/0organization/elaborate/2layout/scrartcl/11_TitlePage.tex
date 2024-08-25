@@ -1,0 +1,41 @@
+%
+\input{"\DenKrSupplyRootDir/TitlePage_Data".tex}%
+\providecommand{\DenKrTPVersion}{}%
+%
+%================================================================
+%     Setting some Colors
+%----------------------------------------------------------------
+\colorlet{TitlePage_TypoAccentColorOne}{white}% A Default-Val, might be overwritten inside a Titlepage % {white} {white!60!gray} {TitlePage_colorOne}
+\colorlet{TitlePage_Color_RankA}{DenKrKomaColor_PartHeading}%
+\colorlet{TitlePage_Color_RankB}{DenKrKomaColor_ChapterHeading}%
+\colorlet{TitlePage_Color_RankC}{DenKrKomaColor_SectionHeading}%
+\colorlet{TitlePage_Color_RankD}{DenKrKomaColor_SubSectionHeading}%
+%----------------------------------------------------------------
+%
+%
+%
+\newcommand{\DenKrLayoutTPBB}{\DenKrLayoutCommonDir/TitlePage}%
+%================================================================
+%----------------------------------------------------------------
+%      Title Page \& Mock-Title
+%================================================================
+%
+%\maketitle
+\input{"\DenKrLayoutTPBB/title_TikZ".tex}% title_TikZ, titleDissertationEn, title_plain, titleTUKL
+%
+% Title Page Rückseite
+\input{"\DenKrLayoutTPBB/titleMocktitlePlain".tex}% titleMocktitleEn, titleMocktitlePlain
+%
+%
+%
+% Again in German
+%================================================================
+%----------------------------------------------------------------
+%      Title Page \& Schmutztitel
+%================================================================
+%
+%\maketitle
+% \input{"\DenKrLayoutTPBB/titleDissertationGer".tex}%
+%
+% Title Page Rückseite
+% \input{"\DenKrLayoutTPBB/titleSchmutztitelGer".tex}%

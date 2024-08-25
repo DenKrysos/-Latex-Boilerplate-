@@ -1,0 +1,246 @@
+%________________________________________________________________________
+%------------------------------------------------------------------------
+%           Typesetting / Schriftsatz / Satz (Druck)
+%/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+%
+% - - - - - - - -
+% Text Alignment
+% - - - - - - - -
+\usepackage{ragged2e}%
+\usepackage{tabto}%
+%
+\usepackage{wrapfig}% Allows to have a figure with text wrapped around
+\usepackage{varwidth}% Cmds for textsize relative to surrounding text (as opposed to always absolut) -> (\smaller vs \small)
+%
+%----------------------------
+%       Visuals
+% - - - - - - - - - - - - - -
+\usepackage{tcolorbox}%
+\tcbuselibrary{skins}%
+\tcbset{enhanced}%
+%
+%
+%
+%
+%
+%
+%________________________________________________________________________
+%------------------------------------------------------------------------
+%           More matching "Typography"
+%               (but common for Article & Book level classes, hence in this shared file)
+% - - - - - - - - - - - - - -
+\usepackage{textcomp}% LaTeX support for the Text Companion fonts
+\usepackage{ulem}\normalem%
+\usepackage{relsize}% Set the font size relative to the current font size
+\usepackage{xspace}% Define commands that appear not to eat spaces
+\usepackage{soul}% Hyphenation for letterspacing, underlining, and more
+\usepackage{setspace}%
+% - - - - - - - - - - - - - -
+% Creating an Outline/Contour around Text
+\newcommand{\DenKrOutlineWidth}{0.03em}%
+\providecommand{\DenKrCompiler}{pdfLaTeX}%
+\expandafter\ifstrequal\expandafter{\DenKrCompiler}{pdfLaTeX}{%
+    \usepackage[pdftex,outline]{contour}%
+    \contourlength{\DenKrOutlineWidth}% Thickness of the Outline. Default: 0.03em. Not expanded on Definition, but on Use.
+    \contournumber{25}% How many copies are created. Default: 16
+    %USAGE Example:
+    % {%
+    %     \LARGE%
+    %     \contour{violet}{\textcolor{orange}{Text with Outline/Contour}}\nl%
+    %     {%
+    %         \contourlength{0.2em}%
+    %         \contour{violet}{\textcolor{orange}{Text with Outline/Contour}}\nl%
+    %         \contour{violet}{\textcolor{orange}{Text with Outline/Contour}}\nl%
+    %     }%
+    %     \contour{violet}{\textcolor{orange}{Text with Outline/Contour}}\nl%
+    % }%
+}{\expandafter\ifstrequal\expandafter{\DenKrCompiler}{LuaLaTeX}{%
+    % Two different Packages and by that Methods are available:
+    %  "contour": Prints the actual text as normal and surrounds it with the Contour.
+    %  "pdfrender": Prints the outline as the actual text and fills this inside with a different Color.
+    % -> "contour" grows bigger to the outside and makes the Outline sleeked (when growing too big)
+    % -> "pdfrender" keeps the outline sharp and well defined, but may let the inside look wonky
+    % => Methods to be ideally employed depends on the use-case
+    %
+    %Same Packge as for pdfLaTeX.
+    \usepackage[outline]{contour}%
+    \contourlength{\DenKrOutlineWidth}%
+    \contournumber{25}%
+    %
+    % An alternative for LuaLaTeX. Works differently, but compiles more efficient.
+    \usepackage{pdfrender}%
+    %USAGE Example:
+    % - The logic is kind-of inverted here.
+    %   - What is set as the actual 'textcolor' is actually reflected as the Color of the Contour
+    %   - The \textpdfrender is "filling" this inside.
+    % \definecolor{CharFillColor}{rgb}{1,.8,.8}
+    % \colorlet{CharFillColor}{orange}
+    % \begin{document}
+    %     \sffamily
+    %     \textcolor{violet}{
+    %     \textpdfrender{
+    %     TextRenderingMode=FillStroke,
+    %     LineWidth=\DenKrOutlineWidth,
+    %     FillColor=CharFillColor,
+    %     MiterLimit=1,
+    %     }{Text with Outline/Contour}}
+    % \end{document}
+}{%
+}}%
+% - - - - - - - - - - - - - -
+% Additional Formatting-Cmds, letters, signs, special characters, units
+% - - - - - - - - - - - - - -
+%\usepackage{units}% Better don't use anymore. Instead siunitx.sty since it is newer and still maintained  %contains package 'nicefrac'.
+\usepackage{nicefrac}% Supplies some nice Fraction formatting. \nicefrac{<Numerator>}{<Denominator>}
+\usepackage{xfrac}% Another Fraction Formator. \sfrac[⟨instance⟩]{⟨num⟩}[⟨sep⟩]{⟨denom⟩}
+% - - - SI Units - - - -
+% When writing a fraction within a SI-Unit Statement, deactivate the number-parsing singular for this one occurence:
+%   \num[parse-numbers=false]{\frac{7}{2}}
+\usepackage[english,german,ngerman]{translator}%
+\usepackage{siunitx}%
+\sisetup{%
+    input-ignore={,},%
+    input-decimal-markers={.},%
+    %output-decimal-marker={.},%
+    %group-separator={,},%
+    group-minimum-digits=5,% Determines the number of digits after which the grouping starts to be applied. Default: 5
+    group-digits=all,%
+    fraction-function=\nicefrac,% \dfrac
+    range-phrase=-,%
+    range-units=single%
+}%
+\DeclareSIUnit{\calorie}{cal}%
+\DeclareSIUnit{\tablespoon}{\translate{tbsp}}%
+\DeclareSIUnit{\teaspoon}{\translate{tsp}}%
+\newtranslation[to=German]{tbsp}{EL}%
+\newtranslation[to=German]{tsp}{TL}%
+\newcommand{\groupSeparatorShortSpace}{\,}% \, is a "short-space", just a blank space, but shorter than a text-mode full space.
+\newcommand{\groupSepGer}{.}%
+\newcommand{\groupSepEn}{\groupSeparatorShortSpace}% Usually a 'short-space' or ',' (just plain comma)
+\addto\extrasgerman{\sisetup{locale=DE,output-decimal-marker={,},group-separator={\groupSepGer},detect-all}}%
+\addto\extrasenglish{\sisetup{locale=US,output-decimal-marker={.},group-separator={\groupSepEn},detect-all}}%
+% For some reason, group-separator does not work in the addto configuration, hence adding it again below
+\expandafter\ifstrequal\expandafter{\DenKrLanguageStringCmd}{ngerman}{%
+    \sisetup{locale=DE,group-separator={\groupSepGer}}%
+}{\expandafter\ifstrequal\expandafter{\DenKrLanguageStringCmd}{english}{%
+    \sisetup{locale=US,group-separator={\groupSepEn}}%
+}{}}%
+%
+%  Example:
+%        \qty[locale=DE]{2}{\tablespoon}
+%        %
+%        \begin{otherlanguage}{english}
+%        \qty{2}{\tablespoon}
+%        \end{otherlanguage}
+%        %
+%        \begin{otherlanguage}{german}
+%        \qty{2}{\tablespoon}
+%        \end{otherlanguage}
+%
+% - - - - - - - - - -
+% CAUTION: The Key-Definitions don't really work yet. Apparently, qty does prevent key expansion. I did not solve this yet.
+% Some Formatting Helpers / Templates for the siunitx cmds
+%  - Don't parse numbers
+\newcommand{\SIrawNum}{parse-numbers=false}%
+%       \qty[parse-numbers=false]{1.5}{\gram}  ->  \qty[\SIrawNum]{1.5}{\gram}
+%  - State an "approximate" number. ->(siunitx supports so called comparators, such as <, =, > and also \approx and \sim)
+%       \qty{\sim 3}{\gram}  instead of  \mytilde\qty{35}{\gram}
+%  - Bold Printing  ->(Use these commands to replace hard-coding {\bfseries\boldmath\qty[detect-weight=true,detect-all=true]{500}{\ml} Glas}
+\NewDocumentCommand{\qtybold}{omm}{%
+    {\bfseries\boldmath%
+    \IfNoValueTF{#1}{%
+        \qty[detect-weight=true,detect-all=true]{#2}{#3}%
+    }{%
+        \qty[detect-weight=true,detect-all=true,#1]{#2}{#3}%
+    }%
+    }%
+}%
+\NewDocumentCommand{\qtyrangebold}{ommm}{%
+    {\bfseries\boldmath%
+    \IfNoValueTF{#1}{%
+        \qtyrange[detect-weight=true,detect-all=true]{#2}{#3}{#4}%
+    }{%
+        \qtyrange[detect-weight=true,detect-all=true,#1]{#2}{#3}{#4}%
+    }%
+    }%
+}%
+%  - Group Digits (My default setting is to not start grouping right away after reaching the first 4. This directly groups with exceeding 3 digits)
+\newcommand{\SIgroupDig}{group-minimum-digits=3}%
+%       \qty[group-minimum-digits=3]{1500}{\liter}  ->  \qty[\SIgroupDig]{1500}{\liter}
+% - - - - - - - - - -
+% - - - - - - - - - -
+% - - - - - - - - - -
+% Two Macros for pasting time (time-of-day or time-span). Allow an optional first argument for local set up in the usual siunitx way.
+\ExplSyntaxOn
+% Hour-Minute-Second-Period (For pasting a Period of Time. Like \hmsP{10;20;30} -> "10:20:30 h" | \hmsP{;10;30}  ->  "20:30 min"
+\NewDocumentCommand\hmsP{o >{\SplitArgument{2}{;}}m}{%
+    \group_begin:%
+        \IfNoValueF{#1}{%
+            \keys_set:nn{siunitx}{#1}%
+        }%
+        \siunitx_hmsP_output:nnn #2%
+    \group_end:%
+}%
+\cs_new_protected:Npn\siunitx_hmsP_output:nnn #1#2#3{%
+    \qty[parse-numbers=false]{\mbox{
+        \tl_if_blank:nF{#1}{\IfNoValueF{#1}{%
+            #1%
+            \tl_if_blank:nT{#2}{%
+                \tl_if_blank:nF{#3}{\IfNoValueF{#3}{:}}%
+            }\tl_if_blank:nF{#2}{\IfNoValueF{#2}{:}}%
+        }}%
+        \tl_if_blank:nF{#2}{\IfNoValueTF{#2}{%
+            \tl_if_blank:nF{#1}{\IfNoValueF{#1}{\tl_if_blank:nF{#3}{\IfNoValueF{#3}{0:}}}}%
+        }{%
+            #2%
+            \tl_if_blank:nF{#3}{\IfNoValueF{#3}{:}}%
+        }}\tl_if_blank:nT{#2}{%
+            \tl_if_blank:nF{#1}{\IfNoValueF{#1}{\tl_if_blank:nF{#3}{\IfNoValueF{#3}{0:}}}}%
+        }%
+        \tl_if_blank:nF{#3}{\IfNoValueF{#3}{%
+            #3%
+        }}%
+    }}{%
+        \tl_if_blank:nT{#1}{%
+            \tl_if_blank:nT{#2}{%
+                \tl_if_blank:nF{#3}{\IfNoValueF{#3}{\second}}%
+            }\tl_if_blank:nF{#2}{\IfNoValueF{#2}{\minute}}%
+        }\tl_if_blank:nF{#1}{\IfNoValueF{#1}{\hour}}%
+    }%
+}%
+% Hour-Minute-Second-Clock (For pasting Time of Day / Clock Time. Like \hmsC{10;20;30} -> "10h 20 min 30s"
+\NewDocumentCommand\hmsC{o >{\SplitArgument{2}{;}}m}{%
+    \group_begin:%
+        \IfNoValueF{#1}{%
+            \keys_set:nn{siunitx}{#1}%
+        }%
+        \siunitx_hmsC_output:nnn #2%
+    \group_end:%
+}%
+\cs_new_protected:Npn\siunitx_hmsC_output:nnn #1#2#3{%
+    \IfNoValueF{#1}{%
+        \tl_if_blank:nF{#1}{%
+            \qty{#1}{\hour}%
+            \IfNoValueF{#2}{~}%
+        }%
+    }%
+    \IfNoValueF{#2}{%
+        \tl_if_blank:nF{#2}{%
+            \qty{#2}{\minute}%
+            \IfNoValueF{#3}{~}%
+        }%
+    }%
+    \IfNoValueF{#3}{%
+        \tl_if_blank:nF{#3}{%
+            \qty{#3}{\second}%
+        }%
+    }%
+}%
+\ExplSyntaxOff
+% - - - - - - - - - - -
+% Fraction Example with this:
+%     $2\frac{7}{2}$, \nicefrac{7}{2}. \num[parse-numbers=false]{\frac{7}{2}}, \num[parse-numbers=false]{\nicefrac{1}{3}}.
+%     \sfrac{1}{2}, $\sfrac{1}{2}$, $\mathbf{3\times\sfrac{1}{2}}$; \quad \fontfamily{ppl}\selectfont Palatino: \sfrac{1}{2}, \quad \fontfamily{ptm}\selectfont Times: \sfrac{1}{2}
+% - - - - - - - -
+%
+%/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\

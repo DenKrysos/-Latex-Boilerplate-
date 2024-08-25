@@ -1,0 +1,26 @@
+%
+%
+%
+%
+%
+% This here is just a template.
+% => Copy and paste the content of one of the "\exclusiveExecutionPaste[...]" Macros directly into a corresponding file
+%     (And don't include this file here. Should cause no harm, but would be just without use.)
+\providecommand{\exclusiveExecutionPasteMain}{}%
+\renewcommand{\exclusiveExecutionPasteMain}{%
+    \providecommand{\onlyinsubfile}{}%
+    \providecommand{\notinsubfile}{}%
+    \providecommand{\onlyinmainfile}{}%
+    \renewcommand{\onlyinsubfile}[1]{}%
+    \renewcommand{\notinsubfile}[1]{#1}%
+    \renewcommand{\onlyinmainfile}[1]{\notinsubfile{#1}}%
+}
+\providecommand{\exclusiveExecutionPasteSub}{}%
+\renewcommand{\exclusiveExecutionPasteSub}{%
+    \providecommand{\onlyinsubfile}{}%
+    \providecommand{\notinsubfile}{}%
+    \providecommand{\onlyinmainfile}{}%
+    \renewcommand{\onlyinsubfile}[1]{#1}%
+    \renewcommand{\notinsubfile}[1]{}%
+    \renewcommand{\onlyinmainfile}[1]{\notinsubfile{#1}}%
+}

@@ -1,0 +1,211 @@
+% Titlepage - Data
+%
+%________________________________________________________________________
+%------------------------------------------------------------------------
+%		Common for all Document-Genres
+%			(Book, Paper, Article, elaborate, dedicated, ...)
+%/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+%
+%<><><><><><><><><><><><><><><><><><><><><><><><><><><><><>
+% <> <>		Paper Title
+%<><><><><><><><><><><><><><><><><><><><><><><><><><><><><>
+% Titles are generally capitalized except for words such as a, an, and, as, at, but, by, for, in, nor, of, on, or, the, to and up, which are usually not capitalized unless they are the first or last word of the title. Linebreaks \\ can be used within to get better formatting as desired. Do not put math or special symbols in the title.
+% Title (English)
+\newcommand{\DenKrTPtitle}{%
+\LaTeX \ Boilerplate%
+\\{\smaller\smaller\smaller (Choose Layout in '2ProjectSetup'; perhaps check what this means regarding \enquote{Document-Genre})}
+}%
+%
+% Sub-Title (English)   [Only used in 'elaborate' Document-Genre]
+%  Further Description of the Content, welcome to be extensive and spanning across multiple lines of text, nonetheless linguistically formulated as a substantive clause%
+\newcommand{\DenKrTPsubtitle}{%
+\textit{Book} supports big Documents with lots of pages. Additional structuring level "Chapter" available.
+\\\textit{Article} for more condensed documents, without \textbackslash chapter.
+}%
+%
+%
+%<><><><><><><><><><><><><><><><><><><><><><><><><><><><><>
+% <> <>		Title again in a Second Language
+% <> <>			(There might be Documents to include this Info Multi-Language, i.e. both)
+%<><><><><><><><><><><><><><><><><><><><><><><><><><><><><>
+% 
+% Titel (e.g. Deutsch / German)
+\newcommand{\DenKrTPtitleSecond}{%
+\DenKrTPtitle%
+}%
+%
+% Sub-Titel (e.g. Deutsch / German)
+%  Nähere Erklärung der Thematik, was auch gerne über mehrere Zeilen gehen darf, jedoch linguistisch in Form eines Substantiv-Satzes gefasst ist%
+\newcommand{\DenKrTPsubtitleSecond}{%
+\textit{Book} eher für große Dokumente mit vielen Seiten. Zusätzlich ist das Strukturierungs-Level "Kapitel" verfügbar.
+\\\textit{Article} für prägnantere Dokumente, ohne \textbackslash chapter.
+}%
+%
+%
+%
+%
+%
+%
+%________________________________________________________________________
+%------------------------------------------------------------------------
+%		Exclusive to 'elaborate' Documents
+%			(Book, Scrartcl, ...)
+%/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+%
+%<><><><><><><><><><><><><><><><><><><><><><><><><><><><><>
+% <> <>		"Type" of Document
+% <> <>			(Dissertation, PhD-Thesis, Master-Thesis, Biography, ...)
+%<><><><><><><><><><><><><><><><><><><><><><><><><><><><><>
+% Is printed on the Title-Page of Big-Documents with an entire Page dedicated to be the 'Title'
+\newcommand{\DenKrTPpublicationType}{Template}%
+\newcommand{\DenKrTPpublicationTypeGer}{Template}%
+%
+%
+%
+%
+%
+%<><><><><><><><><><><><><><><><><><><><><><><><><><><><><>
+% <> <>		Pre-Version
+% <> <>			To specify e.g. that it is a Draft prior to final release with an incremental version number.
+% <> <>			(Only printed when defined)
+%<><><><><><><><><><><><><><><><><><><><><><><><><><><><><>
+% \newcommand{\DenKrTPVersion}{\mbox{\Huge\contourlength{0.1em}\contour{violet}{\textcolor{orange}{DRAFT v1.0}}}}%
+%
+%
+%
+%
+%
+%<><><><><><><><><><><><><><><><><><><><><><><><><><><><><>
+% <> <>		Author, Address (& Supervisor)
+% <> <>			(For Book-alike Documents)
+%<><><><><><><><><><><><><><><><><><><><><><><><><><><><><>
+\newcommand{\DenKrTPauthorAnrede}{}%
+\newcommand{\DenKrTPauthorTitleBefore}{}%
+\newcommand{\DenKrTPauthorTitleAfter}{M.Sc.}%
+\newcommand{\DenKrTPauthorFirst}{Dennis}%
+\newcommand{\DenKrTPauthorLast}{Krummacker}%
+\newcommand{\DenKrTPauthorStreet}{Albert-Schweitzer-Str. 57}%
+\newcommand{\DenKrTPauthorPLZ}{67655}%
+\newcommand{\DenKrTPauthorCity}{Kaiserslautern}%
+\newcommand{\DenKrTPauthorMail}{dennis.krummacker@gmail.com}%
+\newcommand{\DenKrTPsignedAtCity}{Kaiserslautern}%
+% - - - - -
+\newcommand{\DenKrTPsupervisorOneAnrede}{}%
+\newcommand{\DenKrTPsupervisorOneTitleBefore}{Prof. Dr.-Ing.}%
+\newcommand{\DenKrTPsupervisorOneTitleAfter}{}%
+\newcommand{\DenKrTPsupervisorOneFirst}{Hans D.}%
+\newcommand{\DenKrTPsupervisorOneLast}{Schotten}%
+% - - - - -
+\newcommand{\DenKrTPsupervisorTwoAnrede}{}%
+\newcommand{\DenKrTPsupervisorTwoTitleBefore}{Prof. Dr.}%
+\newcommand{\DenKrTPsupervisorTwoTitleAfter}{}%
+\newcommand{\DenKrTPsupervisorTwoFirst}{FName}%
+\newcommand{\DenKrTPsupervisorTwoLast}{LName}%
+% - - - - -
+\newcommand{\DenKrTPsupervisorThreeAnrede}{}%
+\newcommand{\DenKrTPsupervisorThreeTitleBefore}{}%
+\newcommand{\DenKrTPsupervisorThreeTitleAfter}{}%
+\newcommand{\DenKrTPsupervisorThreeFirst}{}%
+\newcommand{\DenKrTPsupervisorThreeLast}{}%
+% - - - - -
+% - - - - -
+\newcommand{\DenKrTPdeanAnrede}{}%
+\newcommand{\DenKrTPdeanTitleBefore}{Prof. Dr. rer. nat.}%
+\newcommand{\DenKrTPdeanTitleAfter}{}%
+\newcommand{\DenKrTPdeanFirst}{Person}%
+\newcommand{\DenKrTPdeanLast}{One}%
+% - - - - -
+\newcommand{\DenKrTPauditchairAnrede}{}%
+\newcommand{\DenKrTPauditchairTitleBefore}{Prof. Dr.-Ing.}%
+\newcommand{\DenKrTPauditchairTitleAfter}{}%
+\newcommand{\DenKrTPauditchairFirst}{Person}%
+\newcommand{\DenKrTPauditchairLast}{Two}%
+% - - - - -
+\newcommand{\DenKrTPoralExamdate}{2022-01-01}%
+%\newcommand{\DenKrTPdate}{\DenKrdateToday}% \DenKrdateToday \Today
+\newcommand{\DenKrTPdate}{2021-10-11}%
+%
+%
+%
+%
+%
+%
+%________________________________________________________________________
+%------------------------------------------------------------------------
+%		Exclusive to 'dedicated' Documents
+%		(Simpler Documents, for a dedicated purpose, like Research-Papers, Posters, etc.)
+%			(IEEETran, article, ...)
+%/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+%
+%<><><><><><><><><><><><><><><><><><><><><><><><><><><><><>
+% <> <>		Authors & Affiliations
+%<><><><><><><><><><><><><><><><><><><><><><><><><><><><><>
+% !!NOTE!!
+%   Scientific Articles and alike usually have an extensive List of multiple Authors (which are specified with their affiliation).
+%   It has no separate Page, dedicated to being the Title-*Page*, but only a *Header* at the top of the first page.
+%   The Authors for such Documents are specified separately, in the parallel File "author_affiliation.tex", by which this Section is automatically generated.
+%   (Whereas all Title-Page Info for Book-type Docs is given in here, above.)
+%
+%
+%
+%
+%<><><><><><><><><><><><><><><><><><><><><><><><><><><><><>
+% <> <>		Keywords
+%<><><><><><><><><><><><><><><><><><><><><><><><><><><><><>
+\newcommand{\TitlePageDataKeywords}{%
+}%
+% no keywords
+%
+%
+%
+%
+%
+%<><><><><><><><><><><><><><><><><><><><><><><><><><><><><>
+% <> <>		Electronic Posting Policy, Electronic Preprints, Submission-Copyright-Notice
+%<><><><><><><><><><><><><><><><><><><><><><><><><><><><><>
+\newcommand{\TitlePageDataPreprintPolicyNotice}{%
+}%
+%This work has been submitted to the IEEE for possible publication. Copyright may be transferred without notice, after which this version may no longer be accessible.%
+%
+%
+%
+%
+%
+%<><><><><><><><><><><><><><><><><><><><><><><><><><><><><>
+% <> <>		Electronic Posting Policy, Electronic PostPrints, Submission-Copyright-Notice
+%<><><><><><><><><><><><><><><><><><><><><><><><><><><><><>
+\newcommand{\TitlePageDataPostprintPolicyNotice}{%
+This manuscript has been peer-reviewed
+and accepted for publication.
+}%
+%Copyright~\copyright~2021 IEEE. Personal use of this material is permitted. Permission from IEEE must be obtained for all other uses, in any current or future media, including reprinting/republishing this material for advertising or promotional purposes, creating new collective works, for resale or redistribution to servers or lists, or reuse of any copyrighted component of this work in other works.%
+%
+%
+%
+%
+%
+%
+%________________________________________________________________________
+%------------------------------------------------------------------------
+%		Setting up some more Variables
+%			(Shouldn't need to touch)
+%/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+% These values are actually used by the 'dedicated' Layouts. They are by default set to what you specified above.
+%   So, you don't need to do anything with them, but you can, if you desire so.
+\newcommand{\TitlePageDataTitle}{\DenKrTPtitle}%
+\newcommand{\TitlePageDataTitleEn}{\TitlePageDataTitle}%
+\newcommand{\TitlePageDataTitleGer}{\DenKrTPtitleSecond}%
+%
+%
+%
+%
+%
+%
+%________________________________________________________________________
+%------------------------------------------------------------------------
+%		"Standard"-Title-Page Daten
+%			(Just setting them up also)
+%/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+\title{\DenKrTPtitle}%
+\author{\DenKrTPauthorFirst \DenKrTPauthorLast}%
+\date{\copyright \DenKrTPdate}%

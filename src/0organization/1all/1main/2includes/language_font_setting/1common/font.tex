@@ -1,0 +1,22 @@
+% - For typesetting Listings slightly differently
+%    (Don't load the packages, but insert a \fontfamily{}\selectfon in the \basicstyle argument
+%    \usepackage[scaled=0.88]{beraserif}% \fontfamily{fvm}
+%    \usepackage[scaled=0.85]{berasans}% \fontfamily{fvm}
+%    \usepackage[scaled=0.84]{beramono}% \fontfamily{fvm}
+% - Commands for switching to Bera Font
+\makeatletter
+\newcommand\BeraSerifsefamily{%
+  \def\fve@Scale{0.88}% scales the font down
+  \fontfamily{fve}\selectfont% selects the Bera font
+}
+\newcommand\BeraMonottfamily{%
+  \def\fvm@Scale{0.84}%
+  \fontfamily{fvm}\selectfont%
+}
+\newcommand\BeraSanssffamily{%
+  \def\fvs@Scale{0.85}%
+  \fontfamily{fvs}\selectfont%
+}
+\makeatother
+%
+% NOTE: That is currently not in use

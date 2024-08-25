@@ -1,0 +1,389 @@
+% Author: Dennis Krummacker%
+\ifdefined\DenKr\documentclass[tikz,fontsize=11pt,class=scrbook]{standalone}\begin{document}\else%
+\input{"./2ProjectSetup".tex}%
+\input{"\DenKrAllMainRootDirPATH/2includes/packages/preamble_pre".tex}%
+\documentclass[tikz,fontsize=11pt,class=scrbook]{standalone}% I.e. the content from \input{"\DenKrLayoutMainRootDir/2layout/tikz_standalone/preamble_1_class".tex}%
+\input{"\DenKrInternalLayoutRootDir/tikz_standalone/1TikzStandalonePicIncludeThis".tex}%
+\DenKrTikzStandalonePre\fi%
+%
+%
+%
+\newcommand\nodedistance{0.5cm}%
+\newcommand\innabst{0.8em}% Abstand zwischen Text und Zellenrand
+%
+\let\breite\undefined%
+\newlength\breite%
+\settowidth{\breite}{\large \textbf{Interfacename}}%
+\setlength\breite{\breite+\innabst+\innabst+1em}%
+%
+\begin{tikzpicture}[%
+	scale = \tikzpicturescale,%
+	auto,%
+	node distance=\nodedistance%
+]%
+\newcommand{\cnt}{2}%
+%
+%
+% \bfseries%
+%
+%\draw[color=slightblue,fill] (-0.5,-4.5) rectangle (10.5,0.5);
+%
+	\node(threadwlanmon)%
+		[note,anchor=north]%
+		at(0,0)%
+		{WLAN Monitoring Thread\\%
+		Thread-ID: \ico{WLANMon\_ThID}};%
+%
+	\node(restartwlanmon_kommdest)%
+		[cleartext,%
+		left=3*\nodedistance of threadwlanmon]%
+		{\textbf{\lipsaround{IT-wmon2}}};%
+	\draw[arrowkomm,->](restartwlanmon_kommdest)--(threadwlanmon);%
+%
+	\node(startthread)%
+		[startstop,%
+		below=of threadwlanmon]%
+		{Start};%
+	\draw[arrow](threadwlanmon)--(startthread);%
+% 	\node(threadwlanmonabove)[shape=coordinate,%
+% 		above=0.5*\nodedistance of threadwlanmon]{};
+% 	\draw[connect]($(threadstart.south)+(1cm,0)$)|-(threadwlanmonabove);%
+% 	\draw[arrow](threadwlanmonabove)-|(threadwlanmon);%
+%
+	\node(killsignaloccur)%
+		[interthread,anchor=north]%
+		at(-16,0)%
+		{Signal Ereignis\\
+		\ico{SIGKILL\_WLANMON}};%
+	\node(threadwlanmon)%
+		[note,align=left,%
+		below=of killsignaloccur]%
+		{%
+		\lstinline[language=C_var,basicstyle=\ttfamily]%
+		{static void sigkill_wlanmon_handler()}\{\\%
+		\ \ \ \ \lstinline[language=C_var,basicstyle=\ttfamily]%
+		{pcap_breakloop(pcaphandle);}\\%
+		\ \ \ \ \lstinline[language=C_var,basicstyle=\ttfamily]%
+		{pcap_close(pcaphandle);}\\%
+		\ \ \ \ \lstinline[language=C_var,basicstyle=\ttfamily]%
+		{pthread_cancel(WLANMon_ThID);}\\%
+		\ \ \ \ \lstinline[language=C_var,basicstyle=\ttfamily]%
+		{pthread_join(WLANMon_ThID);}\\%
+% 		\ \ \ \ \lstinline[language=C_var,basicstyle=\ttfamily]%
+% 		{if(*wlanp)}\\%
+% 		\ \ \ \ \ \ \ \ \lstinline[language=C_var,basicstyle=\ttfamily]%
+% 		{free(*wlanp);}\\%
+		\}%
+		};%
+	\draw[arrow](killsignaloccur)--(threadwlanmon);%
+	\node(threadend)%
+		[startstop,%
+		below=of threadwlanmon]%
+		{Ende};%
+	\draw[arrow](threadwlanmon)--(threadend);%
+%
+	\node(stopwlanmon_kommdest)%
+		[cleartext,%
+		right=3*\nodedistance of killsignaloccur]%
+		{\textbf{\lipsaround{IT-wmon1}}};%
+	\draw[arrowkomm,->](stopwlanmon_kommdest)--(killsignaloccur);%
+%
+	\node(signal)%
+		[process,align=right,%
+		below=of startthread]%
+		{\lstinline[language=C_var,basicstyle=\ttfamily]%
+		{signal(SIGKILL_WLANMON,}\ \ \ \ \ \ \\%
+		\lstinline[language=C_var,basicstyle=\ttfamily]%
+		{sigkill_wlanmon_handler);}%
+		};%
+	\draw[arrow](startthread)--(signal);%
+%
+	\node(chanloopstart)%
+		[process,%
+		below=1*\nodedistance of signal]%
+		{\ico{chan=1} (for-Loop)};%
+	\draw[arrow](signal)--(chanloopstart);%
+%
+	\node(chanloopcond)%
+		[decision,%
+		below=1.5*\nodedistance of chanloopstart]%
+		{chan <= 13?};%
+	\draw[arrow](chanloopstart)--(chanloopcond);%
+	\node(chanloopreconnect)[shape=coordinate]%
+		at($(chanloopcond.north)+(-12cm,0.75*\nodedistance)$){};
+	\draw[arrow](chanloopreconnect)--(chanloopreconnect-|chanloopcond.north);%
+%
+	\node(chanloopreset)%
+		[process,%
+		left=2.75*\nodedistance of chanloopcond]%
+		{\ico{chan=1}};%
+	\draw[arrow](chanloopcond)--%
+		node[pos=0,anchor=south east]{Nein}%
+		(chanloopreset);%
+%
+	\node(changeifconf)%
+		[processsplitl=2,%
+		xshift=-2.75cm,%
+		below=2*\nodedistance of chanloopcond]%
+		{\nodepart{one}WLAN Device IfType zu Monitoring ändern%
+		\nodepart{two}WLAN Device Kanal auf Freq ändern};%
+	\draw[arrow](chanloopcond)--%
+		node[pos=0,anchor=north east]{Ja}%
+		(chanloopcond|-changeifconf.north);%
+	\draw[arrow](chanloopreset.south)--(chanloopreset.south|-changeifconf.north);%
+%
+	\node(devopen)%
+		[process,%
+		below=of changeifconf]%
+		{WLAN Device zur Paket\\ Aufzeichnung "`öffnen"'};%
+	\draw[arrow](changeifconf)--(devopen);%
+%
+	\node(datalinkswitch)%
+		[mux,%
+		text width=10.88cm,%
+		xshift=-2cm,%
+		below=of devopen]%
+		{Link Typ des geöffnete Device};%
+	\draw[arrow](devopen.south)--(datalinkswitch.north-|devopen.south);%
+%
+	\node(datalinkswitch3)%
+		[muxwahl2,%
+		anchor=north,%
+		xshift=1.5cm]%
+		at(datalinkswitch.south)%
+		{};%
+	\node(datalinkswitch3_text)%
+		[cleartext,anchor=center,inner sep=1em]%
+		at(datalinkswitch3)%
+		{\textbf{\ldots}};%
+	\node(datalinkswitch4)%
+		[muxwahl2,%
+		anchor=north,%
+		xshift=4.5cm]%
+		at(datalinkswitch.south)%
+		{};%
+	\node(datalinkswitch4_text)%
+		[cleartext,anchor=north,inner sep=6pt]%
+		at(datalinkswitch4.north)%
+		{Radiotap};%
+	\node(datalinkswitch2)%
+		[muxwahl2,%
+		anchor=north,%
+		xshift=-1.5cm]%
+		at(datalinkswitch.south)%
+		{};%
+	\node(datalinkswitch2_text)%
+		[cleartext,anchor=north,inner sep=6pt]%
+		at(datalinkswitch2.north)%
+		{Prism};%
+	\node(datalinkswitch1)%
+		[muxwahl2,%
+		anchor=north,%
+		xshift=-4.5cm]%
+		at(datalinkswitch.south)%
+		{};%
+	\node(datalinkswitch1_text)%
+		[cleartext,anchor=north,inner sep=6pt]%
+		at(datalinkswitch1.north)%
+		{Ethernet};%
+%
+	\node(returnbaddevice)%
+		[startstop,%
+		below=of datalinkswitch1]%
+		{Return\\ \ico{BAD\_DEVICE}};%
+	\draw[arrow](datalinkswitch1)--(returnbaddevice);%
+%
+	\node(starttime)%
+		[process,%
+		xshift=-1cm,%
+		below=of datalinkswitch4]%
+		{Erfasse \ico{starttime}};%
+	\draw[arrow](datalinkswitch4.south)--(starttime.north-|datalinkswitch4.south);%
+%
+	\node(aktuellezeit)%
+		[processsplit=2,%
+		below=1.5*\nodedistance of starttime]%
+		{\nodepart{one}Erfasse \ico{systime}%
+		\nodepart{two}Berechne\\ \ico{difftime(systime,starttime)}};%
+	\draw[arrow](starttime)--(aktuellezeit);%
+	\node(timeloopstart)[shape=coordinate]%
+		at($(aktuellezeit.north west)+(-2cm,0.75*\nodedistance)$){};%
+	\draw[arrow](timeloopstart)--(timeloopstart-|aktuellezeit);%
+%
+	\node(difftime)%
+		[decision,%
+		below=of aktuellezeit]%
+		{\ico{difftime >}\\ \ico{TimeToMonitor}?};%
+	\draw[arrow](aktuellezeit)--(difftime);%
+%
+	\node(grabpacket)%
+		[processsplit=2,%
+		below=1.5*\nodedistance of difftime]%
+		{\nodepart{one}Paket entnehmen%
+		\nodepart{two}\ico{packetcounter++;}};%
+	\draw[arrow](difftime)--%
+		node[pos=0,anchor=north west]{Nein}%
+		(grabpacket);%
+%
+	\node(decodeheader)%
+		[processsplit=2,%
+		below=1*\nodedistance of grabpacket]%
+		{\nodepart{one}Dekodiere Radiotap Header%
+		\nodepart{two}Dekodiere IEEE 802.11 Header};%
+	\draw[arrow](grabpacket)--(decodeheader);%
+%
+	\node(checkmacloopstart)%
+		[process,%
+		below=1*\nodedistance of decodeheader]%
+		{\ico{i=0} (for-Loop)};%
+	\draw[arrow](decodeheader)--(checkmacloopstart);%
+%
+	\node(macexistsloopcond)%
+		[decision,%
+		below=1.5*\nodedistance of checkmacloopstart]%
+		{\ico{i <}\\%
+		\ico{(*wlanp)->count}};%
+	\draw[arrow](checkmacloopstart)--(macexistsloopcond);%
+	\node(checkmacloopstartreconnect)[shape=coordinate]%
+		at($(macexistsloopcond.north)+(-4cm,0.75*\nodedistance)$){};%
+	\draw[arrow](checkmacloopstartreconnect)--(macexistsloopcond.north|-checkmacloopstartreconnect);%
+%
+	\node(macexists)%
+		[decision,%
+		below=1.25*\nodedistance of macexistsloopcond]%
+		{MAC bereits\\ erfasst?};%
+	\draw[arrow](macexistsloopcond)--%
+		node[pos=0,anchor=north east]{Ja}%
+		(macexists);%
+	\draw[arrow](macexists)--%
+		node[pos=0,anchor=south east]{Ja}%
+		(macexists.west-|timeloopstart);%
+	\node(macexistsloopcondfinish)[shape=coordinate,xshift=0.75*\nodedistance]%
+		at(macexistsloopcond.east){};%
+	\draw[connect](macexistsloopcond)--%
+		node(rightmostnein)[pos=0,anchor=south west]{Nein}%
+		(macexistsloopcondfinish);%
+%
+	\node(checkmacloopend)%
+		[process,%
+		below=1.25*\nodedistance of macexists]%
+		{\ico{i++}};%
+	\draw[arrow](macexists)--%
+		node[pos=0,anchor=north east]{Nein}%
+		(checkmacloopend);%
+	\draw[connect](checkmacloopend)-|(checkmacloopstartreconnect);%
+%
+	\node(createdata)%
+		[processsplitl=3,%
+		rectangle split part align={center, left, left},%
+		below=1.5*\nodedistance of checkmacloopend]%
+		{\nodepart{one}Datensatz erstellen%
+		\nodepart{two}Quell-MAC Adresse dem standard-\\ konformen WLAN-Header
+		entnehmen%
+		\nodepart{three}RSSI dem Radiotap-Header entnehmen};%
+	\draw[connect](macexistsloopcondfinish)|-($(createdata.north)+(0,0.75*\nodedistance)$);%
+	\draw[arrow]($(createdata.north)+(0,0.75*\nodedistance)$)--(createdata.north);%
+	\draw[connect](createdata.west)-|(timeloopstart);%
+%
+	\node(devclose)%
+		[process,%
+		below=1.5*\nodedistance of createdata]%
+		{WLAN Device von Paket\\ Aufzeichnung "`schließen"'};%
+	\draw[arrow]($(devclose.north)+(0,0.75*\nodedistance)$)--(devclose);%
+%
+	\node(leavepcaploop)[shape=coordinate,xshift=0.75*\nodedistance]%
+		at(rightmostnein.east|-difftime.east){};%
+	\draw[connect](difftime.east)--(leavepcaploop);%
+	\draw[connect](leavepcaploop)|-($(devclose.north)+(0,0.75*\nodedistance)$);%
+%
+	\node(sniffend)%
+		[startstop,%
+		left=1.5*\nodedistance of devclose]%
+		{Funktion\\ Ende};%
+	\draw[arrow](devclose)--(sniffend);%
+%
+	\node(putinshmem)%
+		[interthread,%
+		below=1.5*\nodedistance of sniffend]%
+		{ShMem Zugriff};%
+	\draw[arrow](sniffend)--(putinshmem);%
+%
+	\node(fillshmem)%
+		[processsplitl=3,%
+		align=right,%
+		rectangle split part align={right, center, center},%
+		below=1*\nodedistance of putinshmem]%
+		{\nodepart{one}Set ShMem Type \ico{AIC\_AITC\_WLANSTAT\_COMPLETE}\\
+			oder \ico{AIC\_AITC\_WLANSTAT\_TRAFFICSTAT}%
+		\nodepart{two}Set ShMem Flags \ico{NEW | SEND}%
+		\nodepart{three}Daten konkateniert ins ShMem schreiben.};%
+	\draw[arrow](putinshmem)--(fillshmem);%
+%
+	\node(semsendpostswitch)%
+		[process,%
+		below=1*\nodedistance of fillshmem]%
+		{\lstinline[language=C_var,basicstyle=\ttfamily]%
+		{sem_post(&sem_send);}};%
+	\draw[arrow](fillshmem)--(semsendpostswitch);%
+%
+	\node(sendtoctrl)%
+		[interthread,%
+		below=1*\nodedistance of semsendpostswitch]%
+		{ShMem Freigabe};%
+	\draw[arrow](semsendpostswitch)--(sendtoctrl);%
+%
+	\node(chanloopend)%
+		[process,%
+		below=1*\nodedistance of sendtoctrl]%
+		{\ico{chan += 4}};%
+	\draw[arrow](sendtoctrl)--(chanloopend);%
+	\draw[connect](chanloopend.west)-|(chanloopreconnect);%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%	Border around the Sniffing Function 
+		\path let \p1 = (changeifconf.north),%
+			\p2 = (datalinkswitch.west)%
+			in node (topleftnot)[shape=coordinate,inner sep=0pt] at (\x2,\y1) {};%
+		\path let \p3 = (sniffend.south),%
+			\p4 = (rightmostnein.east)%
+			in node (bottomrightnot)[shape=coordinate,inner sep=0pt] at (\x4,\y3) {};%
+%
+		\node(topleft)[shape=coordinate,inner sep=0pt]
+			at($(topleftnot)+(-0.75*\nodedistance,0.75*\nodedistance)$){};
+		\node(bottomright)[shape=coordinate,inner sep=0pt]
+			at($(bottomrightnot)+(0.75*\nodedistance,-0.75*\nodedistance)+(0.3cm,0)$){};
+		\node(bottomleft)[shape=coordinate,inner sep=0pt]at(topleft|-bottomright){};%
+		\node(topright)[shape=coordinate,inner sep=0pt]at(topleft-|bottomright){};%
+%
+	    \path[draw=black,loosely dotted]%
+	    	(topleft)%
+	    		rectangle%
+	    	(bottomright);%
+%
+	    \node[cleartext,rotate=-90,anchor=south west,inner sep=1ex]%
+	    	at(topleft-|bottomright)%
+	    	{\lstinline[language=C_var,basicstyle=\ttfamily]%
+			{wifi_package_parse(dev, freq, **wlanp)}};%
+%
+%
+%
+%
+%
+%
+%
+\normalfont%
+%
+\end{tikzpicture}%
+%
+%
+\ifdefined\DenKr\end{document}\ele\DenKrTikzStandalonePost\fi%

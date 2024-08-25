@@ -1,0 +1,61 @@
+\input{"0organization/2layout/scrbook/supplement/titlePage_buildingBlocks/makros".tex}%
+%
+\vspace*{0.1\textheight}%
+%
+%
+% Title
+\DenKrTPTitleAndSubtitle{\DenKrTPtitle}{\DenKrTPsubtitle}%
+%
+\vspace*{3\baselineskip}%
+%
+\textsc{\Large\DenKrTPpublicationType}\\%
+\vspace*{0.08\textheight}%
+%
+% Author and supervisor
+\begin{minipage}[t]{0.47\textwidth}%
+\begin{flushleft} \large%
+{\textcolor{TitlePage_Color_RankB}{Author:}}\\%
+\ifdefempty{\DenKrTPauthorAnrede}%
+	{}%
+	{\textcolor{TitlePage_Color_RankB}{\DenKrTPauthorAnrede}\ }%
+\ifdefempty{\DenKrTPauthorTitleBefore}%
+	{}%
+	{\textcolor{TitlePage_Color_RankB}{\DenKrTPauthorTitleBefore}\ }%
+\textcolor{TitlePage_Color_RankA}{\DenKrTPauthorFirst}\ \textsc{\textcolor{TitlePage_Color_RankA}{\DenKrTPauthorLast}}%
+\ifdefempty{\DenKrTPauthorTitleAfter}%
+	{}%
+	{, \textcolor{TitlePage_Color_RankB}{\DenKrTPauthorTitleAfter}}%
+\end{flushleft}%
+\end{minipage}%
+\hfill%
+\begin{minipage}[t]{0.52\textwidth}%
+\begin{flushright} \large%
+% \vspace*{\baselineskip}%
+{\textcolor{TitlePage_Color_RankB}{Supervisor:}}\\%
+%{\ }\\%
+\ifdefempty{\DenKrTPsupervisorOneAnrede}%
+	{}%
+	{\textcolor{TitlePage_Color_RankB}{\DenKrTPsupervisorOneAnrede}\ }%
+\ifdefempty{\DenKrTPsupervisorOneTitleBefore}%
+	{}%
+	{\textcolor{TitlePage_Color_RankB}{\DenKrTPsupervisorOneTitleBefore}\ }%
+\textcolor{TitlePage_Color_RankA}{\DenKrTPsupervisorOneFirst}\ \textsc{\textcolor{TitlePage_Color_RankA}{\DenKrTPsupervisorOneLast}}%
+\ifdefempty{\DenKrTPsupervisorOneTitleAfter}%
+	{}%
+	{, \textcolor{TitlePage_Color_RankB}{\DenKrTPsupervisorOneTitleAfter}}%
+\\%
+\ifdefempty{\DenKrTPsupervisorTwoAnrede}%
+	{}%
+	{\DenKrTPsupervisorTwoAnrede\ }%
+\ifdefempty{\DenKrTPsupervisorTwoTitleBefore}%
+	{}%
+	{\DenKrTPsupervisorTwoTitleBefore\ }%
+\DenKrTPsupervisorTwoFirst\ \textsc{\DenKrTPsupervisorTwoLast}%
+\ifdefempty{\DenKrTPsupervisorTwoTitleAfter}%
+	{}%
+	{, \DenKrTPsupervisorTwoTitleAfter}%
+\\%
+\end{flushright}%
+\end{minipage}%
+\\%
+%

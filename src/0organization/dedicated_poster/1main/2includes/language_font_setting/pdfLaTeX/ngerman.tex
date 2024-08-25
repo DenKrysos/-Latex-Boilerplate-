@@ -1,0 +1,30 @@
+\usepackage[english,german,ngerman]{babel}%
+\selectlanguage{ngerman}%
+% \AtEndPreamble{%
+\PassOptionsToPackage{%
+    babel,%
+    style=ngerman%
+}{csquotes}%
+% }%
+%
+%
+\addto{\captionsngerman}{%
+  \renewcommand*{\contentsname}{Inhalt}%
+  \renewcommand*{\listfigurename}{Abbildungen}%
+  \renewcommand*{\listtablename}{Tabellen}%
+  \renewcommand*{\figurename}{Abbildung}%
+  \renewcommand*{\tablename}{Tabelle}%
+}%
+%
+\newcommand{\DenKrLanguageStringCmd}{ngerman}%
+%
+%
+% In some languages (e.g. ngeermanb.ldb, russianb.lbf) the double quote (") is an active short hand character with babel.sty and is thus not expandable. Hence, cannot be used e.g. in File-names (as I always like to do). Either use the expandable \dq or deactivate the shorthand
+%\shorthandoff{"}%
+% = = = = = = = = = = = = = = =
+%            \includegraphics{\dq example image a\dq}%
+%
+%            \shorthandoff{"}%
+%            \includegraphics{"example image a"}%
+%            \shorthandon{"}%
+% = = = = = = = = = = = = = = =

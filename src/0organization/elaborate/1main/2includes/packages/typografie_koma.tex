@@ -1,0 +1,775 @@
+%________________________________________________________________________
+%------------------------------------------------------------------------
+%							Dokument Formatierungen
+%/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+%---------------------------------------------------------
+%					Non-KOMA
+%---------------------------------------------------------
+% Set Page-Numbering to Capital-Roman in the Front-Matter, to Arabic in the Main-Matter and prevent both from resetting the Page-Number-Counter
+%       % Remark that \pagenumbering resets the Page Counter. Hence, not done like:
+%        % \renewcommand{\frontmatter}{\cleardoublepage\@mainmatterfalse\pagenumbering{Roman}}
+%        % \renewcommand{\mainmatter}{\cleardoublepage\@mainmattertrue\pagenumbering{arabic}}
+% - - - - - - - -
+% - Set Default Hooks for Header/Footer to be potentially changed on matter-switch
+% - -  (actually no real Hook, but set below to a File-Inputting-Cmd, which overwrites everything)
+\newcommand{\DenKrKOMAHookFormatHeadFootFrontmatter}{}%
+\newcommand{\DenKrKOMAHookFormatHeadFootMainmatter}{}%
+% - - - - - - - -
+% - Set the Cmds for Matter-Sectioning (Only relevant for Books)
+\ifChapterExists%
+\makeatletter%
+\renewcommand{\frontmatter}{\cleardoublepage\@mainmatterfalse\renewcommand{\thepage}{\Roman{page}}\DenKrKOMAHookFormatHeadFootFrontmatter}%
+\renewcommand{\mainmatter}{\cleardoublepage\@mainmattertrue\renewcommand{\thepage}{\arabic{page}}\DenKrKOMAHookFormatHeadFootMainmatter}%
+\makeatother%
+\fi%
+%
+% - - - - - - - -
+% Block-Stretching across page
+% - - - - - - - -
+%     LaTeX uses \flushbottom for two-sided documents (book by default). Odd pages and even pages are forced to be aligned. In one-sided documents (article, report by default) LaTeX uses \raggedbottom, extra spaces will be gone. cf. classes document.
+%     One can use \raggedbottom if met too many bad page breaks. However, it is preferred to prevent big boxes in your document. Use floats instead of put big tabulars and figures directly. For lists and section titles, it is often not too serious, be sure you put enough text for each sections.
+\raggedbottom%
+%
+% - - - - - - - -
+% Reset the Chapter-Counter with every Part
+%  (When doing this, make sure to turn the Chapter-ID (\thechapter) into something Part-specific. Similar to how it is done with Sections and below.)
+% With issuing the cmd, the document is changed from this spot on. Just like \mainmatter and alike
+% - - - - - - - -
+% USAGE:
+%  When intending to use this, also make sufficient Space in the printing of the Table-Of-Contents. For that just utilize the provided Macro below.
+% -> Remove the comment-percent in Front of the pasted Macro right at the bottom of the definition
+% - - - - - - - -
+\makeatletter%
+\newcounter{matterPartSeparationStatus}%
+\setcounter{matterPartSeparationStatus}{0}%
+\newcounter{PartSeparationChapterBkp}%
+\newcommand{\matterPartSeparatedActivate}{%
+    \ifnumcomp{\value{matterPartSeparationStatus}}{>}{0}{}{%
+        \setcounter{matterPartSeparationStatus}{1}%
+        \setcounter{PartSeparationChapterBkp}{\value{chapter}}%
+        \@addtoreset{chapter}{part}%
+        \renewcommand{\thechapter}{\Alph{part}\arabic{chapter}}%
+    }%
+}%
+\newcommand{\matterPartSeparatedRestore}{%
+    \ifnumcomp{\value{matterPartSeparationStatus}}{>}{0}{%
+        \@removefromreset{chapter}{part}%
+        \setcounter{chapter}{\value{PartSeparationChapterBkp}}%
+        \renewcommand{\thechapter}{\arabic{chapter}}%
+        \setcounter{matterPartSeparationStatus}{0}%
+    }{}%
+}%
+\makeatother%
+\newcommand{\addSpaceToTocNumForPartSeparationMatter}{%
+    \AddToHook{begindocument/before}{%
+        \newlength{\partnumTOClength}%
+        \setlength{\partnumTOClength}{1.5em}%
+        \addtolength{\cftpartnumwidth}{\partnumTOClength}%
+        \addtolength{\cftchapnumwidth}{\partnumTOClength}%
+        \addtolength{\cftsecnumwidth}{\partnumTOClength}%
+        \addtolength{\cftsubsecnumwidth}{\partnumTOClength}%
+        \addtolength{\cftsubsubsecnumwidth}{\partnumTOClength}%
+        \addtolength{\cftparanumwidth}{\partnumTOClength}%
+        \addtolength{\cftsubparanumwidth}{\partnumTOClength}%
+        \addtolength{\cftfignumwidth}{\partnumTOClength}%
+        %\addtolength{\cftsubfignumwidth}{\partnumTOClength}%
+        \addtolength{\cfttabnumwidth}{\partnumTOClength}%
+        %\addtolength{\cftsubtabnumwidth}{\partnumTOClength}%
+        \let\partnumTOClength\undefined%
+    }%
+}%
+% \addSpaceToTocNumForPartSeparationMatter%
+%
+%
+%
+%----------------------------------
+% Create Sections on a new page, except for the first one
+%    (Outcomment / restore the "\AddToHook" to disable/enable this)
+%----------------------------------
+% \newcommand{\DenKrSectionbreak}{\ifnum\value{section}>0 \clearpage\fi}%
+% \AddToHook{cmd/section/before}{\DenKrSectionbreak}%
+%
+%
+%
+%
+%
+%
+%---------------------------------------------------------
+%			Some Management-Setup to use here
+%---------------------------------------------------------
+\newcommand{\DenKrInputKOMAFile}[1]{\input{"\DenKrLayoutMainRootDir/2includes/packages/KOMA/#1".tex}}%
+% - - - - - - - -
+% --  Array-alike Storage for Status-Tracking of Layers
+\newcounter{DenKrKOMALayerTrackNum}%
+\setcounter{DenKrKOMALayerTrackNum}{0}%
+\newcommand\DenKrKOMALayerTrackAdd[2]{% Pagestyle, Layer-Name
+  \csdef{DenKrKOMALayerTrackPGS\theDenKrKOMALayerTrackNum}{#1}%
+  \csdef{DenKrKOMALayerTrackLNAM\theDenKrKOMALayerTrackNum}{#2}%
+  \stepcounter{DenKrKOMALayerTrackNum}%
+}%
+\newcommand\getDenKrKOMALayerTrackPGS[1]{%
+  \csuse{DenKrKOMALayerTrackPGS#1}%
+}%
+\newcommand\getDenKrKOMALayerTrackLNAM[1]{%
+  \csuse{DenKrKOMALayerTrackLNAM#1}%
+}%
+\newcommand\loopDenKrKOMALayerTrack[1]{% Cmd to Call in Loop
+    \setcounter{loopi}{0}%
+    \loop\ifnum\value{loopi}<\value{DenKrKOMALayerTrackNum}%
+        \csname#1\endcsname{\theloopi}%
+        \stepcounter{loopi}%
+    \repeat%
+}%
+\newcommand\DenKrKOMALayerTrackRemLayer[1]{% Index of tracked Layer in Storage
+    \edef\DenKrKOMALayerTrackArgPGS{\getDenKrKOMALayerTrackPGS{#1}}%
+    \edef\DenKrKOMALayerTrackArgLNAM{\getDenKrKOMALayerTrackLNAM{#1}}%
+    \typeout{»DenKr:  Abrufen:}%
+    \typeout{- "\DenKrKOMALayerTrackArgPGS"}%
+    \typeout{- "\DenKrKOMALayerTrackArgLNAM"}%
+    \RemoveLayersFromPageStyle{\DenKrKOMALayerTrackArgPGS}{\DenKrKOMALayerTrackArgLNAM}%
+}%
+\newcommand\DenKrKOMALayerTrackClear{%
+    \loopDenKrKOMALayerTrack{DenKrKOMALayerTrackRemLayer}%
+    \setcounter{DenKrKOMALayerTrackNum}{0}%
+}%
+%
+%
+%
+%
+%
+%
+%---------------------------------------------------------
+%					KOMA
+%---------------------------------------------------------
+\KOMAoptions{%
+ 	%BCOR=8mm,% Bindeverlust von 8mm am Innenrand einbeziehen
+	DIV=last,%
+    toc=nolistof,% For NOT adding List-Ofs to the ToC (Default)
+    toc=graduated,% Format of the ToC
+    toc=nobib,% I take care of that manually
+    listof=flat%
+}%
+\ifChapterExists%
+\KOMAoptions{%
+    open=right,% any, right, left  % 'openany' at \documentclass. Only available for Book & Report.
+    chapterentrydots=false,% ToC: No dotted Line between Chapter and Pagenumber
+    listof=nochaptergap%
+}%
+\else%
+\KOMAoptions{%
+    sectionentrydots=true% ToC: For Sections, when class is Article-level
+}%
+\fi%
+%
+%________________________________________________________________________
+% Colors
+% - (Are defined in the File "\DenKrLayoutMainRootDir/2includes/3settings/typografie_color.tex", which is included right before this here)
+%========================================================================
+%
+%
+%________________________________________________________________________
+% Nummerierungen, Counter
+%========================================================================
+% \setcounter{secnumdepth}{5}%Wie viele Gliederungsebenen tief Nummerierungen hinzugefügt werden
+% \setcounter{tocdepth}{5}%Wie viele Ebenen tief ins Inhaltsverzeichnis übernommen werden
+% - - - - - - -
+% \renewcommand\thesection{\arabic{section}}
+% - - - - - - -
+% Counter for "Elements", i.e. Figure, Equation, Algorithm, etc. are set in "./0organization/settings_perDoc.tex"
+% - - - - - - -
+%  Regarding Document Structure
+\renewcommand{\thepart}{\Roman{part}}% \Roman \Alph
+%
+%
+%________________________________________________________________________
+%			Pagestyle & Layers (General Stuff and Auxiliary Functionality) (Everything based on KOMA)
+%========================================================================
+% \usepackage{scrpage2}% Older
+\usepackage{scrlayer-scrpage}%
+\PreventPackageFromLoading{fancyhdr}%
+% - - - - - - -
+% To set the \leftmark\rightmark\headmark in Article-Docs
+\ifChapterExists\else%
+  \automark[subsection]{section}%
+\fi%
+%------------------------------------------------------------------------
+% Now it is getting interesting. We are going into detail, define pagestyles and layers and make them dynamically adjustable throughout the Document
+\newkomafont{dynamicFoot}{\usekomafont{pageheadfoot}\normalfont\color{DenKrKomaColor_HeadLine}}%
+\DeclareNewLayer[%
+    foot,%
+    %align=t,%
+    foreground,%
+    mode=text,%
+    addhoffset=0pt,%
+    addvoffset=0pt,%
+    contents={%
+        % \putLL{LL}%
+        % \putLR{LR}%
+        % \putUR{UR}%
+        % \putUL{UL}%
+        % \putC{C}%
+        % \putLL{\line(1,0){\LenToUnit{\layerwidth}}}%
+        % \putLR{\line(0,1){\LenToUnit{\layerheight}}}%
+        % \putUR{\line(-1,0){\LenToUnit{\layerwidth}}}%
+        % \putUL{\line(0,-1){\LenToUnit{\layerheight}}}%
+        % \putC{\circle{\LenToUnit{\paperwidth}}}%
+    }%
+]{DenKrKoma_Layer_Dynamic}%
+\DeclareNewLayer[%
+    foot,%
+    twoside,%
+    foreground,%
+    mode=picture,%
+    addhoffset=0pt,%
+    addvoffset=0pt,%
+    contents={}%
+]{DenKrKoma_Layer_Dynamic_Twoside}%
+\DeclareNewLayer[%
+    foot,%
+    oneside,%
+    foreground,%
+    mode=text,%
+    addhoffset=0pt,%
+    addvoffset=0pt,%
+    contents={}%
+]{DenKrKoma_Layer_Dynamic_Oneside}%
+\newcommand{\DKDynamicFootAdd}[1]{%
+    \AddLayersToPageStyle{\currentpagestyle}{DenKrKoma_Layer_Dynamic_Twoside}%
+    \AddLayersToPageStyle{\currentpagestyle}{DenKrKoma_Layer_Dynamic_Oneside}%
+    \settowidth{\tmpwidth}{#1}%
+    %\RedeclareLayer or \ModifyLayer
+    \ModifyLayer[%
+        contents={%
+            \usekomafont{dynamicFoot}%
+            \ifodd\value{page}%
+                \put(\LenToUnit{0.7\layerwidth-\tmpwidth},\LenToUnit{0.5\layerheight}){#1}%
+            \else%
+                \put(\LenToUnit{0.3\layerwidth},\LenToUnit{0.5\layerheight}){#1}%
+            \fi%
+        }%
+    ]{DenKrKoma_Layer_Dynamic_Twoside}%
+    \ModifyLayer[%
+        contents={%
+            \usekomafont{dynamicFoot}%
+            #1%
+        }%
+    ]{DenKrKoma_Layer_Dynamic_Oneside}%
+    % \ModifyLayerPageStyleOptions{\currentpagestyle}{%
+    %     ontwoside={%
+    %         \ModifyLayer[%
+    %             contents={%
+    %                 TWOSIDE%
+    %             }%
+    %         ]{DenKrKoma_Layer_Dynamic}%
+    %     }%
+    % }%
+}%
+\newcommand{\DKDynamicFootRem}{%
+    \RemoveLayersFromPageStyle{\currentpagestyle}{DenKrKoma_Layer_Dynamic_Twoside}%
+    \RemoveLayersFromPageStyle{\currentpagestyle}{DenKrKoma_Layer_Dynamic_Oneside}%
+}%
+% USAGE: In some cases, you might want to use '\DKDynamicFootRem' or '\DKDynamicFootAdd{}' together with 'afterpage':
+%  \afterpage{\DKDynamicFootRem}
+%________________________________________________________________________
+%           Pagestyle DONE
+%------------------------------------------------------------------------
+%========================================================================
+%
+%
+%
+%________________________________________________________________________
+%			Pagestyle & Layers (For Header, Footer (Kopf- & Fußzeilen) of the Pages (Everything based on KOMA))
+%========================================================================
+%					Font-Formatierung von Kopf und Fußzeile
+%------------------------------------------------------------------------
+%           Default Settings
+%-------------------------------------------
+\newkomafont{pagenumberOriginal}{\normalfont\normalcolor}%
+\newkomafont{pageheadfootOriginal}{\normalfont\normalcolor\slshape}% NOTE: There is also "pagehead" but this is only an alternative name for "pageheadfoot"
+\newkomafont{pagefootOriginal}{}%
+% - - - - - - -
+\ifChapterExists%
+    \newcommand*{\chaptermarkformatOriginal}{\chapappifchapterprefix{\ }\thechapter\autodot\enskip}%
+\fi%
+\newcommand*{\sectionmarkformatOriginal}{\thesection\autodot\enskip}%
+\newcommand*{\subsectionmarkformatOriginal}{\thesubsection\autodot\enskip}%
+%========================================================================
+% Assign the Pagenumber a Link to the Table-of-Contents
+\let\pagemarkDefault\pagemark%
+\renewcommand{\pagemark}{{\usekomafont{pagenumber}\hyperref[chap:ToC]{$\mathrm{\thepage}$}}}%
+%========================================================================
+%         Design of the Header & Footer
+%========================================================================
+% = Select Custom Header/Footer Designs
+%	> Available Header/Footer Design-Files:
+%		design_HeadFoot_1
+%			% PageNumber: One Vertical Line; Straight BG Color; Sloped BG Color
+%		design_HeadFoot_2
+%		design_HeadFoot_2_1
+%		design_HeadFoot_2_2
+%			% PageNumber: Two Vertical Lines (sameLength); Straight BG Color; Sloped BG Color
+%		design_HeadFoot_3
+%		design_HeadFoot_3_1
+%		design_HeadFoot_3_2
+%			% PageNumber: Two Vertical Lines (InnerShorter); Straight BG Color; Sloped BG Color
+%		design_HeadFoot_4
+%		design_HeadFoot_4_1
+%		design_HeadFoot_4_2
+% % % % % % % % % % % % % % %
+%-- This is active unless/if no "\frontmatter, \mainmatter" Cmd is invoked
+\DenKrInputKOMAFile{design_HeadFoot_1}%
+%---- The following can be simply commented-out or removed, if no switch shall occur
+%-- Employed in \frontmatter
+%\renewcommand{\DenKrKOMAHookFormatHeadFootFrontmatter}{\DenKrInputKOMAFile{design_HeadFoot_2}}%
+%-- Employed in \mainmatter
+%\renewcommand{\DenKrKOMAHookFormatHeadFootMainmatter}{\DenKrInputKOMAFile{design_HeadFoot_4}}%
+%________________________________________________________________________
+%           Header/Footer DONE
+%------------------------------------------------------------------------
+%========================================================================
+%
+%
+%
+%________________________________________________________________________
+%           Chapter, Section, etc. Heading Format Definition. According to KOMA-Script
+%========================================================================
+% - - - - - - - -
+% - Make Backup-Copies of other Heading Format related Macros (that may be changed by my Designs included below)
+\NewCommandCopy{\partformatOriginal}{\partformat}%
+\ifChapterExists%
+    \NewCommandCopy{\chapterformatOriginal}{\chapterformat}%
+\fi%
+\NewCommandCopy{\sectionformatOriginal}{\sectionformat}%
+\NewCommandCopy{\subsectionformatOriginal}{\subsectionformat}%
+\NewCommandCopy{\subsubsectionformatOriginal}{\subsubsectionformat}%
+\NewCommandCopy{\paragraphformatOriginal}{\paragraphformat}%
+\NewCommandCopy{\subparagraphformatOriginal}{\subparagraphformat}%
+% Default Values are
+%\newcommand*{\partformat}{\partname~\thepart\autodot}
+%\newcommand*{\chapterformat}{\mbox{\chapappifchapterprefix{\nobreakspace}\thechapter\autodot\IfUsePrefixLine{}{\enskip}}}
+%\newcommand*{\sectionformat}{\thesection\autodot\enskip}
+%\newcommand*{\subsectionformat}{\thesubsection\autodot\enskip}
+%\newcommand*{\subsubsectionformat}{\thesubsubsection\autodot\enskip}
+%\newcommand*{\paragraphformat}{\theparagraph\autodot\enskip}
+%\newcommand*{\subparagraphformat}{\thesubparagraph\autodot\enskip}
+%\newcommand*{\othersectionlevelsformat}[3]{#3\autodot\enskip}
+% - - - - - - - -
+% - KOMA-Script default Heading font setting
+% - Make Backup-Copies of Default KOMA Fonts
+%\sffamily\bfseries
+\newkomafont{partnumberOriginal}{}%
+\newkomafont{partOriginal}{}%
+\ifChapterExists%
+    \newkomafont{chapterOriginal}{\sffamily\bfseries\huge}%
+    \newkomafont{chapterprefixOriginal}{}%
+\fi%
+\newkomafont{sectionOriginal}{\sffamily\bfseries\Large}%
+\newkomafont{subsectionOriginal}{\sffamily\bfseries\large}%
+\newkomafont{subsubsectionOriginal}{\sffamily\bfseries\normalsize}%
+\newkomafont{paragraphOriginal}{}%
+\newkomafont{subparagraphOriginal}{}%
+% - - - - - - - -
+% - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+% - - - - - - - - - - - - - - - - - - - - - - - - - -
+% For Color-Definitions, see a few Lines above
+% - - - - - - - - - - - - - - - - - - - - - - - - - -
+%  Defining some Symbols
+\input{"\DenKrAllMainRootDirPATH/2includes/setup/typografie_symbol".tex}%
+% - - - - - - - - - - - - - - - - - - - - - - - - - -
+% - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+%========================================================================
+%         Designing the Headings
+%========================================================================
+\ifChapterExists%
+    \newkomafont{chapternumberN}{\mdseries\fontsize{60pt}{54pt}\selectfont}%
+    \newkomafont{chapternumberS}{\mdseries\fontsize{50pt}{44pt}\selectfont}%
+    \newkomafont{chapternumberSS}{\mdseries\fontsize{40pt}{34pt}\selectfont}%
+    \newkomafont{chapternumber}{\usekomafont{chapternumberN}}%
+\fi%
+%\setkomafont{disposition}{\normalcolor\bfseries}%
+\addtokomafont{disposition}{\color{DenKrKomaColor_ChapterHeading}}%
+% - - - - - - - -
+% ToDo: There is also the following thing. But I didn't use this so-far, and didn't prepare for it.
+%            \newcommand{\sectioncatchphraseformat}[4]{%
+%               \hskip #2#3#4%
+%            }
+% - - - - - - - -
+% - Prepare Anchors in the Cmds that print the Title Headings
+\makeatletter%
+%
+\NewCommandCopy{\partlineswithprefixformatOriginal}{\partlineswithprefixformat}%
+\renewcommand*\partlineswithprefixformat[3]{%
+    \Ifstr{#1}{part}{%
+        \DenKrKOMAHookFormatPartWithPrefix{#1}{#2}{#3}%
+        % \par%
+    }{\partlineswithprefixformatOriginal{#1}{#2}{#3}}%
+}%
+%
+\ifChapterExists%
+\NewCommandCopy{\chapterlinesformatOriginal}{\chapterlinesformat}%
+\renewcommand*\chapterlinesformat[3]{%
+    \Ifstr{#1}{chapter}{%
+        \DenKrKOMAHookFormatChapter{#1}{#2}{#3}%
+        % \par%
+    }{\chapterlinesformatOriginal{#1}{#2}{#3}}%
+}%
+%
+\NewCommandCopy{\chapterlineswithprefixformatOriginal}{\chapterlineswithprefixformat}%
+\renewcommand*\chapterlineswithprefixformat[3]{%
+    \Ifstr{#1}{chapter}{%
+        \DenKrKOMAHookFormatChapterWithPrefix{#1}{#2}{#3}%
+        % \par%
+    }{\chapterlineswithprefixformatOriginal{#1}{#2}{#3}}%
+}%
+\fi%
+%
+\NewCommandCopy{\sectionlinesformatOriginal}{\sectionlinesformat}%
+\renewcommand*\sectionlinesformat[4]{%
+    \Ifstr{#1}{section}{%
+        \DenKrKOMAHookFormatSection{#1}{#2}{#3}{#4}%
+        % \par%
+    }{\Ifstr{#1}{subsection}{%
+        \DenKrKOMAHookFormatSubSection{#1}{#2}{#3}{#4}%
+        % \par%
+    }{\Ifstr{#1}{subsubsection}{%
+        \DenKrKOMAHookFormatSubSubSection{#1}{#2}{#3}{#4}%
+        % \par%
+    }{\sectionlinesformatOriginal{#1}{#2}{#3}{#4}}}}%
+}%
+%
+%  A Variant, but I prefer the other approach.
+%            \renewcommand*\chapterlinesformat[3]{%
+%                \Ifstr{#1}{chapter}{%
+%                    \DenKrKOMAHookFormatChapter%
+%                    \par%
+%                }{%
+%                    \@hangfrom{#2}{#3}% other section levels using style=chapter
+%                }%
+%            }%
+%
+\makeatother%
+% - - - - - - - -
+% - Set the Hooks to the (boring) Default
+\makeatletter%
+\newcommand{\DenKrKOMAHookFormatPartWithPrefixOriginal}[3]{#2#3}%
+\ifChapterExists%
+    \newcommand{\DenKrKOMAHookFormatChapterOriginal}[3]{\@hangfrom{#2}{#3}}%
+    \newcommand{\DenKrKOMAHookFormatChapterWithPrefixOriginal}[3]{#2#3}%
+\fi%
+\newcommand{\DenKrKOMAHookFormatSectionOriginal}[4]{\@hangfrom{\hskip #2#3}{#4}}%
+\newcommand{\DenKrKOMAHookFormatSubSectionOriginal}[4]{\@hangfrom{\hskip #2#3}{#4}}%
+\newcommand{\DenKrKOMAHookFormatSubSubSectionOriginal}[4]{\@hangfrom{\hskip #2#3}{#4}}%
+%
+\newcommand{\DenKrKOMAHookFormatPartWithPrefix}[3]{}%
+\ifChapterExists%
+    \newcommand{\DenKrKOMAHookFormatChapter}[3]{}%
+    \newcommand{\DenKrKOMAHookFormatChapterWithPrefix}[3]{}%
+\fi%
+\newcommand{\DenKrKOMAHookFormatSection}[4]{}%
+\newcommand{\DenKrKOMAHookFormatSubSection}[4]{}%
+\newcommand{\DenKrKOMAHookFormatSubSubSection}[4]{}%
+%
+% \renewcommand{\DenKrKOMAHookFormatPartWithPrefix}[3]{\DenKrKOMAHookFormatPartWithPrefixOriginal{#1}{#2}{#3}}%
+% \renewcommand{\DenKrKOMAHookFormatChapter}[3]{\DenKrKOMAHookFormatChapterOriginal{#1}{#2}{#3}}%
+% \renewcommand{\DenKrKOMAHookFormatChapterWithPrefix}[3]{\DenKrKOMAHookFormatChapterWithPrefixOriginal{#1}{#2}{#3}}%
+% \renewcommand{\DenKrKOMAHookFormatSection}[4]{\DenKrKOMAHookFormatSectionOriginal{#1}{#2}{#3}{#4}}%
+% \renewcommand{\DenKrKOMAHookFormatSubSection}[4]{\DenKrKOMAHookFormatSubSectionOriginal{#1}{#2}{#3}{#4}}%
+% \renewcommand{\DenKrKOMAHookFormatSubSubSection}[4]{\DenKrKOMAHookFormatSubSubSectionOriginal{#1}{#2}{#3}{#4}}%
+%
+\renewcommand\DenKrKOMAHookFormatPartWithPrefix\DenKrKOMAHookFormatPartWithPrefixOriginal%
+\ifChapterExists%
+    \renewcommand\DenKrKOMAHookFormatChapter\DenKrKOMAHookFormatChapterOriginal%
+    \renewcommand\DenKrKOMAHookFormatChapterWithPrefix\DenKrKOMAHookFormatChapterWithPrefixOriginal%
+\fi%
+\renewcommand\DenKrKOMAHookFormatSection\DenKrKOMAHookFormatSectionOriginal%
+\renewcommand\DenKrKOMAHookFormatSubSection\DenKrKOMAHookFormatSubSectionOriginal%
+\renewcommand\DenKrKOMAHookFormatSubSubSection\DenKrKOMAHookFormatSubSubSectionOriginal%
+\makeatother%
+% = = = = = = = = = = = = = = =
+% = Set Custom Heading Designs
+%	> Available »Part« Design-Files:
+%		design_part_1
+%		design_part_2
+%		design_part_3
+%		design_part_4
+%		design_part_5
+%		design_part_6
+%		design_part_7
+%		%   %   %   %
+%		design_part_noPageBreak_1
+%		design_part_noPageBreak_2
+%		design_part_noPageBreak_3% ToDo
+%		%   %   %   %
+%		design_part_noPart_noPageBreak_1
+%		design_part_noPart_noPageBreak_2
+%		design_part_noPart_noPageBreak_3% ToDo
+\ifChapterExists%
+  \DenKrInputKOMAFile{design_part_1}%
+\else%
+  \DenKrInputKOMAFile{design_part_noPageBreak_1}%
+\fi%
+% - - - - - - - -
+\ifChapterExists%
+%	> Available »Chapter« Design-Files:
+%		design_chapter_1
+%		design_chapter_2
+%		design_chapter_3
+%		design_chapter_4_1_1
+%			%-> Vertical Chapter-Line, Number in Margin, Multiple Digits Vertical
+%			% - No-BG
+%		design_chapter_4_1_2
+%			%-> Vertical Chapter-Line, Number in Margin, Multiple Digits Vertical
+%			% - Banderole-BG in Chap-Color
+%		design_chapter_4_2
+%			%-> Vertical Chapter-Line, Number in Margin, Multiple Digits Vertical
+%			% - Banderole-BG in Chap-2nd-Color
+%		design_chapter_4_3_1
+%			%-> Vertical Chapter-Line, Number in Margin, Multiple Digits Vertical
+%			% - Banderole-BG in Chap-2nd-Color
+%			% - Number-Contour in Chap-2nd-Color
+%		design_chapter_4_3_1_1
+%			%-> Vertical Chapter-Line, Number in Margin, Multiple Digits Vertical
+%			% - Banderole-BG in Chap-Color
+%			% - Number-Contour in Chap-2nd-Color
+%			% - Accent-BG gradient Curve
+%		design_chapter_4_3_1_2
+%			%-> Vertical Chapter-Line, Number in Margin, Multiple Digits Vertical
+%			% - Banderole-BG in Chap-Color
+%			% - Number-Contour in Chap-2nd-Color
+%			% - Accent-BG gradient Curve + gradient outwards up
+%		design_chapter_4_3_1_2_1
+%			%-> Vertical Chapter-Line, Number in Margin, Multiple Digits Vertical
+%			% - Banderole-BG in Chap-2nd-Color
+%			% - Number-Contour in Chap-2nd-Color
+%			% - Accent-BG gradient Curve + gradient outwards up + accentuating pinnacle line (White)
+%		design_chapter_4_3_1_2_2
+%			%-> Vertical Chapter-Line, Number in Margin, Multiple Digits Vertical
+%			% - Banderole-BG in Chap-2nd-Color
+%			% - Number-Contour in Chap-2nd-Color
+%			% - Accent-BG gradient Curve + gradient outwards up + accentuating pinnacle line (Chap-Color)
+%		design_chapter_4_3_1_3
+%			%-> Vertical Chapter-Line, Number in Margin, Multiple Digits Vertical
+%			% - Banderole-BG in Chap-2nd-Color
+%			% - Number-Contour in Chap-2nd-Color
+%			% - Accent-BG gradient Curve + gradient outwards slanted middle
+%		design_chapter_4_3_1_3_1
+%			%-> Vertical Chapter-Line, Number in Margin, Multiple Digits Vertical
+%			% - Banderole-BG in Chap-2nd-Color
+%			% - Number-Contour in Chap-2nd-Color
+%			% - Accent-BG gradient Curve + gradient outwards slanted middle + accentuating pinnacle line (White)
+%		design_chapter_4_3_1_3_2
+%			%-> Vertical Chapter-Line, Number in Margin, Multiple Digits Vertical
+%			% - Banderole-BG in Chap-2nd-Color
+%			% - Chap-Num in Chap-2nd-Color, Number-Contour in Chap-Color
+%			% - Accent-BG gradient Curve + gradient outwards slanted middle + accentuating pinnacle line (Chap-Color)
+%		design_chapter_4_3_2
+%			%-> Vertical Chapter-Line, Number in Margin, Multiple Digits Vertical
+%			% - Banderole-BG in Chap-2nd-Color
+%			% - Chap-Num in Chap-2nd-Color, Number-Contour in Chap-Color
+%		design_chapter_4_3_2_1
+%			%-> Vertical Chapter-Line, Number in Margin, Multiple Digits Vertical
+%			% - Banderole-BG in Chap-2nd-Color
+%			% - Chap-Num in Chap-2nd-Color, Number-Contour in Chap-Color
+%			% - Accent-BG gradient Curve
+%		design_chapter_4_3_2_2
+%			%-> Vertical Chapter-Line, Number in Margin, Multiple Digits Vertical
+%			% - Banderole-BG in Chap-2nd-Color
+%			% - Chap-Num in Chap-2nd-Color, Number-Contour in Chap-Color
+%			% - Accent-BG gradient Curve + gradient outwards up
+%		design_chapter_4_3_2_2_1
+%			%-> Vertical Chapter-Line, Number in Margin, Multiple Digits Vertical
+%			% - Banderole-BG in Chap-2nd-Color
+%			% - Chap-Num in Chap-2nd-Color, Number-Contour in Chap-Color
+%			% - Accent-BG gradient Curve + gradient outwards up + accentuating pinnacle line (White)
+%		design_chapter_4_3_2_2_2
+%			%-> Vertical Chapter-Line, Number in Margin, Multiple Digits Vertical
+%			% - Banderole-BG in Chap-2nd-Color
+%			% - Chap-Num in Chap-2nd-Color, Number-Contour in Chap-Color
+%			% - Accent-BG gradient Curve + gradient outwards up + accentuating pinnacle line (Chap-Color)
+%		design_chapter_4_3_2_3
+%			%-> Vertical Chapter-Line, Number in Margin, Multiple Digits Vertical
+%			% - Banderole-BG in Chap-2nd-Color
+%			% - Chap-Num in Chap-2nd-Color, Number-Contour in Chap-Color
+%			% - Accent-BG gradient Curve + gradient outwards slanted middle
+%		design_chapter_4_3_2_3_1
+%			%-> Vertical Chapter-Line, Number in Margin, Multiple Digits Vertical
+%			% - Banderole-BG in Chap-2nd-Color
+%			% - Chap-Num in Chap-2nd-Color, Number-Contour in Chap-Color
+%			% - Accent-BG gradient Curve + gradient outwards slanted middle + accentuating pinnacle line (White)
+%		design_chapter_4_3_2_3_2
+%			%-> Vertical Chapter-Line, Number in Margin, Multiple Digits Vertical
+%			% - Banderole-BG in Chap-2nd-Color
+%			% - Chap-Num in Chap-2nd-Color, Number-Contour in Chap-Color
+%			% - Accent-BG gradient Curve + gradient outwards slanted middle + accentuating pinnacle line (Chap-Color)
+\DenKrInputKOMAFile{design_chapter_1}%
+\fi%
+% - - - - - - - -
+%	> Available »Section« Design-Files:
+%		design_section_1
+%		design_section_2
+%		design_section_3
+%		design_section_3_1
+%		design_section_4
+%		design_section_5
+%		design_section_6
+%		design_section_7
+%		design_section_8
+%		design_section_9
+\DenKrInputKOMAFile{design_section_1}%
+% - - - - - - - -
+%	> Available »Sub-Section« Design-Files:
+%		design_subsection_1
+%		design_subsection_2
+\DenKrInputKOMAFile{design_subsection_1}%
+% - - - - - - - -
+%	> Available »Sub-Sub-Section« Design-Files:
+%		design_subsubsection_1
+%		design_subsubsection_2
+%		design_subsubsection_3
+\DenKrInputKOMAFile{design_subsubsection_1}%
+% - - - - - - - -
+%	> Available »Paragraph« Design-Files:
+%		design_paragraph_1
+%		design_paragraph_2
+\DenKrInputKOMAFile{design_paragraph_1}%
+% - - - - - - - -
+%	> Available »Sub-Paragraph« Design-Files:
+%		design_subparagraph_1
+%		design_subparagraph_2
+%		design_subparagraph_3
+\DenKrInputKOMAFile{design_subparagraph_1}%
+%________________________________________________________________________
+%           Sectioning DONE
+%------------------------------------------------------------------------
+%========================================================================
+% NOTE: Alternative Solution to change the formatting of a Section-Heading-Name:
+%        \renewcommand*\sectioncatchphraseformat[4]{%
+%           \hskip #2#3#4\Ifstr{#1}{paragraph}{.}{}%
+%        }
+%
+%
+%________________________________________________________________________
+%			Some Commands/Macros
+%========================================================================
+%                \makeatletter
+%                \setlength{\tmpwidth}{\scr@paragraph@beforeskip}
+%                \makeatother
+%                Current beforeskip for paragraph: \the\tmpwidth
+%                % - - - - - - - - - - - - -
+%                \setCollectVar{someCollection}{Var1}{\tmpwidth}
+%                \setlength{\tmpwidth}{\getCollectVar{someCollection}{Var1}}
+%                Set-Read: \the\tmpwidth
+%                % - - - - - - - - - - - - -
+%                % \setCollectVar{someCollection}{Var1}{\tmpwidth}
+%                % Value is: \getCollectVar{someCollection}{Var1}
+%
+% Allows to start a single Paragraph/etc. without having a whitespace / vertical Skip before the Heading.
+%   It (temporarily) removes the Beforeskip.
+%   Is supposed to be used together with the "Restore" Macro.
+%  USAGE:
+%         \headingBeforeskipTempRem{paragraph}% Results in no beforeskip for all \paragraph{} afterwards
+%         % Do some stuff, i.e. begin \paragraph{}s
+%         \headingBeforeskipRestore{paragraph}% Restores the previous setting
+%
+% ARG: Gets (as a simple string) the sectioning-Level, for which it shall remove/restore the Beforeskip
+\makeatletter%
+\newcommand{\headingBeforeskipTempSet}[2]{% 1: The Sectioning-Level  2: The length to set to
+    \setlength{\tmplen}{\csname scr@#1@beforeskip\endcsname}%
+    %\npi Current beforeskip for #1: \the\tmplen.\nl%
+    \setCollectVar{prevBeforeskip}{#1}{\tmplen}%
+    \RedeclareSectionCommands[%
+        beforeskip=#2%
+    ]{#1}%
+}%
+\newcommand{\headingBeforeskipTempRem}[1]{%
+    \headingBeforeskipTempSet{#1}{0pt}%
+}%
+\newcommand{\headingBeforeskipRestore}[1]{%
+    \setlength{\tmplen}{\getCollectVar{prevBeforeskip}{#1}}%
+    %\npi Read previous Val from tmpStorage: \the\tmpwidth.\nl%
+    \RedeclareSectionCommands[%
+        beforeskip=\tmplen%
+    ]{#1}%
+    %\npi\setlength{\tmplen}{\csname scr@#1@beforeskip\endcsname}Again set beforeskip for #1: \the\tmplen.\nl%
+    \destroyCollectVar{prevBeforeskip}{#1}%
+}%
+\makeatother%
+%
+%
+% For Setting, Storing, Restoring and Checking whether openany, openright, openleft
+% USAGE:  (The \makeatletter wrapper is actually optional)
+%            \makeatletter\headingOpenTempRight%
+%            \part{Thesis}%
+%            \headingOpenTempRestore\makeatother%
+%            \label{part:thesis}%
+\ifChapterExists%
+\makeatletter%
+\newcommand{\currentOpenAtCheck}{%
+    \if@openright%
+        RIGHT%
+    \else%
+        NOT-Right%
+    \fi%
+}%
+\newcommand{\recordCurrentOpen}{%
+    % Note: It does not properly check whether openLEFT is set. I am not completely sure, but I think, openleft actually only sets openright and changes the behavior of some \cleardouble[...] cmds.
+    \if@openright%
+        \setCollectVar{prevOpen}{Heading}{2}% right
+    \else%
+        \setCollectVar{prevOpen}{Heading}{1}% any
+    \fi%
+}%
+\newcommand{\headingOpenTempRight}{%
+    \recordCurrentOpen%
+    \@openrighttrue%
+}%
+\newcommand{\headingOpenTempAny}{%
+    \recordCurrentOpen%
+    \@openrightfalse%
+}%
+\newcommand{\headingOpenTempRestore}{%
+    \ifnumcomp{\expandafter\getCollectVar{prevOpen}{Heading}}{=}{2}{%
+        \@openrighttrue%
+    }{%
+        \@openrightfalse%
+    }%
+    \destroyCollectVar{prevOpen}{Heading}%
+}%
+\makeatother%
+\else%
+\newcommand{\currentOpenAtCheck}{}%
+\newcommand{\recordCurrentOpen}{}%
+\newcommand{\headingOpenTempRight}{}%
+\newcommand{\headingOpenTempAny}{}%
+\newcommand{\headingOpenTempRestore}{}%
+\fi%
+%________________________________________________________________________
+%           Macros DONE
+%------------------------------------------------------------------------
+%========================================================================
+%
+%
+%________________________________________________________________________
+%			Make sure the Redefined Section-Cmds from "typografie_redefine.tex" are active
+%               (Because "RedeclareSectionCommand" overwrites)
+%========================================================================
+\makeatletter\@ifundefined{DenKrSetChapter}{}{\DenKrSetChapter}\makeatother% Workaround to reset to my macro after RedeclareSectionCommand
+\makeatletter\@ifundefined{DenKrSetSection}{}{\DenKrSetSection}\makeatother% Workaround to reset to my macro after RedeclareSectionCommand
+\makeatletter\@ifundefined{DenKrSetSubsection}{}{\DenKrSetSubsection}\makeatother% Workaround to reset to my macro after RedeclareSectionCommand
+\makeatletter\@ifundefined{DenKrSetSubsubsection}{}{\DenKrSetSubsubsection}\makeatother% Workaround to reset to my macro after RedeclareSectionCommand
+\makeatletter\@ifundefined{DenKrSetParagraph}{}{\DenKrSetSuDenKrSetParagraphbsection}\makeatother% Workaround to reset to my macro after RedeclareSectionCommand
+\makeatletter\@ifundefined{DenKrSetSubpargraph}{}{\DenKrSetSubpargraph}\makeatother% Workaround to reset to my macro after RedeclareSectionCommand
+%________________________________________________________________________
+%           Redefine DONE
+%------------------------------------------------------------------------
+%========================================================================
+%
+%
+%/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+%							Dokument Formatierungen fertig
+%------------------------------------------------------------------------
+%________________________________________________________________________
+%
+%
+%
+\usepackage{scrhack}%

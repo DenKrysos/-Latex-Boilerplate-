@@ -1,0 +1,59 @@
+\setkomafont{pageheadfoot}{\usekomafont{pageheadfootOriginal}}%
+% \addtokomafont{pageheadfoot}{\color{DenKrKomaColor_HeadLine}}%
+\ifChapterExists%
+  \renewcommand\chaptermarkformat{\chaptermarkformatOriginal}%
+\fi%
+\renewcommand\sectionmarkformat{\sectionmarkformatOriginal}%
+\renewcommand\subsectionmarkformat{\subsectionmarkformatOriginal}%
+% - - - - - - -
+% Remove headmark from the Pagestyle-Pair
+\lehead[]{}%
+\rohead[]{}%
+\chead[]{}%
+%Define Layer for new Headmark Style
+% Also apply a Hyper-Link to the corresponding Chapter/Section to the Headmark
+\DeclareLayer[%
+    head,%
+    %align=t,%
+    background,%
+    twoside,oddpage,%
+    mode=text,%
+    contents={%
+        \hfill%
+        {\usekomafont{pageheadfoot}\color{DenKrKomaColor_HeadLine}%
+            \hyperref[\DenKrCurSec]{\headmark}%
+        }%
+    }%
+]{headmark.odd}%
+\DeclareLayer[%
+    head,%
+    %align=t,%
+    background,%
+    twoside,evenpage,%
+    mode=text,%
+    contents={%
+        {\usekomafont{pageheadfoot}\color{DenKrKomaColor_HeadLine}%
+            \hyperref[\DenKrCurChap]{\headmark}%
+        }%
+    }%
+]{headmark.even}%
+\AddLayersToPageStyle{scrheadings}{headmark.odd,headmark.even}%
+%
+%--------------------------------
+% One-Side, no-Chapter
+\DeclareLayer[%
+    head,%
+    %align=t,%
+    background,%
+    oneside,oddorevenpage,%
+    mode=text,%
+    contents={%
+        \hfill%
+        {\usekomafont{pageheadfoot}\color{DenKrKomaColor_HeadLine}%
+            \hyperref[\DenKrCurSec]{\headmark}%
+        }%
+    }%
+]{headmark.both}%
+\AddLayersToPageStyle{scrheadings}{headmark.both}%
+% % % % %
+\DenKrKOMALayerTrackAdd{scrheadings}{headmark.odd,headmark.even}%

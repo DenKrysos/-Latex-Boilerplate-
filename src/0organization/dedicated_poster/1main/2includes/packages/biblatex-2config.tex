@@ -1,0 +1,28 @@
+%
+% \DeclareLanguageMapping{ngerman}{ngerman-apa}%
+% \DeclareLanguageMapping{english}{english-apa}%
+%-------------------------------------------------
+%
+% - - - - - -
+\newcommand{\addBibIfExists}[1]{\IfFileExists{#1}{\addbibresource{#1}}{}}%
+%
+\addBibIfExists{\DenKrLiteratureDir/literature.bib}%
+\addBibIfExists{\DenKrLiteratureDir/literature_full.bib}%
+\addBibIfExists{\DenKrLiteratureDir/literature_own.bib}%
+\addBibIfExists{\DenKrLiteratureDir/literature_misc.bib}%
+\addBibIfExists{\DenKrLiteratureDir/literature_thirdParty.bib}%
+% \addBibIfExists{\DenKrLiteratureDir/literature_secondary.bib}%
+% \addBibIfExists{\DenKrLiteratureDir/literature_figures.bib}%
+% \addBibIfExists{\DenKrLiteratureDir/literature_tables.bib}%
+% \addBibIfExists{\DenKrLiteratureDir/literature_querries.bib}%
+% - - - - - -
+%
+%
+%
+%
+%========================================================================================================
+% % Make the Bibliography Output left-aligned an (implicitly) turn off hyphenation
+% \appto{\bibsetup}{\raggedright}%
+%  --> Usually a good idea, both, for aesthetic reasons and content-wise. At least for Books (since scientific Papers usually prescribe a common format and have tight space restrictions).
+%Justification:
+% Bibliographies tend to (a) consist of very short paragraphs, usually 1 to 3 lines, and (b) contain a high frequency of difficult-to-automatically-hyphenate words, mainly due to the signficant role that author's first and last names, from languages across the globe, play and (often-times newly coined) technical terms. So, both from a technical as well as from an aesthetic perspective, a ragged-right, non-hyphenated bibliography suits the circumstances better. (Particularly when the bib entries contain words that, in average, are much longer than in, say, English or are more difficult to hyphenate. Including Names)

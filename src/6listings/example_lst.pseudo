@@ -1,0 +1,10 @@
+//Input:
+//- Some Explanation in Comment
+
+¢\lstJSfuncdecl{some_function}¢(input_array[], anotherVar){
+	for each (curr in input_array){
+		output[] = ¢\lstJSfunc{push_result}¢(anotherVar);
+		char[] msg = ¢\lstJSfunc{build_msg}¢(someInput);
+		send(curr, msg);
+	}
+}

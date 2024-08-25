@@ -1,0 +1,280 @@
+% Author: Dennis Krummacker%
+\ifdefined\DenKr\documentclass[tikz,fontsize=11pt,class=scrbook]{standalone}\begin{document}\else%
+\input{"./2ProjectSetup".tex}%
+\input{"\DenKrAllMainRootDirPATH/2includes/packages/preamble_pre".tex}%
+\documentclass[tikz,fontsize=11pt,class=scrbook]{standalone}% I.e. the content from \input{"\DenKrLayoutMainRootDir/2layout/tikz_standalone/preamble_1_class".tex}%
+\input{"\DenKrInternalLayoutRootDir/tikz_standalone/1TikzStandalonePicIncludeThis".tex}%
+\DenKrTikzStandalonePre\fi%
+%
+%
+%
+\newcommand\nodedistance{0.5cm}%
+%
+\let\innabst\undefined%
+\newlength\innabst%
+\setlength\innabst{0.8em}% Abstand zwischen Text und Zellenrand
+%
+\let\ifaceheight\undefined%
+\newlength\ifaceheight%
+\settoheight{\ifaceheight}{\textbf{wlan0}}%
+\setlength\ifaceheight{\ifaceheight+2\innabst}%
+%
+\let\ifacewidth\undefined%
+\newlength\ifacewidth%
+\settowidth{\ifacewidth}{\textbf{Adresse B00}}%
+\setlength\ifacewidth{\ifacewidth+\innabst-0.5em}%
+%
+\let\ifacesep\undefined%
+\newlength\ifacesep%
+\setlength\ifacesep{0.3cm}%
+%
+\let\abifacewidth\undefined%
+\newlength\abifacewidth%
+\setlength\abifacewidth{2\ifacewidth+6\ifacesep}%
+%
+\let\abifaceheight\undefined%
+\newlength\abifaceheight%
+\setlength\abifaceheight{2.5\ifaceheight}%
+%
+\let\abipcheight\undefined%
+\newlength\abipcheight%
+\setlength\abipcheight{2\abifaceheight}%
+%
+\let\abipcwidth\undefined%
+\newlength\abipcwidth%
+\setlength\abipcwidth{\abifacewidth+3\ifacesep}%
+%
+\newcommand\roundcorneramount{2mm}%
+%
+% Define the layers to draw the diagram
+\pgfdeclarelayer{background}%
+\pgfdeclarelayer{cable}%
+% \pgfdeclarelayer{foreground}%
+\pgfsetlayers{background,main,cable}%,foreground}
+%
+%
+\begin{tikzpicture}[%
+	scale = 1.0,%Könnte das Makro \tikzpicturescale sein. Siehe in makros.tex
+	% (Sollte eigentlich übergeben werden)(Beachte Möglichkeiten der Übergabe;
+	% standalone mode=tex vs mode=buildnew)
+	auto,%
+	node distance=\nodedistance,%
+]%
+%
+\tikzstyle{iface}=[%
+	rectangle,%
+% 	rounded corners=\roundcorneramount,%
+% 	minimum width=\breiteEins,%
+	minimum height=\ifaceheight,%
+	text width=\ifacewidth,%
+	text centered,%
+	align=center,%
+	draw=black,%
+% 	inner sep=0.5*\innabst,%
+	fill=yellow!50%
+]%
+%
+\definecolor{abifacecolor}{RGB}{250,250,200}
+\definecolor{abifacebackcolor}{RGB}{180,180,100}
+\tikzstyle{abiface}=[%
+	rectangle,%
+% 	rounded corners=\roundcorneramount,%
+	minimum width=\abifacewidth,%
+	minimum height=\abifaceheight,%
+	text centered,%
+	align=center,%
+	draw=black,%
+	inner sep=0.5*\innabst,%
+	fill=abifacecolor%
+% 	middle color=yellow!20,
+% 	right color=gray!20,
+]%
+%
+\tikzstyle{abifaceoben}=[%
+	abiface,%
+	anchor=south,%
+	shape=rectangleRoundedAnchorExact,%
+	rectangle with rounded corners north west=15pt,%
+	rectangle with rounded corners south west=0pt,%
+	rectangle with rounded corners north east=15pt,%
+	rectangle with rounded corners south east=0pt,%
+]%
+%
+\tikzstyle{abifaceunten}=[%
+	abiface,%
+	anchor=north,%
+	shape=rectangleRoundedAnchorExact,%
+	rectangle with rounded corners north west=0pt,%
+	rectangle with rounded corners south west=15pt,%
+	rectangle with rounded corners north east=0pt,%
+	rectangle with rounded corners south east=15pt,%
+]%
+%
+\tikzstyle{abifaceobenback}=[%
+	abifaceoben,%
+	fill=abifacebackcolor,%
+]%
+%
+\tikzstyle{abifaceuntenback}=[%
+	abifaceunten,%
+	fill=abifacebackcolor,%
+]%
+%
+\tikzstyle{abipc}=[%
+	rectangle,%
+% 	rounded corners=\roundcorneramount,%
+	minimum width=\abipcwidth,%
+	minimum height=\abipcheight,%
+	text centered,%
+	align=center,%
+	draw=black,%
+	inner sep=0.5*\innabst,%
+	fill=gray!20,%
+	blur shadow={
+% 		color=black,%
+		shadow xshift=1mm,
+		shadow yshift=1mm,
+		shadow scale=1.0,%
+		shadow opacity=50,%
+		shadow blur radius=1em,%
+		shadow blur steps=20,%
+	}%
+]%
+%
+\tikzstyle{station}=[%
+	abipc,%
+% 	rounded corners=\roundcorneramount,%
+	minimum width=0.8\abipcwidth,%
+	minimum height=\abipcheight,%
+]%
+%
+\tikzstyle{stationiface}=[%
+	abiface,%
+% 	rounded corners=\roundcorneramount,%
+	minimum width=0.8\abifacewidth,%
+	minimum height=\abifaceheight,%
+]%
+%
+\tikzstyle{stationifaceoben}=[%
+	stationiface,%
+	anchor=south,%
+	shape=rectangleRoundedAnchorSurround,%
+	rectangle with rounded corners north west=10pt,%
+	rectangle with rounded corners south west=0pt,%
+	rectangle with rounded corners north east=10pt,%
+	rectangle with rounded corners south east=0pt,%
+]%
+%
+\tikzstyle{stationifaceunten}=[%
+	stationiface,%
+	anchor=north,%
+	shape=rectangleRoundedAnchorSurround,%
+	rectangle with rounded corners north west=0pt,%
+	rectangle with rounded corners south west=10pt,%
+	rectangle with rounded corners north east=0pt,%
+	rectangle with rounded corners south east=10pt,%
+]%
+%
+\tikzstyle{stationifaceobenback}=[%
+	stationifaceoben,%
+	fill=abifacebackcolor,%
+]%
+%
+\tikzstyle{stationifaceuntenback}=[%
+	stationifaceunten,%
+	fill=abifacebackcolor,%
+]%
+%
+%
+\bfseries%
+%
+	\node(hostA)[abipc,anchor=south]at(0,0){};%
+	\node(hostAhead)[anchor=north]at(hostA.north){\LARGE Host
+	\lipsaround{A}};%
+%
+	\node(hostANet)[shape=coordinate]at(hostA.south){};%
+	\ExtrudeOutRoundedTop{hostANet}{up}{left}{abifaceoben}{abifaceobenback}%
+		{abifacecolor}{abifacebackcolor}{15pt}%
+	\node(hostANethead)[anchor=north]at(hostANetfront.north){\Large Netzwerk
+	Schnittstellen};%
+%
+	\node(adrA1)[iface,anchor=south east]%
+		at($(hostANetfront.south)+(-0.5\ifacesep,0)$){Adresse A1};%
+	\node(adrA2)[iface,right=\ifacesep of adrA1]{Adresse A2};%
+%
+%
+%
+%
+	\node(hostB)[abipc,anchor=south]at(10.5,0){};%
+	\node(hostBhead)[anchor=north]at(hostB.north){\LARGE Host
+	\lipsaround{B}};%
+%
+	\node(hostBNet)[shape=coordinate]at(hostB.south){};%
+	\ExtrudeOutRoundedTop{hostBNet}{up}{left}{abifaceoben}{abifaceobenback}%
+		{abifacecolor}{abifacebackcolor}{15pt}%
+	\node(hostBNethead)[anchor=north]at(hostBNetfront.north){\Large Netzwerk
+	Schnittstellen};%
+%
+	\node(adrB1)[iface,anchor=south east]%
+		at($(hostBNetfront.south)+(-0.5\ifacesep,0)$){Adresse B1};%
+	\node(adrB2)[iface,right=\ifacesep of adrB1]{Adresse B2};%
+%
+%
+%
+\let\connectdist\undefined%
+\newlength\connectdist%
+\setlength\connectdist{0.5cm}%
+	\node(connectA1_1)[shape=coordinate]at($(adrA1.south)+(0,-2cm)$){};
+	\node(connectA1_2)[shape=coordinate]at($(connectA1_1)+(0,-\connectdist)$){};
+	\node(connectB1_1)[shape=coordinate]at($(adrB1.south)+(0,-2cm)$){};
+	\node(connectB1_2)[shape=coordinate]at($(connectB1_1)+(0,-\connectdist)$){};
+	\node(connectA2_1)[shape=coordinate]at($(adrA2.south)+(0,-4cm)$){};
+	\node(connectA2_2)[shape=coordinate]at($(connectA2_1)+(0,-\connectdist)$){};
+	\node(connectB2_1)[shape=coordinate]at($(adrB1.south)+(0,-4cm)$){};
+	\node(connectB2_2)[shape=coordinate]at($(connectB2_1)+(0,-\connectdist)$){};
+%
+%
+%
+%
+%
+\begin{pgfonlayer}{cable}%
+	\draw[cable](adrA1.south)--($(adrA1.south)+(0,-5cm)$);%
+	\draw[cable](adrA2.south)--($(adrA2.south)+(0,-5cm)$);%
+	\draw[cable](adrB1.south)--($(adrB1.south)+(0,-5cm)$);%
+	\draw[cable](adrB2.south)--($(adrB2.south)+(0,-5cm)$);%
+%
+%
+%
+	\draw[pathMPTCP1](connectA1_1)--node[fill=white,anchor=south,yshift=0.25em,pos=0.5]%
+		{\texttt{(Initiales Verbindungs Setup)}}%
+		(connectB1_1);
+	\draw[pathMPTCP1](connectB1_2)--(connectA1_2);
+	\draw[pathMPTCP2](connectA2_1)--node[fill=white,anchor=south,xshift=-0.5em,yshift=0.25em,pos=0.5]%
+		{\texttt{(Zusätzliches Subflow Setup)}}%
+		(connectB2_1);
+	\draw[pathMPTCP2](connectB2_2)--(connectA2_2);
+\end{pgfonlayer}%
+%
+%
+%
+%
+%
+%
+%
+%
+\normalfont%
+\node(bboxtop)[shape=coordinate]at%
+	($(current bounding box.north)+(0,1mm)+(0,1em)$){};%
+\node(bboxright)[shape=coordinate]at%
+	($(current bounding box.east)+(1mm,0)+(1em,0)$){};%
+\node(bboxbottom)[shape=coordinate]at%
+	($(current bounding box.south)+(0,0mm)+(0,0em)$){};%
+\node(bboxleft)[shape=coordinate]at%
+	($(current bounding box.west)+(1mm,0)+(-1em,0)$){};%
+\path[use as bounding box]%
+	(bboxtop)-|(bboxright)|-(bboxbottom)-|(bboxleft)|-(bboxtop);%
+%
+\end{tikzpicture}%
+%
+%
+\ifdefined\DenKr\end{document}\else\DenKrTikzStandalonePost\fi%

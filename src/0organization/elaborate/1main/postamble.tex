@@ -1,0 +1,194 @@
+%________________________________________________________________________
+%------------------------------------------------------------------------
+%					Postamble, Addendum
+%				Some additional Appendices
+%/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+%
+%
+%
+%================================================================
+%----------------------------------------------------------------
+%      Part Anhang
+%           Glossar \& eigentlicher Anhang
+%================================================================
+\appendix%
+\ifChapterExists%
+  \input{"\DenKrLayoutMainRootDir/2includes/packages/KOMA/design_part_2".tex}%
+  %\input{"\DenKrLayoutMainRootDir/2includes/packages/KOMA/design_chapter_2".tex}%
+  \input{"\DenKrLayoutMainRootDir/2includes/packages/KOMA/design_section_5".tex}%
+\else%
+  \input{"\DenKrLayoutMainRootDir/2includes/packages/KOMA/design_part_noPageBreak_2".tex}%
+  \input{"\DenKrLayoutMainRootDir/2includes/packages/KOMA/design_section_5".tex}%
+\fi%
+%
+\makeatletter\headingOpenTempRight%
+\part{Appendix}%
+\headingOpenTempRestore\makeatother%
+\label{part:appendix}%
+%
+%
+%
+%================================================================
+%      Anhang
+%================================================================
+%
+\input{\DenKrSegmentationSubDir/0500_appendix.tex}%
+%
+%
+%
+%
+%
+%
+%
+\ifChapterExists%
+\backmatter%
+\fi%
+%================================================================
+%      Glossary
+%================================================================
+%
+%
+% \chapter{Glossar}%Eigenes Chapter weg, wenn Option: section=chapter (bei usepackage)
+% \nopagebreak
+% \printglossaries%Stellt Glossar und Akronyme gemeinsam dar
+% Bei den beiden folgenden achtsam sein mit der Option: nomain
+% \glsaddall% Würde hier eine leere Seite erzeugen. Siehe weiter oben
+% \glsaddallunused%
+%
+% == Some Comments to the Cmds down there:
+% The 'type=\acronymtype', (alterantively: =acronym) works because of the option 'acronym' is given at Package Inclusion
+%    \secnt{\DenKrGlossHeadSecAcronyms}%See Preamble, usepackage -> \renewcommand{\glossarysection}[2][]{} to remove the section-heading actually created by \printglossary
+%    \printglossary[type=\acronymtype,style=list+crossRef]% [title=Special Terms, toctitle=List of terms]
+%
+%
+\headingOpenTempRight%
+\DenKrHeadingTopLvlCmd*[]{\DenKrGlossHeadChapGlossary}\label{chap:Glossary}%
+\headingOpenTempRestore%
+%Displays 'only' Acronyms
+\DenKrHeadingCmdLvlB*[]{\DenKrGlossHeadSecAcronyms}\label{sec:Acronyms}%
+\printglossary[type=\acronymtype,style=list+crossRef]%
+\clearpage%
+%Display "Glossary-Entries"
+\DenKrHeadingCmdLvlB*[]{\DenKrGlossHeadSecGlossaries}\label{sec:Glossaries}%
+\printglossary[style=list+crossRef+alt+otherLang+subtitle+url]%Stellt Glossar dar
+\clearpage%
+%Displays Symbols
+\DenKrHeadingCmdLvlB*[]{\DenKrGlossHeadSecSymbols}\label{sec:Symbols}%
+\printglossary[type=symbol,nonumberlist]%
+\cleardoublepage%
+%
+%
+%
+%
+%
+%
+%================================================================
+%----------------------------------------------------------------
+%      List of Figures & Tables
+%================================================================
+%
+% Table of Contents is found in TitlePage_&_init
+\begingroup%
+  \ifChapterExists%
+  \renewcommand*{\chapterpagestyle}{plain}%
+  \fi%
+  \pagestyle{plain}%
+  \headingOpenTempAny%
+%  \tableofcontents%
+%  \thispagestyle{empty}%
+%  \clearpage%
+%  \listoffigures%
+  \listoffiguresDenKr%
+  \clearpage%
+%  \listoftables%
+  \listoftablesDenKr%
+  \clearpage%
+  \listoflistingsDenKr%
+  \clearpage%
+  \listofalgorithmsDenKr%
+  \headingOpenTempRestore%
+  \cleardoublepage%
+\endgroup%
+%
+%
+%
+%
+%
+%
+%================================================================
+%----------------------------------------------------------------
+%      Literaturverzeichnis
+%================================================================
+%
+%#################################################################
+%##=========================================================######
+%##---------------------------------------------------------######
+%\chapter{References}
+%##=========================================================######
+%#################################################################
+% \input{./literaturverzeichnis.tex}
+%\nocite{*}
+%
+%\printbibliography%
+\begingroup%
+\headingOpenTempAny%
+\pagestyle{plain}%
+\printbibliography[%
+	env=bibliographyDenKrEnv,%
+	heading=literature,%
+	keyword=primary_literature,%
+]%
+% \printbibliography[%
+% 	env=bibliographyDenKrEnv,%
+% 	heading=literature_techspec,%
+% 	keyword=techspec_literature,%
+% ]%
+% \printbibliography[%
+% 	heading=literature_secondary,%
+% 	keyword=secondary_literature,%
+% ]%
+% \printbibliography[%
+% 	heading=literature_figures,%
+% 	keyword=figure_literature,%
+% ]%
+% \printbibliography[%
+% 	heading=literature_tables,%
+% 	keyword=table_literature,%
+% ]%
+\headingOpenTempRestore%
+\endgroup%
+% \printbibliography[notkeyword=figure]
+% \thispagestyle{empty}
+% \printbibliography[title={Abbildungs-Quellen},keyword=figure]
+% \thispagestyle{empty}
+%
+%
+%
+%
+%#################################################################
+%##=========================================================######
+%##---------------------------------------------------------######
+%\section*{Biographies}
+%##=========================================================######
+%#################################################################
+\expandafter\ifstrequal\expandafter{\DenKrLayoutIncludeBiographies}{0}{}{%
+\input{"\DenKrSegmentationSubDir/0701_biographies".tex}%
+}%
+%
+%
+%
+%
+%
+%#################################################################
+%##=========================================================######
+%##---------------------------------------------------------######
+% - - - Tempory active while working state.
+% -  -  -  Deactivated before \begin{document}
+%##=========================================================######
+%#################################################################
+\disablewr{%
+\DenKrHeadingTopLvlCmd{Draft-State}%
+%\TempDisplayPreparation%
+\DisplayDenKrCommandsLegend%
+}%
+%

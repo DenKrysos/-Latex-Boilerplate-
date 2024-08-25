@@ -1,0 +1,121 @@
+%________________________________
+%<><><><><><><><><><><><><><><><>
+%		Authors
+%vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
+\DenKrAuthor{1}{Dennis Krummacker}[dennis.krummacker@dfki.de]%
+\DenKrAuthor{1}{FirstA LastA}[firstA.lastA@company.de]%
+\DenKrAuthor{2}{FirstB LastB}[lastB@corporate.org ° !]% See below at USAGE Notes
+\DenKrAuthorNewline%
+\DenKrAuthor{1°3}{FirstC MidC. LastC}[firstC_midC.lastC@domain.com]%
+\DenKrAuthor{2°3}{Prof. Smarty}[smarty.pants@institute1.com@2°smarty@uni.de@3]%
+%^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+%
+%
+%
+%________________________________
+%<><><><><><><><><><><><><><><><>
+%		Affiliations
+%vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
+\DenKrAffiliation{1}{
+	% Intelligent Networks Research Group,
+	German Research Center for Artificial Intelligence (DFKI),
+	% D-67663 Kaiserslautern,
+	% D-Kaiserslautern.%
+	Germany.%
+}{\{firstname\}.\{lastname\}@dfki.de}%
+%
+\DenKrAffiliation{2}{
+	%WICON,
+	% Institute for Wireless Communication and Navigation,
+	University of Kaiserslautern (RPTU),
+	% D-67663 Kaiserslautern,
+	Germany.%
+}{\{lastname\}@rptu.de}%
+%
+\DenKrAffiliation{3}{
+	Company Co., Ltd, D-10115 Berlin.
+}{
+	some.person@company.com
+}%
+\DenKrAffiliation{4}{aaaa}{mail@mail.org}
+\DenKrAffiliation{5}{bbbb}{}
+\DenKrAffiliation{}{cccc}{a_a@a.org°b@b.org}
+\DenKrAffiliation{5°4}{Institute-Address}{person@company.org ° boss@company.org}% See below at USAGE Notes
+%^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+%
+%
+%
+%
+%
+%________________________________________________________________________
+%------------------------------------------------------------------------
+%				(Optional) Configuration
+%/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+% In which convention Mail-addresses are printed.
+%   Sometimes desired is to specify a uniform format per company, like {firstname.lastname}@company.com
+%   Sometimes you want to explicitly each single mail-address per author
+% - collective
+%     Uses the Mail specification from \DenKrAffiliation
+% - individual
+%     Uses the Mail specifications from \DenKrAuthor *partly*.
+%     - This only takes the text before the @ and aggregates them with the domain from the affiliation.
+% - single   [TODO]
+%     Uses the Mail specifications from \DenKrAuthor *entirely*.
+%     This just directly takes the Email-Addresses from the Author.
+% - auto
+%     Makes it depending on the selected document format
+\renewcommand{\DenKrAuthorMailSelect}{auto}%
+%
+% IEEE Form
+%  In case, the IEEEtran documentclass is used: In which way the authors section shall be formatted
+% - vertical
+%     Everything put together. First a list of the Author's names, then vertically below, the affiliations.
+% - compact
+%     Same as 'vertical', but without a separating blank line before the affiliations.
+% - horizontal
+%     Several distinct blocks, which are horizontally sequentially aligned
+%     May work well for up to ~3 different affiliations
+\renewcommand{\DenKrAuthorIEEEForm}{vertical}%
+%
+% Linebreaks to comply to Textwidth
+% - Set the following to '1' and you do not necessarily need to specify Linebreaks above (but you lose a certain control).
+\renewcommand{\DenKrAuthorParboxed}{0}%
+%/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+%				END Config
+%------------------------------------------------------------------------
+%========================================================================
+%
+%
+%
+%
+%
+%________________________________________________________________________
+%------------------------------------------------------------------------
+%				USAGE Arguments
+%/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+% - \DenKrAuthor{Idx}{Name}[Mail-Address]
+%    - Idx / Used as Ref-Mark & Association between Author and Affiliation:
+%       - Ref-Mark: A Symbol for associating the Author with an Affiliation
+%       - Association: Depending on the Layout, Author and Affil are grouped according to this.
+%          - Likewise, when configured to take Mail-Addr indidivual per Author, but put to Affiliation
+%    - Name: Name of the Author
+%    - Mail-Addr: An Author's individual Mail-Address. Depending on set Layout and Configuration.
+%       - Multiple Addresses can be specified per Author, via separating them with '°'
+%       - When 'individual' Addrs are print, all Mail-Addrs of this list are put by default.
+%       - This can be filtered via a second '@' after one Addr. With such, a single Addr is only associated with the Idx after the 'second @'.  [TODO]
+% - \DenKrAffiliation{Idx}{Address}{Mail-Address}
+%    - Idx / Used as Ref-Mark & Association between Author and Affiliation:
+%       - [Like above]
+%    - Address: Address of a Company
+%    - Mail-Address: Mail Address specified per company. Probably specify a uniform convention for all employees (e.g. \{firstname\}.\{lastname\}@dfki.de) if applicable.
+%________________________________________________________________________
+%------------------------------------------------------------------------
+%				More USAGE Notes
+%/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+% - Don't be confused by the Degree-Sign (°). It is just used as Separator in Lists.
+% - Append a "°!" to an E-Mail-Address in the 4th optional argument of the \DenKrAuthor[]{}{}[] Cmd to force a linebreak after this Mail-Addr
+%     -> taking effect in the case '\DenKrAuthorMailSelect' is set to 'individual'
+%/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+%				END Config
+%------------------------------------------------------------------------
+%========================================================================

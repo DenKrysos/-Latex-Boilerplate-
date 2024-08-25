@@ -1,0 +1,23 @@
+\headheight0bp
+\headsep0mm
+\topskip10bp
+\topmargin18mm
+\textwidth170mm
+\textheight=60\baselineskip
+\def\@maketitle{%
+  \newpage
+  \null
+  \let \footnote \thanks
+    {\LARGE\bfseries\RaggedRight \@title \par}%
+    \vskip 1\baselineskip%
+    {\normalsize
+      % \lineskip 1ex%
+      \@author\par}%
+    %\vskip 2\baselineskip%
+    {\section*{Kurzfassung}
+      \@abstract}%
+    \vskip \baselineskip%
+  \par
+  %\vskip 3\baselineskip
+  \vskip 1.5\baselineskip
+}

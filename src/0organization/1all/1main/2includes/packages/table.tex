@@ -1,0 +1,26 @@
+\usepackage{array}
+%
+%%%%\usepackage{tabular}% Latex-Std, just don't use
+%\usepackage{tabular*}% Latex-Std, bit better
+%%%%\usepackage{tabularx}% More comfortable than, 'tabular*', better to use, but no nesting
+\usepackage{tabulary}% Nearly the same as 'tabularx', bit more extensive
+\usepackage{makecell}% http://ctan.org/pkg/makecell
+\usepackage{diagbox}% package "makecell" also has a command \diaghead{}{}{}
+%------------------------------------------------------------------------------------
+% -- Table recommendation:
+% ---- Use 'tabulary', together with 'makecell' (if necessary)
+% ---- -- Could also use 'tabularx', together with 'makecell', if you like it better...
+% ---- Otherwise maybe 'tabular*'
+%------------------------------------------------------------------------------------
+%longtable is a special one, which allows page-breaks
+\usepackage{longtable}%
+%----------------------------------------------------------------
+%
+\usepackage{multirow}% Create tabular cells spanning multiple rows
+\usepackage{colortbl}% Add colour to LaTeX tables
+\usepackage{booktabs}%
+\usepackage{hhline}%
+%
+%----------------------------------------------------------------
+% A mixed package. Serves for Tabulars, Arrays and Matrices
+\usepackage{nicematrix}%

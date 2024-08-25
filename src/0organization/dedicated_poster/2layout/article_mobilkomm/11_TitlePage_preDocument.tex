@@ -1,0 +1,67 @@
+%
+% \input{"\DenKrSupplyRootDir/TitlePage_Data".tex}%
+%
+%________________________________________________________________________
+%------------------------------------------------------------------------
+%					Paper Title
+%/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+% Titles are generally capitalized except for words such as a, an, and, as, at, but, by, for, in, nor, of, on, or, the, to and up, which are usually not capitalized unless they are the first or last word of the title. Linebreaks \\ can be used within to get better formatting as desired. Do not put math or special symbols in the title.
+%
+%--- Beitragstitel (16 pt fett)
+\title{%
+\TitlePageDataTitleGer%
+}%
+%--- Title of contribution (16 pt bold)
+\titleEn{%
+\TitlePageDataTitleEn%
+}%
+%
+%
+%
+%
+%
+%
+%________________________________________________________________________
+%------------------------------------------------------------------------
+%					Authors
+%/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+%================================================
+\input{"\DenKrLayoutSupplyAuthorDir/article/authors".tex}%
+%================================================
+%###########################
+%================================================
+\input{"\DenKrLayoutSupplyAuthorDir/article/affiliations".tex}%
+%================================================
+%
+%
+%
+%
+%
+%
+%________________________________________________________________________
+%------------------------------------------------------------------------
+%					Abstract
+%/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+% As a general rule, do not put math, special symbols or citations in the abstract
+\abstract{% Abstract of not more than 250 words.
+%\textcolor{green}{Look into "\DenKrLayoutRootDir/TitlePage.tex"}
+\input{"\DenKrSegmentationSubDir/0101_abstract_Ger".tex}
+}%
+%
+\abstractEn{%
+%\textcolor{green}{Look into "\DenKrLayoutRootDir/TitlePage.tex"}
+\input{"\DenKrSegmentationSubDir/0100_abstract".tex}
+}%
+%
+%
+%
+%
+%
+%________________________________________________________________________
+%------------------------------------------------------------------------
+%					Provision of own Keyword-Command
+%/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+\providecommand{\keywords}[1]{%
+{\small%
+\textbf{\textit{Keywords---}} #1}%
+}%

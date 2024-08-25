@@ -1,0 +1,248 @@
+%________________________________________________________________________
+%------------------------------------------------------------------------
+%							Setups für Glossaries
+%/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+% - - Some Setting
+\def\DenKrGlsPrintOtherLangFormat#1#2#3#4#5#6{%
+    \ifglshasfield{#3}{#1}{\ifglshasfield{#4}{#1}{%
+        \normalfont%
+        \textit{#2}: #5 (#6)%
+        .\space%
+    }{}}{}%
+}%
+%
+\edef\DenKrGlossENHeadChapGlossary{Glossary}%
+\edef\DenKrGlossENHeadSecGlossaries{Glossaries}%
+\edef\DenKrGlossENHeadSecAcronyms{Acronyms}%
+\edef\DenKrGlossENHeadSecSymbols{Symbols}%
+%
+\edef\DenKrGlossDEHeadChapGlossary{Glossar}%
+\edef\DenKrGlossDEHeadSecGlossaries{Glossarien}%
+\edef\DenKrGlossDEHeadSecAcronyms{Akronyme}%
+\edef\DenKrGlossDEHeadSecSymbols{Symbole}%
+%
+\edef\DenKrGlossENRefLabelGlossaries{Glossaries}%
+\edef\DenKrGlossENRefLabelAcronym{Acronyms}%
+\edef\DenKrGlossENRefLabelAKA{Also known as}%
+%
+\edef\DenKrGlossDERefLabelGlossaries{Glossarien}%
+\edef\DenKrGlossDERefLabelAcronym{Akronyme}%
+\edef\DenKrGlossDERefLabelAKA{Auch genannt}%
+%
+\edef\DenKrGlossRefLabelInDE{Zu Deutsch}%
+\edef\DenKrGlossRefLabelInEN{In English}%
+% - - - - - - - - - - - - - - - -
+\ifdef{\DenKrLayoutLanguage}{%
+    \expandafter\ifstrequal\expandafter{\DenKrLayoutLanguage}{english}{%
+        \edef\DenKrGlossHeadChapGlossary{\DenKrGlossENHeadChapGlossary}%
+        \edef\DenKrGlossHeadSecGlossaries{\DenKrGlossENHeadSecGlossaries}%
+        \edef\DenKrGlossHeadSecAcronyms{\DenKrGlossENHeadSecAcronyms}%
+        \edef\DenKrGlossHeadSecSymbols{\DenKrGlossENHeadSecSymbols}%
+        \edef\DenKrRefLabelGlossaries{\DenKrGlossENRefLabelGlossaries}%
+        \edef\DenKrRefLabelAcronyms{\DenKrGlossENRefLabelAcronym}%
+        \edef\DenKrRefLabelAKA{\DenKrGlossENRefLabelAKA}%
+        \def\DenKrGlsPrintOtherLang#1{%
+            \DenKrGlsPrintOtherLangFormat{#1}{\DenKrGlossRefLabelInDE}{textDE}{longDE}{\glsentrylongDE{#1}}{\glsentrytextDE{#1}}%
+       }%
+    }{%
+    \expandafter\ifstrequal\expandafter{\DenKrLayoutLanguage}{ngerman}{%
+        \edef\DenKrGlossHeadChapGlossary{\DenKrGlossDEHeadChapGlossary}%
+        \edef\DenKrGlossHeadSecGlossaries{\DenKrGlossDEHeadSecGlossaries}%
+        \edef\DenKrGlossHeadSecAcronyms{\DenKrGlossDEHeadSecAcronyms}%
+        \edef\DenKrGlossHeadSecSymbols{\DenKrGlossDEHeadSecSymbols}%
+        \edef\DenKrRefLabelGlossaries{\DenKrGlossDERefLabelGlossaries}%
+        \edef\DenKrRefLabelAcronyms{\DenKrGlossDERefLabelAcronym}%
+        \edef\DenKrRefLabelAKA{\DenKrGlossDERefLabelAKA}%
+        \def\DenKrGlsPrintOtherLang#1{%
+            \DenKrGlsPrintOtherLangFormat{#1}{\DenKrGlossRefLabelInEN}{textEN}{longEN}{\glsentrylongEN{#1}}{\glsentrytextEN{#1}}%
+        }%
+    }{%
+    \expandafter\ifstrequal\expandafter{\DenKrLayoutLanguage}{german}{%
+        \edef\DenKrGlossHeadChapGlossary{\DenKrGlossDEHeadChapGlossary}%
+        \edef\DenKrGlossHeadSecGlossaries{\DenKrGlossDEHeadSecGlossaries}%
+        \edef\DenKrGlossHeadSecAcronyms{\DenKrGlossDEHeadSecAcronyms}%
+        \edef\DenKrGlossHeadSecSymbols{\DenKrGlossDEHeadSecSymbols}%
+        \edef\DenKrRefLabelGlossaries{\DenKrGlossDERefLabelGlossaries}%
+        \edef\DenKrRefLabelAcronyms{\DenKrGlossDERefLabelAcronym}%
+        \edef\DenKrRefLabelAKA{\DenKrGlossDERefLabelAKA}%
+        \def\DenKrGlsPrintOtherLang#1{%
+            \DenKrGlsPrintOtherLangFormat{#1}{\DenKrGlossRefLabelInEN}{textEN}{longEN}{\glsentrylongEN{#1}}{\glsentrytextEN{#1}}%
+       }%
+    }{%
+        \edef\DenKrGlossHeadChapGlossary{\DenKrGlossENHeadChapGlossary}%
+        \edef\DenKrGlossHeadSecGlossaries{\DenKrGlossENHeadSecGlossaries}%
+        \edef\DenKrGlossHeadSecAcronyms{\DenKrGlossENHeadSecAcronyms}%
+        \edef\DenKrGlossHeadSecSymbols{\DenKrGlossENHeadSecSymbols}%
+        \edef\DenKrRefLabelGlossaries{\DenKrGlossENRefLabelGlossaries}%
+        \edef\DenKrRefLabelAcronyms{\DenKrGlossENRefLabelAcronym}%
+        \edef\DenKrRefLabelAKA{\DenKrGlossENRefLabelAKA}%
+        \def\DenKrGlsPrintOtherLang#1{%
+            \DenKrGlsPrintOtherLangFormat{#1}{\DenKrGlossRefLabelInEN}{textEN}{longEN}{\glsentrylongEN{#1}}{\glsentrytextEN{#1}}%
+       }%
+    }}}%
+}{%
+    \edef\DenKrGlossHeadChapGlossary{\DenKrGlossENHeadChapGlossary}%
+    \edef\DenKrGlossHeadSecGlossaries{\DenKrGlossENHeadSecGlossaries}%
+    \edef\DenKrGlossHeadSecAcronyms{\DenKrGlossENHeadSecAcronyms}%
+    \edef\DenKrGlossHeadSecSymbols{\DenKrGlossENHeadSecSymbols}%
+    \edef\DenKrRefLabelGlossaries{\DenKrGlossENRefLabelGlossaries}%
+    \edef\DenKrRefLabelAcronyms{\DenKrGlossENRefLabelAcronym}%
+    \edef\DenKrRefLabelAKA{\DenKrGlossENRefLabelAKA}%
+    \def\DenKrGlsPrintOtherLang#1{%
+        \DenKrGlsPrintOtherLangFormat{#1}{\DenKrGlossRefLabelInEN}{textEN}{longEN}{\glsentrylongEN{#1}}{\glsentrytextEN{#1}}%
+   }%
+}%
+% - - - - - - - - - - - - - - - -
+\def\DenKrGlsPrintAKA#1{%
+    \ifglshasfield{longAlt}{#1}{%
+        \normalfont%
+        \textit{\DenKrRefLabelAKA}: \glsentrylongAlt{#1}%
+        \ifglshasfield{textAlt}{#1}{%
+            \ (\glsentrytextAlt{#1})%
+        }{}%
+        .\space%
+    }{}%
+}%
+% - - - - - - - - - - - - - - - -
+%
+% \defglsentryfmt[\acronymtype]{
+%   \ifglsused{\glslabel}
+%     {\glsgenentryfmt}% Wenn verwendet normales format
+%     {\textit{\glsgenentryfmt}}% beim ersten mal kursiv
+% }
+\newcommand*{\glsprintmitdeutsch}{%
+	{\glsentrylong{\glslabel} (\glsentryname{\glslabel}, dt.:
+	\glsentrytextDE{gls-\glslabel})}%
+}%
+\newcommand*{\glsprintmitenglisch}{%
+	{\glsentrylong{\glslabel} (\glsentryname{\glslabel}, engl.:
+	\glsentrytextEN{gls-\glslabel})}%
+}%
+\newcommand*{\glsprintmitdualentry}{%
+  \ifglsused{\glslabel}%
+    {%
+    	\glsgenentryfmt%
+    }{%
+    	\ifglshasfield{textDE}{gls-\glslabel}{%
+    		\glsprintmitdeutsch%
+    	}{%
+	    	\ifglshasfield{textEN}{gls-\glslabel}{%
+	    		\glsprintmitenglisch%
+	    	}{%
+	    		{\glsgenentryfmt}%
+	    	}%
+    	}%
+    }%
+}%
+\newcommand*{\glsprintohnedeutsch}{%
+  \ifglsused{\glslabel}%
+    {\glsgenentryfmt}% Wenn verwendet normales format
+    {\glsgenentryfmt}% beim ersten mal anders formatiert
+}%
+% Alternativen für erste Formatierung:
+% textsf, textit, texttt
+%
+\defglsentryfmt[\acronymtype]{%
+	\ifglsentryexists{gls-\glslabel}{%
+		\glsprintmitdualentry%
+	}{%
+		\glsprintohnedeutsch%
+	}%
+}%
+%
+\renewcommand*{\glsclearpage}{}%
+%
+\newlist{myglossarylist}{description}{10}%
+\setlist[myglossarylist]{%
+    align=left,%
+    topsep=0ex,%
+    partopsep=0ex,%
+    parsep=0ex,%
+    itemsep=1ex,%
+    leftmargin=0em,%
+    labelsep=0.7em,%
+    %itemindent=0em,%
+    %labelindent=1em,%
+    listparindent=\parindent,%
+}%
+\setlist[myglossarylist,2]{%
+	align=left,%
+ 	leftmargin=2em,%
+	itemindent=-2em,%
+}%
+\newglossarystyle{list+crossRef}
+{% based on list style (adapt as required)
+    \setglossarystyle{list}%
+    \renewcommand{\glossentry}[2]{%
+        \item[\glsentryitem{##1}%
+            \glstarget{##1}{\glossentryname{##1}}]%
+        \glossentrydesc{##1}\glspostdescription%
+        \space\space##2%
+        \ifglshasfield{crossRef}{##1}{%
+            \space|\space%
+            \textit{\DenKrRefLabelGlossaries}: \glstext{\glsentrycrossRef{##1}}%
+        }{}%
+    }%
+}%
+\newglossarystyle{list+url}
+{% based on list style (adapt as required)
+  \setglossarystyle{list}%
+    \renewcommand{\glossentry}[2]{%
+    \item[\glsentryitem{##1}%
+          \glstarget{##1}{\glossentryname{##1}}]
+       \glossentrydesc{##1}\glspostdescription\space##2%
+    \ifglshasfield{url}{##1}{\glspar
+     \glsletentryfield{\thisurl}{##1}{url}%
+     \expandafter\url\expandafter{\thisurl}}{}}%
+}%
+%
+%
+\newglossarystyle{list+crossRef+alt+otherLang+subtitle+url}{%
+	\renewenvironment{theglossary}%
+		{\begin{myglossarylist}}{\end{myglossarylist}}%
+	\renewcommand*{\glossaryheader}{}%
+	\renewcommand*{\glsgroupheading}[1]{}%
+	\renewcommand*{\glossentry}[2]{%
+		\item[\glsentryitem{##1}%
+			  \glstarget{##1}{\glossentryname{##1}}]%
+%
+		\ifglshasfield{subtitle}{##1}{\normalfont%
+			\textbf{(}\glsentrysubtitle{##1}\textbf{)}.\space}{}%
+		\DenKrGlsPrintAKA{##1}%
+		\DenKrGlsPrintOtherLang{##1}%
+		\glossentrydesc{##1}\glspostdescription%
+        \space##2%
+        \ifglshasfield{crossRef}{##1}{%
+            .\space%
+            \textit{\DenKrRefLabelAcronyms}: \glstext{\glsentrycrossRef{##1}}%
+        }{}%
+        \ifglshasfield{url}{##1}{\glspar
+    		\url{\glsentryurl{##1}}}{}%
+    	}%
+	\renewcommand*{\subglossentry}[3]{%
+		\begin{myglossarylist}%
+			\item[\glssubentryitem{##2}%
+			\glstarget{##2}{\strut\glossentryname{##2}%
+			}]%
+%
+			\ifglshasfield{subtitle}{##2}{\normalfont%
+				\textbf{(}\glsentrysubtitle{##2}\textbf{)}.\space}{}%
+		      \DenKrGlsPrintAKA{##2}%
+		      \DenKrGlsPrintOtherLang{##2}%
+			\glossentrydesc{##2}\glspostdescription%
+            \space##3%
+            \ifglshasfield{crossRef}{##1}{%
+                .\space%
+                \textit{\DenKrRefLabelAcronyms}: \glstext{\glsentrycrossRef{##1}}%
+            }{.}%
+		\end{myglossarylist}%
+	}%
+	\renewcommand*{\glsgroupskip}{\ifglsnogroupskip\else\indexspace\fi}%
+}%
+\setglossarystyle{list}%
+%
+% \setacronymstyle{long-short}
+%/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+%							Glossaries fertig
+%------------------------------------------------------------------------
+%________________________________________________________________________

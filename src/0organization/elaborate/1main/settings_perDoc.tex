@@ -1,0 +1,222 @@
+%________________________________________________________________________
+%------------------------------------------------------------------------
+%               File Split Notice
+%/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+%   More inside "./0organization/1main/3settings/" in the File "settings_basic.tex"
+%       (Linked/Shared for every Project Commonly from the "-Latex-Essentials-Setup_Setting_STY_AddOn" Project)
+%/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+%------------------------------------------------------------------------
+%________________________________________________________________________
+%
+%
+%
+%
+%________________________________________________________________________
+% Nummerierungen, Counter
+%========================================================================
+% \renewcommand\thefigure{\arabic{section}.\arabic{figure}}
+\makeatletter%
+\@ifundefined{ifChapterExists}{}{%
+	\ifChapterExists%
+	\@ifundefined{theequation}{}{\renewcommand\theequation{\arabic{chapter}.\arabic{equation}}}%
+	\@ifundefined{thealgorithm}{}{\renewcommand\thealgorithm{\arabic{chapter}.\arabic{algorithm}}}%
+	\else\fi%
+}%
+\makeatother%
+%
+%
+%
+%
+%
+%________________________________________________________________________
+%------------------------------------------------------------------------
+%		Spacing für
+%					- Equation Environment
+%					- floats
+%					- Some new Lengths & Variables
+%/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+%	Is found in
+%		\input{./0organization/1main/settings_inDocument.tex}
+% ( '\setlength' must come after \begin{document} )
+%/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+%			Spacing End
+%------------------------------------------------------------------------
+%________________________________________________________________________
+%
+%
+%
+%
+%
+%________________________________________________________________________
+%------------------------------------------------------------------------
+%							Setups für Microtype
+% Tracking, Spacing & Kerning werden seit Lua(La)Tex von 'fontspec' verwaltet
+%/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+\providecommand{\DenKrMicrotypeLoaded}{0}%
+\expandafter\ifstrequal\expandafter{\DenKrMicrotypeLoaded}{1}{%
+% \SetProtrusion{encoding={*},family={bch},series={*},size={6,7}}
+%               {1={ ,750},2={ ,500},3={ ,500},4={ ,500},5={ ,500},
+%                6={ ,500},7={ ,600},8={ ,500},9={ ,500},0={ ,500}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Tracking, Spacing & Kerning werden seit Lua(La)Tex von 'fontspec' verwaltet
+% 				% \SetExtraKerning[unit=space]
+% 				%     {encoding={*}, family={bch}, series={*}, size={footnotesize,small,normalsize}}
+% 				%     {\textendash={400,400}, % en-dash, add more space around it
+% 				%      "28={ ,150}, % left bracket, add space from right
+% 				%      "29={150, }, % right bracket, add space from left
+% 				%      \textquotedblleft={ ,150}, % left quotation mark, space from right
+% 				%      \textquotedblright={150, }} % right quotation mark, space from left
+% 				% \SetTracking{encoding={*}, shape=sc}{40}
+}{}%
+%\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
+%							Microtype fertig
+%------------------------------------------------------------------------
+%________________________________________________________________________
+%
+%
+%
+%
+%
+%________________________________________________________________________
+%------------------------------------------------------------------------
+%					Layout
+%/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+\interfootnotelinepenalty=6000% Gibt die Dringlichkeit an, mit der Fussnoten
+					%nicht umgebrochen werden (bis 10000)
+					%Standard: 100
+%
+% \newcolumntype{L}{>{\raggedright\arraybackslash}X}
+%\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
+%					Layout Done
+%------------------------------------------------------------------------
+%________________________________________________________________________
+%
+%
+%
+%
+%
+%
+%
+%
+%________________________________________________________________________
+%------------------------------------------------------------------------
+%						For my own Macros (like the Recipe Book Formatting)
+%						For setting the Draft-State ("draftPhase") (See also the File makros.tex)
+%/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+% Used by the Macros formatting the Recipe-Book
+% - 0: Final Version. Everything formats nice and fine and as appealing as intended
+% - 1: Works as a draft state to save compiling time during working on it. Pictures are not included and the Rating-Symbols are not generated
+% USAGE: Use the supplied Macros to set them.
+% - \draftPhaseSetGlobal{<Value>}%Sets the values of all
+% - \draftPhaseSetPicture{<Value>}% Sets only and selectively the value used for Picture included during the \dishPicMat-Macro
+% - \draftPhaseSetRating{<Value>}% Sets only and selectively the value used for generating the rating-symbols
+\draftPhaseSetGlobal{0}%
+%\draftPhaseSetPicture{1}%
+%\draftPhaseSetRating{1}%
+%\draftPhaseSetIngredients{1}%
+% - - - - - - - - - - - - - - - -
+\draftPhaseSetSurpressRecipes{0}%
+% - - - - - - - - - - - - - - - -
+\phaseSetRelease{1}%
+%/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+%							Settings for my own Macros end
+%------------------------------------------------------------------------
+%________________________________________________________________________
+%
+%
+%
+%
+%
+%________________________________________________________________________
+%------------------------------------------------------------------------
+%							Setups für enumitem
+%					Lists - (itemize, enumerate, description)
+%/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+%  More in the "_basic.tex" File inside "./0organization/1main/3settings/"
+%    -> The "_perDoc.tex" comes after the "_basic.tex" and hence its Settings overwrite.
+%
+%---------------------------
+% %  List-Style Settings
+% - - - - - - - -
+% \renewcommand{\DenKrDescriptionlabelFont}{\normalfont\bfseries}%
+\renewcommand{\DenKrDescriptionlabelFont}{\normalfont\color{DenKrColor_DescriptionLabel}\bfseries}%
+% \renewcommand{\DenKrDescriptionlabelFont}{\normalfont\itshape}%
+% \renewcommand{\DenKrDescriptionlabelFont}{\normalfont\color{DenKrColor_DescriptionLabel}\itshape}%
+%
+\renewcommand{\DenKrDescriptionlabelFormat}[1]{#1:}%
+%
+% - - Templates
+%       For Templates, have a look into the corresponding File inside the "8templates" Directory
+%/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+%							enumitem fertig
+%------------------------------------------------------------------------
+%________________________________________________________________________
+%
+%
+%
+%
+%________________________________________________________________________
+%------------------------------------------------------------------------
+%		Spacing für
+%					- Equation Environment
+%					- floats
+%					- Some new Lengths & Variables
+%					- Basic Layout, Typesetting, LaTeX
+%/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+% - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+%- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+% - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+%		Equation
+% - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+%------------------------------------------------------------------------
+% 	\begin{equation}\begin{split}
+% 	MRes_{K}^{3rd} = \delta_{3rd} + \delta_{K}
+% 	\end{split}\end{equation}
+%------------------------------------------------------------------------
+% Default for 'above' & 'below' Space:
+%		11.0pt plus 3.0pt minus 6.0pt
+% You can check this using (prints it into the Document):
+%		\the\abovedisplayskip
+%		\the\belowdisplayskip
+%------------------------------------------------------------------------
+% The ones with 'short' come in play if the last line immediately before an equation is, well, short.
+%/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+\setlength{\abovedisplayskip}{3pt}%
+\setlength{\belowdisplayskip}{3pt}%
+\setlength{\abovedisplayshortskip}{0pt}%
+\setlength{\belowdisplayshortskip}{0pt}%
+% - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+%- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+% - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+%		Floats
+% - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+\setlength\extrarowheight{1ex}%
+% The Spacing between floats and the surrounding text at top and bottom of the float. The Defaults are somewhat complicated and depend on document type and font-size%
+% \setlength{\intextsep}{\intextsep}%
+% Some more lengths like this
+%     \textfloatsep — distance between floats on the top or the bottom and the text;
+%     \floatsep — distance between two floats;
+%     \intextsep — distance between floats inserted inside the page text (using h) and the text proper.
+% - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+%				More on Spacing around Floats
+%/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+% You can modify the following lengths, which affect all floats.;
+%    \floatsep: space left between floats (12.0pt plus 2.0pt minus 2.0pt).
+%    \textfloatsep: space between last top float or first bottom float and the text (20.0pt plus 2.0pt minus 4.0pt).
+%    \intextsep : space left on top and bottom of an in-text float (12.0pt plus 2.0pt minus 2.0pt).
+%    \dbltextfloatsep is \textfloatsep for 2 column output (20.0pt plus 2.0pt minus 4.0pt).
+%    \dblfloatsep is \floatsep for 2 column output (12.0pt plus 2.0pt minus 2.0pt).
+%    \abovecaptionskip: space above caption (10.0pt).
+%    \belowcaptionskip: space below caption (0.0pt).
+% - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+%- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+% - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+%		Layout
+% - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+%\setlength{\parindent}{0em}%
+%\setlength{\parskip}{0ex plus 0pt minus 0pt}% Default value is 0pt plus 1pt   %Latex Std is \setlength\parskip{0\p@ \@plus \p@}
+%\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
+%			Spacing End
+%------------------------------------------------------------------------
+%________________________________________________________________________
+%

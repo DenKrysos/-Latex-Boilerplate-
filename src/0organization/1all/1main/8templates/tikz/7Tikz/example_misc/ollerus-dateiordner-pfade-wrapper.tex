@@ -1,0 +1,143 @@
+% Author: Dennis Krummacker%
+\ifdefined\DenKr\documentclass[tikz,fontsize=11pt,class=scrbook]{standalone}\begin{document}\else%
+\input{"./2ProjectSetup".tex}%
+\input{"\DenKrAllMainRootDirPATH/2includes/packages/preamble_pre".tex}%
+\documentclass[tikz,fontsize=11pt,class=scrbook]{standalone}% I.e. the content from \input{"\DenKrLayoutMainRootDir/2layout/tikz_standalone/preamble_1_class".tex}%
+\input{"\DenKrInternalLayoutRootDir/tikz_standalone/1TikzStandalonePicIncludeThis".tex}%
+\DenKrTikzStandalonePre\fi%
+%
+%
+%
+%
+%
+%
+%
+%
+% \begin{document}%
+\newcommand\nodedistance{1.0cm}%
+\newcommand\innabst{0.8em}% Abstand zwischen Text und Zellenrand
+%
+\let\breite\undefined%
+\newlength\breite%
+\settowidth{\breite}{\large \textbf{Interfacename}}%
+\setlength\breite{\breite+\innabst+\innabst+1em}%
+%
+% Define the layers to draw the diagram
+% \pgfdeclarelayer{background}%
+%\pgfdeclarelayer{foreground}
+% \pgfsetlayers{background,main}%,foreground}
+%
+%
+\begin{tikzpicture}[%
+	scale = \tikzpicturescale,%
+	auto,%
+	node distance=\nodedistance%
+]%
+\newcommand{\cnt}{2}%
+%
+\definecolor{critred}{RGB}{255,70,40}%
+\definecolor{entryred}{RGB}{255,50,50}%
+\definecolor{slightblue}{RGB}{230,230,255}%
+\definecolor{processblue}{RGB}{180,180,255}%
+\definecolor{processblue2}{RGB}{90,180,250}%
+%
+\tikzstyle{background}=[%
+	rectangle,%
+	rounded corners,%
+	minimum width=3cm,%
+	minimum height=1cm,%
+	text centered,%
+	draw=black,%
+	fill=slightblue%
+]%
+\tikzstyle{process1} = [%
+	rectangle,%
+	minimum width=3cm,%
+	minimum height=1cm,%
+	text centered,%
+	align=center,%
+	inner sep=\innabst,%
+	draw=black,%
+	fill=processblue%
+]%
+\tikzstyle{processsplit} = [%
+	minimum width=3cm,%
+	%minimum height=1cm,%
+	text centered,%
+	align=left,%
+	inner sep=0.5*\innabst,%
+	draw=black,%
+	rectangle split,%
+	rectangle split parts=#1,%
+	rectangle split part fill={processblue,processblue2},%
+    rectangle split every empty part={},% delete existing height, depth and width
+	rectangle split empty part height=0.1ex,%
+	rectangle split empty part depth=0ex,%
+% 	shade,%
+% 	shading=axis,%
+% 	top color=white,%
+% 	bottom color=processblue,%
+% 	shading angle=45,%
+]%
+%
+%
+\begin{pgfonlayer}{main}%
+% \bfseries%
+%
+%
+\node(pfadEins)[inner sep=0pt,anchor=north west]at(0,0)
+    {\includestandalone[mode=buildnew]{\DenKrTikzRootDir/example/ollerus-dateiordner-pfade-1}};
+\node(pfadZwei)[inner sep=0pt,anchor=north west,xshift=\nodedistance]
+	at(pfadEins.north east)
+    {\includestandalone[mode=buildnew]{\DenKrTikzRootDir/example/ollerus-dateiordner-pfade-2}};
+\node(pfadDrei)[inner sep=0pt,anchor=north west,xshift=\nodedistance]
+	at(pfadZwei.north east)
+    {\includestandalone[mode=buildnew]{\DenKrTikzRootDir/example/ollerus-dateiordner-pfade-3}};
+%
+\node(pfadEinsName)[inner sep=0pt,anchor=south west,align=left]
+	at(pfadEins.north west)
+	{Pfad \circlearound{1}:\\ /home/\$user\$/ollerus/};%
+\node(pfadZweiName)[inner sep=0pt,anchor=south west,align=left]
+	at(pfadZwei.north west)
+	{Pfad \circlearound{2}:\\ /usr/root/ollerus/};%
+\node(pfadDreiName)[inner sep=0pt,anchor=south west,align=left]
+	at(pfadDrei.north west)
+	{Pfad \circlearound{3}:\\ /etc/ollerus/};%
+%
+\end{pgfonlayer}%
+
+
+
+
+
+
+	% Background
+	\begin{pgfonlayer}{background}%
+	%Ermittle Top Koordinate (Node mit oberster Kante)
+	%und left Koordinate (Node mit linkster Kante)
+% 		\path let \p1 = (optimizechannel.north),%
+% 			\p2 = (scan.west)%
+% 			in node (topleft)[shape=coordinate,inner sep=0pt] at (\x2,\y1) {};%
+% 	%Ermittle Bottom Koordinate (Node mit unterster Kante)
+% 	%und right Koordinate (Node mit rechtester Kante)
+% 		\path let \p3 = (linkp4.south),%
+% 			\p4 = (optimizechannel.east)%
+% 			in node (bottomright)[shape=coordinate,inner sep=0pt] at (\x4,\y3) {};%
+% 	
+% 	    \path[fill=slightblue]%
+% 	    	($(topleft)+(-0.25,0.25)$)%
+% 	    		rectangle%
+% 	    	($(bottomright)+(0.25,-0.25)$);%
+	\end{pgfonlayer}%
+
+
+
+
+
+%
+\normalfont%
+%
+\end{tikzpicture}%
+%
+%
+\ifdefined\DenKr\end{document}\else\DenKrTikzStandalonePost\fi%

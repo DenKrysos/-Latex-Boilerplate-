@@ -1,0 +1,148 @@
+%________________________________________________________________________
+%------------------------------------------------------------------------
+%			Colors
+%/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+% First, some Color Definitions
+%------------------------------------------------------------------------
+%=== Primary Color Palette
+\definecolor{DenKrPoster_GreenBlueDarkOne}{RGB}{50, 130, 150}%
+\definecolor{DenKrPoster_GreenBlueDarkTwo}{RGB}{17, 102, 153}%
+%
+%------------------------------------------------------------------------
+%=== Secondary Color Palette
+\definecolor{DenKrPoster_GreenBlueLightOne}{RGB}{95, 158, 160}%
+\definecolor{DenKrPoster_GreenBlueLightTwo}{RGB}{14, 82, 122}%
+%
+%------------------------------------------------------------------------
+%=== Tertiary Color Palette
+\definecolor{DenKrPoster_OrangeDarkOne}{named}{orange}%
+\definecolor{DenKrPoster_OrangeLightOne}{RGB}{215, 135, 96}%
+\definecolor{DenKrPoster_VioletOne}{RGB}{112, 36, 255}%
+\definecolor{DenKrPoster_VioletTwo}{RGB}{87, 36, 255}%
+\definecolor{DenKrPoster_IceBlueOne}{RGB}{36, 193, 255}%
+%
+%========================================================================
+%=== Color Palette, Define tikzposter
+\definecolor{TitlePage_colorOne}{named}{DenKrPoster_GreenBlueDarkOne}% DenKrPoster_GreenBlueDarkOne
+% \definecolor{TitlePage_colorTwo}{named}{DenKrPoster_GreenBlueLightOne}%
+% \definecolor{TitlePage_colorThree}{named}{DenKrPoster_OrangeDarkOne}%
+%
+%========================================================================
+%=== Color Style, Define tikzposter
+% Background Colors
+\colorlet{TitlePage_backgroundcolor}{TitlePage_colorOne!30!white}%
+%________________________________________________________________________
+%------------------------------------------------------------------------
+%			Picture
+%/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+\begin{tikzpicture}[overlay,remember picture]%
+\coordinate(bgTL)at(current page.north west);%
+\coordinate(bgTR)at(current page.north east);%
+\coordinate(bgBL)at(current page.south west);%
+\coordinate(bgBR)at(current page.south east);%
+%
+\path[inner sep=0pt,line width=2pt,save path=\bgpath]%
+    (bgBL)rectangle(bgTR);%
+\path[use path=\bgpath,%
+    fill=TitlePage_backgroundcolor%
+];%
+\clip[use path=\bgpath];%
+%\coordinate(bgCenter)at(0,0);%
+%
+\coordinate(shadingRadiusTopX)at($(bgTL)!.4!(bgTR)$);%
+\coordinate(shadingRadiusTopY)at($(bgTL)!.3!(bgBL)$);%
+\coordinate(shadingRadiusTop)at(shadingRadiusTopX|-shadingRadiusTopY);%
+\path[shading=radial,%
+    outer color=TitlePage_backgroundcolor,%
+    inner color=TitlePage_backgroundcolor!20!TitlePage_colorOne,%
+    %shading angle=135+30%
+]%
+    let\p1=($(bgTR)-(shadingRadiusTop)$),\n1={veclen(\x1,\y1)}%
+    in(bgTR)circle[radius=\n1];
+%
+\coordinate(shadingLeftAnchor)at($(bgTL)!.4!(bgBL)$);%
+\coordinate(shadingLeftRadiusPre)at(shadingLeftAnchor-|bgTR);%
+\coordinate(shadingLeftRadius)at($(shadingLeftAnchor)!.2!(shadingLeftRadiusPre)$);%
+\path[shading=radial,%
+    outer color=TitlePage_backgroundcolor,%
+    inner color=TitlePage_backgroundcolor!40!TitlePage_colorOne,%
+    %shading angle=135+30%
+]%
+    let\p1=($(shadingLeftAnchor)-(shadingLeftRadius)$),\n1={veclen(\x1,\y1)}%
+    in(shadingLeftAnchor)circle[radius=\n1];
+%
+\coordinate(shadingRightAnchor)at($(bgBR)!.1!(bgTR)$);%
+\coordinate(shadingRightRadiusPre)at(shadingRightAnchor-|bgTL);%
+\coordinate(shadingRightRadius)at($(shadingRightAnchor)!.4!(shadingRightRadiusPre)$);%
+\path[shading=radial,%
+    outer color=TitlePage_backgroundcolor,%
+    inner color=TitlePage_backgroundcolor!10!TitlePage_colorOne,%
+    %shading angle=135+30%
+]%
+    let\p1=($(shadingRightAnchor)-(shadingRightRadius)$),\n1={veclen(\x1,\y1)}%
+    in(shadingRightAnchor)circle[radius=\n1];
+%
+\tikzstyle{accentLine}=[%
+    line join=round,line cap=round,%
+    line width=0.003*\textwidth,%
+    draw=none%
+]%
+\tikzstyle{accentLineLight}=[%
+    accentLine,%
+    draw=TitlePage_backgroundcolor!70!white%
+]%
+\tikzstyle{accentLineDark}=[%
+    accentLine,%
+    draw=TitlePage_backgroundcolor!60!TitlePage_colorOne%
+]%
+% \tikzstyle{accentLineMedium}=[%
+%     accentLine,%
+%     draw=TitlePage_backgroundcolor!90!TitlePage_colorOne%
+% ]%
+%
+% \coordinate(accentLineMediumAnchorPre)at($(topleft)!.0!(topright)$);%
+% \coordinate(accentLineMediumAnchor)at($(accentLineMediumAnchorPre)+(0,1.0\textheight)$);%
+% \path[accentLineMedium](accentLineMediumAnchor)--++(-65:2.9*\textheight);%
+% \path[accentLineMedium](accentLineMediumAnchor)--++(-75:2.9*\textheight);%
+% \path[accentLineMedium](accentLineMediumAnchor)--++(-85:2.9*\textheight);%
+%
+\path[accentLineLight](bgBL)--++(10:0.5*\textheight);%
+\path[accentLineLight](bgBL)--++(30:0.7*\textheight);%
+\path[accentLineLight](bgBL)--++(55:0.98*\textheight);%
+\path[accentLineLight](bgBL)--++(75:0.75*\textheight);%
+\path[accentLineLight](bgBL)--++(85:0.6*\textheight);%
+%
+\coordinate(shadingRadiusBottomX)at($(bgBL)!.2!(bgBR)$);%
+\coordinate(shadingRadiusBottomY)at($(bgBL)!.1!(bgTL)$);%
+\coordinate(shadingRadiusBottom)at(shadingRadiusBottomX|-shadingRadiusBottomY);%
+\path[shading=radial,%
+    outer color=TitlePage_backgroundcolor,%
+    inner color=TitlePage_backgroundcolor!10!white,%
+    %opacity=0.9%
+]%
+    let\p1=($(bgBL)-(shadingRadiusBottom)$),\n1={veclen(\x1,\y1)}%
+    in(bgBL)circle[radius=\n1];
+%
+\coordinate(accentLineDarkAnchorPre)at($(bgBR)!.6!(bgTR)$);%
+\coordinate(accentLineDarkAnchor)at($(accentLineDarkAnchorPre)+(0.2\textwidth,0)$);%
+\path[accentLineDark](accentLineDarkAnchor)--++(135:0.4*\textheight);%
+\path[accentLineDark](accentLineDarkAnchor)--++(155:0.6*\textheight);%
+\path[accentLineDark](accentLineDarkAnchor)--++(175:0.7*\textheight);%
+\path[accentLineDark](accentLineDarkAnchor)--++(195:0.65*\textheight);%
+%
+\path[use path=\bgpath,%
+    line width=0.002*\pagewidth,%
+    draw=TitlePage_colorOne%
+];%
+\let\titlePageFrameOffset\undefined%
+\newlength\titlePageFrameOffset%
+\setlength{\titlePageFrameOffset}{0.03\pagewidth}%
+\colorlet{TitlePage_Framecolor}{DenKrKomaColor_PartHeading!40!TitlePage_colorOne}%
+\path[%
+    line width=0.003*\pagewidth,%
+    draw=TitlePage_Framecolor!80,
+    opacity=.4%
+]($(bgBL)+(\titlePageFrameOffset,\titlePageFrameOffset)$)rectangle($(bgTR)+(-\titlePageFrameOffset,-\titlePageFrameOffset)$);%
+\let\titlePageFrameOffset\undefined%
+%
+\end{tikzpicture}%

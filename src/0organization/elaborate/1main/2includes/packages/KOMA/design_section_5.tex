@@ -1,0 +1,9 @@
+\setkomafont{section}{\sffamily\bfseries\Large\color{DenKrKomaColor_SectionHeading}}%
+\renewcommand*{\sectionformat}{%
+    \fboxrule=1.5pt\fcolorbox{.}{white!0}{\color{DenKrKomaColor_SectionHeading}\thesection}%
+    \rule[.7ex]{10pt}{1pt}\;%
+}%
+\renewcommand*{\DenKrKOMAHookFormatSection}[4]{%
+    #3#4\;\rule[.7ex]{20pt}{1pt}%
+}%
+%\addtokomafont{section}{\color{blue!50!black}}

@@ -1,0 +1,53 @@
+%________________________________________________________________________
+%------------------------------------------------------------------------
+%							listings - Setup. Source-Code Einbindung.
+%/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+\definecolor{listings_bg}{RGB}{230,230,230}
+%
+\pretocmd{\listing}{%
+  \apptocmd{\endminted}{\unskip}{}{\undefined}%
+}{}{\undefined}
+\AtBeginEnvironment{snugshade*}{\vspace{-\FrameSep}}
+\AfterEndEnvironment{snugshade*}{\vspace{-\FrameSep}}
+%
+%Try to fix the minted@colorbg environment
+% \makeatletter
+% \renewenvironment{minted@colorbg}[1]
+%  {\def\minted@bgcol{#1}%
+%   \noindent
+%   \begin{lrbox}{\minted@bgbox}
+%   \begin{minipage}{\linewidth-2\fboxsep}}
+%  {\end{minipage}%
+%   \end{lrbox}%
+%   \setlength{\topsep}{\bigskipamount}% set the vertical space
+%   \trivlist\item\relax % ensure going to a new line
+%   \colorbox{\minted@bgcol}{\usebox{\minted@bgbox}}%
+%   \endtrivlist % close the trivlist
+%  }
+% \makeatother
+%
+%JavaScript
+\usemintedstyle[js]{vs}
+\setminted[js]{
+    bgcolor=listings_bg,
+    numberblanklines=true,
+    numbersep=12pt,
+    numbersep=5pt,
+    gobble=0,
+    frame=lines,
+    framerule=0.4pt,
+    framesep=1mm,
+    baselinestretch=1.0,
+    fontsize=\footnotesize,
+    tabsize=3,
+    obeytabs=true,
+    samepage=false, %with this setting you can force the list to appear on the same page
+    showspaces=false,
+    showtabs =false,
+    linenos,
+    stepnumber=1
+}
+%/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+%							Listings fertig
+%------------------------------------------------------------------------
+%________________________________________________________________________

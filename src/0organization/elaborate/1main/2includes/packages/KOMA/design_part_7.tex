@@ -1,0 +1,73 @@
+\setkomafont{part}{\sffamily\bfseries\huge\color{DenKrKomaColor_PartHeading}}%
+\renewcommand*{\partformat}{%
+    {\usekomafont{part}\partname~\thepart}%
+}%
+%
+\makeatletter%
+\renewcommand*\DenKrKOMAHookFormatPartWithPrefix[3]{%
+    \begin{center}%
+    \begin{tikzpicture}[remember picture,baseline=(num.base)]%
+        \ifstrempty{#2}{%
+            \node[draw=none,shape=rectangle,anchor=base,inner sep=0ex](num){};%
+        }{%
+            \node[draw=none,shape=rectangle,anchor=base,inner sep=0ex](num){\partformat};%
+        }%
+        \node[draw=none,shape=rectangle,anchor=north,line width=0pt,inner sep=0pt](name)at($(num.south)+(0,-2.5cm)$){\parbox{\textwidth-1ex}{\centering #3}};%
+        \coordinate(crossC)at($(num.south)!.5!(name.north)$);%
+        \path let\p1=(3.5cm,0.8cm),\p2=(\x1,\y1)in%
+            coordinate(crossLB)at($(crossC)+(-\x2,-\y2)$)%
+            coordinate(crossRT)at($(crossC)+(\x1,\y1)$)%
+            coordinate(crossLT)at($(crossC)+(-\x1,\y1)$)%
+            coordinate(crossRB)at($(crossC)+(\x2,-\y2)$)%
+        ;%
+        \path[draw=DenKrKomaColor_SectionHeading!70!gray,line width=4pt,line cap=round,line join=round]%
+            let\n1={40},\n2={30},\n3={-10}in%
+        (crossLB)%
+            to[out=\n1,in=180+\n3]%
+            (crossC)%
+            to[in=180+\n2,out=\n3]%
+            (crossRT)%
+        (crossLT)%
+            % to[out=-30,in=170]%
+            %
+            to[out=-\n2,in=180-\n3]%
+            (crossC)%
+            to[in=180-\n1,out=-\n3]%
+            (crossRB)%
+        ;%
+        %
+        \path let\p1=(0.15cm,0.8cm),\n1={0.4}in%
+            coordinate(c1T)at($(crossC)+(0,\y1)$)%
+            coordinate(c1L)at($(crossC)+(-\x1,0)$)%
+            coordinate(c1R)at($(crossC)+(\x1,0)$)%
+            coordinate(c1B)at($(crossC)+(0,-\y1)$)%
+            %
+            coordinate(c1TL)at($(crossC)+(-\x1,\n1*\y1)$)%
+            coordinate(c1TR)at($(crossC)+(\x1,\n1*\y1)$)%
+            coordinate(c1BL)at($(crossC)+(-\x1,-\n1*\y1)$)%
+            coordinate(c1BR)at($(crossC)+(\x1,-\n1*\y1)$)%
+        ;%
+        \path[draw=none,fill=DenKrKomaColor_SectionHeading!70!gray,line width=0pt,line cap=round,line join=round]%
+            let\n1={40},\n2={20}in%
+        (c1T)%
+            to[out=270+\n1,in=90+\n2]%
+            (c1TR)
+            to[out=270-\n2,in=90+\n2]%
+            (c1R)%
+            to[in=90+\n2,out=270-\n2]%
+            (c1BR)%
+            to[in=90-\n1,out=270-\n2]%
+            (c1B)%
+            to[out=90+\n1,in=270+\n2]%
+            (c1BL)%
+            to[out=90-\n2,in=270+\n2]%
+            (c1L)%
+            to[in=270+\n2,out=90-\n2]%
+            (c1TL)%
+            to[in=270-\n1,out=90-\n2]%
+            cycle
+        ;%
+    \end{tikzpicture}%
+    \end{center}%
+}%
+\makeatother%

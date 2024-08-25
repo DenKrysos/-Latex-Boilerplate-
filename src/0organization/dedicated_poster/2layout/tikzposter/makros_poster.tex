@@ -1,0 +1,22 @@
+%
+\newcommand{\DenKrPosterReferencesMatter}{%
+    %\vspace{-1em}%
+    \begin{footnotesize}%
+    \printbibliography[heading=none]%
+    \end{footnotesize}%
+}%
+\newcommand{\DenKrPosterReferencesBlock}{%
+    \block{References}{%
+        \DenKrPosterReferencesMatter
+    }%
+}%
+\newcommand{\DenKrPosterReferencesBlockPlain}{%
+    \block{}{%
+        \DenKrPosterReferencesMatter
+    }%
+}%
+\newcommand{\DenKrPosterReferencesBlockEmptyHeader}{%
+    \block{~}{%
+        \DenKrPosterReferencesMatter
+    }%
+}%

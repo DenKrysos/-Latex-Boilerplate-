@@ -1,0 +1,101 @@
+%==================================================================================
+% ----  ReadMe / Usage
+%----------------------------------------------------------------------------------
+% To create a Standalone Tikz-Picture do the following.
+% 1) Create a new blank .tex File.
+% 2) Paste the Following to the Beginning of the File
+%      % Author: Dennis Krummacker%
+%      \ifdefined\DenKr\documentclass[tikz,fontsize=11pt,class=scrbook]{standalone}\begin{document}\else%
+%      \input{"./2ProjectSetup".tex}%
+%      \input{"\DenKrAllMainRootDirPATH/2includes/packages/preamble_pre".tex}%
+%      \documentclass[tikz,fontsize=11pt,class=scrbook]{standalone}% I.e. the content from \input{"\DenKrLayoutMainRootDir/2layout/tikz_standalone/preamble_1_class".tex}%
+%      \input{"\DenKrInternalLayoutRootDir/tikz_standalone/1TikzStandalonePicIncludeThis".tex}%
+%      \DenKrTikzStandalonePre\fi%
+% 3) If desired/required, perform "Pre-Tikzpicture-Operations". At this Position, you are inside \begin{Document} [] \end{Document}, but not inside a Tikz-Picture.
+%    Here, first, You may write things like tikzsets, length-definitions and such.
+% 4) Fill in your Picture. Start a Tikzpicture like
+%       \begin{tikzpicture}[
+%           scale = 1.0,%Könnte das Makro \tikzpicturescale sein. Siehe in makros.tex
+%           % (Sollte eigentlich übergeben werden)(Beachte Möglichkeiten der Übergabe;
+%           % standalone mode=tex vs mode=buildnew)
+%           auto,
+%           node distance=\nodedistance
+%       ]
+%    <Do the Picture-Stuff>
+%    <End the Picture like>
+%       \end{tikzpicture}%
+% 5) Paste the Following to the End of the File
+%      \ifdefined\DenKr\end{document}\else\DenKrTikzStandalonePost\fi%
+%
+% To then use this picture, i.e. print it in the actual document, use the \tikzabb Command from the makros.tex.
+% Example
+%    \tikzabb%[tex]%
+%    {TikzPictureFileNameWithoutDotTex}%
+%    {%
+%    Tikz-Picture Caption.%
+%    }%
+%    {1}[1,1,!ht]%[0.55,1,!ht]%
+%    {fig:tikz_test}%
+%----------------------------------------------------------------------------------
+%
+%
+\newcommand{\DenKrTikzStandalonePre}{%
+% Changing \DenKrLayout is not required anymore
+%		\renewcommand{\DenKrLayout}{tikz_standalone}%
+% Actually not advisable to change the DocGenre. Just continue with the "Parent-Genre".
+%		\edef\DenKrDocGenreParent{\DenKrDocGenre}%
+%		\renewcommand{\DenKrDocGenre}{\DenKrDocGenreInternalSUB}%
+%		\def\DenKrLayoutMainRootDirOVERWRITE{\DenKrOrgaRootDir/\DenKrDocGenreParent/\DenKrOrgaMainSub}%
+\newcommand{\DenKrTikzStandaloneNotInclude}{1}%
+%==================================================================================
+% ----  Preamble
+%\input{"\DenKrAllMainRootDirPATH/2includes/packages/preamble_pre".tex}%
+\input{"\DenKrLayoutMainRootDir/2includes/preamble_IncludeSkeleton".tex}%
+% (Not inside Skeleton because of input-level-limitation)
+\input{"\DenKrAllMainRootDirPATH/2includes/packages/tikz".tex}
+%==================================================================================
+\input{"\DenKrAllMainRootDirPATH/makros".tex}%
+\input{"\DenKrAllMainRootDirPATH/makros_typografie".tex}%
+\input{"\DenKrAllMainRootDirPATH/3settings/5tikz/tikz_makro_preamble".tex}%
+\input{"\DenKrAllMainRootDirPATH/3settings/settings_basic".tex}%
+\input{"\DenKrLayoutMainRootDir/settings_perDoc".tex}%
+% = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
+% -- Different Font in TikZ-Pics
+\ifdef{\DenKrFontEngine}{\expandafter\ifstrequal\expandafter{\DenKrFontEngine}{fontspec}{%
+\setmainfont{Latin Modern Roman}[%
+  SmallCapsFont={Latin Modern Roman Caps},% A Patch, because LMR does not provide Small Caps Bold
+  %SmallCapsFeatures={Letters=SmallCaps},%
+  ItalicFeatures={SmallCapsFont=LMRomanCaps10-Oblique},%
+]%
+\setsansfont{Latin Modern Sans}%
+\setmonofont{Latin Modern Mono}[%
+  BoldFont={LMMonoLight10-Bold},%
+  ItalicFont={LMMono10-Italic},%
+  SlantedFont={* Slanted},%
+  SmallCapsFont={* Caps},% A Patch for lack of proper Small Caps Provision
+  BoldItalicFont={LMMonoLight10-BoldOblique},%
+  ItalicFeatures={SmallCapsFont=LMMonoCaps10-Oblique},%
+  BoldFeatures={SmallCapsFont=* Caps},%
+]%
+}{}}{}%
+% = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
+%-------------------------------------------
+%-------------------------------------------
+%-------------------------------------------
+\begin{document}%
+\input{"\DenKrAllMainRootDirPATH/3settings/colorPalette_tikz".tex}%
+\input{"\DenKrAllMainRootDirPATH/3settings/5tikz/tikz_basic_settings".tex}%
+\input{"\DenKrAllMainRootDirPATH/3settings/5tikz/tikzset_allgemein".tex}%
+\input{"\DenKrAllMainRootDirPATH/3settings/5tikz/tikz_declaration_definition".tex}%
+\input{"\DenKrAllMainRootDirPATH/3settings/5tikz/tikzset_ShapeFormLineArrow".tex}%
+\input{"\DenKrAllMainRootDirPATH/3settings/5tikz/tikzset_dotPic_basic".tex}%
+\InputIfFileExists{"\DenKrAllMainRootDirPATH/3settings/5tikz/tikzset_dotPic_private".tex}{}{}%
+\InputIfFileExists{"\DenKrTikzRootDir/3settings/5tikz/tikzset_dotPic_private".tex}{}{}%
+\input{"\DenKrAllMainRootDirPATH/3settings/5tikz/tikzset_flowchart".tex}%
+}%
+%
+%
+%
+\newcommand{\DenKrTikzStandalonePost}{%
+\end{document}%
+}%

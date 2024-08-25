@@ -1,0 +1,170 @@
+%%###########################################################%%
+%%        vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv        %%
+%%-----------------------------------------------------------%%
+%  - Author: Dennis Krummacker
+%%------------------------------------------------------------%%
+%%        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^        %%
+%%============================================================%%
+%
+%
+%
+% Some fundamental stuff
+\tikzstyle{nestedTikz}=[inner sep=0pt,anchor=center]%
+%
+%
+%
+% Some useful Definitions%
+\tikzset{%
+  ashadow/.style={opacity=.25, shadow xshift=0.07, shadow yshift=-0.07},%
+}%
+\tikzstyle{coord}=[%
+	shape=coordinate,%
+	inner sep=0pt%
+]%
+\tikzstyle{plaintext}=[%
+	shape=rectangle,%
+	draw=none,%
+	inner sep=0pt%
+]%
+%
+%
+%
+\tikzset{%
+    o/.style={%
+        shorten >=0,%
+        decoration={%
+            markings,%
+            mark={%
+                at position 1%
+                with {%
+                    \fill circle [radius=#1];%
+                }%
+            }%
+        },%
+        postaction=decorate%
+    },%
+    o/.default=0.5*\pgflinewidth%
+}%
+%
+\tikzset{%
+    I/.style={%
+        shorten >= -0.1pt,%
+        decoration={%
+            markings,%
+            mark={%
+                at position 1%
+                with {%
+                    \node[rectangle,fill=white,inner sep=0pt,%
+                    	text width=4pt,%
+%                      	minimum height=0.1pt,%Wäre exakt
+                     	minimum height=1pt,%
+						rotate=90,%
+%                     	line width=0.1pt,
+                    	]{};%
+                }%
+            }%
+        },%
+        postaction=decorate%
+    },%
+    I/.default=0.5*\pgflinewidth%
+}%
+%
+%
+%
+%
+%
+%
+\tikzstyle{arrow}=[draw,ultra thick,->,>=stealth]%draw=none
+\tikzstyle{arrowstream}=[draw,arrow,thick]%
+\tikzstyle{arrowdouble}=[draw,ultra thick,<->,>=latex]%
+\tikzstyle{arrowwait}=[draw,ultra thick,->,>=stealth,
+	dash pattern=on \pgflinewidth off 6pt]%
+\tikzstyle{arrowkomm}=[draw,ultra thick,<->,>=latex,
+	dash pattern=on 8pt off 6pt on 2pt off 6pt]%
+\tikzstyle{connect}=[draw,ultra thick,-,o]%
+\tikzstyle{vecarrow}=[draw,thick, decoration={markings,mark=at position%
+    1 with {\arrow[semithick]{open triangle 60}}},%
+    double distance=1.4pt, shorten >= 5.5pt,%
+    preaction = {decorate},%
+    postaction = {draw,line width=1.4pt, white,shorten >= 4.5pt}%
+]%
+%
+%
+%
+\definecolor{Datastream_Color}{RGB}{100,0,170}%
+\definecolor{MPTCP_Path1_Color}{RGB}{255,60,0}%
+\definecolor{MPTCP_Path2_Color}{RGB}{50,0,255}%
+\tikzstyle{innerWhite}=[semithick, white,line width=1.4pt, shorten >= 4.5pt]%
+\tikzstyle{cable}=[line width=6pt,%
+	postaction = {draw,line width=4pt, white},%
+	postaction = {draw,line width=1pt, Datastream_Color}
+]%
+\tikzstyle{cable2}=[line width=6pt,%
+	postaction = {draw=MPTCP_Path2_Color,line width=1pt, shorten >= -0.2pt}]%
+\tikzstyle{cable_optional}=[line width=6pt,%
+	postaction = {draw=MPTCP_Path1_Color,line width=1pt, shorten >= -0.2pt}]%
+%
+\tikzstyle{cableShortened}=[ultra thick,double,double distance=4pt,%
+% 	I,%
+	shorten >= -0.1pt,%
+	postaction = {draw,line width=4pt, white, shorten >= -0.2pt},%
+	postaction = {draw,line width=1pt, Datastream_Color, shorten >= -0.2pt}]%
+\tikzstyle{cableShortened2}=[cableShortened,%
+	postaction = {draw=MPTCP_Path2_Color,line width=1pt, shorten >= -0.2pt}]%
+\tikzstyle{cableShortened_optional}=[cableShortened,%
+	postaction = {draw=MPTCP_Path1_Color,line width=1pt, shorten >= -0.2pt}]%
+%
+%
+\tikzstyle{arrow2} = [ultra thick,%
+	-{Stealth[scale=4,%
+	length=5,%
+	width=3]},%
+]%
+\tikzstyle{pathMPTCP1} = [line width=0pt,shorten <=10pt,shorten >=10pt,%
+	postaction={draw,line width=8pt,white,shorten >=1pt,shorten <=1pt},%
+	postaction={arrow2,draw,line width=1.5pt,MPTCP_Path1_Color,%
+	shorten >=0pt,%
+	shorten <=0.5pt}]%
+\tikzstyle{pathMPTCP2} = [line width=0pt,shorten <=10pt,shorten >=10pt,%
+	postaction={draw,line width=8pt,white,shorten >=1pt,shorten <=1pt},%
+	postaction={arrow2,draw,line width=1.5pt,MPTCP_Path2_Color,%
+	shorten >=0pt,%
+	shorten <=0.5pt}]%
+%
+%
+%
+%
+% use the "`bend"' arrows with (Bsp.)
+%	\draw[arrowoben](sourcenode)to(destinationnode)
+%		(instead of) (look between the node coordinates)
+%	\draw[arrowoben](sourcenode)--(destinationnode)
+\tikzstyle{arrowoben}=[%
+	arrow,%
+	shorten >=1ex,%
+	shorten <=1ex,%
+	bend angle=30,%
+	bend left,%
+]%
+\tikzstyle{arrowunten}=[%
+	arrowoben,%
+	bend right,%
+]%
+%
+%
+%
+%
+%
+%
+\tikzstyle{rect_tight}=[
+	rectangle,
+	text centered,
+	align=center,
+	inner sep=0pt,%\inndist,
+	draw=black
+	%draw=none
+	%fill=gray!30
+]%
+%
+%
+%
+%

@@ -1,0 +1,73 @@
+
+\newcommand{\HRule}{\rule{\linewidth}{0.5mm}}
+
+
+\begin{titlepage}
+
+\begin{center}
+
+
+% Oberer Teil der Titelseite:
+% Uni und DFKI Logo
+\begin{minipage}{0.3\textwidth}
+%\includegraphics[height=0.15\textheight]{bilder/logotukl.png}\\[1cm]
+\begin{flushleft}
+\includegraphics[height=0.09\textheight]{\DenKrLayoutCommonDir/TitlePage/titlegraphics/logotukl.png}\\
+\includegraphics[width=0.98\textwidth]{\DenKrLayoutCommonDir/TitlePage/titlegraphics/logotukl_schrift.jpg}\\
+% \textsc{\Large Technische Universität Kaiserslautern}\\
+\textsc{\Large }
+\end{flushleft}
+\end{minipage}
+\hfill
+\begin{minipage}{0.5\textwidth}
+\begin{flushright}
+\textsc{\Large Fachbereich Elektro- und Informationstechnik}\\
+\textsc{ }\\
+\textsc{\Large Lehrstuhl für Funkkommunikation und Navigation}
+\end{flushright}
+\end{minipage}
+
+\vspace{0.07\textheight}
+
+\begin{spacing}{1.2}
+\textsc{\LARGE\DenKrTPpublicationType}
+\end{spacing}
+
+\vspace{0.02\textheight}
+
+
+% Title
+\HRule \\[0.2\baselineskip]
+\begin{spacing}{1}
+\huge\bfseries
+\DenKrTPtitle
+\\[0\baselineskip]
+\end{spacing}
+\HRule \\[0.08\textheight]
+
+% Author and supervisor
+\begin{minipage}[t]{0.4\textwidth}
+\begin{flushleft} \large
+{Autor:}\\
+\DenKrTPauthorFirst\ \textsc{\DenKrTPauthorLast}
+\end{flushleft}
+\end{minipage}
+\hfill
+\begin{minipage}[t]{0.4\textwidth}
+\begin{flushright} \large
+{Betreuer:}\\
+\DenKrTPsupervisorOneAnrede\
+\DenKrTPsupervisorOneFirst\ \textsc{\DenKrTPsupervisorOneLast}\\
+\DenKrTPsupervisorTwoAnrede\
+\DenKrTPsupervisorTwoFirst\ \textsc{\DenKrTPsupervisorTwoLast}
+\end{flushright}
+\end{minipage}
+
+\vfill
+
+% Unterer Teil der Seite
+{\large \DenKrTPdate}
+
+\end{center}
+
+\end{titlepage}

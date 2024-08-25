@@ -1,0 +1,600 @@
+%%###########################################################%%
+%%        vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv        %%
+%%-----------------------------------------------------------%%
+%  - Author: Dennis Krummacker
+%%------------------------------------------------------------%%
+%%        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^        %%
+%%============================================================%%
+%
+%
+%
+% Two nice rectangles. Lets me specify different rounded corners%
+\tikzset{%
+  rectangle with rounded corners north west/.initial=4pt,%
+  rectangle with rounded corners south west/.initial=4pt,%
+  rectangle with rounded corners north east/.initial=4pt,%
+  rectangle with rounded corners south east/.initial=4pt,%
+}%
+%First One: The Corner Anchors lie on the Corners of a imaginary surrounding rectangle%
+\makeatletter%
+\pgfdeclareshape{rectangleRoundedAnchorSurround}{%
+  \inheritsavedanchors[from=rectangle]% this is nearly a rectangle%
+  \inheritanchorborder[from=rectangle]%
+  \inheritanchor[from=rectangle]{center}%
+  \inheritanchor[from=rectangle]{north}%
+  \inheritanchor[from=rectangle]{south}%
+  \inheritanchor[from=rectangle]{west}%
+  \inheritanchor[from=rectangle]{east}%
+  \inheritanchor[from=rectangle]{north east}%
+  \inheritanchor[from=rectangle]{south east}%
+  \inheritanchor[from=rectangle]{north west}%
+  \inheritanchor[from=rectangle]{south west}%
+  \backgroundpath{% this is new
+%	store lower right in xa/ya and upper right in xb/yb%
+    \southwest \pgf@xa=\pgf@x \pgf@ya=\pgf@y%
+    \northeast \pgf@xb=\pgf@x \pgf@yb=\pgf@y%
+%	construct main path%
+    \pgfkeysgetvalue{/tikz/rectangle with rounded corners north west}{\pgf@rectc}%
+    \pgfsetcornersarced{\pgfpoint{\pgf@rectc}{\pgf@rectc}}%
+    \pgfpathmoveto{\pgfpoint{\pgf@xa}{\pgf@ya}}%
+    \pgfpathlineto{\pgfpoint{\pgf@xa}{\pgf@yb}}%
+    \pgfkeysgetvalue{/tikz/rectangle with rounded corners north east}{\pgf@rectc}%
+    \pgfsetcornersarced{\pgfpoint{\pgf@rectc}{\pgf@rectc}}%
+    \pgfpathlineto{\pgfpoint{\pgf@xb}{\pgf@yb}}%
+    \pgfkeysgetvalue{/tikz/rectangle with rounded corners south east}{\pgf@rectc}%
+    \pgfsetcornersarced{\pgfpoint{\pgf@rectc}{\pgf@rectc}}%
+    \pgfpathlineto{\pgfpoint{\pgf@xb}{\pgf@ya}}%
+    \pgfkeysgetvalue{/tikz/rectangle with rounded corners south west}{\pgf@rectc}%
+    \pgfsetcornersarced{\pgfpoint{\pgf@rectc}{\pgf@rectc}}%
+    \pgfpathclose%
+ }%
+}%
+\makeatother%
+%Second One: The Corner Anchors lie exactly on the rect shape%
+\makeatletter%
+\pgfdeclareshape{rectangleRoundedAnchorExact}{%
+  \inheritanchorborder[from=rectangle]%
+  \savedmacro{\neoffset}{%
+    \pgfkeysgetvalue{/tikz/rectangle with rounded corners north east}{\pgf@rectc}%
+    \let\neoffset\pgf@rectc%
+  }%
+  \savedmacro{\nwoffset}{%
+    \pgfkeysgetvalue{/tikz/rectangle with rounded corners north west}{\pgf@rectc}%
+    \let\nwoffset\pgf@rectc%
+  }%
+  \savedmacro{\seoffset}{%
+    \pgfkeysgetvalue{/tikz/rectangle with rounded corners south east}{\pgf@rectc}%
+    \let\seoffset\pgf@rectc%
+  }%
+  \savedmacro{\swoffset}{%
+    \pgfkeysgetvalue{/tikz/rectangle with rounded corners south west}{\pgf@rectc}%
+    \let\swoffset\pgf@rectc%
+  }%
+  \savedanchor{\north}{%
+    \pgf@y=.5\ht\pgfnodeparttextbox%
+    \pgf@x=0pt%
+    \setlength{\pgf@ya}{\pgfshapeminheight}%
+    \ifdim\pgf@y<.5\pgf@ya%
+      \pgf@y=.5\pgf@ya%
+    \fi%
+  }%
+  \savedanchor{\south}{%
+    \pgf@y=-.5\ht\pgfnodeparttextbox%
+    \pgf@x=0pt%
+    \setlength{\pgf@ya}{\pgfshapeminheight}%
+    \ifdim\pgf@y>-.5\pgf@ya%
+      \pgf@y=-.5\pgf@ya%
+    \fi%
+  }%
+  \savedanchor{\east}{%
+    \pgf@y=0pt%
+    \pgf@x=.5\wd\pgfnodeparttextbox%
+    \addtolength{\pgf@x}{2ex}%
+    \setlength{\pgf@xa}{\pgfshapeminwidth}%
+    \ifdim\pgf@x<.5\pgf@xa%
+      \pgf@x=.5\pgf@xa%
+    \fi%
+  }%
+  \savedanchor{\west}{%
+    \pgf@y=0pt%
+    \pgf@x=-.5\wd\pgfnodeparttextbox%
+    \addtolength{\pgf@x}{-2ex}%
+    \setlength{\pgf@xa}{\pgfshapeminwidth}%
+    \ifdim\pgf@x>-.5\pgf@xa%
+      \pgf@x=-.5\pgf@xa%
+    \fi%
+  }%
+  \savedanchor{\northeast}{%
+    \pgf@y=.5\ht\pgfnodeparttextbox% height of the box%
+    \pgf@x=.5\wd\pgfnodeparttextbox% width of the box%
+    \addtolength{\pgf@x}{2ex}%
+    \setlength{\pgf@xa}{\pgfshapeminwidth}%
+    \ifdim\pgf@x<.5\pgf@xa%
+      \pgf@x=.5\pgf@xa%
+    \fi%
+    \setlength{\pgf@ya}{\pgfshapeminheight}%
+    \ifdim\pgf@y<.5\pgf@ya%
+      \pgf@y=.5\pgf@ya%
+    \fi%
+  }%
+  \savedanchor{\southwest}{%
+    \pgf@y=-.5\ht\pgfnodeparttextbox%
+    \pgf@x=-.5\wd\pgfnodeparttextbox%
+    \addtolength{\pgf@x}{-2ex}%
+%     \pgf@x=0pt%
+    \setlength{\pgf@xa}{\pgfshapeminwidth}%
+    \ifdim\pgf@x>-.5\pgf@xa%
+      \pgf@x=-.5\pgf@xa%
+    \fi%
+    \setlength{\pgf@ya}{\pgfshapeminheight}%
+    \ifdim\pgf@y>-.5\pgf@ya%
+      \pgf@y=-.5\pgf@ya%
+    \fi%
+  }%
+  \anchor{text}{%
+    \northeast%
+    \pgf@x=-.5\wd\pgfnodeparttextbox%
+    \pgfmathsetlength{\pgf@y}{-.5ex}%
+  }%
+  \anchor{north east}{%
+    \northeast%
+    \pgfmathsetmacro{\nw}{(1-sin(45))*\neoffset}%
+    \addtolength{\pgf@x}{-\nw pt}%
+    \addtolength{\pgf@y}{-\nw pt}%
+  }%
+  \anchor{center}{%
+    \pgf@x=0pt%
+    \pgf@y=0pt%
+  }%
+  \anchor{south west}{%
+    \southwest%
+    \pgfmathsetmacro{\nw}{(1-sin(45))*\swoffset}%
+    \addtolength{\pgf@x}{\nw pt}%
+    \addtolength{\pgf@y}{\nw pt}%
+  }%
+  \anchor{north west}{%
+    \northeast%
+    \pgfmathsetmacro{\temp@x}{\pgf@x}%
+    \southwest%
+    \pgfmathsetmacro{\temp@xtwo}{\pgf@x}%
+    \northeast%
+    \pgfmathsetmacro{\xdiff}{\temp@x-\temp@xtwo}%
+    \def\pgf@xa{\pgf@x-\xdiff}%
+    \%
+    \pgfmathsetmacro{\nw}{(1-sin(45))*\nwoffset}%
+    \def\pgf@xaa{\pgf@xa+\nw}%
+    \def\pgf@yaa{\pgf@y-\nw}%
+    \pgfpoint{\pgf@xaa}{\pgf@yaa}%
+  }%
+  \anchor{south east}{%
+    \southwest%
+    \pgfmathsetmacro{\temp@x}{\pgf@x}%
+    \northeast%
+    \pgfmathsetmacro{\temp@xtwo}{\pgf@x}%
+    \southwest%
+    \pgfmathsetmacro{\xdiff}{\temp@x-\temp@xtwo}%
+    \def\pgf@xa{\pgf@x-\xdiff}%
+    \pgfmathsetmacro{\nw}{(1-sin(45))*\seoffset}%
+    \def\pgf@xaa{\pgf@xa-\nw}%
+    \def\pgf@yaa{\pgf@y+\nw}%
+    \pgfpoint{\pgf@xaa}{\pgf@yaa}%
+  }%
+  \anchor{south}{\south}%
+  \anchor{north}{\north}%
+  \anchor{east}{\east}%
+  \anchor{west}{\west}%
+  \backgroundpath{% this is new
+%	store lower right in xa/ya and upper right in xb/yb%
+    \southwest \pgf@xa=\pgf@x \pgf@ya=\pgf@y%
+    \northeast \pgf@xb=\pgf@x \pgf@yb=\pgf@y%
+%	construct main path%
+    \pgfkeysgetvalue{/tikz/rectangle with rounded corners north west}{\pgf@rectc}%
+    \pgfsetcornersarced{\pgfpoint{\pgf@rectc}{\pgf@rectc}}%
+    \pgfpathmoveto{\pgfpoint{\pgf@xa}{\pgf@ya}}%
+    \pgfpathlineto{\pgfpoint{\pgf@xa}{\pgf@yb}}%
+    \pgfkeysgetvalue{/tikz/rectangle with rounded corners north east}{\pgf@rectc}%
+    \pgfsetcornersarced{\pgfpoint{\pgf@rectc}{\pgf@rectc}}%
+    \pgfpathlineto{\pgfpoint{\pgf@xb}{\pgf@yb}}%
+    \pgfkeysgetvalue{/tikz/rectangle with rounded corners south east}{\pgf@rectc}%
+    \pgfsetcornersarced{\pgfpoint{\pgf@rectc}{\pgf@rectc}}%
+    \pgfpathlineto{\pgfpoint{\pgf@xb}{\pgf@ya}}%
+    \pgfkeysgetvalue{/tikz/rectangle with rounded corners south west}{\pgf@rectc}%
+    \pgfsetcornersarced{\pgfpoint{\pgf@rectc}{\pgf@rectc}}%
+    \pgfpathclose%
+ }%
+}%
+\makeatother%
+%
+%
+%
+\makeatletter%
+\pgfdeclareshape{diamondcut}%
+{%
+  \savedanchor\outernortheast{%
+    %
+    % Calculate width and height of the inner rectangle
+    %
+    \pgf@xa=.5\wd\pgfnodeparttextbox%
+    \pgfmathsetlength\pgf@xc{\pgfkeysvalueof{/pgf/inner xsep}}%
+    \advance\pgf@xa by\pgf@xc%
+    \pgf@ya=.5\ht\pgfnodeparttextbox%
+    \advance\pgf@ya by.5\dp\pgfnodeparttextbox%
+    \pgfmathsetlength\pgf@yc{\pgfkeysvalueof{/pgf/inner ysep}}%
+    \advance\pgf@ya by\pgf@yc%
+    %
+    % Calculate width and height of diamond
+    %
+    \pgf@x=\pgf@xa%
+    \advance\pgf@x by\pgfshapeaspect\pgf@ya%
+    \pgf@y=\pgfshapeaspectinverse\pgf@xa%
+    \advance\pgf@y by\pgf@ya%
+    %
+    % Check against minimum height/width
+    %
+    \pgfmathsetlength\pgf@xb{\pgfkeysvalueof{/pgf/minimum width}}%
+    \pgf@xb=.5\pgf@xb%
+    \ifdim\pgf@x<\pgf@xb%
+      % yes, too small. Enlarge...
+      \pgf@x=\pgf@xb%
+    \fi%
+    \pgfmathsetlength\pgf@yb{\pgfkeysvalueof{/pgf/minimum height}}%
+    \pgf@yb=.5\pgf@yb%
+    \ifdim\pgf@y<\pgf@yb%
+      % yes, too small. Enlarge...
+      \pgf@y=\pgf@yb%
+    \fi%
+%    %
+%    % Add outer border
+%    %
+    \pgfmathsetlength\pgf@xa{\pgfkeysvalueof{/pgf/outer xsep}}%
+    \advance\pgf@x by\pgf@xa%
+    \pgfmathsetlength\pgf@ya{\pgfkeysvalueof{/pgf/outer ysep}}%
+    \advance\pgf@y by\pgf@ya%
+  }%
+  \savedanchor\text{%
+    \pgf@x=-.5\wd\pgfnodeparttextbox%
+    \pgf@y=-.5\ht\pgfnodeparttextbox%
+    \advance\pgf@y by.5\dp\pgfnodeparttextbox%
+  }%
+%
+%  %
+%  % Anchors
+%  %
+  \anchor{text}{\text}%
+  \anchor{center}{\pgfpointorigin}%
+  \anchor{mid}{%
+    \pgf@process{\text}%
+    \pgf@x=0pt%
+    \pgfmathsetlength\pgf@ya{.5ex}%
+    \advance\pgf@y by\pgf@ya%
+  }%
+  \anchor{base}{\pgf@process{\text}\pgf@x=0pt  }%
+  \anchor{north}{\pgf@process{\outernortheast}\pgf@x=0pt\pgf@y=.5\pgf@y}%
+  \anchor{south}{\pgf@process{\outernortheast}\pgf@x=0pt\pgf@y=-.5\pgf@y}%
+  \anchor{west}{\pgf@process{\outernortheast}\pgf@x=-\pgf@x\pgf@y=0pt}%
+  \anchor{north west}{\pgf@process{\outernortheast}\pgf@x=-.5\pgf@x\pgf@y=.5\pgf@y}%
+  \anchor{south west}{\pgf@process{\outernortheast}\pgf@x=-.5\pgf@x\pgf@y=-.5\pgf@y}%
+  \anchor{east}{\pgf@process{\outernortheast}\pgf@y=0pt}%
+  \anchor{north east}{\pgf@process{\outernortheast}\pgf@x=.5\pgf@x\pgf@y=.5\pgf@y}%
+  \anchor{south east}{\pgf@process{\outernortheast}\pgf@x=.5\pgf@x\pgf@y=-.5\pgf@y}%
+  \anchorborder{%
+    \pgf@xa=\pgf@x%
+    \pgf@ya=\pgf@y%
+    \pgf@process{\outernortheast}%
+    \ifdim\pgf@xa>0pt%
+    \else%
+      \pgf@x=-\pgf@x%
+    \fi%
+    \ifdim\pgf@ya>0pt%
+    \else%
+      \pgf@y=-\pgf@y%
+    \fi%
+    \pgf@yc=.5\pgf@y%
+    \pgf@xc=.5\pgf@x%
+    \edef\pgf@marshal{%
+      \noexpand\pgfpointintersectionoflines%
+      {\noexpand\pgfpointorigin}%
+      {\noexpand\pgfqpoint{\the\pgf@xa}{\the\pgf@ya}}%
+      {\noexpand\pgfqpoint{\the\pgf@x}{0pt}}%
+      {\noexpand\pgfqpoint{0pt}{\the\pgf@y}}%
+    }%
+    \pgf@process{\pgf@marshal}%
+  }
+%
+%  %
+%  % Background path
+%  %
+  \backgroundpath{%
+    \pgf@process{\outernortheast}%
+    \pgf@xc=\pgf@x%
+    \pgf@yc=\pgf@y%
+    \pgfmathsetlength{\pgf@xa}{\pgfkeysvalueof{/pgf/outer xsep}}%
+    \pgfmathsetlength{\pgf@ya}{\pgfkeysvalueof{/pgf/outer ysep}}%
+    \advance\pgf@xc by-1.414213\pgf@xa%
+    \advance\pgf@yc by-1.414213\pgf@ya%
+    \pgfpathmoveto{\pgfqpoint{\pgf@xc}{0pt}}%
+%     \pgfpathlineto{\pgfqpoint{0pt}{\pgf@yc}}%
+%     \pgfpathlineto{\pgfqpoint{-\pgf@xc}{0pt}}%
+%     \pgfpathlineto{\pgfqpoint{0pt}{-\pgf@yc}}%
+    \pgfpathlineto{\pgfqpoint{.5\pgf@xc}{.5\pgf@yc}}%
+    \pgfpathlineto{\pgfqpoint{-.5\pgf@xc}{.5\pgf@yc}}%
+    \pgfpathlineto{\pgfqpoint{-\pgf@xc}{0pt}}%
+    \pgfpathlineto{\pgfqpoint{-.5\pgf@xc}{-.5\pgf@yc}}%
+    \pgfpathlineto{\pgfqpoint{.5\pgf@xc}{-.5\pgf@yc}}%
+%     \pgfpathlineto{\pgfqpoint{\pgf@xc}{0}}%
+    \pgfpathclose%
+  }%
+}%
+\makeatother%
+%
+%
+%
+%
+%
+%===========================
+% Scopenode -- A Scope that can be used like a node and remembers names of nodes declared inside
+%===========================
+\makeatletter
+\newbox\tikz@sand@box
+\newcount\tikz@scope@depth
+\tikz@scope@depth111\relax
+\def\scopenode[#1]#2{%
+    \begin{pgfinterruptboundingbox}%
+        \advance\tikz@scope@depth111\relax%
+        % process the user option
+        \begin{scope}[name=tempscopenodename,at={(0,0)},anchor=center,#1]%
+            % try to extract positioning information: name, at, anchor
+            \global\let\tikz@fig@name\tikz@fig@name%
+            \global\let\tikz@node@at\tikz@node@at%
+            \global\let\tikz@anchor\tikz@anchor%
+        \end{scope}%
+        \let\tikz@scopenode@name\tikz@fig@name%
+        \let\tikz@scopenode@at\tikz@node@at%
+        \let\tikz@scopenode@anchor\tikz@anchor%
+        % try to typeset this scope
+        % we only need bounding box information
+        % the box itself will be discard
+        \setbox\tikz@sand@box=\hbox{%
+            \begin{scope}[local bounding box=tikz@sand@box\the\tikz@scope@depth,#1]%
+                #2%
+            \end{scope}%
+        }%
+        % goodbye. haha
+        \setbox\tikz@sand@box=\hbox{}%
+        % now typeset again
+        \begin{scope}[local bounding box=\tikz@scopenode@name]%
+            % use the bounding box information to reposition the scope
+            \pgftransformshift{\pgfpointanchor{tikz@sand@box\the\tikz@scope@depth}{\tikz@scopenode@anchor}%
+                               \pgf@x-\pgf@x\pgf@y-\pgf@y}%
+            \pgftransformshift{\tikz@scopenode@at}%
+            \begin{scope}[#1]%
+                #2
+            \end{scope}%
+        \end{scope}%
+        \pgfkeys{/pgf/freeze local bounding box=\tikz@scopenode@name}%
+        \global\let\tikz@scopenode@name@smuggle\tikz@scopenode@name%
+    \end{pgfinterruptboundingbox}%
+    % make up the bounding box
+    \path(\tikz@scopenode@name@smuggle.south west)(\tikz@scopenode@name@smuggle.north east);%
+    % draw something, not necessary
+    \draw[#1](\tikz@scopenode@name@smuggle.south west)rectangle(\tikz@scopenode@name@smuggle.north east);%
+}
+%
+\newdimen\ScopenodeInnerSep%
+\setlength{\ScopenodeInnerSep}{0.6ex}%
+\tikzstyle{ScopenodeInner}=[%
+    draw=none,%
+    fill=none,%
+]%
+\newcommand{\scopenodePadded}[4]{%  Name, at, further-Arguments, Content
+    \scopenode[name=#1%
+        ,at={#2}%
+        ,#3,%
+    ]{%
+        \scopenode[ScopenodeInner,name=#1_inner,solid,thin]{%
+            #4%
+        }%
+        \path($(#1_inner.north west)+(-\ScopenodeInnerSep,\ScopenodeInnerSep)$)--($(#1_inner.south east)+(\ScopenodeInnerSep,-\ScopenodeInnerSep)$);%
+    }%
+}%
+%
+%
+%
+%
+%===========================
+% Scopenode-Fill --
+% -- A second Variant, the former one does not properly align itself and contained objects, i.e. among others does not allow to be filled (that would set the Filling color plane over the contained objects)
+%===========================
+\makeatletter
+% \pgfdeclarelayer{scopenodeFill}% Done inside the Package-Inclusion-File for TikZ
+% \pgfsetlayers{background,scopenodeFill,main}
+\tikzset{%
+  % adapted from tex/generic/pgf/frontendlayer/tikz/libraries/tikzlibrarybackgrounds.code.tex
+  on scopenodeFill layer/.style={%
+    execute at begin scope={%
+      \pgfonlayer{scopenodeFill}%
+      \let\tikz@options=\pgfutil@empty%
+      \tikzset{every on scopenodeFill layer/.try,#1}%
+      \tikz@options%
+    },
+    execute at end scope={\endpgfonlayer}
+  },
+}
+% ateb Symbol 1: https://tex.stackexchange.com/a/362360/
+\newbox\tikz@sand@box
+\newcount\tikz@scope@depth
+\tikz@scope@depth111\relax
+\def\scopenodeFill[#1]#2{% name=<enw>, at=<man>, anchor=<angor>
+  \begin{pgfinterruptboundingbox}%
+    \advance\tikz@scope@depth111\relax%
+    % process the user option
+    \begin{scope}[name=tempscopenodeFillname,at={(0,0)},anchor=center,#1]%
+      % try to extract positioning information: name, at, anchor
+      \global\let\tikz@fig@name\tikz@fig@name%
+      \global\let\tikz@node@at\tikz@node@at%
+      \global\let\tikz@anchor\tikz@anchor%
+    \end{scope}%
+    \let\tikz@scopenodeFill@name\tikz@fig@name%
+    \let\tikz@scopenodeFill@at\tikz@node@at%
+    \let\tikz@scopenodeFill@anchor\tikz@anchor%
+    % try to typeset this scope
+    % we only need bounding box information
+    % the box itself will be discard
+    \setbox\tikz@sand@box=\hbox{%
+      \begin{scope}[local bounding box=tikz@sand@box\the\tikz@scope@depth,#1]%
+        #2%
+      \end{scope}%
+    }%
+    % goodbye. haha
+    \setbox\tikz@sand@box=\hbox{}%
+    % now typeset again
+    \begin{scope}[local bounding box=\tikz@scopenodeFill@name]%
+      % use the bounding box information to reposition the scope
+      \pgftransformshift{\pgfpointanchor{tikz@sand@box\the\tikz@scope@depth}{\tikz@scopenodeFill@anchor}%
+        \pgf@x-\pgf@x\pgf@y-\pgf@y}%
+      \pgftransformshift{\tikz@scopenodeFill@at}%
+      \begin{scope}[#1]%
+        #2
+      \end{scope}%
+    \end{scope}%
+    \pgfkeys{/pgf/freeze local bounding box=\tikz@scopenodeFill@name}%
+    \global\let\tikz@scopenodeFill@name@smuggle\tikz@scopenodeFill@name%
+  \end{pgfinterruptboundingbox}%
+  % make up the bounding box
+  \path(\tikz@scopenodeFill@name@smuggle.south west)(\tikz@scopenodeFill@name@smuggle.north east);%
+  % draw something, not necessary
+  \begin{scope}[on scopenodeFill layer]%
+    \draw[#1](\tikz@scopenodeFill@name@smuggle.south west)rectangle(\tikz@scopenodeFill@name@smuggle.north east);%
+  \end{scope}%
+}
+\makeatother
+%
+\newcommand{\scopenodeFillPadded}[4]{%  Name, at, further-Arguments, Content
+    \scopenodeFill[name=#1%
+        ,at={#2}%
+        ,#3,%
+    ]{%
+        \scopenodeFill[ScopenodeInner,name=#1_inner,solid,thin]{%
+            #4%
+        }%
+        \path($(#1_inner.north west)+(-\ScopenodeInnerSep,\ScopenodeInnerSep)$)--($(#1_inner.south east)+(\ScopenodeInnerSep,-\ScopenodeInnerSep)$);%
+    }%
+}%
+%
+%
+%
+%
+%===========================
+%==  Fading / Shading  =====
+%===========================
+\pgfdeclareradialshading{tikzfadeDissolvingRingInclineInner}{\pgfpointorigin}{%
+    color(0bp)=(pgftransparent!100);%
+    color(20bp)=(pgftransparent!100);%
+    color(22.0bp)=(pgftransparent!10);%
+    color(22.5bp)=(pgftransparent!0);%
+    color(23bp)=(pgftransparent!30);%
+    color(25bp)=(pgftransparent!100)%
+}%
+\pgfdeclarefading{custom fade dissolving ring incline inner}{\pgfuseshading{tikzfadeDissolvingRingInclineInner}}%
+%
+%--------------------
+% Some Fadings for Rectangles
+%--------------------
+% https://tex.stackexchange.com/questions/287869/custom-fading-for-rectangle
+% USAGE EXAMPLE:
+%        \fill[blue] (-1.5,-1.5) rectangle (1.5,1.5);
+%        \node [align=center, rounded corners, fill=white, path fading=rectangle fade] at (0,1) {\small this is text};
+%        \node [align=center, rounded corners, fill=white, path fading=rectangle fading] at (0,.33) {\small this is text};
+%        \node [align=center, rounded corners, fill=white, path fading=rectangular fading] at (0,-.33) {\small this is text};
+%        \node [align=center, rounded corners, fill=white, path fading=rectangular fade] at (0,-1) {\small this is text};
+% - - - - - - - - - -
+% \begin{tikzfadingfrompicture}[name=rectangle fade]%
+%     \foreach\i[evaluate=\i as \k using {1.5-\i/100}]in{0,1,...,100}\path[fill=white!\i!black] (-\k,-\k)rectangle(\k,\k);%
+% \end{tikzfadingfrompicture}%
+% \begin{tikzfadingfrompicture}[name=rectangle fading]%
+%   \foreach\i[evaluate=\i as \k using {1.25-\i/100}]in{0,1,...,100}\path[fill=white!\i!black] (-\k,-\k)rectangle(\k,\k);%
+% \end{tikzfadingfrompicture}%
+% \pgfdeclarefading{rectangular fading}{%
+%   \tikz{%
+%     \shade[bottom color=pgftransparent!100,top color=pgftransparent!0](0,0)--(1,-1)--(-1,-1)--cycle;%
+%     \shade[bottom color=pgftransparent!0,top color=pgftransparent!100](0,0)--(-1,1)--(1,1)--cycle;%
+%     \shade[right color=pgftransparent!0,left color=pgftransparent!100](0,0)--(-1,1)--(-1,-1)--cycle;%
+%     \shade[right color=pgftransparent!100,left color=pgftransparent!0](0,0)--(1,1)--(1,-1)--cycle;%
+%   }%
+% }%
+% \pgfdeclarefading{rectangular fade}{%
+%   \tikz{%
+%     \shade[bottom color=pgftransparent!100,top color=pgftransparent!0,middle color=pgftransparent!0](0,0)--(1,-1)--(-1,-1)--cycle;%
+%     \shade[bottom color=pgftransparent!0,top color=pgftransparent!100,middle color=pgftransparent!0](0,0)--(-1,1)--(1,1)--cycle;%
+%     \shade[right color=pgftransparent!0,left color=pgftransparent!100,middle color=pgftransparent!0](0,0)--(-1,1)--(-1,-1)--cycle;%
+%     \shade[right color=pgftransparent!100,left color=pgftransparent!0,middle color=pgftransparent!0](0,0)--(1,1)--(1,-1)--cycle;%
+%     \draw[pgftransparent!0](-.5,.5)--(.5,-.5)(-.5,-.5)--(.5,.5);%
+%   }%
+% }%
+%
+%
+%
+%
+%===========================
+%==  Blur Shadow via Preaction  =====
+%===========================
+% ToDo: THIS IS NOT WORKING (yet)
+%  Because freakin' transform canvas is required to modify a path within preaction and this stupid messes up positioning when doing shit like scaling or rotation
+% \tikzset{%
+%     DenKrPreBlurShadowLoop/.style={%
+%         DenKrPreBlurShadowLoopStep/.list={#1}%
+%     },%
+%     % 1: xshift, 2: yshift, 3: opacity, 4: color, 5: Scaling
+%     % E.g.: DenKrPreBlurShadowLoop={4ex/4ex/1/blue/1,2ex/2ex/1/green/1},%
+%     DenKrPreBlurShadowLoopStep/.code args={#1/#2/#3/#4/#5}{%
+%         \tikzset{%
+%             preaction={%
+%                 fill=#4,%
+%                 opacity=#3,%
+%                 transform canvas={%
+%                     xshift=#1,yshift=#2,%
+%                     scale=#5%
+%                 }%
+%     }}},%
+%     % 1: XShift, 2: YShift, 3: Opacity, 4: Color
+%     DenKrPreBlurShadowUpDown/.code n args={4}{%
+%         \tikzset{%
+%             DenKrPreBlurShadowLoop={%
+%                 #1/#2/#3*0.1/blue/1,%
+%                 % #1/#2/#3*0.1/#4/0.95,%
+%                 % #1/#2/#3*0.1/#4/0.9,%
+%                 0.85*#1/0.85*#2/#3*0.1/red/0.85%
+%             },%
+%         }%
+%     },%
+%     DenKrPreBlurShadowUp/shift/.initial=0,%
+%     DenKrPreBlurShadowUp/opacity/.initial=1,%
+%     DenKrPreBlurShadowUp/color/.initial=black,%
+%     % 1: XYShift, 2: Opacity, 3: Color
+%     DenKrPreBlurShadowUp/.code={%
+%         \pgfqkeys{/tikz/DenKrPreBlurShadowUp}{#1}%
+%         \pgfkeysgetvalue{/tikz/DenKrPreBlurShadowUp/shift}{\tmpShift}%
+%         \pgfkeysgetvalue{/tikz/DenKrPreBlurShadowUp/opacity}{\tmpOpacity}%
+%         \pgfkeysgetvalue{/tikz/DenKrPreBlurShadowUp/color}{\tmpColor}%
+%         \tikzset{%
+%             DenKrPreBlurShadowUpDown={\tmpShift}{\tmpShift}{\tmpOpacity}{\tmpColor}%
+%         }%
+%     },%
+%     DenKrPreBlurShadowDown/shift/.initial=0,%
+%     DenKrPreBlurShadowDown/opacity/.initial=1,%
+%     DenKrPreBlurShadowDown/color/.initial=black,%
+%     % 1: XYShift, 2: Opacity, 3: Color
+%     DenKrPreBlurShadowDown/.code={%
+%         \pgfqkeys{/tikz/DenKrPreBlurShadowDown}{#1}%
+%         \pgfkeysgetvalue{/tikz/DenKrPreBlurShadowDown/shift}{\tmpShift}%
+%         \pgfkeysgetvalue{/tikz/DenKrPreBlurShadowDown/opacity}{\tmpOpacity}%
+%         \pgfkeysgetvalue{/tikz/DenKrPreBlurShadowDown/color}{\tmpColor}%
+%         \tikzset{%
+%             DenKrPreBlurShadowUpDown={\tmpShift}{-\tmpShift}{\tmpOpacity}{\tmpColor}%
+%         }%
+%     },%
+% }%
+% \tikzstyle{SelectedDenKrShadow}=[%
+%     % DenKrPreBlurShadowLoop={4ex/4ex/1/blue,2ex/2ex/1/green},%
+%     DenKrPreBlurShadowUp={shift=2ex,color=black},%
+% ]%

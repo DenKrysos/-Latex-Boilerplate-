@@ -1,0 +1,101 @@
+%  A Template for the File "./1supply/DenKr_comments.tex",
+%    which concretely configures the __sty.tex for using the Comment-Function
+%  In case not present, create the File "./1supply/DenKr_comments.tex", copy the stuff here below this Comment over and adjust to your needs.
+%
+%
+%==================================================================================
+% ----  Some Stuff to help during working state
+% -- Enables you this infamous comments that helps gratuitously while concurrent working / reviewing among several Co-Authors.
+% -- Adjust Author-Names and Macro-Names to your Project
+% % % % % % % % % % % % % % % % % % % % %
+% -- USAGE - Extent by additional Macros
+% -- -- For adding more Persons beyond the current number
+% - Just duplicate one of these blocks below and adjust to your requirements (Name of the Cmd and Name-Tag (Abbreviation for Persons Name) inside.
+% - The "\newcommandsDisw{#1}{#2}{#3}" creates two Macros for use.
+%    - Arguments:
+%        1: Name for the created Macros
+%        2: Abbreviation of the Person's Name to display
+%         [Optional]: It has an optional Argument after the second (\newcommandsDisw{#1}{#2}[#Opt1]{#3})
+%                   -> If this is supplied, its content is printed in the Legend. Otherwise, #2 is put to the Legend.
+%        3: The Color to use
+%    - Created Macros:
+%        "Tagged Comment" -> \<Abbr>{}: Prints text, suffixed with "#<Abbr>: " (and colored)
+%        "Highlighting" -> \<Abbr>hl{}: Just prints the text in Color.
+%    -> E.g.: \newcommandsDisw{dekr}{DenKr}{<Color>} creates the two Macros
+%        \dekr{}
+%        \dekrhl{}
+% - Colors are defined up to "denkrComCol12"
+% - Above that, the only thing missing: Define a new Color. Just add a Color-Definition according to xcolor.sty, e.g.
+%        \definecolor{denkrComCol<Something>}{named}{blue}%
+%   above the duplicated Macro-Definition and then use that Color's name (what you've written as "denkrComCol<Something>")
+%
+% - You may, at some point in time, overwrite single commands (like for example shown below with the \dekr{} ones).
+%   - For example, during writing, you use a highlight Command to, ehem, highlight text in your color.
+%      Approaching release, you maybe don't want to just deactivate and thus remove this text, but simply remove the color-highlighting.
+%      Then you could redefine the \<abbr>hl{} cmd to a simply "pasting the argument".
+%----------------------------------------------------------------------------------
+%
+%= = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
+% - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+\newcommandsDisw{dekr}{DenKr}[Dennis Krummacker]{denkrComColDenKr}%
+% \renewcommand{\dekr}[1]{}%% Disable comments [selectively this]
+% \renewcommand{\dekrhl}[1]{#1}%% Disable highlighting of text [selectively this]
+% \renewcommand{\dekrhl}[1]{}%% Completely disable this kind of text [selectively this]
+%
+\newcommandsDisw{chfi}{ChFi}[Christoph Fischer]{denkrComCol1}%
+%
+\newcommandsDisw{beve}{BeVe}[Benedikt Veith]{denkrComCol2}%
+%
+\newcommandsDisw{frpo}{FrPo}[Franc Pouhela]{denkrComCol3}%
+%
+\newcommandsDisw{dali}{DaLi}[Daniel Lindenschmitt]{denkrComCol4}%
+%
+\newcommandsDisw{desa}{DeSa}[Dennis Salzmann]{denkrComCol5}%
+%
+\newcommandsDisw{hedi}{Hedi}[Mohamed Romdhane]{denkrComCol6}%
+%
+\newcommandsDisw{dummyA}{DummyA}[Just-some-Dummy]{denkrComCol7}%
+%
+\newcommandsDisw{dummyB}{DummyB}[Just-some-Dummy]{denkrComCol8}%
+%
+\newcommandsDisw{dummyC}{DummyC}[Just-some-Dummy]{denkrComCol9}%
+%
+\newcommandsDisw{dummyD}{DummyD}[Just-some-Dummy]{denkrComCol10}%
+%
+% - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+%= = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
+%
+%
+%
+%
+%= = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
+% - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+% Historical Explanation:
+%  Either define such a "\TempDisplayPreparation" like here manually and paste this in the "postamble" (or anywhere, but suggested towards the document's end);
+%  Or do nothing by yourself but simply paste "\DisplayDenKrCommandsLegend" (which is the current set-up in my Boilerplate).
+%
+% - I introduced the "automatic" Version (the \DisplayDenKrCommandsLegend) somewhen later (hence the "historical")
+% - And basically, as this auto-version exists, there shouldn't be any need anymore to prepare a manual Legend, as this is populated automatically by the Command-Definitions and then rolls the displaying automatically out.
+%
+%\newcommand{\TempDisplayPreparation}{\disablewr{%
+%	{%
+%	\section{Draft-State: Comment Color Code}{\noindent\raggedright%
+%	\todo{Comments: ToDos: \mbox{$\Rightarrow$ \textbackslash todo\{ \}}}\nl%
+%	\notice{Comment: A general Notice: \mbox{$\Rightarrow$ \textbackslash notice\{ \}}}\nl%
+%	\pasteColCodeLegend{dekr}{Dennis Krummacker}%
+%	\pasteColCodeLegend{chfi}{Christoph Fischer}%
+%	\pasteColCodeLegend{mabe}{Maximilian Berndt}%
+%	\pasteColCodeLegend{jaze}{Janis Zemitis}%
+%	\pasteColCodeLegend{beve}{Benedikt Veith}%
+%	\pasteColCodeLegend{hedi}{Mohamed Romdhane}%
+%	\pasteColCodeLegend{frpo}{Franc Pouhela}%
+%	\pasteColCodeLegend{dummyA}{Just-some-Dummy}%
+%	\pasteColCodeLegend{dummyB}{Just-some-Dummy}%
+%	\pasteColCodeLegend{dummyC}{Just-some-Dummy}%
+%	\pasteColCodeLegend{dummyD}{Just-some-Dummy}%
+%	\textbf{$\Rightarrow$ You may add such a Comment-Macro for yourself in "\DenKrSupplyRootDir/DenKr\_comments.tex" if you wish $\Leftarrow$}%
+%	}}%
+%}}%
+%----------------------------------------------------------------------------------
+% - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+%==================================================================================

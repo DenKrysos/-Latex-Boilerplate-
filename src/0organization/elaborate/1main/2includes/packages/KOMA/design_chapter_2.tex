@@ -1,0 +1,17 @@
+\KOMAoptions{%
+    chapterprefix=true%
+}%
+\setkomafont{chapter}{\sffamily\bfseries\huge\color{DenKrKomaColor_ChapterHeading}}%
+\RedeclareSectionCommand[%
+    beforeskip=4ex,%
+    innerskip=0pt,%
+    afterskip=1.725\baselineskip plus .115\baselineskip minus .192\baselineskip%
+]{chapter}%
+\makeatletter\@ifundefined{DenKrSetChapter}{}{\DenKrSetChapter}\makeatother% Workaround to reset to my macro after RedeclareSectionCommand
+\renewcommand\raggedchapter{\raggedleft}%
+\renewcommand*\chapterformat{{\fontsize{60pt}{60pt}\selectfont{\thechapter}}}%
+\renewcommand*\DenKrKOMAHookFormatChapterWithPrefix[3]{%
+    \parbox[b][\baselineskip]{\linewidth}{\raggedchapter#2#3}\par\nobreak%
+    \vspace*{-.5\baselineskip}%
+    \rule{\textwidth}{.4pt}\par\nobreak%
+}%

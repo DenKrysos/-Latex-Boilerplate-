@@ -1,0 +1,29 @@
+% A Custom Shading for the Header-Background (Remark that the Colors are defined in REVERSE Order. The Shading fills from Bottom to Top, i.e. 0bp is at the Bottom, 50bp is at the Top)
+\pgfdeclareverticalshading{headerBGShading}{100bp}{%
+    color(0bp)=(white);%
+    color(8bp)=(HeaderBG);%
+    color(22bp)=(HeaderBG2);%
+    color(32bp)=(HeaderBG!70!HeaderBG2);%
+    color(50bp)=(HeaderBG)%
+}%
+% - - - - - - - - - - - -
+% The actual Layer for the Header
+\DeclareLayer[%
+  background,%
+  mode=picture,%
+  oddorevenpage,%
+  head,%
+  contents={%
+    \put(0,-\LenToUnit{\layerheight}){\tikzmark{headLBAnchor}}%
+    \begin{tikzpicture}[overlay,remember picture]%
+    \coordinate(headBgTL)at(current page.north west);%
+    \coordinate(headBgTR)at(current page.north east);%
+    \path let\p1=(pic cs:headLBAnchor),\p2=($(\p1)+(0,10pt)$)in coordinate(headBgBL)at(headBgTL|-\p2);% Increase by a share of \headsep ?
+    \coordinate(headBgBR)at(headBgBL-|headBgTR);%
+    \path[draw=none,line width=0pt,shading=headerBGShading](headBgTL)rectangle(headBgBR);%
+    \end{tikzpicture}%
+  }%
+]{headBG.both}%
+\AddLayersToPageStyle{scrheadings}{headBG.both,headBG.both}%
+% % % % %
+\DenKrKOMALayerTrackAdd{scrheadings}{headBG.both,headBG.both}%

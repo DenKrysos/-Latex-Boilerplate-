@@ -1,0 +1,325 @@
+% Author: Dennis Krummacker%
+\ifdefined\DenKr\documentclass[tikz,fontsize=11pt,class=scrbook]{standalone}\begin{document}\else%
+\input{"./2ProjectSetup".tex}%
+\input{"\DenKrAllMainRootDirPATH/2includes/packages/preamble_pre".tex}%
+\documentclass[tikz,fontsize=11pt,class=scrbook]{standalone}% I.e. the content from \input{"\DenKrLayoutMainRootDir/2layout/tikz_standalone/preamble_1_class".tex}%
+\input{"\DenKrInternalLayoutRootDir/tikz_standalone/1TikzStandalonePicIncludeThis".tex}%
+\DenKrTikzStandalonePre\fi%
+%
+%
+%
+\newcommand\nodedistance{0.5cm}%
+%
+\let\innabst\undefined%
+\newlength\innabst%
+\setlength\innabst{0.9em}% Abstand zwischen Text und Zellenrand
+%
+\let\bitwidth\undefined%
+\newlength\bitwidth%
+\settoheight{\bitwidth}{\textbf{DD}}%
+\setlength\bitwidth{\bitwidth+\innabst}%
+%
+%
+%
+\newcommand\roundcorneramount{2mm}%
+%
+% Define the layers to draw the diagram
+\pgfdeclarelayer{background}%
+\pgfdeclarelayer{cable}%
+% \pgfdeclarelayer{foreground}%
+\pgfsetlayers{background,main,cable}%,foreground}
+%
+%
+\begin{tikzpicture}[%
+	scale = 1.0,%Könnte das Makro \tikzpicturescale sein. Siehe in makros.tex
+	% (Sollte eigentlich übergeben werden)(Beachte Möglichkeiten der Übergabe;
+	% standalone mode=tex vs mode=buildnew)
+	auto,%
+	node distance=\nodedistance,%
+]%
+%
+\tikzstyle{bitrect}=[%
+	rectangle,%
+	rounded corners=\roundcorneramount,%
+	inner sep=0pt,%
+	text width=\bitwidth,%
+% 	text height=\bitwidth,%
+	minimum height=\bitwidth,%
+	align=center,%
+	text centered,%
+	draw=black,%
+% 	inner sep=0.5*\innabst,%
+	fill=gray!40%
+% 	middle color=yellow!20,
+% 	right color=gray!20,
+]%
+%
+\definecolor{colord}{RGB}{250,200,150}%
+\definecolor{colore}{RGB}{35,250,35}%
+\definecolor{colorf}{RGB}{0,180,250}%
+\definecolor{colorh}{RGB}{150,100,200}%
+\tikzstyle{bitrectd}=[%
+	bitrect,%
+	fill=colord,%
+]%
+%
+\tikzstyle{bitrecte}=[%
+	bitrect,%
+	fill=colore,%
+]%
+%
+\tikzstyle{bitrectf}=[%
+	bitrect,%
+	fill=colorf,%
+]%
+%
+\tikzstyle{bitrectg}=[%
+	bitrect,%
+]%
+%
+\tikzstyle{bitrecth}=[%
+	bitrect,%
+	fill=colorh,%
+]%
+%
+\tikzstyle{bitrecti}=[%
+	bitrect,%
+]%
+%
+%
+\pgfdeclarelayer{background}%
+\pgfdeclarelayer{1}%
+\pgfdeclarelayer{2}%
+\pgfdeclarelayer{3}%
+\pgfsetlayers{background,1,2,3,main}
+\bfseries%
+%
+%
+%
+\begin{pgfonlayer}{3}%
+	\node(a1)[bitrect]{1};%
+	\node(a2)[bitrect,right=0 of a1]{0};%
+	\node(a3)[bitrect,right=0 of a2]{0};%
+	\node(a4)[bitrect,right=0 of a3]{0};%
+	\node(a5)[bitrect,right=0 of a4]{0};%
+	\node(a6)[bitrect,right=0 of a5]{0};%
+	\node(a7)[bitrect,right=0 of a6]{0};%
+	\node(a8)[bitrect,right=0 of a7]{1};%
+	\node(a9)[bitrect,right=0 of a8]{0};%
+	\node(a10)[bitrect,right=0 of a9]{0};%
+	\node(a11)[bitrect,right=0 of a10]{0};%
+	\node(a12)[bitrect,right=0 of a11]{0};%
+	\node(a13)[bitrect,right=0 of a12]{0};%
+	\node(a14)[bitrect,right=0 of a13]{0};%
+	\node(a15)[bitrect,right=0 of a14]{0};%
+	\node(a16)[bitrect,right=0 of a15]{0};%
+%
+	\node(b1)[bitrect,right=0 of a16]{0};%
+	\node(b2)[bitrect,right=0 of b1]{0};%
+	\node(b3)[bitrect,right=0 of b2]{0};%
+	\node(b4)[bitrect,right=0 of b3]{0};%
+	\node(b5)[bitrect,right=0 of b4]{0};%
+	\node(b6)[bitrect,right=0 of b5]{0};%
+	\node(b7)[bitrect,right=0 of b6]{1};%
+	\node(b8)[bitrect,right=0 of b7]{1};%
+	\node(b9)[bitrect,right=0 of b8]{1};%
+	\node(b10)[bitrect,right=0 of b9]{1};%
+	\node(b11)[bitrect,right=0 of b10]{1};%
+	\node(b12)[bitrect,right=0 of b11]{0};%
+	\node(b13)[bitrect,right=0 of b12]{1};%
+	\node(b14)[bitrect,right=0 of b13]{0};%
+	\node(b15)[bitrect,right=0 of b14]{0};%
+	\node(b16)[bitrect,right=0 of b15]{1};%
+%
+	\node(c1)[bitrect,anchor=north west,yshift=-2ex,%
+		text width=8\bitwidth+7\pgflinewidth]%
+		at(a1.south west){81 (Hex)};%
+	\node(c2)[bitrect,anchor=north west,right=0 of c1,%
+		text width=8\bitwidth+7\pgflinewidth]%
+		{00 (Hex)};%
+	\node(c3)[bitrect,anchor=north west,right=0 of c2,%
+		text width=8\bitwidth+7\pgflinewidth]%
+		{03 (Hex)};%
+	\node(c4)[bitrect,anchor=north west,right=0 of c3,%
+		text width=8\bitwidth+7\pgflinewidth]%
+		{E9 (Hex)};%
+%
+%
+%
+	\node(d1)[bitrectd,anchor=north west,%
+		xshift=-2\bitwidth,yshift=-2\bitwidth]at(c1.south west){55};%
+	\node(d2)[bitrectd,right=0 of d1]{55};%
+	\node(d3)[bitrectd,right=0 of d2]{55};%
+	\node(d4)[bitrectd,right=0 of d3]{55};%
+	\node(d5)[bitrectd,right=0 of d4]{55};%
+	\node(d6)[bitrectd,right=0 of d5]{55};%
+	\node(d7)[bitrectd,right=0 of d6]{55};%
+	\node(d8)[bitrectd,right=0 of d7]{D5};%
+	\node(e1)[bitrecte,right=0 of d8]{00};%
+	\node(e2)[bitrecte,right=0 of e1]{1F};%
+	\node(e3)[bitrecte,right=0 of e2]{16};%
+	\node(e4)[bitrecte,right=0 of e3]{11};%
+	\node(e5)[bitrecte,right=0 of e4]{22};%
+	\node(e6)[bitrecte,right=0 of e5]{33};%
+	\node(f1)[bitrectf,right=0 of e6]{00};%
+	\node(f2)[bitrectf,right=0 of f1]{1F};%
+	\node(f3)[bitrectf,right=0 of f2]{16};%
+	\node(f4)[bitrectf,right=0 of f3]{44};%
+	\node(f5)[bitrectf,right=0 of f4]{55};%
+	\node(f6)[bitrectf,right=0 of f5]{66};%
+	\node(g1)[bitrectg,right=0 of f6]{81};%
+	\node(g2)[bitrectg,right=0 of g1]{00};%
+	\node(g3)[bitrectg,right=0 of g2]{03};%
+	\node(g4)[bitrectg,right=0 of g3]{E9};%
+	\node(h1)[bitrecth,right=0 of g4]{08};%
+	\node(h2)[bitrecth,right=0 of h1]{00};%
+	\node(h3)[bitrecth,right=0 of h2]{};%
+	\node(h4)[bitrecth,right=0 of h3]{};%
+	\node(h5)[bitrecth,right=0 of h4]{\ldots};%
+	\node(h6)[bitrecth,right=0 of h5]{\ldots};%
+	\node(h7)[bitrecth,right=0 of h6]{};%
+	\node(h8)[bitrecth,right=0 of h7]{};%
+	\node(i1)[bitrecti,right=0 of h8]{};%
+	\node(i2)[bitrecti,right=0 of i1]{};%
+	\node(i3)[bitrecti,right=0 of i2]{};%
+	\node(i4)[bitrecti,right=0 of i3]{};%
+\end{pgfonlayer}%
+%
+\begin{pgfonlayer}{2}%
+\normalfont%
+	\node(desc3)[anchor=south,align=center,yshift=0.1cm]%
+		at(b2.north)%
+		{PCP\\ (Priorität)};%
+	\node(desc4)[anchor=center,align=center,rotate=90,yshift=0cm]%
+		at(b4.north|-desc3.center)%
+		{CFI};%
+	\node(desc5)[anchor=south,align=center,yshift=0.1cm]%
+		at(b11.north west)%
+		{VLAN ID,\\%
+		hier 1001 (Dezimal)};%
+%
+%
+	\node(desc7)[anchor=north,align=center,yshift=0cm]%
+		at(d4.south)%
+		{Präambel};%
+	\node(desc9)[anchor=north,align=center,yshift=0cm]%
+		at(e3.south east)%
+		{Ziel MAC\\ Adresse};%
+	\node(desc8)[anchor=center,rotate=90,align=center,yshift=0cm]%
+		at(d8.south|-desc9.center)%
+		{SFD};%
+	\node(desc10)[anchor=north,align=center,yshift=0cm]%
+		at(f3.south east)%
+		{Quell MAC\\ Adresse};%
+	\node(desc11)[anchor=north,align=center,yshift=0cm]%
+		at(g2.south east)%
+		{VLAN Tag\\ (optional)};%
+	\node(desc12)[anchor=north,align=center,yshift=0cm]%
+		at(h1.south east)%
+		{Typ};%
+	\node(desc13)[anchor=north,align=center,yshift=0cm]%
+		at(h5.south east)%
+		{Daten\\ (0 - 1500 Byte)};%
+	\node(desc14)[anchor=north,align=center,yshift=0cm]%
+		at(i2.south east)%
+		{FCS\\ (32-bit CRC)};%
+%
+	\path[draw,rounded corners=\roundcorneramount]%
+		(b1.south west)rectangle($(b3.south east)+(0,2cm)$);%
+	\path[draw,rounded corners=\roundcorneramount]%
+		(b4.south west)rectangle($(b4.south east)+(0,2cm)$);%
+	\path[draw,rounded corners=\roundcorneramount]%
+		(b5.south west)rectangle($(b16.south east)+(0,2cm)$);%
+%
+%
+%
+	\path[draw,rounded corners=\roundcorneramount]%
+		(d1.north west)rectangle($(d7.north east)+(0,-1.75cm)$);%
+	\path[draw,rounded corners=\roundcorneramount]%
+		(d8.north west)rectangle($(d8.north east)+(0,-1.75cm)$);%
+	\path[draw,rounded corners=\roundcorneramount]%
+		(e1.north west)rectangle($(e6.north east)+(0,-1.75cm)$);%
+	\path[draw,rounded corners=\roundcorneramount]%
+		(f1.north west)rectangle($(f6.north east)+(0,-1.75cm)$);%
+	\path[draw,rounded corners=\roundcorneramount]%
+		(g1.north west)rectangle($(g4.north east)+(0,-1.75cm)$);%
+	\path[draw,rounded corners=\roundcorneramount]%
+		(h1.north west)rectangle($(h2.north east)+(0,-1.75cm)$);%
+	\path[draw,rounded corners=\roundcorneramount]%
+		(h3.north west)rectangle($(h8.north east)+(0,-1.75cm)$);%
+	\path[draw,rounded corners=\roundcorneramount]%
+		(i1.north west)rectangle($(i4.north east)+(0,-1.75cm)$);%
+\end{pgfonlayer}%
+%
+\begin{pgfonlayer}{1}%
+\normalfont%
+	\node(desc1)[anchor=south,align=center,yshift=0.2cm]at(a8.north east)%
+		{TPI (Tag Protocol ID),\\%
+		da dass VLAN Tag optional ist, kennzeichnet\\%
+		TPI = 0x8100 einen Ethernet Frame als\\%
+		IEEE 802.1Q-tagged Frame\\%
+		(Ethertype 0x8100)};%
+	\node(desc2)[anchor=north,align=center,yshift=-0.2cm]%
+		at(b8.north east|-desc1.north)%
+		{TCI (Tag Control ID)};%
+%
+%
+	\node(desc6)[anchor=north,align=center,yshift=-1.25cm]%
+		at(f4.south east)%
+		{Ethernet Frame};%
+%
+	\path[draw,rounded corners=\roundcorneramount]%
+		(a1.south west)rectangle($(a16.south east)+(0,3.5cm)$);%
+	\path[draw,rounded corners=\roundcorneramount]%
+		(b1.south west)rectangle($(b16.south east)+(0,3.5cm)$);%
+%
+%
+%
+	\path[draw,rounded corners=\roundcorneramount]%
+		(d1.north west)rectangle($(i4.north east)+(0,-2.75cm)$);%
+%
+%
+%
+	\path[fill,rounded corners=\roundcorneramount]%
+		(d1.north west)rectangle(i4.south east);%
+	\path[fill,rounded corners=\roundcorneramount]%
+		(a1.north west)rectangle(b16.south east);%
+\end{pgfonlayer}%
+%
+%
+\tikzstyle{connectline}=[%
+	connect,%
+	very thick,%
+	black,%
+]%
+	\path[connectline,draw](g1.north west)--%
+		($(g1.north west)+(0,0.5*\roundcorneramount)$)--%
+		($(c1.south west)+(0,-1.5*\roundcorneramount)$)--%
+		($(c1.south west)+(0,0.75*\roundcorneramount)$);%
+	\path[connectline,draw](g3.north west)--%
+		($(g3.north west)+(0,0.5*\roundcorneramount)$)--%
+		($(c3.south west)+(0,-1.5*\roundcorneramount)$)--%
+		($(c3.south west)+(0,0.75*\roundcorneramount)$);%
+	\path[connectline,draw](g4.north east)--%
+		($(g4.north east)+(0,0.5*\roundcorneramount)$)--%
+		($(c4.south east)+(0,-1.5*\roundcorneramount)$)--%
+		($(c4.south east)+(0,0.75*\roundcorneramount)$);%
+%
+%
+%
+\normalfont%
+% \node(bboxtop)[shape=coordinate]at%
+% 	($(current bounding box.north)+(0,0mm)+(0,0em)$){};%
+% \node(bboxright)[shape=coordinate]at%
+% 	($(current bounding box.east)+(0mm,0)+(0em,0)$){};%
+% \node(bboxbottom)[shape=coordinate]at%
+% 	($(current bounding box.south)+(0,0mm)+(0,0em)$){};%
+% \node(bboxleft)[shape=coordinate]at%
+% 	($(current bounding box.west)+(0mm,0)+(0em,0)$){};%
+% \path[use as bounding box]%
+% 	(bboxtop)-|(bboxright)|-(bboxbottom)-|(bboxleft)|-(bboxtop);%
+%
+\end{tikzpicture}%
+%
+%
+\ifdefined\DenKr\end{document}\else\DenKrTikzStandalonePost\fi%

@@ -1,0 +1,136 @@
+
+% \tikzabb%[tex]%
+% {tikztest}%
+% {%
+% Tikz-Picture Caption.%
+% }%
+% {1}[1,1,!ht]%[0.55,1,!ht]%
+% {fig:tikz_test}%
+
+
+
+\section{Some Example Section Name}
+
+Example-Citation:
+\cite{DenKr_denkrement1_indeco}
+% \nl%
+% A custom citation command that puts information about the reference to the footnote on first occurrence:
+% \citeff{DenKr_MigArb,DenKr_denkrement1_indeco}%
+
+\npi%
+Some special characters:
+»«.
+\nl%
+\gerguiquote{Done with Macro}
+\nl%
+Example Acronym\nl
+\gls{fsa}
+
+\npi%
+Document-within References to check whether hyperref \& nameref work properly:\nl%
+\ref{sec:intro} (\nameref{sec:intro}). \ref{sec:RelWork}  (\nameref{sec:RelWork}). \ref{sec:Concl} (\nameref{sec:Concl})\nl%
+Consider using my Macros:\nl
+\eleref{fig:Pic} or \elenumnamref{tab:OI_app}
+
+\npi%
+\begin{itemize}
+\item%
+    Example Itemization
+\end{itemize}
+\begin{enumerate}
+\item%
+    Example Enumeration
+\end{enumerate}
+\begin{description}
+\item[Example Description List]%
+    Just some random Text without any sense, but with sufficient length to cause a line-break, so that the indentation is properly showing influence.
+\end{description}
+\begin{enuminlrom}
+\item%
+    Example Inline Roman Enumeration
+\item%
+    Item 2.
+\end{enuminlrom}
+
+\np
+\newcommand{\I}{\mathrm{i}}
+$y = \int_0^x\cos(x)\,\mathrm{d}{x} = \frac{e^{\I x} - e^{-\I x}}{2\I} | 0123456789$
+\nl
+\begin{equation}
+y = \int_0^x\cos(x)\,\mathrm{d}{x} = \frac{e^{\I x} - e^{-\I x}}{2\I} | 0123456789
+\end{equation}
+
+\npi%
+{%
+    \LARGE%
+    \contourlength{\DenKrOutlineWidth}% The Default-Value here
+    \contour{violet}{\textcolor{orange}{Text with Outline/Contour}}\nl%
+    {%
+        \contourlength{0.2em}%
+        \contour{violet}{\textcolor{orange}{Text with Outline/Contour}}\nl%
+        \contour{violet}{\textcolor{orange}{Text with Outline/Contour}}\nl%
+    }%
+    \contour{violet}{\textcolor{orange}{Text with Outline/Contour}}\nl%
+}%
+
+
+
+\nl%
+%
+\begin{figure}[!htpb]
+    \centering
+	\includestandalone[mode=\includestandalonedefaultmode]{\tikzFilesPath/tikztest}% width=\columnwidth
+    \caption{Tikz-Picture Caption. Some Example Standalone-Tikz-Pic. Examples for Standalone-TikZ Picture Files can be found in \enquote{0organization/1main/8templates/tikz/7Tikz}.}
+    \label{fig:tikz_test}
+\end{figure}
+%
+%
+% \tikzabb%[tex]%
+% {tikztest}%
+% [\DenKrLayoutMainRootDir/8templates/tikz/7Tikz]% Alternative Path to the std "./7Tikz"
+% {%
+% Tikz-Picture Caption. Some Example Standalone-Tikz-Pic
+% }%
+% {1}[1,1,!ht]%[0.55,1,!ht]%
+% {fig:tikz_test2}%
+%
+%
+\begin{figure}%[!ht]
+\centering
+    \includegraphics[width=0.3\linewidth]{{"\DenKrGraphicsRootDir/example_AGV"}.pdf}%
+	\caption{Some another Pic}%
+	\label{fig:Pic}
+\end{figure}
+%
+%
+\lstinputlisting[
+    frame=single,
+    label=lst:waitingChain,
+    caption={Example-Listing (for Programming-Language \textit{C})},
+    captionpos=b,
+    language=DenKr-C,
+    morekeywords={[3]{
+        some_struct
+    }},
+    morekeywords={[4]{
+        entry,
+        member,
+        iterator
+    }}
+]
+{\DenKrListingsRootDir/example_lst_C.c}
+%
+%
+\lstinputlisting[
+    frame=single,
+    label=lst:cfgCalc,
+    caption={Example-Code-Listing (for Pseudo-Code)},
+    captionpos=b,
+    language=DenKr-JavaScript
+]
+{\DenKrListingsRootDir/example_lst.pseudo}
+%
+%
+\input{"\DenKrTablesRootDir/example_table".tex}%
+%
+%

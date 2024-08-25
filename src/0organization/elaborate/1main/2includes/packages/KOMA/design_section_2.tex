@@ -1,0 +1,7 @@
+\setkomafont{section}{\sffamily\bfseries\Large\color{DenKrKomaColor_SectionHeading}}%
+\renewcommand*{\sectionformat}{%
+    \usekomafont{section}%
+    \makebox[0pt][r]{\fboxrule=1.5pt\fcolorbox{DenKrKomaColor_SectionHeading}{white!0}{\color{DenKrKomaColor_SectionHeading}\thesection}\rule[.7ex]{10pt}{1.5pt}}%
+ }%
+%
+\renewcommand*\DenKrKOMAHookFormatSection\DenKrKOMAHookFormatSectionOriginal%

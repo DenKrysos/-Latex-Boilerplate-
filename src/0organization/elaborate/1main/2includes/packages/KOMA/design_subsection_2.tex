@@ -1,0 +1,23 @@
+\setkomafont{subsection}{\sffamily\bfseries\large\color{DenKrKomaColor_SubSectionHeading}}%
+\renewcommand*{\subsectionformat}{%
+    \tikz[baseline]{%
+        \node[draw=none,shape=rectangle,anchor=base,inner sep=0.6ex](num){\thesubsection};%
+        \path[draw,line width=0.15ex](num.south west)--($(num.north west)+(130:0.3ex)$)--(num.north east);%
+        \node[fill,shape=ellipse,anchor=west,inner sep=0pt,minimum width=0.8ex,minimum height=0.4ex]at($(num.east)+(0.8ex,0)$){};%
+    }%
+    \;%
+}%
+%
+\renewcommand*{\DenKrKOMAHookFormatSubSection}[4]{%
+    #3%
+    \hspace*{1.2ex}%
+    \tikz[baseline,overlay]{%
+        % First addition (at LT & RT) to create the "Box" roughly in the size of a line-height.
+        % The other to mimick a "inner sep"
+        \coordinate(LB)at($(0,0)+(225:0.8ex)$);%
+        \coordinate(LT)at($(0,0)+(0,1.8ex)+(135:0.8ex)$);%
+        \coordinate(RT)at($(0,0)+(5ex,1.8ex)+(45:0.8ex)$);%
+        \path[draw,line width=0.15ex]($(LB)+(180:0.2ex)$)--(LT)--($(RT)+(45:0.3ex)$);%
+    }%
+    #4%
+}%

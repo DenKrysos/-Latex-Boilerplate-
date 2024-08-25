@@ -1,0 +1,555 @@
+% Author: Dennis Krummacker%
+\ifdefined\DenKr\documentclass[tikz,fontsize=11pt,class=scrbook]{standalone}\begin{document}\else%
+\input{"./2ProjectSetup".tex}%
+\input{"\DenKrAllMainRootDirPATH/2includes/packages/preamble_pre".tex}%
+\documentclass[tikz,fontsize=11pt,class=scrbook]{standalone}% I.e. the content from \input{"\DenKrLayoutMainRootDir/2layout/tikz_standalone/preamble_1_class".tex}%
+\input{"\DenKrInternalLayoutRootDir/tikz_standalone/1TikzStandalonePicIncludeThis".tex}%
+\DenKrTikzStandalonePre\fi%
+%
+%
+%
+%% Constants definition %%
+    %Length and coefficient%
+    \newlength{\eboXbigUnit}
+        \setlength{\eboXbigUnit}{5em}
+    \newlength{\eboYbigUnit}
+        \setlength{\eboYbigUnit}{6\baselineskip}
+    \newlength{\eboInterlabelDistance}
+        \setlength{\eboInterlabelDistance}{2.5\baselineskip}
+    \newlength{\eboIconsUnit}
+        \setlength{\eboIconsUnit}{\baselineskip}
+    \newlength{\eboInterArrowLength}
+        \setlength{\eboInterArrowLength}{1.5\baselineskip}
+    \newlength{\eboLineWidth}
+        \setlength{\eboLineWidth}{.33ex}
+
+    \newcommand{\coefBoxWidth}{6.2}
+    \newcommand{\coefBoxHeight}{3}
+    %Colors%
+    \definecolor{eboOrange}{RGB}{250,179,52}
+    \definecolor{eboOrange21}{RGB}{253,215,145}
+    \definecolor{eboOrange22}{RGB}{249,163,13}
+
+    \definecolor{eboGrey20}{RGB}{235,234,233}
+    \definecolor{eboGrey21}{RGB}{173,171,172}
+    \definecolor{eboGrey22}{RGB}{118,115,116}
+
+    \definecolor{eboBlack}{RGB}{35,31,32}
+
+\begin{tikzpicture}[
+    remember picture,
+    inner sep=0pt,
+    outer sep=0pt,
+    eboStepLabel/.style={
+        font={\sffamily\scriptsize},
+        text=eboOrange,
+        align=center,
+        anchor=base,
+    },
+    eboMiddleArrow/.style={
+        ->,
+        draw=eboGrey21,
+        line width=\eboLineWidth,
+        line cap=round,
+        line join = round,
+        >={Straight Barb[line cap=round, line join=miter, angle=45:4*\the\eboLineWidth]}
+    },
+    iconGrey/.style={
+        text=eboBlack,
+    },
+]
+
+%%% TOP LABELS %%%  
+% Label 1
+    \node[
+    eboStepLabel,
+    ] 
+    (1-caption)
+    at (0,0)
+    {1. Lorem ipsum\\
+        dolor sit amet\strut};
+
+% Label 2
+    \node[
+    eboStepLabel,
+    right= \eboInterlabelDistance of 1-caption.east,
+    anchor=west,
+    ] 
+    (2-caption)
+    {2. consectetur adipiscing elit.\\
+        Mauris eu varius eros\strut};
+
+% Label 3
+    \node[
+    eboStepLabel,
+    right= \eboInterlabelDistance of 2-caption.east,
+    anchor=west,
+    ] 
+    (3-caption)
+    {3. Ut convallis\\
+        accumsan porttitor\strut};
+
+% Label 4
+    \node[
+    eboStepLabel,
+    right= \eboInterlabelDistance of 3-caption.east,
+    anchor=west,
+    ] 
+    (4-caption)
+    {4. Donec mollis in\\
+        erat id sollicitudin\strut};
+
+%%% ILLUSTRATIONS%%%    
+% Illustration step 0
+    \node (0-picture)[
+        below left = \eboYbigUnit and 2.75\eboInterlabelDistance of 1-caption.south, 
+        anchor=center
+    ]
+    {\includegraphics[width=2\baselineskip]{example-image-a}};
+
+% Define center coordinate for illustration of steps 2 to 4
+    \coordinate [below = \eboYbigUnit of 2-caption.south](2-center);
+    \coordinate [below = \eboYbigUnit of 3-caption.south](3-center);
+    \coordinate [below = \eboYbigUnit of 4-caption.south](4-center);
+
+% Illustration step 2       
+%        \begin{tikzpicture}[
+%            inner sep=0pt, 
+%            remember picture, 
+%            baseline=(2-methodology.base)
+%        ]
+        %methodology
+        \node[
+            anchor=base,
+            fill = eboGrey20,
+            draw = eboGrey21,
+            rectangle,
+            minimum height = \coefBoxHeight\baselineskip,
+            minimum width = \coefBoxWidth\baselineskip,
+            line width = .5\eboLineWidth,
+            rounded corners=\eboLineWidth,
+        ] (2-methodology) at (2-center)
+        {};
+
+        %true positive
+        \node[
+            above = .5\baselineskip of 2-methodology.north,
+            fill = eboOrange21,
+            draw = eboOrange22,
+            anchor=south,
+            rectangle,
+            minimum height = \coefBoxHeight\baselineskip,
+            minimum width = \coefBoxWidth\baselineskip,
+            line width = .5\eboLineWidth,
+            rounded corners=\eboLineWidth
+        ] (2-truepositive)
+        {};
+
+        \node[
+            below right= .25\baselineskip and .25\baselineskip of 2-truepositive.north west,
+            anchor = north west,
+            align = left,
+            font = {\sffamily\scriptsize},
+            text = eboOrange22,
+        ](2-truepositive-label)
+        {Duis tempus};
+
+        \coordinate (2-truepositive-articleL) at ($(2-truepositive.north west)!0.9!(2-truepositive.south west)$);
+        \coordinate (2-truepositive-articleR) at ($(2-truepositive.north east)!0.9!(2-truepositive.south east)$);
+
+        \foreach \pos in {0.125, 0.375, ..., 0.875} {
+            \node[text=eboOrange,anchor=base]
+            at ($(2-truepositive-articleL)!\pos!(2-truepositive-articleR)$)
+            {\includegraphics[height=\baselineskip]{example-image-a}};
+        };
+
+
+        \node[
+            below right= .25\baselineskip and .25\baselineskip of 2-methodology.north west,
+            anchor = north west,
+            align = left,
+            font = {\sffamily\scriptsize},
+            text = eboGrey21,
+        ](2-methodology-label)
+        {Dignissim};
+
+        \node[
+            below = .1\baselineskip of 2-methodology-label.south west,
+            anchor = north west,
+            align = left,
+            font = {\sffamily\tiny},
+            text = eboGrey21,
+        ](2-methodology-label)
+        {Nulla ut augue vehicula,\\
+             tincidunt};
+
+        \coordinate (2-methodology-articleL) at ($(2-methodology.north west)!0.9!(2-methodology.south west)$);
+        \coordinate (2-methodology-articleR) at ($(2-methodology.north east)!0.9!(2-methodology.south east)$);
+
+        \foreach \pos in {0.375, 0.625, 0.875} {
+            \node[text=eboGrey21,anchor=base]
+            at ($(2-methodology-articleL)!\pos!(2-methodology-articleR)$)
+            {\includegraphics[height=\baselineskip]{example-image-a}};
+        };
+
+        % dots
+        \node[
+            below = .33\baselineskip of 2-methodology.south,
+            anchor=north,
+            text = eboGrey21,
+            font = {\sffamily},
+        ] (2-dots)
+        {\dots};
+
+        % topology
+        \node[
+            below = .33\baselineskip of 2-dots.south,
+            anchor=north,
+            fill = eboGrey20,
+            draw = eboGrey21,
+            rectangle,
+            minimum height = \coefBoxHeight\baselineskip,
+            minimum width = \coefBoxWidth\baselineskip,
+            line width = .5\eboLineWidth,
+            rounded corners=\eboLineWidth,
+        ] (2-topology)
+        {};
+
+        \node[
+            below right= .25\baselineskip and .25\baselineskip of 2-topology.north west,
+            anchor = north west,
+            align = left,
+            font = {\sffamily\scriptsize},
+            text = eboGrey21,
+        ](2-topology-label)
+        {Luctus rhoncus};
+
+        \node[
+            below = .1\baselineskip of 2-topology-label.south west,
+            anchor = north west,
+            align = left,
+            font = {\sffamily\tiny},
+            text = eboGrey21,
+        ](2-topology-label)
+        {Donec molestie mollis arcu\\
+             eget consectetur};
+
+        \coordinate (2-topology-articleL) at ($(2-topology.north west)!0.9!(2-topology.south west)$);
+        \coordinate (2-topology-articleR) at ($(2-topology.north east)!0.9!(2-topology.south east)$);
+
+        \foreach \pos in {0.625, 0.875} {
+            \node[text=eboGrey21,anchor=base]
+            at ($(2-topology-articleL)!\pos!(2-topology-articleR)$)
+            {\includegraphics[height=\baselineskip]{example-image-a}};
+        };
+%        \end{tikzpicture}
+        \node[
+          %draw, line width=1mm, % Uncomment this to see the boundary
+          inner sep=0pt, outer sep=0pt,
+          fit=(2-topology) (2-truepositive)
+    ] (2-picture)
+    {%
+    };
+
+% Define center coordinate for illustration of step 1
+    \path
+    (2-picture.west)
+    -|
+    (1-caption.south)
+    coordinate [midway] (1-center);
+
+% Illustration step 1   
+    \begin{scope}
+    \newlength{\queryHeight}%
+    \setlength{\queryHeight}{10.166\baselineskip}%
+    \addtolength{\queryHeight}{\heightof{{\sffamily\dots}}}
+
+    %\begin{tikzpicture}[inner sep=0pt]
+        \node[
+        fill = eboGrey21,
+        draw = eboGrey22,
+        rectangle,
+        minimum height = \queryHeight,
+        minimum width = \coefBoxWidth\baselineskip,
+        line width = .5\eboLineWidth,
+        rounded corners=\eboLineWidth,
+        ] (1-query) at (1-center)
+        {};
+        \node[
+        below right= .5\baselineskip and .25\baselineskip of 1-query.north west,
+        anchor = north west,
+        align = left,
+        font = {\sffamily\scriptsize},
+        text = eboGrey20,
+        ](1-query-google)
+        {\includegraphics[height=\baselineskip]{example-image-b}};
+        \node[
+        right= .25\baselineskip of 1-query-google.north east,
+        anchor = north west,
+        align = left,
+        font = {\tiny\sffamily},
+        text = eboGrey20,
+        ](1-query-google)
+        {$\cdot$~Duis vitae faucibus orci,\\
+            venenatis nulla ac\\
+            $\cdot$~Vivamus sit amet\\
+            hendrerit dui};
+
+        \coordinate (1-UL) at ($(1-query.north west)!0.2!(1-query.south west)$);
+        \coordinate (1-UR) at ($(1-query.north east)!0.2!(1-query.south east)$);
+        \coordinate (1-LL) at ($(1-query.north west)!1!(1-query.south west)$);
+        \coordinate (1-LR) at ($(1-query.north east)!1!(1-query.south east)$);
+
+        \foreach \x in {0.125,0.375,0.625,0.875}{
+            \foreach \y/\yname in {0.166/a, 0.333/b, 0.5/c, 0.666/d , 0.833/e}{
+                \coordinate (myL\yname) at ($(1-UL)!\y!(1-LL)$);
+                \coordinate (myR\yname) at ($(1-UR)!\y!(1-LR)$);
+                \node [text=eboGrey22] at ($(myL\yname)!\x!(myR\yname)$) {\includegraphics[height=\baselineskip]{example-image-a}};
+            };
+        };
+        %\end{tikzpicture}
+        \end{scope}
+    \node[
+      %draw, line width=1mm, % Uncomment this to see the boundary
+      inner sep=0pt, outer sep=0pt,
+      fit=(1-query)
+      ](1-picture)
+    {%
+    };
+
+    % Illustration 3        
+    %\begin{tikzpicture}[
+    %remember picture,
+    %inner sep=0pt,
+    \begin{scope}[
+        categorizationLabel/.style={
+            font={\sffamily\scriptsize},
+            text=eboGrey22,
+            align=left,
+        },
+        categorizationSublabel/.style={
+            font={\sffamily\tiny},
+            text=eboGrey21,
+            align=left,
+        },
+        ]
+        \node (3-paper) [text=eboOrange,anchor=north]
+        at (3-center |- 2-picture.north)
+        {\includegraphics[height=2\baselineskip]{example-image-a}};
+        \node [
+            below left = .333\baselineskip and .15\baselineskip of 3-paper.north east, 
+            anchor=north west,
+            text=eboGrey22,
+        ]
+        {\includegraphics[width=\baselineskip]{example-image-c}};
+
+        %Type of paper  
+        \node (3-label-1) [
+            categorizationLabel, 
+            below = \baselineskip of 3-paper.south west,
+            anchor = base west
+        ]
+        {Proin sollicitudin};
+
+        \node (3-label-icon-1)[
+            left = .5em of 3-label-1.west,
+            anchor=east,
+            text=eboGrey22,
+        ]
+        {\includegraphics[height=2ex]{example-image-b}};
+
+        \node (3-sublabel-1-11) [
+            categorizationSublabel,
+            below right = .05ex and .175em of 3-label-1.south west,
+            anchor= north west,
+        ]
+        {\strut\includegraphics[height=1ex]{example-image} ipsum ac};
+
+        \node (3-sublabel-1-21) [
+            categorizationSublabel,
+            below = .0ex of 3-sublabel-1-11.south west,
+            anchor= north west,
+        ]
+        {\strut\includegraphics[height=1ex]{example-image} vestibulum};
+
+        \node (3-sublabel-1-12) [
+            categorizationSublabel,
+            below = .0ex of 3-sublabel-1-21.south west,
+            anchor= north west,
+        ]
+        {\strut\includegraphics[height=1ex]{example-image} suscipit};
+
+        \node (3-sublabel-1-22) [
+            categorizationSublabel,
+            below = .0ex of 3-sublabel-1-12.south west,
+            anchor= north west,
+        ]
+        {\strut\includegraphics[height=1ex]{example-image} venenatis};
+
+        %Type of product    
+        \node (3-label-2) [
+            categorizationLabel, 
+            below = 2.85\baselineskip of 3-label-1.west, 
+            anchor=west,
+        ]
+        {Vulputate fringilla};
+
+        \node (3-label-icon-2)[
+            left = .5em of 3-label-2.west,
+            anchor=east,
+            text=eboGrey22,
+        ]
+        {\includegraphics[height=2ex]{example-image-b}};
+
+        \node (3-sublabel-2-11) [
+            categorizationSublabel,
+            below right = .05ex and .175em of 3-label-2.south west,
+            anchor= north west,
+        ]
+        {\strut\includegraphics[height=1ex]{example-image} condimentum};
+
+        \node (3-sublabel-2-21) [
+            categorizationSublabel,
+            below = .0ex of 3-sublabel-2-11.south west,
+            anchor= north west,
+        ]
+        {\strut\includegraphics[height=1ex]{example-image} scelerisque};
+
+        \node (3-sublabel-2-12) [
+            categorizationSublabel,
+            below = 0.05ex of 3-sublabel-2-21.south west,
+            anchor= north west,
+        ]
+        {\strut\includegraphics[height=1ex]{example-image} lacus};
+
+        \node (3-sublabel-2-22) [
+            categorizationSublabel,
+            below = .0ex of 3-sublabel-2-12.south west,
+            anchor= north west,
+        ]
+        {\strut\includegraphics[height=1ex]{example-image} pharetra};
+
+        %Type of open-design    
+        \node (3-label-3) [
+            categorizationLabel, 
+            below = 2.9\baselineskip of 3-label-2.west,
+            anchor=west,
+        ]
+        {Fusce justo est};
+        \node (3-label-icon-3) [
+            left = .5em of 3-label-3.west,
+            anchor=east,
+            text=eboGrey22,
+        ]
+        {\includegraphics[height=2ex]{example-image-b}};
+
+        \node (3-sublabel-3-11) [
+            categorizationSublabel,
+            below right = .05ex and .175em of 3-label-3.south west,
+            anchor= north west,
+        ]
+        {\strut\includegraphics[height=1ex]{example-image} consequat};
+
+        \node (3-sublabel-3-21) [
+            categorizationSublabel,
+            below = .0ex of 3-sublabel-3-11.south west,
+            anchor= north west,
+        ]
+        {\strut\includegraphics[height=1ex]{example-image} nec facilisis};
+
+        \node (3-sublabel-3-12) [
+            categorizationSublabel,
+            below = 0.05ex of 3-sublabel-3-21.south west,
+            anchor= north west,
+        ]
+        {\strut\includegraphics[height=1ex]{example-image} sodales};
+        %        \end{tikzpicture}
+        \end{scope}
+    \node[
+      %draw, line width=1mm, % Uncomment this to see the boundary
+      inner sep=0pt, outer sep=0pt,
+      fit=(3-paper) (3-sublabel-3-12) (3-label-icon-3) (3-label-2)
+    ] (3-picture)
+    {%
+    };
+
+
+    % Illustration 4        
+%        \begin{tikzpicture}[remember picture,baseline = (4-anchor)]
+        \coordinate (4-anchor) at (4-center -| 4-caption.west);
+
+        \node (4-bars) 
+        at ($(4-anchor)+(1em,1.5\eboIconsUnit)$) [iconGrey,anchor=west] 
+        {\includegraphics[width=2\eboIconsUnit]{example-image-b}};
+
+        \node (4-r-logo) 
+        at (4-bars.north east) [iconGrey,anchor=base] 
+        {\includegraphics[width=\eboIconsUnit]{example-image-c}};
+
+        \node[anchor=west] (4-Typologie)
+        at ($(4-anchor)+(1em,-1.5\eboIconsUnit-.5\baselineskip)$) [%
+            font={\sffamily\scriptsize},
+            text=eboBlack,
+            align=left%
+        ]
+        {Aenean:\strut};
+
+        \node (4-DIY)[%
+            font={\sffamily\scriptsize},
+            text=eboGrey22,
+            align=left,%
+            below = 0pt of 4-Typologie.south west,
+            anchor = north west
+        ]
+        {$\cdot$ Finibus elit\strut};
+
+        \node (4-meta) [%
+            font={\sffamily\scriptsize},
+            text=eboGrey22,
+            align=left,%
+            below = 0pt of 4-DIY.south west,
+            anchor = north west
+        ]
+        {$\cdot$  In orci varius\strut};
+
+        \node (4-indus)[%
+            font={\sffamily\scriptsize},
+            text=eboGrey22,
+            align=left,%
+            below = 0pt of 4-meta.south west,
+            anchor = north west
+        ]
+        {$\cdot$ Lobortis nunc\strut};
+
+%        \end{tikzpicture}%
+    \node (4-picture) at (4-center) [
+          %draw, line width=1mm, % Uncomment this to see the boundary
+      inner sep=0pt, outer sep=0pt,
+      fit=(4-bars) (4-r-logo) (4-Typologie) (4-DIY) (4-meta) (4-indus)
+    ]
+    {%
+    };
+
+%%% ARROWS %%%
+% Arrow 0 -> 1
+    \draw[eboMiddleArrow] ($(0-picture.east)!.5!(1-picture.west)$) ++(-.5\eboInterArrowLength,0) -- ++(\eboInterArrowLength,0);
+
+    % Arrows 1 -> 2
+    \coordinate (12-arrow) at ($(1-picture.east)!.5!(2-picture.west)$);
+    \draw[eboMiddleArrow] (12-arrow) ++(-.5\eboInterArrowLength,0) -- +(\eboInterArrowLength,0);
+    \draw[eboMiddleArrow] (12-arrow) ++(-.5\eboInterArrowLength,0) -- +(\eboInterArrowLength,6ex);
+    \draw[eboMiddleArrow] (12-arrow) ++(-.5\eboInterArrowLength,0) -- +(\eboInterArrowLength,-6ex);
+
+% Arrow 2-3 
+    \coordinate (23-middle) at ($(2-caption.east)!.5!(3-caption.west)$);
+    \draw [eboMiddleArrow] (23-middle) ++(-.5\eboInterArrowLength,-2.2\eboIconsUnit) -- ++(\eboInterArrowLength,0);
+
+    % Arrows 3 -> 4
+    \coordinate (34-arrow) at ($(3-picture.east)!.5!(4-picture.base west)$);
+    \draw [eboMiddleArrow] (34-arrow) ++(-.5\eboInterArrowLength,0) -- ++(\eboInterArrowLength,.75);
+    \draw [eboMiddleArrow] (34-arrow) ++(-.5\eboInterArrowLength,0) -- ++(\eboInterArrowLength,-.75);
+
+\end{tikzpicture}
+%
+%
+\ifdefined\DenKr\end{document}\else\DenKrTikzStandalonePost\fi%

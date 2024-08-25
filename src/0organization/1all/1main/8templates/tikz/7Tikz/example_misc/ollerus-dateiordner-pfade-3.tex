@@ -1,0 +1,59 @@
+% Author: Dennis Krummacker%
+\ifdefined\DenKr\documentclass[tikz,fontsize=11pt,class=scrbook]{standalone}\begin{document}\else%
+\input{"./2ProjectSetup".tex}%
+\input{"\DenKrAllMainRootDirPATH/2includes/packages/preamble_pre".tex}%
+\documentclass[tikz,fontsize=11pt,class=scrbook]{standalone}% I.e. the content from \input{"\DenKrLayoutMainRootDir/2layout/tikz_standalone/preamble_1_class".tex}%
+\input{"\DenKrInternalLayoutRootDir/tikz_standalone/1TikzStandalonePicIncludeThis".tex}%
+\usepackage{forest}%
+\DenKrTikzStandalonePre\fi%
+%
+%
+% 
+% 
+%
+%
+\forestset{
+  declare keylist={icon}{folder},
+}
+%
+% \begin{document}%
+\begin{forest}%
+%
+  for tree={
+    font=\ttfamily,
+    grow'=0,
+    child anchor=west,
+    parent anchor=south,
+    anchor=west,
+    calign=first,
+    inner xsep=7pt,
+    edge path={
+      \noexpand\path [draw, \forestoption{edge}]%
+      (!u.south west) +(7.5pt,0) |-%
+      (.child anchor) pic {\forestoption{icon}}%
+      \forestoption{edge label};%
+    },
+    before typesetting nodes={
+      if n=1
+        {insert before={[,phantom]}}
+        {}
+    },
+    fit=band,
+    before computing xy={l=15pt},
+  }  
+[System
+	[home
+	]
+	[usr
+	]
+	[etc
+		[ollerus
+			[\ldots,icon=none
+			]
+		]
+	]
+]
+\end{forest}%
+%
+%
+\ifdefined\DenKr\end{document}\else\DenKrTikzStandalonePost\fi%

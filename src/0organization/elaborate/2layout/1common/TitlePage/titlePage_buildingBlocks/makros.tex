@@ -1,0 +1,73 @@
+%
+% #1: Title
+% #2: Subtitle
+\newcommand{\DenKrTPTitleAndSubtitle}[2]{%
+%\hrule width \hsize \kern 1mm \hrule width \hsize height 2pt
+%\textcolor{gray!70}{\HRule}\\%PartHeadingColor
+\begin{minipage}{\textwidth}%
+{\textcolor{gray!30!TitlePage_TypoAccentColorOne}{\hrule width \hsize height 0.2ex}\kern0mm}%
+{\textcolor{white!80!TitlePage_TypoAccentColorOne}{\hrule width \hsize height 0.1ex}\kern0mm}%
+{\textcolor{TitlePage_Color_RankA}{\hrule width \hsize height 0.4ex}\kern0mm}%
+\end{minipage}\par%
+\vspace*{3ex}%
+\begin{minipage}{\textwidth}\centering%
+\setstretch{0}%
+{\huge\bfseries%
+\textcolor{TitlePage_Color_RankC}{#1}%
+}\par%
+\vspace*{2ex}%
+\noindent\textcolor{gray!20!TitlePage_TypoAccentColorOne}{\rule{0.6\textwidth}{0.3ex}}\par%
+\vspace*{2ex}%
+{\normalfont\Large%
+\textcolor{TitlePage_Color_RankA}{#2}%
+}%
+\end{minipage}\par%
+\vspace*{3ex}%
+\kern0pt\begin{minipage}{\textwidth}%
+{\textcolor{TitlePage_Color_RankA}{\hrule width \hsize height 0.4ex}\kern0mm}%
+{\textcolor{white!80!TitlePage_TypoAccentColorOne}{\hrule width \hsize height 0.1ex}\kern0mm}%
+{\textcolor{gray!60!TitlePage_TypoAccentColorOne}{\hrule width \hsize height 0.2ex}\kern0mm}%
+\end{minipage}\par%
+}%
+%
+%
+%
+% #1: Publication-Type
+% #2: Word for "by"
+\newcommand{\DenKrTPPublicationBy}[2]{%
+\textsc{\Large #1}\par%
+\vspace*{3\baselineskip}%
+{\Large #2}\par%
+\vspace*{4\baselineskip}%
+%
+% Author and supervisor
+\begin{minipage}[t]{\textwidth}%
+\centering\huge%
+\ifdefempty{\DenKrTPauthorAnrede}%
+	{}%
+	{\textcolor{TitlePage_Color_RankA}{\DenKrTPauthorAnrede}\ }%
+\ifdefempty{\DenKrTPauthorTitleBefore}%
+	{}%
+	{\textcolor{TitlePage_Color_RankA}{\DenKrTPauthorTitleBefore}\ }%
+\textcolor{TitlePage_Color_RankB}{\DenKrTPauthorFirst}\ \textsc{\textcolor{TitlePage_Color_RankB}{\DenKrTPauthorLast}}%
+\ifdefempty{\DenKrTPauthorTitleAfter}%
+	{}%
+	{, \textcolor{TitlePage_Color_RankA}{\DenKrTPauthorTitleAfter}}%
+\end{minipage}%
+\par%
+}%
+%
+%
+%
+\DeclareDocumentCommand{\DenKrTPMiscInfo}{%
+    o% #1: (Optional) Vspace before
+    m% #2: Some arbitrary Text
+}{%
+    \ifx\empty#2\empty%
+    \else%
+        \ifdefempty{#2}{}{%
+            \IfValueTF{#1}{\vspace{#1}}{}%
+            #2\par%
+        }%
+    \fi%
+}%

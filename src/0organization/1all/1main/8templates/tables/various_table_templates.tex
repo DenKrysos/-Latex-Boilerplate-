@@ -1,0 +1,822 @@
+\begin{table}[!t]%[htbp] %laut IEEE guidelines müssen Tabellen und Bilder oben auf einer Seite erscheinen
+\small%
+  \begin{center}%
+  \caption{Requirements Mapped to Solutions}%
+    \begin{tabular}{|l|c|c|c|c|}%
+		\hline
+        \rowcolor{Gray}
+		\begin{tabular}[t]{@{}lr@{}}
+           & \textbf{Solution:} \\
+    \textbf{Requirement:} &
+  \end{tabular} & \textit{S1} & \textit{S2} & \textit{S3} & \textit{S4} \\
+	\hline
+	Timing Precision & \legcheck & \legcheck & \legcheck  & \legbullet\\
+	\hline
+	Flexibility & \legcross & \legcheck & \legcheck & \legbullet\\
+	\hline
+	Real World Interaction & \legcheck & \legcheck & \legcheck & \legcheck\\
+	\hline
+	Trusty Physical Interaction  & \legcheck & \legbullet & \legbullet & \legcross\\
+	\hline
+	Adaptability & \legcheck & \legcheck & \legbullet & \legbullet\\
+	\hline
+    Ease of Use & \legcross & \legbullet & \legcheck & \legbullet\\
+	\hline
+    Simulation/Emulation & Both & Both & Sim & Emu\\
+	\hline
+    Levels of Automation & 1-5 & 1-5 & 2-3 & 3-5\\
+	\hline
+		\end{tabular}%
+		\end{center}
+  \label{tab:req_mapping}%
+	\par%\medskip
+\makeatletter%
+	%\raggedleft
+    \footnotesize%
+	\hspace{1.5em}\textbf{Legend:}\hspace{1em}
+	{\normalsize\legcrossstraight\ - }Solution does not meet requirement,\nl
+	\hspace{6.4em}{\normalsize\legbulletstraight\ - }Solution partly meets requirement,\nl
+	\hspace{6.0em}{\normalsize\legcheckstraight\ - }Solution meets requirement.
+\makeatother%
+\end{table}%
+%
+%
+%
+%
+% Diagonally divided Box
+\begin{table}[!htpb]%
+\small%
+  \begin{center}%
+  \caption{Connection Matrix for SotA and Solution Candidates}%
+\begin{tabular}[]{l||c|c|c|c|}%
+%\diaghead{Candidate 4}{x}{y}
+\diagbox[width=6em,height=3.5ex]{x}{y}
+    &Core/NFs&UE&RAN&BA\\\hline\hline
+ 5G&REST&REST&REST&REST\\\hline
+ Candidate 1&REST&REST&REST&Pub/Sub\\\hline
+ Candidate 2&Pub/Sub&REST&Pub/Sub&Pub/Sub\\\hline
+ Candidate 3&Pub/Sub&Pub/Sub&Pub/Sub&Pub/Sub\\\hline
+\end{tabular}
+\end{center}
+  \label{tab:}%
+	\par%\medskip
+\makeatletter%
+	%\raggedleft
+    \footnotesize%
+    Interaction method between core services / NFs and other infrastructure element.\nl%
+    \textbf{x}: Solution Candidate (Section~\ref{sec:solCand}).
+    \textbf{y}: Element to interact with.
+\makeatother%
+\end{table}%
+%
+%
+%
+%
+% Quite nicely formatted and visually appealing, I think
+{%
+\providecommand{\dispLhead}{}%
+\providecommand{\dispThead}{}%
+\renewcommand{\dispLhead}[1]{\bfseries#1}%
+\renewcommand{\dispThead}[1]{\color{white}\bfseries#1}%
+\newcommand{\disprat}[1]{%
+    \ifnumcomp{\numexpr#1\relax}{<}{1}{\colorlet{ratingColUsed}{DenKrColor_Highlight_Gray}}{%
+    \ifnumcomp{\numexpr#1\relax}{<}{2}{\colorlet{ratingColUsed}{DenKrColor_Highlight_Red}}{%
+    \ifnumcomp{\numexpr#1\relax}{<}{4}{\colorlet{ratingColUsed}{DenKrColor_Highlight_Yellow!50!DenKrColor_Highlight_Orange}}{%
+    \colorlet{ratingColUsed}{DenKrColor_Highlight_Green}}}}%
+    \textcolor{ratingColUsed}{\Large\raisebox{-0.2ex}{\bfseries\boldmath$#1$}}%
+}%
+\colorlet{cell_Head}{SteelBlue!90!black}%
+\colorlet{cell_intraHead}{SlateBlue!40!white}%
+\colorlet{cell_HeadBright}{cell_Head!40!white}%
+\colorlet{cell_bright}{white}%
+\colorlet{cell_accentuated}{AliceBlue}%
+\colorlet{cell_rowOdd}{cell_bright}%
+\colorlet{cell_rowEven}{cell_accentuated}%
+\hyphenpenalty=10000%
+\exhyphenpenalty=10000%
+\setlength{\tabcolsep}{4pt}% Default value: 6pt
+\renewcommand{\arraystretch}{1.5}% Default value: 1
+\renewcommand\theadfont{\bfseries}%
+\begin{table}[!htpb]%
+\arrayrulewidth=0.8pt%
+\arrayrulecolor{SkyBlue!90!black}%
+\rowcolors{2}{rowOdd}{rowEven}%
+\setlength{\extrarowheight}{0ex}%
+\centering%
+\footnotesize%
+\caption{Degree of serving Feature Clusters}%
+\begin{tabular}[]{c||c|c|}%
+% \hline
+% \cline{2-3}
+\hhline{|~|-|-|}
+\rowcolor{cell_Head}
+    \multicolumn{1}{c|}{\cellcolor{white}}
+    &
+    \dispThead{Property-1}
+    &
+    \dispThead{Property-2}
+\\
+% \cline{2-3}
+\hhline{|~|-|-|}
+\noalign{\vskip\doublerulesep
+    %\vskip-\arrayrulewidth
+}
+\hline
+    \dispLhead{Option-A}
+    &\disprat{4}&\disprat{5}
+\\
+\hline
+    \dispLhead{Option-B}
+    &\disprat{0}&\disprat{2}
+\\
+\hline\hline
+    \rowcolor{white}
+    \multicolumn{3}{r}{\textbf{Legend:} Some Value explanation.}
+\\
+\end{tabular}%
+\label{tab:featureClusterCompare}%
+\end{table}%
+\let\disprat\undefined%
+\let\dispLhead\undefined%
+\let\dispThead\undefined%
+}%
+%
+%
+%
+% Another one appaling, slightly variated, regarding the separating lines
+{%
+\providecommand{\dispLhead}{}%
+\providecommand{\dispThead}{}%
+\renewcommand{\dispLhead}[1]{\bfseries#1}%
+\renewcommand{\dispThead}[1]{\color{white}\bfseries#1}%
+\colorlet{cell_Head}{SteelBlue!90!black}%
+\colorlet{cell_intraHead}{SlateBlue!40!white}%
+\colorlet{cell_HeadBright}{cell_Head!40!white}%
+\colorlet{cell_bright}{white}%
+\colorlet{cell_accentuated}{AliceBlue}%
+\colorlet{cell_rowOdd}{cell_bright}%
+\colorlet{cell_rowEven}{cell_accentuated}%
+\hyphenpenalty=10000%
+\exhyphenpenalty=10000%
+\setlength{\tabcolsep}{4pt}% Default value: 6pt
+\renewcommand{\arraystretch}{1.5}% Default value: 1
+\renewcommand\theadfont{\bfseries}%
+\begin{table}[!htpb]%
+\arrayrulewidth=0.8pt%
+\arrayrulecolor{SkyBlue!90!black}%
+\rowcolors{2}{rowOdd}{rowEven}%
+\setlength{\extrarowheight}{0ex}%
+\centering%
+\footnotesize%
+\def\hlineIntra{\hhline{-||-|-|-|-|-|-|}\hhline{~}}%
+\caption{Derived Reference Profiles for \glsfmtshortpl{kpi}}%
+\begin{tabular}[]{c||c|c|c|c|c|c|}%
+\hhline{~|-|-|-|-|-|-|}\hhline{~}
+\rowcolor{cell_Head}
+    \multicolumn{1}{c|}{\cellcolor{white}}
+    &
+    \dispThead{$L_t$}
+    &
+    \dispThead{$J_t$}
+    &
+    \dispThead{$I_t$}
+    &
+    \dispThead{$B_C$}
+    &
+    \dispThead{$S$}
+    &
+    \dispThead{$R_t$}
+\\
+\hhline{~|-|-|-|-|-|-|}\hhline{~}
+\noalign{\vskip\doublerulesep
+    %\vskip-\arrayrulewidth
+}
+%\hhline{-||-|-|-|-|-|-|}\hhline{~}
+\hlineIntra
+    \dispLhead{Rapid Communication}&
+    &&\qty{0.5}{\milli\second}&\qty{50}{\byte}&&
+\\
+%\hhline{-||-|-|-|-|-|-|}\hhline{~}
+\hlineIntra
+    \dispLhead{Cyclic Communication}&
+    \qty{50}{\milli\second}&\qty{5}{\milli\second}&\qty{25}{\milli\second}&\qty{100}{\byte}&&
+\\
+%\hhline{-||-|-|-|-|-|-|}\hhline{~}
+\hlineIntra
+    \dispLhead{Agile Application}&
+    \qty{20}{\milli\second}&&\qty{5}{\milli\second}&\qty{250}{\byte}&&
+\\
+%\hhline{-||-|-|-|-|-|-|}\hhline{~}
+\hlineIntra
+    \dispLhead{Scaling}&
+    \qty{10}{\milli\second}&\qty{1}{\milli\second}&&\qty{100}{\byte}&\num{1000}&
+\\
+%\hhline{-||-|-|-|-|-|-|}\hhline{~}
+\hlineIntra
+    \dispLhead{Reconfiguration}&
+    &&&&&\qty{200}{\milli\second}
+\\
+%\hhline{-||-|-|-|-|-|-|}%
+\hlineIntra
+\noalign{\vskip\doublerulesep}%
+\hline%
+\end{tabular}%
+\label{tab:KPI_profile}%
+\end{table}%
+\let\dispLhead\undefined%
+\let\dispThead\undefined%
+}%
+%
+%
+%
+%
+%
+%
+% Variants, suiting for example typesetting a Workpackage structure in Project-Descriptions
+\newcounter{AP}\setcounter{AP}{0}%
+\newcounter{subAP}\setcounter{subAP}{0}%
+\newcommand\APthis{\arabic{AP}\xspace}%
+\newcommand\SubAPthis{\mbox{\arabic{AP}.\alph{subAP}}\xspace}%
+\newcommand\APnext{\stepcounter{AP}\setcounter{subAP}{0}\APthis}%
+\newcommand\SubAPnext{\stepcounter{subAP}\SubAPthis}%
+\providecommand{\setTableTextWidth}{}\renewcommand{\setTableTextWidth}[2]{%
+% #1 Length to create and set to
+% #2 Number involved Cells/Colums in Row
+	\let#1\relax\newlength{#1}%
+	\setlength{#1}{\textwidth-#2\tabcolsep-#2\tabcolsep-#2\arrayrulewidth-\arrayrulewidth}%
+}%
+%On setting up Tables a certain way, one may have to add additional space to single Cells.
+%=> For EASIER Method, see below
+%  If you set the "actual Table Cells" (provided at the \begin{} Cmd) with a certain Number of Columns as p{}
+%    and then in a specific Row, use \multicolumn{}{} also with p{}, the Cells have to line up in a common Grid.
+%  Using the p{} and calculated Cell-Width, with the Macro \setTableTextWidth{}, once for e.g. calculated with 6 Columns, and once with 3 Cols, causes unmatching Widths, when using proportional shares. (0.2\widthThree is not the same as 0.1\widthSix).
+%  Hence, it is better to always use the same \setTableTextWidth{}, i.e. also the Result received with 6 Columns, when you only have 3 (due to \multicolumn).
+%  But then, additional Space must be spread, namely resulting from \arrayrulewidth * (Diff-between-MaxCols-&-ThisRow) and \tabcolsep * (2*Diff), from the Separator Lines and Cell-Paddings that are now not included.
+%  This total Length is calculated by the below.
+%  You then spread it across the \multicolumn Cells p{} Arguments with a share according to how many Cells one includes
+\providecommand{\setTableAdditionalCellWidthDiff}{}\renewcommand{\setTableAdditionalCellWidthDiff}[3]{%
+% #1 Length-Variable to create and set to
+% #2 The maximum number of Columns, i.e. the number given into \begin{tabular}
+% #3 The Number of resulting Columns of a certain Row (which may differ, due to the use of \multicolumn)
+	\let#1\relax\newlength{#1}%
+	% \numexpr#2-#3\relax%
+	\setlength{#1}{\numexpr#2-#3\relax\arrayrulewidth+\numexpr 2*(#2-#3)\relax\tabcolsep}%
+}%
+%Alternatively, just use the below Value an appropriate number of times in Total,
+%  i.e. spread it (Diff-between-MaxCols-&-ThisRow) times across all \multicolumn-Cells of a Row, or simply, add it (MultirowArgument - 1) to the p{}
+%  As the involved Values may change, due to configurations, better use the below Macro (which sets the Length to use), right befor the Table
+\providecommand{\setTableCellSepWidth}{}\renewcommand{\setTableCellSepWidth}{\let\tableCellSepWidth\relax\newlength{\tableCellSepWidth}\setlength{\tableCellSepWidth}{\arrayrulewidth+2\tabcolsep}}
+%
+%
+%
+%
+{%
+\providecommand{\dispLhead}{}%
+\providecommand{\dispThead}{}%
+\providecommand{\dispNfo}{}%
+\renewcommand{\dispLhead}[1]{\bfseries#1}%
+\renewcommand{\dispThead}[1]{\color{white}\bfseries#1}%
+\renewcommand{\dispNfo}[1]{\bfseries#1}%
+\colorlet{cell_Head}{SteelBlue!90!black}%
+\colorlet{cell_intraHead}{SlateBlue!40!white}%
+\colorlet{cell_HeadBright}{cell_Head!40!white}%
+\colorlet{cell_bright}{white}%
+\colorlet{cell_accentuated}{AliceBlue}%
+\colorlet{cell_rowOdd}{cell_bright}%
+\colorlet{cell_rowEven}{cell_accentuated}%
+\hyphenpenalty=10000%
+\exhyphenpenalty=10000%
+\setlength{\tabcolsep}{4pt}% Default value: 6pt
+\renewcommand{\arraystretch}{1.5}% Default value: 1
+\renewcommand\theadfont{\bfseries}%
+%\begin{table}[!htpb]%
+\arrayrulewidth=0.8pt%
+\arrayrulecolor{SkyBlue!90!black}%
+%\rowcolors{2}{cell_rowOdd}{cell_rowEven}%
+\setlength{\extrarowheight}{0ex}%
+\centering%
+\footnotesize%
+%\def\hlineIntra{\hhline{-||-|-|-|-|-|-|}\hhline{~}}%
+%\caption{Derived Reference Profiles for \glsfmtshortpl{kpi}}%
+\edef\columnNumber{6}%
+\setTableTextWidth{\tabletextw}{\columnNumber}%
+\setTableTextWidth{\tabletextwOne}{1}%
+\setTableTextWidth{\tabletextwThree}{3}%
+\begin{longtable}{|p{0.08\tabletextw}|p{0.17\tabletextw}|p{0.15\tabletextw}|p{0.2\tabletextw}|p{0.2\tabletextw}|p{0.2\tabletextw}|}%
+\hline%
+%================================================================
+\rowcolor{cell_Head}
+	\multicolumn{\columnNumber}{|l|}{\dispThead{AP~\APnext: Konzept, Entwicklung \& Implementierung}}\\
+\hline
+\rowcolor{cell_accentuated}
+	\multicolumn{2}{|p{0.3\tabletextwThree}|}{\dispNfo{AP-Leitung: DFKI}}&
+	\multicolumn{2}{p{0.4\tabletextwThree}|}{\dispNfo{Ressourcen: 20 PM}}&
+	\multicolumn{2}{p{0.3\tabletextwThree}|}{\dispNfo{Zeitraum: M01 -- M06}}\\
+%<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>
+\hline
+%\rowcolor{cell_bright}
+	\multicolumn{\columnNumber}{|p{\tabletextwOne}|}{Ausgiebiger Beschreibungstext für das ganze AP.}\\
+\hline
+\rowcolor{cell_accentuated}
+	AP~\SubAPnext&
+	\multicolumn{5}{l|}{Konzept und Software-Design}\\
+%----------------------------------------------------------------
+\hline
+%\rowcolor{cell_bright}
+	AP~\SubAPnext&
+	\multicolumn{5}{l|}{Implementierung}\\
+%================================================================
+\hline%
+\noalign{\vskip\doublerulesep}%
+\hline%
+\end{longtable}%
+%\label{tab:tabLabel}%
+%\end{table}%
+\let\dispLhead\undefined%
+\let\dispThead\undefined%
+}%
+%
+%
+% - - - - Another One - - - - -
+{%
+\providecommand{\dispLhead}{}%
+\providecommand{\dispThead}{}%
+\providecommand{\dispNfo}{}%
+\renewcommand{\dispLhead}[1]{\bfseries#1}%
+\renewcommand{\dispThead}[1]{\color{white}\bfseries#1}%
+\renewcommand{\dispNfo}[1]{\bfseries#1}%
+\colorlet{cell_Head}{SteelBlue!90!black}%
+\colorlet{cell_intraHead}{SlateBlue!40!white}%
+\colorlet{cell_HeadBright}{cell_Head!40!white}%
+\colorlet{cell_bright}{white}%
+\colorlet{cell_accentuated}{AliceBlue}%
+\colorlet{cell_rowOdd}{cell_bright}%
+\colorlet{cell_rowEven}{cell_accentuated}%
+\hyphenpenalty=10000%
+\exhyphenpenalty=10000%
+\setlength{\tabcolsep}{4pt}% Default value: 6pt
+\renewcommand{\arraystretch}{1.5}% Default value: 1
+\renewcommand\theadfont{\bfseries}%
+%\begin{table}[!htpb]%
+\arrayrulewidth=0.8pt%
+\arrayrulecolor{SkyBlue!90!black}%
+%\rowcolors{2}{cell_rowOdd}{cell_rowEven}%
+\setlength{\extrarowheight}{0ex}%
+\centering%
+\footnotesize%
+%\def\hlineIntra{\hhline{-||-|-|-|-|-|-|}\hhline{~}}%
+%\caption{Derived Reference Profiles for \glsfmtshortpl{kpi}}%
+\edef\columnNumber{6}%
+\setTableTextWidth{\tabletextw}{\columnNumber}%
+\setTableTextWidth{\tabletextwOne}{1}%
+\setTableTextWidth{\tabletextwTwo}{2}%
+\setTableTextWidth{\tabletextwThree}{3}%
+\begin{longtable}{|p{0.08\tabletextw}|p{0.17\tabletextw}|p{0.3\tabletextw}|p{0.3\tabletextw}|p{0.2\tabletextw}|p{0.1\tabletextw}|}%
+\hline
+%================================================================
+\rowcolor{cell_Head}
+	\multicolumn{\columnNumber}{|l|}{\dispThead{AP~\APnext: Konzept, Entwicklung \& Implementierung}}\\
+\hline
+\rowcolor{cell_accentuated}
+	\multicolumn{3}{|p{0.5\tabletextwTwo}|}{\dispNfo{AP-Leitung: DFKI}}&
+	\multicolumn{3}{p{0.5\tabletextwTwo}|}{\dispNfo{Bearbeitungszeitraum: M01 -- M06}}\\
+\hline
+\rowcolor{cell_bright}
+	\multicolumn{3}{|p{0.5\tabletextwTwo}|}{\dispNfo{Partner: alle}}&
+	\multicolumn{3}{p{0.5\tabletextwTwo}|}{\dispNfo{Ressourcen: 20 PM}}\\
+%<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>
+\hline
+\rowcolor{cell_intraHead}
+	\multicolumn{2}{|p{0.1\tabletextwThree}|}{\dispNfo{Task~\SubAPnext}}&
+	\multicolumn{2}{p{0.75\tabletextwThree}|}{Konzept und Software-Design}&
+	\multicolumn{2}{p{0.15\tabletextwThree}|}{\dispNfo{M01 -- M04}}\\
+\hline
+%\rowcolor{cell_bright}
+	\multicolumn{\columnNumber}{|p{\tabletextwOne}|}{Ausgiebiger Beschreibungstext für ein einzelnes (Sub-)Task eines AP.}\\
+%----------------------------------------------------------------
+\hline
+\rowcolor{cell_intraHead}
+	\multicolumn{2}{|p{0.1\tabletextwThree}|}{\dispNfo{Task~\SubAPnext}}&
+	\multicolumn{2}{p{0.75\tabletextwThree}|}{Implementierung}&
+	\multicolumn{2}{p{0.15\tabletextwThree}|}{\dispNfo{M03 -- M06}}\\
+\hline
+%\rowcolor{cell_bright}
+	\multicolumn{\columnNumber}{|p{\tabletextwOne}|}{Ausgiebiger Beschreibungstext für ein einzelnes (Sub-)Task eines AP.}\\
+%================================================================
+\hline%
+\noalign{\vskip\doublerulesep}%
+\hline%
+\end{longtable}%
+%\label{tab:tabLabel}%
+%\end{table}%
+\let\dispLhead\undefined%
+\let\dispThead\undefined%
+}%
+%
+%
+% - - - - Another One - - - - -
+{%
+\providecommand{\dispLhead}{}%
+\providecommand{\dispThead}{}%
+\providecommand{\dispNfo}{}%
+\renewcommand{\dispLhead}[1]{\bfseries#1}%
+\renewcommand{\dispThead}[1]{\color{white}\bfseries#1}%
+\renewcommand{\dispNfo}[1]{\bfseries#1}%
+\colorlet{cell_Head}{SteelBlue!90!black}%
+\colorlet{cell_intraHead}{SlateBlue!40!white}%
+\colorlet{cell_HeadBright}{cell_Head!40!white}%
+\colorlet{cell_bright}{white}%
+\colorlet{cell_accentuated}{AliceBlue}%
+\colorlet{cell_rowOdd}{cell_bright}%
+\colorlet{cell_rowEven}{cell_accentuated}%
+\hyphenpenalty=10000%
+\exhyphenpenalty=10000%
+\setlength{\tabcolsep}{4pt}% Default value: 6pt
+\renewcommand{\arraystretch}{1.5}% Default value: 1
+\renewcommand\theadfont{\bfseries}%
+%\begin{table}[!htpb]%
+\arrayrulewidth=0.8pt%
+\arrayrulecolor{SkyBlue!90!black}%
+%\rowcolors{2}{cell_rowOdd}{cell_rowEven}%
+\setlength{\extrarowheight}{0ex}%
+\centering%
+\footnotesize%
+%\def\hlineIntra{\hhline{-||-|-|-|-|-|-|}\hhline{~}}%
+%\caption{Derived Reference Profiles for \glsfmtshortpl{kpi}}%
+\edef\columnNumber{6}%
+\setTableTextWidth{\tabletextw}{\columnNumber}%
+\setTableTextWidth{\tabletextwOne}{1}%
+\setTableTextWidth{\tabletextwTwo}{2}%
+\setTableTextWidth{\tabletextwThree}{3}%
+\begin{longtable}{|p{0.08\tabletextw}|p{0.17\tabletextw}|p{0.25\tabletextw}|p{0.2\tabletextw}|p{0.2\tabletextw}|p{0.1\tabletextw}|}%
+\hline
+%================================================================
+\rowcolor{cell_Head}
+	\multicolumn{\columnNumber}{|l|}{\dispThead{AP~\APnext: Management, Organisation \& Liasons}}\\
+\hline
+\rowcolor{cell_accentuated}
+	\multicolumn{3}{|p{0.5\tabletextwTwo}|}{\dispNfo{Ressourcen: 20 PM}}&
+	\multicolumn{3}{p{0.5\tabletextwTwo}|}{\dispNfo{Zeitraum: M01 -- M06}}\\
+\hline
+%\rowcolor{cell_bright}
+	\multicolumn{\columnNumber}{|p{\tabletextwOne}|}{Beschreibungstext für das Gesamt-AP.}\\
+%<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>
+\hline
+\rowcolor{cell_intraHead}
+	\multicolumn{2}{|p{0.1\tabletextwThree}|}{\dispNfo{Task~\SubAPnext}}&
+	\multicolumn{2}{p{0.75\tabletextwThree}|}{Konzept und Software-Design}&
+	\multicolumn{2}{p{0.15\tabletextwThree}|}{\dispNfo{M01 -- M04}}\\
+\hline
+%\rowcolor{cell_bright}
+	\multicolumn{\columnNumber}{|p{\tabletextwOne}|}{Ausgiebiger Beschreibungstext für ein einzelnes (Sub-)Task eines AP.}\\
+%----------------------------------------------------------------
+\hline
+\rowcolor{cell_intraHead}
+	\multicolumn{2}{|p{0.1\tabletextwThree}|}{\dispNfo{Task~\SubAPnext}}&
+	\multicolumn{2}{p{0.75\tabletextwThree}|}{Sub-AP-Title}&
+	\multicolumn{2}{p{0.15\tabletextwThree}|}{\dispNfo{MXX -- MXX}}\\
+\hline
+%\rowcolor{cell_bright}
+	\multicolumn{\columnNumber}{|p{\tabletextwOne}|}{Ausgiebiger Beschreibungstext für ein einzelnes (Sub-)Task eines AP.}\\
+%================================================================
+\hline%
+\noalign{\vskip\doublerulesep}%
+\hline%
+\end{longtable}%
+%################################################################
+%################################################################
+\begin{longtable}{|p{0.08\tabletextw}|p{0.17\tabletextw}|p{0.25\tabletextw}|p{0.2\tabletextw}|p{0.2\tabletextw}|p{0.1\tabletextw}|}%
+\hline
+%================================================================
+\rowcolor{cell_Head}
+	\multicolumn{\columnNumber}{|l|}{\dispThead{AP~\APnext: Konzept, Entwicklung \& Implementierung}}\\
+\hline
+\rowcolor{cell_accentuated}
+	\multicolumn{3}{|p{0.5\tabletextwTwo}|}{\dispNfo{Ressourcen: 20 PM}}&
+	\multicolumn{3}{p{0.5\tabletextwTwo}|}{\dispNfo{Zeitraum: M01 -- M06}}\\
+\hline
+%\rowcolor{cell_bright}
+	\multicolumn{\columnNumber}{|p{\tabletextwOne}|}{Beschreibungstext für das Gesamt-AP.}\\
+%<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>
+\hline
+\rowcolor{cell_intraHead}
+	\multicolumn{2}{|p{0.1\tabletextwThree}|}{\dispNfo{Task~\SubAPnext}}&
+	\multicolumn{2}{p{0.75\tabletextwThree}|}{Konzept und Software-Design}&
+	\multicolumn{2}{p{0.15\tabletextwThree}|}{\dispNfo{M01 -- M04}}\\
+\hline
+%\rowcolor{cell_bright}
+	\multicolumn{\columnNumber}{|p{\tabletextwOne}|}{Ausgiebiger Beschreibungstext für ein einzelnes (Sub-)Task eines AP.}\\
+%----------------------------------------------------------------
+\hline
+\rowcolor{cell_intraHead}
+	\multicolumn{2}{|p{0.1\tabletextwThree}|}{\dispNfo{Task~\SubAPnext}}&
+	\multicolumn{2}{p{0.75\tabletextwThree}|}{Implementierung}&
+	\multicolumn{2}{p{0.15\tabletextwThree}|}{\dispNfo{M03 -- M06}}\\
+\hline
+%\rowcolor{cell_bright}
+	\multicolumn{\columnNumber}{|p{\tabletextwOne}|}{Ausgiebiger Beschreibungstext für ein einzelnes (Sub-)Task eines AP.}\\
+%================================================================
+\hline%
+\noalign{\vskip\doublerulesep}%
+\hline%
+\end{longtable}%
+%\label{tab:tabLabel}%
+%\end{table}%
+\let\dispLhead\undefined%
+\let\dispThead\undefined%
+}%
+%
+%
+%
+%
+% - - - - Another One - - - - -
+%  - - Slightly varied Head, added "Workpackage-Lead"
+{%
+\providecommand{\dispLhead}{}%
+\providecommand{\dispThead}{}%
+\providecommand{\dispNfo}{}%
+\renewcommand{\dispLhead}[1]{\bfseries#1}%
+\renewcommand{\dispThead}[1]{\color{white}\bfseries#1}%
+\renewcommand{\dispNfo}[1]{\bfseries#1}%
+\colorlet{cell_Head}{SteelBlue!90!black}%
+\colorlet{cell_intraHead}{SlateBlue!40!white}%
+\colorlet{cell_bright}{white}%
+\colorlet{cell_accentuated}{AliceBlue}%
+\colorlet{cell_rowOdd}{cell_bright}%
+\colorlet{cell_rowEven}{cell_accentuated}%
+\hyphenpenalty=10000%
+\exhyphenpenalty=10000%
+\setlength{\tabcolsep}{4pt}% Default value: 6pt
+\renewcommand{\arraystretch}{1.4}% Default value: 1
+\newcommand{\arraystretchRem}{4pt}%
+\renewcommand\theadfont{\bfseries}%
+\arrayrulewidth=0.8pt%
+\arrayrulecolor{SkyBlue!90!black}%
+%\rowcolors{2}{cell_rowOdd}{cell_rowEven}%
+\setlength{\extrarowheight}{0ex}%
+\centering%
+\footnotesize%
+%\def\hlineIntra{\hhline{-||-|-|-|-|-|-|}\hhline{~}}%
+\edef\columnNumber{6}%
+\setTableTextWidth{\tabletextw}{\columnNumber}%
+\setTableTextWidth{\tabletextwOne}{1}%
+\setTableTextWidth{\tabletextwTwo}{2}%
+\setTableTextWidth{\tabletextwThree}{3}%
+\setTableCellSepWidth%
+% % % % % % % % % % %
+\providecommand{\interTabSpace}{}%
+% \renewcommand{\interTabSpace}{\vspace*{-0.9\baselineskip}}%
+%===========================================
+%===========================================
+\begin{longtable}{|p{0.1\tabletextw}|p{0.1\tabletextw}|p{0.2\tabletextw}|p{0.35\tabletextw}|p{0.1\tabletextw}|p{0.15\tabletextw}|}%
+\hline
+%================================================================
+\rowcolor{cell_Head}
+	\multicolumn{\columnNumber}{|l|}{\dispThead{AP~\APnext: Management, Organisation \& Liasons}}\\
+\hline
+\rowcolor{cell_accentuated}
+	\multicolumn{3}{|p{0.4\tabletextw+2\tableCellSepWidth}|}{\dispNfo{AP-Lead: DenKr}}&
+	\multicolumn{1}{p{0.35\tabletextw}|}{\dispNfo{Ressourcen: 20 PM}}&
+	\multicolumn{2}{p{0.25\tabletextw+\tableCellSepWidth}|}{\dispNfo{Zeitraum: M01 -- M12}}\\
+\hline
+%\rowcolor{cell_bright}
+	\multicolumn{\columnNumber}{|p{\tabletextwOne}|}{Unter AP~\APthis werden die geschäftlichen Aspekte und Aufgaben, die nicht unmittelbar die Produktentwicklung betreffen, gesammelt.}\\
+\hline
+%<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>
+\rowcolor{cell_intraHead}
+	\multicolumn{1}{|p{0.1\tabletextw}|}{\dispNfo{Task~\SubAPnext}}&
+	\multicolumn{4}{p{0.75\tabletextw+3\tableCellSepWidth}|}{Analyse von Märkten und Zielgruppen}&
+	\multicolumn{1}{p{0.15\tabletextw}|}{\dispNfo{M01 -- M04}}\\
+\hline
+%\rowcolor{cell_bright}
+	\multicolumn{\columnNumber}{|p{\tabletextwOne}|}{
+		Zur Identifizierung der Eignung ...
+	}\\
+%----------------------------------------------------------------
+\hline
+\rowcolor{cell_intraHead}
+	\multicolumn{1}{|p{0.1\tabletextw}|}{\dispNfo{Task~\SubAPnext}}&
+	\multicolumn{4}{p{0.75\tabletextw+3\tableCellSepWidth}|}{Kontakt mit potenziellen Anwendern}&
+	\multicolumn{1}{p{0.15\tabletextw}|}{\dispNfo{M09 -- M12}}\\
+\hline
+%\rowcolor{cell_bright}
+	\multicolumn{\columnNumber}{|p{\tabletextwOne}|}{%
+		Ist eine Zielgruppe festgelegt, ...
+	}\\
+%================================================================
+\hline%
+\noalign{\vskip\doublerulesep}%
+\hline%
+\end{longtable}%
+%===========================================
+%===========================================
+\interTabSpace
+% - - Another Table
+\let\dispLhead\undefined%
+\let\dispThead\undefined%
+}%
+%
+%
+%
+%
+% - - - - Another One - - - - -
+% Does an WP description more compact. Displays everything as one contiguous Table, with only a small Distance (actually a Double-Rule) in-between.
+{%
+\providecommand{\dispLhead}{}%
+\providecommand{\dispThead}{}%
+\providecommand{\dispNfo}{}%
+\renewcommand{\dispLhead}[1]{\bfseries#1}%
+\renewcommand{\dispThead}[1]{\color{white}\bfseries#1}%
+\renewcommand{\dispNfo}[1]{\bfseries#1}%
+\colorlet{cell_Head}{SteelBlue!90!black}%
+\colorlet{cell_intraHead}{SlateBlue!40!white}%
+\colorlet{cell_bright}{white}%
+\colorlet{cell_accentuated}{AliceBlue}%
+\colorlet{cell_rowOdd}{cell_bright}%
+\colorlet{cell_rowEven}{cell_accentuated}%
+\hyphenpenalty=10000%
+\exhyphenpenalty=10000%
+\setlength{\tabcolsep}{4pt}% Default value: 6pt
+\renewcommand{\arraystretch}{1.4}% Default value: 1
+\newcommand{\arraystretchRem}{4pt}%
+\renewcommand\theadfont{\bfseries}%
+\arrayrulewidth=0.8pt%
+\arrayrulecolor{SkyBlue!90!black}%
+%\rowcolors{2}{cell_rowOdd}{cell_rowEven}%
+\setlength{\extrarowheight}{0ex}%
+\centering%
+\footnotesize%
+%\def\hlineIntra{\hhline{-||-|-|-|-|-|-|}\hhline{~}}%
+\edef\columnNumber{6}%
+\setTableTextWidth{\tabletextw}{\columnNumber}%
+\setTableTextWidth{\tabletextwOne}{1}%
+\setTableTextWidth{\tabletextwTwo}{2}%
+\setTableTextWidth{\tabletextwThree}{3}%
+% % % % % % % % % % %
+\providecommand{\interTabSpace}{}%
+% \renewcommand{\interTabSpace}{\vspace*{-0.9\baselineskip}}%
+%===========================================
+%===========================================
+\begin{longtable}{|p{0.08\tabletextw}|p{0.17\tabletextw}|p{0.25\tabletextw}|p{0.2\tabletextw}|p{0.2\tabletextw}|p{0.1\tabletextw}|}%
+%================================================================
+\hline
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%#############################################################################%%
+%%#############################################################################%%
+%%    AP 1    #################################################################%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\rowcolor{cell_Head}
+	\multicolumn{\columnNumber}{|l|}{\dispThead{AP~\APnext: Management, Organisation, Liasons. Studien \& Zielformulierung}}\\
+\hline
+\rowcolor{cell_accentuated}
+	\multicolumn{3}{|p{0.5\tabletextwTwo}|}{\dispNfo{Ressourcen: 9 PM}}&
+	\multicolumn{3}{p{0.5\tabletextwTwo}|}{\dispNfo{Zeitraum: M01 -- M12}}\\
+%<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>
+\hline
+	\multicolumn{\columnNumber}{|p{\tabletextwOne}|}{%
+		AP~\APthis behandelt ...
+	}\\[-\arraystretchRem]
+	\multicolumn{\columnNumber}{|p{\tabletextwOne}|}{%
+		This way, a 'contiguous' Cell can be broken and split across pages.
+	}\\
+%================================================================
+\hline%
+\noalign{\vskip\doublerulesep}%
+\hline%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%#############################################################################%%
+%%#############################################################################%%
+%%    AP 2    #################################################################%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\rowcolor{cell_Head}
+	\multicolumn{\columnNumber}{|l|}{\dispThead{AP~\APnext: Konzept, Entwicklung \& Implementierung}}\\
+\hline
+\rowcolor{cell_accentuated}
+	\multicolumn{3}{|p{0.5\tabletextwTwo}|}{\dispNfo{Ressourcen: 33 PM}}&
+	\multicolumn{3}{p{0.5\tabletextwTwo}|}{\dispNfo{Zeitraum: M01 -- M12}}\\
+\hline
+%<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>
+	\multicolumn{\columnNumber}{|p{\tabletextwOne}|}{
+		AP~\APthis umfasst ...
+	}\\[-\arraystretchRem]
+	\multicolumn{\columnNumber}{|p{\tabletextwOne}|}{%
+		More description\nl
+        Newline inside truly contiguous Cell.
+	}\\
+%================================================================
+\hline%
+\noalign{\vskip\doublerulesep}%
+\hline%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%#############################################################################%%
+%%#############################################################################%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\end{longtable}%
+%===========================================
+%===========================================
+\interTabSpace
+% - - Another Table
+\let\dispLhead\undefined%
+\let\dispThead\undefined%
+}%
+%
+%
+%
+%
+% Looking slightly different. May be used for typesetting 'Budget'
+{%
+\providecommand{\dispLhead}{}%
+\providecommand{\dispThead}{}%
+\providecommand{\dispNfo}{}%
+\renewcommand{\dispLhead}[1]{\cellcolor{cell_Head}\color{white}\bfseries#1}%
+\renewcommand{\dispThead}[1]{\color{white}\bfseries#1}%
+\renewcommand{\dispNfo}[1]{\bfseries#1}%
+\sisetup{%
+group-minimum-digits=2,%
+}%
+\providecommand{\dispNumCell}{}%
+\renewcommand{\dispNumCell}[1]{\num[detect-weight=true,detect-all=true]{#1}}%
+\providecommand{\dispSumCell}{}%
+\renewcommand{\dispSumCell}[1]{\cellcolor{cell_row1}\bfseries\boldmath#1}%
+\definecolor{cell_Head}{RGB}{0,112,192}%
+\colorlet{cell_intraHead}{SlateBlue!40!white}%
+\definecolor{cell_row1}{RGB}{219,229,241}%
+\definecolor{cell_row2}{RGB}{149,179,215}%
+\definecolor{cell_row3}{RGB}{84,141,212}%
+\colorlet{cell_bright}{white}%
+\colorlet{cell_accentuated}{AliceBlue}%
+\colorlet{cell_rowOdd}{cell_bright}%
+\colorlet{cell_rowEven}{cell_accentuated}%
+\hyphenpenalty=10000%
+\exhyphenpenalty=10000%
+\setlength{\tabcolsep}{4pt}% Default value: 6pt
+\renewcommand{\arraystretch}{1.5}% Default value: 1
+\renewcommand\theadfont{\bfseries}%
+\begin{table}[!htpb]%
+\arrayrulewidth=0.8pt%
+\arrayrulecolor{SkyBlue!90!black}%
+\rowcolors{2}{cell_rowOdd}{cell_rowEven}%
+\setlength{\extrarowheight}{0ex}%
+\centering%
+\footnotesize%
+%\def\hlineIntra{\hhline{-||-|-|-|-|-|-|}\hhline{~}}%
+\caption{Budget Planung in Euro}%
+\edef\columnNumber{4}%
+\setTableTextWidth{\tabletextw}{\columnNumber}%
+\setTableTextWidth{\tabletextwOne}{1}%
+\setTableTextWidth{\tabletextwTwo}{2}%
+\setTableTextWidth{\tabletextwThree}{3}%
+\begin{tabular}{|c|r|r|r|}%
+\hline
+%================================================================
+\rowcolor{cell_Head}
+	\multicolumn{1}{|c|}{\dispThead{}}&
+	\multicolumn{1}{c|}{\dispThead{Unternehmen}}&
+	\multicolumn{1}{c|}{\dispThead{Someone}}&
+	\multicolumn{1}{c|}{\dispThead{Summe}}\\
+\hline
+	\dispLhead{Personal}&
+	\dispNumCell{1000}&
+	\dispNumCell{1000}&
+	\dispSumCell{\dispNumCell{1000}}\\
+\hline
+	\dispLhead{Reisen}&
+	\dispNumCell{1000}&
+	\dispNumCell{1000}&
+	\dispSumCell{\dispNumCell{1000}}\\
+\hline
+	\dispLhead{Hardware}&
+	\dispNumCell{1000}&
+	\dispNumCell{1000}&
+	\dispSumCell{\dispNumCell{1000}}\\
+\hline
+\hline
+\rowcolor{cell_row2}
+	\dispLhead{Summe}&
+	\dispNumCell{1000}&
+	\dispNumCell{1000}&
+	\dispNumCell{1000}\\
+\hline
+\hline
+\rowcolor{cell_row3}
+	\dispLhead{Förderquote}&
+	\dispNumCell{1000}&
+	\dispNumCell{1000}&
+	\dispNumCell{1000}\\
+\hline
+\rowcolor{cell_row3}
+	\dispLhead{Fördermittel}&
+	\dispNumCell{1000}&
+	\dispNumCell{1000}&
+	\dispNumCell{1000}\\
+%================================================================
+\hline%
+\noalign{\vskip\doublerulesep}%
+\hline%
+\end{tabular}%
+\label{tab:budget}%
+\end{table}%
+\let\dispLhead\undefined
+\let\dispThead\undefined
+\let\dispNfo\undefined
+}%

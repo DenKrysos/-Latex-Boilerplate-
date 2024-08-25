@@ -1,0 +1,70 @@
+# This File is a general Perl Script.
+#   It is issued BEFORE (right at the Begin of) Compilation.
+#   It can be used e.g. for compiling other Projects before starting this Compilation.
+#     (For example, when this Projects intends to merge other Documents into a common one (pdfpages.sty).)
+#   (It changes directory and calls 'latexmk', assuming there is a .latexmkrc existing.)
+# It is Set up by the accompanying '.latexmkrc' (May be commented out).
+
+use strict;
+use warnings;
+use File::Spec;
+use File::Spec::Functions;
+use File::Find;
+use File::Basename;
+
+
+######################################
+# Getting Arguments  #################
+#=====================================
+# It gets the Absolute-Path to the Script that calls it per 1st-Argument.
+my $argc=$#ARGV + 1;
+print "DenKr(latexmkrc, Pre): Got Arguments (\#$argc).\n";
+foreach my $argnum (0 .. $#ARGV){
+	print "  - $ARGV[$argnum]\n";
+}
+# Actually, we need only the first.
+my $script_absP=$ARGV[0];
+######################################
+# Deriving more Paths from it  #######
+#=====================================
+# Get the Parent-Directory (one higher) & the highest common "Base-Directory"
+my $dir_parent=dirname($script_absP);
+my $dir_base=dirname($dir_parent);
+
+
+######################################
+# Sub-Routines  ######################
+#=====================================
+sub compileProject{
+    # Retrieve the arguments
+    my ($absPathParent,$projectName)=@_;
+	# Create Full-Path to .latexmkrc in Project
+    my $compileDir=catfile($absPathParent,$projectName);
+	print "DenKr(latexmkrc, Pre): Building $compileDir\n";
+	# Compile: Execute Latexmk in respective Project-Dir
+	chdir($compileDir) or die "Cannot change directory to $compileDir: $!";
+	system("latexmk") == 0
+		or die "Failed to execute command: $!";
+}
+
+
+
+
+######################################
+# Project-Definition & Compilation  ##
+#=====================================
+# Define the Names and Directories of the Projects to Compile
+my $dir_CV_sub='1Lebenslauf';
+compileProject($dir_base,$dir_CV_sub);
+# - - - - - - -
+my $dir_CoverLetter_sub='2Anschreiben';
+compileProject($dir_parent,$dir_CoverLetter_sub);
+
+
+
+
+######################################
+# FIN  ###############################
+#=====================================
+print "DenKr(latexmkrc, Pre): Script finished\n";
+print "----------------------------------------\n";

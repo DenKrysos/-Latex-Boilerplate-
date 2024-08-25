@@ -1,0 +1,74 @@
+%________________________________________________________________________
+%       Embellishing Backgrounds for the chap_banderole_verticalMargin Chapter Heading
+%           -> First, include this
+%           -  Then do the
+%               \providecommand\DenKrKomaChapterBackgroundDrawing{}%
+%               \renewcommand\DenKrKomaChapterBackgroundDrawing{[...]}%
+%           - for which you use (maybe among additional custom instructions) Macros from here
+%           - Then, include the chap_banderole_verticalMargin File
+%========================================================================
+%
+%________________________________________________________________________
+%       Inclusion creates Definitions for the actually creating File
+%========================================================================
+% Defines Macros used below (in the BG-Fragment-Definitions)
+\DenKrInputKOMAFile{BuildingBlocks/1cmd_draw_shade}%
+%
+%
+%________________________________________________________________________
+%       The actual Definition of the Background-Fragments
+%========================================================================
+\DeclareDocumentCommand{\ChapBanderoleVerticalMarginInwardsA}{}{%
+    \coordinate(ShadeFrom1)at(chapter_title.north \nodeAnchOpposite);%
+    \coordinate(ShadeFrom2)at($(chapter_line_T)+(\ShiftDirectionOpp 1pt,0)$);%
+    \coordinate(ShadeOrigin)at(ShadeFrom1-|ShadeFrom2);%
+    \coordinate(ShadeTo1)at($(ShadeFrom1)!.6!(ShadeOrigin)$);%
+    \coordinate(ShadeTo2)at($(ShadeFrom2)!.5!(ShadeOrigin)$);%
+    \coordinate(ShadeCtrl1To)at($(ShadeFrom1)!.6!(ShadeOrigin)$);%
+    \coordinate(ShadeCtrl1From)at($(ShadeCtrl1To)+(0,0.01\paperheight)$);%
+    \coordinate(ShadeCtrl2To)at(ShadeOrigin);%
+    \coordinate(ShadeCtrl2From)at($(ShadeCtrl2To)+(\ShiftDirectionOpp 0.03\paperwidth,0.02\paperheight)$);%
+    \ChapShadeCorner%
+    \coordinate(ShadeJunction)at($(ShadeTo2-|chapter_line_T)+(\ShiftDirection 1pt,0)$);%
+    %
+    \coordinate(ShadeFrom1)at(chapter_title.south \nodeAnchOpposite);%
+    \coordinate(ShadeFrom2)at($(chapter_line_B)+(\ShiftDirectionOpp 1pt,0)$);%
+    \coordinate(ShadeOrigin)at(ShadeFrom1-|ShadeFrom2);%
+    \coordinate(ShadeFrom1)at($(ShadeFrom1)!.3!(ShadeOrigin)$);% Shift it
+    \coordinate(ShadeTo1)at($(ShadeFrom1)!.6!(ShadeOrigin)$);%
+    \coordinate(ShadeTo2)at($(ShadeFrom2)!.5!(ShadeOrigin)$);%
+    \coordinate(ShadeCtrl1To)at($(ShadeFrom1)!.7!(ShadeOrigin)$);%
+    \coordinate(ShadeCtrl1From)at($(ShadeCtrl1To)+(0,-0.004\paperheight)$);%
+    \coordinate(ShadeCtrl2To)at($(ShadeOrigin)+(\ShiftDirectionOpp 0.006\paperwidth,0.004\paperheight)$);%
+    % \coordinate(ShadeCtrl2To)at(ShadeOrigin);%
+    \coordinate(ShadeCtrl2From)at($(ShadeCtrl2To)+(\ShiftDirectionOpp 0.006\paperwidth,-0.002\paperheight)$);%
+    \ChapShadeCorner%
+}%
+%
+%
+%
+\DeclareDocumentCommand{\ChapBanderoleVerticalMarginOutwardsA}{}{%
+    % The outer-most Shade, behind the Number, right at the paper's edge
+    \coordinate(ShadeFrom1)at($(chapter_line_B)+(\ShiftDirection 1pt,0)$);%
+    \coordinate(ShadeTo1)at(ShadeFrom1|-chapter_title.south \nodeAnchOpposite);%
+    \coordinate(ShadeFrom2)at($(chapter_title.north \nodeAnch-|current page.north \nodeAnch)!.6!(current page.north \nodeAnch)$);%
+    \coordinate(ShadeTo2)at($(ShadeFrom2)!1!(current page.north \nodeAnch)$);%
+    \coordinate(ShadeTo3)at(current page.north \nodeAnch);%
+    \coordinate(ShadeFrom3)at($(chapter_line_T)!.7!(ShadeTo3)$);%
+    \coordinate(ShadeTo4)at(ShadeJunction);%
+    \coordinate(ShadeFrom4)at(ShadeJunction|-chapter_line_T);%
+    \ChapShadeCornerB[\DenKrKomaHeadDrawShadingStepsDefault][0.1][0.6]%
+}%
+%
+\DeclareDocumentCommand{\ChapBanderoleVerticalMarginOutwardsB}{}{%
+    % The outer-most Shade, behind the Number, right at the paper's edge
+    \coordinate(ShadeFrom1)at($(chapter_line_B)+(\ShiftDirection 1pt,0)$);%
+    \coordinate(ShadeTo1)at(ShadeFrom1|-chapter_title.south \nodeAnchOpposite);%
+    \coordinate(ShadeTo2)at($(ShadeFrom1-|current page.north \nodeAnch)!.65!(current page.north \nodeAnch)$);%
+    \coordinate(ShadeTo3)at(ShadeTo2);%
+    \coordinate(ShadeFrom2)at($(ShadeFrom1-|current page.north \nodeAnch)!.4!(current page.north \nodeAnch)$);%
+    \coordinate(ShadeFrom3)at($(ShadeFrom1-|current page.north \nodeAnch)!.75!(current page.north \nodeAnch)$);%
+    \coordinate(ShadeTo4)at(ShadeJunction);%
+    \coordinate(ShadeFrom4)at(ShadeJunction|-chapter_line_T);%
+    \ChapShadeCornerB%
+}%

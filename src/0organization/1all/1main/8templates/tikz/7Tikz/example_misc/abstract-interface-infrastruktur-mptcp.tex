@@ -1,0 +1,382 @@
+% Author: Dennis Krummacker%
+\ifdefined\DenKr\documentclass[tikz,fontsize=11pt,class=scrbook]{standalone}\begin{document}\else%
+\input{"./2ProjectSetup".tex}%
+\input{"\DenKrAllMainRootDirPATH/2includes/packages/preamble_pre".tex}%
+\documentclass[tikz,fontsize=11pt,class=scrbook]{standalone}% I.e. the content from \input{"\DenKrLayoutMainRootDir/2layout/tikz_standalone/preamble_1_class".tex}%
+\input{"\DenKrInternalLayoutRootDir/tikz_standalone/1TikzStandalonePicIncludeThis".tex}%
+\DenKrTikzStandalonePre\fi%
+%
+%
+%
+\newcommand\nodedistance{0.5cm}%
+%
+\let\innabst\undefined%
+\newlength\innabst%
+\setlength\innabst{0.8em}% Abstand zwischen Text und Zellenrand
+%
+\let\ifaceheight\undefined%
+\newlength\ifaceheight%
+\settoheight{\ifaceheight}{\textbf{wlan0}}%
+\setlength\ifaceheight{\ifaceheight+2\innabst}%
+%
+\let\ifacewidth\undefined%
+\newlength\ifacewidth%
+\settowidth{\ifacewidth}{\textbf{wlan0}}%
+\setlength\ifacewidth{\ifacewidth+\innabst-0.5em}%
+%
+\let\ifacesep\undefined%
+\newlength\ifacesep%
+\setlength\ifacesep{0.3cm}%
+%
+\let\abifacewidth\undefined%
+\newlength\abifacewidth%
+\setlength\abifacewidth{6\ifacewidth+8\ifacesep}%
+%
+\let\abifaceheight\undefined%
+\newlength\abifaceheight%
+\setlength\abifaceheight{2.5\ifaceheight}%
+%
+\let\abipcheight\undefined%
+\newlength\abipcheight%
+\setlength\abipcheight{2\abifaceheight}%
+%
+\let\abipcwidth\undefined%
+\newlength\abipcwidth%
+\setlength\abipcwidth{\abifacewidth+3\ifacesep}%
+%
+\newcommand\roundcorneramount{2mm}%
+%
+% Define the layers to draw the diagram
+\pgfdeclarelayer{background}%
+\pgfdeclarelayer{cable}%
+% \pgfdeclarelayer{foreground}%
+\pgfsetlayers{background,main,cable}%,foreground}
+%
+%
+\begin{tikzpicture}[%
+	scale = 1.0,%Könnte das Makro \tikzpicturescale sein. Siehe in makros.tex
+	% (Sollte eigentlich übergeben werden)(Beachte Möglichkeiten der Übergabe;
+	% standalone mode=tex vs mode=buildnew)
+	auto,%
+	node distance=\nodedistance,%
+]%
+%
+\tikzstyle{iface}=[%
+	rectangle,%
+% 	rounded corners=\roundcorneramount,%
+% 	minimum width=\breiteEins,%
+	minimum height=\ifaceheight,%
+	text width=\ifacewidth,%
+	text centered,%
+	align=center,%
+	draw=black,%
+% 	inner sep=0.5*\innabst,%
+	fill=yellow!50%
+]%
+%
+\definecolor{abifacecolor}{RGB}{250,250,200}
+\definecolor{abifacebackcolor}{RGB}{180,180,100}
+\tikzstyle{abiface}=[%
+	rectangle,%
+% 	rounded corners=\roundcorneramount,%
+	minimum width=\abifacewidth,%
+	minimum height=\abifaceheight,%
+	text centered,%
+	align=center,%
+	draw=black,%
+	inner sep=0.5*\innabst,%
+	fill=abifacecolor%
+% 	middle color=yellow!20,
+% 	right color=gray!20,
+]%
+%
+\tikzstyle{abifaceoben}=[%
+	abiface,%
+	anchor=south,%
+	shape=rectangleRoundedAnchorExact,%
+	rectangle with rounded corners north west=15pt,%
+	rectangle with rounded corners south west=0pt,%
+	rectangle with rounded corners north east=15pt,%
+	rectangle with rounded corners south east=0pt,%
+]%
+%
+\tikzstyle{abifaceunten}=[%
+	abiface,%
+	anchor=north,%
+	shape=rectangleRoundedAnchorExact,%
+	rectangle with rounded corners north west=0pt,%
+	rectangle with rounded corners south west=15pt,%
+	rectangle with rounded corners north east=0pt,%
+	rectangle with rounded corners south east=15pt,%
+]%
+%
+\tikzstyle{abifaceobenback}=[%
+	abifaceoben,%
+	fill=abifacebackcolor,%
+]%
+%
+\tikzstyle{abifaceuntenback}=[%
+	abifaceunten,%
+	fill=abifacebackcolor,%
+]%
+%
+\tikzstyle{abipc}=[%
+	rectangle,%
+% 	rounded corners=\roundcorneramount,%
+	minimum width=\abipcwidth,%
+	minimum height=\abipcheight,%
+	text centered,%
+	align=center,%
+	draw=black,%
+	inner sep=0.5*\innabst,%
+	fill=gray!20,%
+	blur shadow={
+% 		color=black,%
+		shadow xshift=1mm,
+		shadow yshift=1mm,
+		shadow scale=1.0,%
+		shadow opacity=50,%
+		shadow blur radius=1em,%
+		shadow blur steps=20,%
+	}%
+]%
+%
+\tikzstyle{station}=[%
+	abipc,%
+% 	rounded corners=\roundcorneramount,%
+	minimum width=0.8\abipcwidth,%
+	minimum height=\abipcheight,%
+]%
+%
+\tikzstyle{stationiface}=[%
+	abiface,%
+% 	rounded corners=\roundcorneramount,%
+	minimum width=0.8\abifacewidth,%
+	minimum height=\abifaceheight,%
+]%
+%
+\tikzstyle{stationifaceoben}=[%
+	stationiface,%
+	anchor=south,%
+	shape=rectangleRoundedAnchorSurround,%
+	rectangle with rounded corners north west=10pt,%
+	rectangle with rounded corners south west=0pt,%
+	rectangle with rounded corners north east=10pt,%
+	rectangle with rounded corners south east=0pt,%
+]%
+%
+\tikzstyle{stationifaceunten}=[%
+	stationiface,%
+	anchor=north,%
+	shape=rectangleRoundedAnchorSurround,%
+	rectangle with rounded corners north west=0pt,%
+	rectangle with rounded corners south west=10pt,%
+	rectangle with rounded corners north east=0pt,%
+	rectangle with rounded corners south east=10pt,%
+]%
+%
+\tikzstyle{stationifaceobenback}=[%
+	stationifaceoben,%
+	fill=abifacebackcolor,%
+]%
+%
+\tikzstyle{stationifaceuntenback}=[%
+	stationifaceunten,%
+	fill=abifacebackcolor,%
+]%
+%
+%
+\bfseries%
+%
+	\node(abipc1)[abipc,anchor=south]at(0,0){};%
+	\node(abipc1head)[anchor=north]at(abipc1.north){\LARGE Hardware-Plattform
+	\lipsaround{AI1}};%
+%
+% 	\node(abin1anchor)[shape=coordinate]at(abipc1.south){};%
+% 	\node(abin1back)[abifaceobenback]at(abin1anchor){};%
+% 	\node(abin1)[abifaceoben,xshift=-2mm,yshift=2mm]at(abin1anchor){};%
+% 	\path[draw=black,fill=abifacebackcolor](abin1.south west)--(abin1.south east)--%
+% 		(abin1back.south east)-- (abin1back.south west)--(abin1.south west);%
+% 	\draw[black]($(abin1.north east)+(0,0)$)--%
+% 		($(abin1back.north east)+(0,0)$);%
+% 	\draw[black]($(abin1.north east)+(4.5pt,-9.5pt)$)--%
+% 		($(abin1back.north east)+(4.5pt,-9.5pt)$);%
+	\node(abin1)[shape=coordinate]at(abipc1.south){};%
+	\ExtrudeOutRoundedTop{abin1}{up}{left}{abifaceoben}{abifaceobenback}%
+		{abifacecolor}{abifacebackcolor}{15pt}%
+	\node(abinhead1)[anchor=north]at(abin1front.north){\Large Abstract Interface};%
+%
+	\node(ai1-eth1)[iface,anchor=south]at(abin1front.south){eth1};%
+	\node(ai1-eth0)[iface,left=\ifacesep of ai1-eth1]{eth0};%
+	\node(ai1-blu0)[iface,left=\ifacesep of ai1-eth0]{blu0};%
+	\node(ai1-wlan0)[iface,right=\ifacesep of ai1-eth1]{wlan0};%
+	\node(ai1-etc)[iface,right=\ifacesep of ai1-wlan0]{\ldots};%
+%
+%
+%
+	\node(abipc2)[abipc,below=3cm of abipc1,%
+		blur shadow={shadow xshift=1mm,shadow yshift=-1mm,}]{};%
+	\node(abipc2head)[anchor=south]at(abipc2.south){\LARGE Hardware-Plattform
+	\lipsaround{AI2}};%
+%
+% 	\node(abin2anchor)[shape=coordinate]at(abipc2.north){};%
+% 	\node(abin2back)[abifaceuntenback]at(abin2anchor){};%
+% 	\node(abin2)[abifaceunten,xshift=-2mm,yshift=2mm]at(abin2anchor){};%
+% 	\path[fill=abifacebackcolor](abin2.north east)--%
+% 		(abin2back.north east)--(abin2back.north east-|abin2.north east)--%
+% 		(abin2.north east);%
+% 		\draw[draw=abifacebackcolor,line width=0.8pt]%
+% 			($(abin2back.north east)+(0,-0.2pt)$)--%
+% 			($(abin2back.north east-|abin2.north east)+(0,-0.2pt)$);%
+% 		\draw(abin2.north east)--(abin2back.north east);%
+% 		\draw[](abin2.north east)--%
+% 			($(abin2back.north east-|abin2.north east)+(0,-0.6pt)$);%
+% 		\draw[](abin2back.north east)--%
+% 			($(abin2back.north east)+(0,-0.6pt)$);%
+% 	\draw[black]($(abin2.south west)+(0,0)$)--%
+% 		($(abin2back.south west)+(0,0)$);%
+% 	\path[shading=axis,%
+% 		left color=abifacebackcolor,right color=abifacebackcolor,%
+% 		middle color=abifacecolor,%
+% 		shading angle=135,]%
+% 		($(abin2.east|-abin2.south)+(0pt,15pt)$)to[out=-90,in=0]%
+% 		($(abin2.east|-abin2.south)+(-15pt,0pt)$)to%
+% 		($(abin2back.east|-abin2back.south)+(-15pt,0pt)$)to[out=0,in=-90]%
+% 		($(abin2back.east|-abin2back.south)+(0pt,15pt)$)to%
+% 		($(abin2.east|-abin2.south)+(0pt,15pt)$);%
+% 	\path[draw=black]%
+% 		($(abin2.east|-abin2.south)+(0pt,15pt)$)to[out=-90,in=0]%
+% 		($(abin2.east|-abin2.south)+(-15pt,0pt)$);%
+% 	\path[draw=black]%
+% 		($(abin2back.east|-abin2back.south)+(-16pt,0pt)$)to%
+% 		($(abin2back.east|-abin2back.south)+(-15pt,0pt)$)to[out=0,in=-90]%
+% 		($(abin2back.east|-abin2back.south)+(0pt,15pt)$)to%
+% 		($(abin2back.east|-abin2back.south)+(0pt,16pt)$);%
+	\node(abin2)[shape=coordinate]at(abipc2.north){};%
+	\ExtrudeOutRoundedBottom{abin2}{up}{left}{abifaceunten}{abifaceuntenback}%
+		{abifacecolor}{abifacebackcolor}{15pt}%
+	\node(abinhead2)[anchor=south]at(abin2front.south){\Large Abstract Interface};%
+%
+	\node(ai2-wlan0)[iface,anchor=north]at(abin2front.north){wlan0};%
+	\node(ai2-eth0)[iface,left=\ifacesep of ai2-wlan0]{eth0};%
+	\node(ai2-blu0)[iface,left=\ifacesep of ai2-eth0]{blu0};%
+	\node(ai2-opt0)[iface,right=\ifacesep of ai2-wlan0]{opt0};%
+	\node(ai2-etc)[iface,right=\ifacesep of ai2-opt0]{\ldots};%
+%
+%
+%
+%
+	\node(kommstart)[station,anchor=north west]%
+		at($(abipc1.north east)+(2cm,1cm)$){};%
+	\node(kommstarthead)[anchor=north,align=center]at(kommstart.north)
+		{\LARGE Station \lipsaround{S1} auf\\\LARGE Kommunikationsweg};%
+%
+	\node(staface1)[shape=coordinate]at(kommstart.south){};%
+	\ExtrudeOutRoundedTop{staface1}{up}{left}{stationifaceoben}{stationifaceobenback}%
+		{abifacecolor}{abifacebackcolor}{10pt}%
+	\node(kommstartifacehead)[anchor=north]at(staface1front.north)
+		{\Large Physikalische(s) Interface(s)};%
+%
+	\node(staface1-1)[iface,anchor=south east]%
+		at($(staface1front.south)+(-0.5\ifacesep,0)$){\ldots};%
+	\node(staface1-2)[iface,left=\ifacesep of staface1-1]{\ldots};%
+	\node(staface1-3)[iface,right=\ifacesep of staface1-1]{\ldots};%
+	\node(staface1-4)[iface,right=\ifacesep of staface1-3]{\ldots};%
+%
+%
+%
+%
+	\node(kommend)[station,anchor=north west,%
+		blur shadow={shadow xshift=1mm,shadow yshift=-1mm,}]
+		at($(abipc2.north east)+(2cm,-1cm)$){};%
+	\node(kommendhead)[anchor=south,align=center]at(kommend.south)
+		{\LARGE Station \lipsaround{S2} auf\\\LARGE Kommunikationsweg};%
+%
+	\node(staface2)[shape=coordinate]at(kommend.north){};%
+	\ExtrudeOutRoundedBottom{staface2}{up}{left}{stationifaceunten}{stationifaceuntenback}%
+		{abifacecolor}{abifacebackcolor}{10pt}%
+	\node(kommendifacehead)[anchor=south]at(staface2front.south)
+		{\Large Physikalische(s) Interface(s)};%
+%
+	\node(staface2-1)[iface,anchor=north]%
+		at(staface2front.north){\ldots};%
+	\node(staface2-2)[iface,left=2.75\ifacesep of staface2-1]{\ldots};%
+	\node(staface2-3)[iface,right=2.75\ifacesep of staface2-1]{\ldots};%
+%
+%
+%
+%
+%
+\begin{pgfonlayer}{cable}%
+	\draw[cable2](ai2-eth0.north)|-($(ai1-eth1.south)!.5!(ai2-wlan0.north)+(-10pt,0)$);%
+	\draw[cable2](ai1-eth1.south)|-($(ai1-eth1.south)!.5!(ai2-wlan0.north)+(-10pt,0)$);%
+%
+	\draw[cable_optional](ai1-blu0.south)--node[pos=0.5,anchor=east,align=right,
+		text=MPTCP_Path1_Color,yshift=-0.4\baselineskip,xshift=-0.5em,inner sep=0pt]%
+		{\large Zusätzlicher\\ optionaler\\ MultiPath TCP\\ Datenpfad}%
+		(ai2-blu0.north);%
+%
+%
+	\node(S1-AI1)[shape=coordinate]at($(ai1-wlan0.south)!0.3!(ai2-opt0.north)+(2cm,0)$){};
+	\node(S2-AI2)[shape=coordinate]at($(ai2-opt0.north)!0.3!(ai1-wlan0.south)+(2cm,0)$){};
+%
+	\draw[cable](ai1-wlan0.south)|-node[pos=0.5,anchor=north west,
+		text=Datastream_Color,sloped,yshift=-0.4ex]%
+		{\large Datenstrom von \lipsaround{S1} nach \lipsaround{S2}}%
+		(S1-AI1);%
+	\draw[cable](staface1-2.south)|-(S1-AI1);%
+%
+	\draw[cable](ai2-opt0.north)|-(S2-AI2);%
+	\draw[cable](staface2-1.north)|-(S2-AI2);%
+\end{pgfonlayer}%
+%
+	\draw[connect,line width=1pt,MPTCP_Path2_Color](ai1-eth1.south)--%
+		($(ai1-eth1.north)+(0,0.5\ifaceheight)$);%
+	\draw[line width=1pt,Datastream_Color,%
+		decoration={markings,mark=at position -1cm+6pt with
+		{\arrow[line width=4pt]{stealth}}},%
+		postaction=decorate]%
+		(ai1-wlan0.south)|-($(ai1-eth1.north)+(0,0.5\ifaceheight)$);%
+%
+	\draw[connect,line width=1pt,MPTCP_Path2_Color](ai2-eth0.north)--%
+		($(ai2-eth0.south)+(0,-0.5\ifaceheight)$);%
+	\draw[line width=1pt,Datastream_Color,%
+		decoration={markings,mark=at position 1cm+6pt with
+		{\arrow[line width=4pt]{stealth}}},%
+		postaction=decorate]%
+		($(ai2-eth0.south)+(0,-0.5\ifaceheight)$)-|(ai2-opt0.north);%
+%
+%
+	\draw[connect,line width=1pt,Datastream_Color,dashed](staface2-1.north)|-%
+		($(staface2-3.south)+(0,-0.5\ifaceheight)$);%
+	\draw[line width=1pt,Datastream_Color,dashed]($(staface2-3.south)+(0,-0.5\ifaceheight)$)|-%
+		node[pos=1.00,anchor=south east]{\huge \ldots}%
+		($(staface2-3.north)+(1.5cm,0.8\ifaceheight)$);%
+%
+	\draw[connect,line width=1pt,Datastream_Color,dashed](staface1-2.south)|-%
+		($(staface1-3.north)+(0,0.5\ifaceheight)$);%
+	\draw[line width=1pt,Datastream_Color,dashed]($(staface1-3.north)+(0,0.5\ifaceheight)$)|-%
+		node[pos=1.00,anchor=south east]{\huge \ldots}%
+		($(staface1-3.south)+(3.0cm,-1.5\ifaceheight)$);%
+%
+	\draw[connect,line width=1pt,MPTCP_Path1_Color,dashed](ai1-blu0.south)|-%
+		($(ai1-eth1.north)+(0,0.5\ifaceheight)$);%
+	\draw[connect,line width=1pt,MPTCP_Path1_Color,dashed](ai2-blu0.north)|-%
+		($(ai2-eth0.south)+(0,-0.5\ifaceheight)$);%
+%
+\normalfont%
+\node(bboxtop)[shape=coordinate]at%
+	($(current bounding box.north)+(0,1mm)+(0,1em)$){};%
+\node(bboxright)[shape=coordinate]at%
+	($(current bounding box.east)+(1mm,0)+(1em,0)$){};%
+\node(bboxbottom)[shape=coordinate]at%
+	($(current bounding box.south)+(0,-1mm)+(0,-1em)$){};%
+\node(bboxleft)[shape=coordinate]at%
+	($(current bounding box.west)+(0mm,0)+(0em,0)$){};%
+\path[use as bounding box]%
+	(bboxtop)-|(bboxright)|-(bboxbottom)-|(bboxleft)|-(bboxtop);%
+%
+\end{tikzpicture}%
+%
+%
+\ifdefined\DenKr\end{document}\else\DenKrTikzStandalonePost\fi%

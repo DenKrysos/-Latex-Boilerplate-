@@ -1,0 +1,119 @@
+Ordinary | \textrm{Serif} | \textsf{Sans-Serif} | \texttt{Monospaced-Teletype} | \textbf{Bold} | \textit{Italic/Kursiv} | \textit{\textbf{BoldItalic}} | \textit{Slanted/Schräggestelt}\nl
+| \textsc{SmallCaps (SC)}\nl%
+\vspace{0.5\baselineskip}
+\newcommand\fontTestText{Xyz Qu Text | 0 l \enquote{enq}}
+\begin{tabular}{l|l|l|l}%
+\diagbox{\small shape}{\small family}&Ordinary (Serif)&Sans-Serif&Mono-spaced\\%
+\hline%
+Plain&
+    \rmfamily
+    \fontTestText
+    &
+    \sffamily
+    \fontTestText
+    &
+    \ttfamily
+    \fontTestText
+    \\%
+Bold&
+    \rmfamily
+    \bfseries
+    \fontTestText
+    &
+    \sffamily
+    \bfseries
+    \fontTestText
+    &
+    \ttfamily
+    \bfseries
+    \fontTestText
+    \\%
+Italic&
+    \rmfamily
+    \itshape
+    \fontTestText
+    &
+    \sffamily
+    \itshape
+    \fontTestText
+    &
+    \ttfamily
+    \itshape
+    \fontTestText
+    \\%
+Bold-Italic&
+    \rmfamily
+    \bfseries
+    \itshape
+    \fontTestText
+    &
+    \sffamily
+    \bfseries
+    \itshape
+    \fontTestText
+    &
+    \ttfamily
+    \bfseries
+    \itshape
+    \fontTestText
+    \\%
+Slanted&
+    \rmfamily
+    \slshape
+    \fontTestText
+    &
+    \sffamily
+    \slshape
+    \fontTestText
+    &
+    \ttfamily
+    \slshape
+    \fontTestText
+    \\%
+\hline%
+SmallCaps&
+    \rmfamily
+    \scshape
+    \fontTestText
+    &
+    \sffamily
+    \scshape
+    \fontTestText
+    &
+    \ttfamily
+    \scshape
+    \fontTestText
+    \\%
+SC-Italic&
+    \rmfamily
+    \itshape
+    \scshape
+    \fontTestText
+    &
+    \sffamily
+    \itshape
+    \scshape
+    \fontTestText
+    &
+    \ttfamily
+    \itshape
+    \scshape
+    \fontTestText
+    \\%
+SC-Bold&
+    \rmfamily
+    \bfseries
+    \scshape
+    \fontTestText
+    &
+    \sffamily
+    \bfseries
+    \scshape
+    \fontTestText
+    &
+    \ttfamily
+    \bfseries
+    \scshape
+    \fontTestText
+    \\%
+\end{tabular}%

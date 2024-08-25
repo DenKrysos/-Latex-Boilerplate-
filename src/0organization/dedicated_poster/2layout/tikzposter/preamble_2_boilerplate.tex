@@ -1,0 +1,88 @@
+%________________________________________________________________________
+%------------------------------------------------------------------------
+%			Custom Style Definitions
+%/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+% Probably not any. The elegant way would be to define a fine Theme in an own .sty and load it
+%    In case done like so, also no further Settings down in the "Set Theme Parameters" Section is required
+% Suggestion is to use this here only for minor settings, like probably defining a custom Color Palette
+\definecolor{PosterCustomColorOne}{RGB}{250, 83, 45}%
+\definecolor{PosterCustomColorTwo}{RGB}{250, 80, 90}%
+\definecolor{PosterCustomColorThree}{named}{Purple}%
+% % % % % % % % % % % % %
+\definecolorpalette{PosterCustomColorPalette}{%
+    \definecolor{colorOne}{named}{PosterCustomColorOne}%
+    \definecolor{colorTwo}{named}{PosterCustomColorTwo}%
+    \definecolor{colorThree}{named}{PosterCustomColorThree}%
+}%
+%
+%
+%
+%________________________________________________________________________
+%------------------------------------------------------------------------
+%			Load Theme(s)
+%           -- from the "/theme/" directory here
+%/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+\usepackage{\DenKrLayoutRootDir/theme/DenKrPoster}% DenKrPoster, uwtheme1, uwtheme2, SUtheme, emory-theme
+%
+%
+%
+%________________________________________________________________________
+%------------------------------------------------------------------------
+%			Set Theme Parameters
+%/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+%=== Regular Themes, i.e. just available
+%________ Default, Basic, Simple, Envelope, Board, Rays, Wave, Autumn, Desert
+%=== DenKr Themes, i.e. designed by me
+%________ DenKrPoster
+%=== Custom Themes, i.e. taken a file from the "/theme/" directory here
+%________ UWTheme
+\usetheme{DenKrPoster}%
+%------------------------------------------------------------------------
+%=== Color Palette
+%________ Default, BlueGrayOrange, GreenGrayViolet, PurpleGrayBlue, BrownBlueOrange
+%=== DenKr Palettes
+%________ DenKrPosterPalette
+% \usecolorpalette{Default}% Seems not to do anything. Instead use the "colorPalette" Option in the \usecolorstyle
+%------------------------------------------------------------------------
+%=== Color Styles
+%________ Default, Australia, Britain, Sweden, Spain, Russia, Denmark, Germany
+%=== DenKr Styles
+%________ DenKrPosterColorStyle
+%=== Custom Color Styles
+%________ UWStyle
+% \usecolorstyle[%
+% 	colorPalette=PosterCustomColorPalette,% Poster_CustomColorPalette, DenKrPosterPalette, BrownBlueOrange
+%  	colorOne=Blue,% blue
+% 	colorTwo=Green,% black, Gray
+%  	colorThree=Purple% green
+% ]{DenKrPosterColorStyle}%
+%------------------------------------------------------------------------
+%=== Title Styles
+%________ Default, Basic, Empty, Filled, Envelope, Wave, verticalShading
+%=== DenKr Titles
+%________ DenKrPosterTitleTrapez, DenKrPosterTitleSlanted, DenKrPosterTitleSeparationLine
+% \usetitlestyle{DenKrPosterTitleStyleSlanted}% Envelope
+%------------------------------------------------------------------------
+%=== Background Style
+%________ Default, Rays, VerticalGradation, BottomVerticalGradation, Empty
+%=== DenKr Backgrounds
+%________ DenKrPosterBGShadeRay
+% \usebackgroundstyle{DenKrPosterBGShadeRay}%
+%------------------------------------------------------------------------
+%=== Block Style
+%________ Default, Basic, Minimal, Envelope, Corner, Slide, TornOut
+%=== DenKr Blocks
+%________ DenKrPosterBlockDiamond, DenKrPosterBlockDiamondOpaque, DenKrPosterBlockDiamondHead, DenKrPosterBlockDiamondBodyFrame, Basic
+% \useblockstyle{DenKrPosterBlockDiamondOpaque}% Basic
+%------------------------------------------------------------------------
+%=== InnerBlock Style
+%________ Default, Table
+%=== DenKr InnerBlocks
+%________ 
+% \useinnerblockstyle{Default}%
+%------------------------------------------------------------------------
+%=== Note Style
+%________ Default, Corner, VerticalShading, Sticky
+%=== DenKr Notes
+%________ 
+% \usenotestyle{Default}%

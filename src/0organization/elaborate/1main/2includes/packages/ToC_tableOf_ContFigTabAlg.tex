@@ -1,0 +1,125 @@
+% REMARK: Just to say: The List-of are put after \backmatter, which makes only unnumbered Chapters as default. This may interfer with \nameref, when still using a Stared-Cmd. Hence, in a Document with \backmater, one should normally only issue Chapter Cmds without Star in the backmatter.
+% -> However, my re-definition of the \chapter/section/subsection, I've done in "typografie_redefine.tex", patches against that. Hence, putting Stared-Cmds of these 3 in the backmatter, using my entire Boilerplate, should work fine.
+%
+\def\DenKrListOfHeading{\DenKrHeadingTopLvlCmd}%
+\makeatletter%
+\newcommand{\tableofcontentsDenKr}{%
+	\DenKrListOfHeading*{\contentsname}%
+	\label{chap:ToC}%
+	%\markboth{\nameref{#2}}{\nameref{#3}}%
+	%\markboth{\contentsname}{\contentsname}%
+	\tableofcontents%
+}%
+\newcommand{\listoffiguresDenKr}{%
+	%\chapnt{\listfigurename}[chapnt:LoF]%
+	\DenKrListOfHeading*[]{\listfigurename}%
+	\label{chap:LoF}%
+	\listoffigures%
+}%
+\makeatother%
+\makeatletter%
+\newcommand{\listoftablesDenKr}{%
+	%\chapnt{\listtablename}[chapnt:LoT]%
+	\DenKrListOfHeading*[]{\listtablename}%
+	\label{chap:LoT}%
+	\listoftables%
+}%
+\makeatother%
+\makeatletter%
+\newcommand{\listoflistingsDenKr}{%
+	%\chapnt{\lstlistlistingname}[chapnt:LoL]%
+	\DenKrListOfHeading*[]{\lstlistlistingname}%
+	\label{chap:LoL}%
+	\lstlistoflistings%
+}%
+\makeatother%
+\makeatletter%
+\newcommand{\listofalgorithmsDenKr}{%
+	%\chapnt{\listalgorithmname}[chapnt:LoA]%
+	\DenKrListOfHeading*[]{\listalgorithmname}%
+	\label{chap:LoA}%
+	\listofalgorithms%
+}%
+\makeatother%
+%
+%
+%
+%
+%
+%======================================
+% The Depth of the Toc, i.e. the deepest Level to include
+%======================================
+\setcounter{tocdepth}{2}% Chapter is '0', Section '1', etc. (Part is '-1', To get nothing, it hence would be '-2')
+%
+%
+%
+%
+%
+%======================================
+% Configuration for the Environments
+%======================================
+\makeatletter%
+%Remove the Title Heading for every List-of Environment
+\AddToHook{begindocument/before}{%
+	\typeout{»DenKr: Remove Title-Heading for List-of (Content/Fig/Tab/Alg/Lst) Environments [automatically]:}%
+	\doforeachtocfile{%
+		\typeout{»  »   - \@currext}%
+		\deftocheading{\@currext}{}%
+	}%
+	\typeout{»DenKr: Remove Title-Heading for List-of [manually]:}%
+	\typeout{»  »   - LoL (Listings)}%
+	\deftocheading{lol}{}%
+	\typeout{»  »   - LoA (Algorithms)}%
+	\deftocheading{loa}{}%
+}%
+\makeatother%
+%
+%
+%
+%
+%
+%======================================
+% The List-of itself
+%======================================
+\AtBeginDocument{%
+	\DeclareTOCStyleEntries[%
+		indent=-.5ex,% negative?
+		numwidth=5ex,%
+		%entrynumberformat=\textbf,% Should be a command with exactly one argument.
+	]{tocline}{lstlisting}%
+}
+%
+%
+%
+%
+%
+%======================================
+% Numerical Preferences
+%======================================
+% - \@pnumwidth: Make more Space in the ToC for the Pagenumber.
+%    The default Value is only sufficient for roughly 2 arabic Digits.
+%    - '1.9em' is barely enough for a 'XIII' | '2.15em' for 'XVII'
+% - \@tocrmarg: The margin from the right on line-breaks.
+\makeatletter%
+\renewcommand*{\@pnumwidth}{1.9em}%
+\renewcommand*\@tocrmarg{2.4em}%
+\makeatother%
+% - - - - - - - - - -
+% The width to be occupied by the Number in the ToC
+\RedeclareSectionCommand[%
+	tocnumwidth=2em% Default: 2em
+]{part}%
+\ifChapterExists%
+\RedeclareSectionCommand[%
+	tocnumwidth=1.5em% Default: 1.5em
+]{chapter}%
+\fi%
+\RedeclareSectionCommand[%
+	tocnumwidth=2.3em% Default: 2.3em
+]{section}%
+\RedeclareSectionCommand[%
+	tocnumwidth=3.2em% Default: 3.2em
+]{subsection}%
+\RedeclareSectionCommand[%
+	tocnumwidth=4.1em% Default: 4.1em
+]{subsubsection}%

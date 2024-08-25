@@ -1,0 +1,116 @@
+%=========================================
+%--- This keeps Stuff that is independent from Tex-Variant and Compiler (pdfLaTex, LuaLaTex, etc)
+%=========================================
+%
+% Here: Inclusion of package "csquotes" and further configuration.
+%     Remark that before this file here, Compiler-dependent, a \PassOptionsToPackage{} should be done.
+% - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+% == Note ==  With csquotes.sty, use
+%     \textquote{}, to automatically print correct quotation marks, depending on the set language by polyglossia (or babel)
+%     \enquote{}, for 'nested' quotations
+%\usepackage[autostyle=true,german=quotes]{csquotes}% Deutsche Anführungszeichen, german=quotes, guillemets, swiss
+%\usepackage[autostyle=true,style=english]{csquotes}% Default English
+\usepackage{csquotes}%
+\DeclareQuoteStyle[guilsingl]{DenKr}%
+  {\guilsinglright}%
+  {\guilsinglleft}%
+  [0.05em]%
+  {\guilsinglright}%
+  {\guilsinglleft}%
+% - - - - - - - - - - - - - -
+%
+%
+%
+%________________________________________________________________________
+%------------------------------------------------------------------------
+%               Some Configuration
+%           (For some Info/Explanation see at the bottom)
+%/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+\newenvironment{DenKrBlockQuoteEnv}%
+{%
+    \list{}{%
+        \setlength{\itemsep}{0pt}%
+        \setlength{\parsep}{0pt}%
+        \setlength{\parskip}{0pt}%
+        \setlength{\topsep}{0pt}%
+        \setlength{\partopsep}{0.3\baselineskip}%
+        \setlength{\rightmargin}{0.5\leftmargin}%
+    }%
+    \item\relax%
+}%
+{\endlist}%
+\SetBlockEnvironment{DenKrBlockQuoteEnv}%
+% \renewcommand\mkblockquote[4]{\enquote{#1#2#3}#4}%
+% \renewcommand\mkblockquote[4]{\leavevmode\llap{,,}#1#2#3``#4}%
+% \renewcommand\mkblockquote[4]{\leavevmode{\setquotestyle[guillemets]{german}\enquote{#1#2#3}#4}}%
+\renewcommand\mkblockquote[4]{\leavevmode\llap{\smash{\raisebox{-0.6ex}{\bfseries\Huge\guillemetright}}}#1#2#3\smash[b]{\raisebox{-0.2ex}{\bfseries\LARGE\guillemetleft}}#4}%
+%/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+%				Config done
+%------------------------------------------------------------------------
+%________________________________________________________________________
+%
+%
+%
+%________________________________________________________________________
+%------------------------------------------------------------------------
+%               Quotation Marks
+%/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+% Quote the cool german Guillemet/Chevron way: »quote«
+\makeatletter\AddToHook{begindocument/before}{\@ifpackageloaded{csquotes}{%
+    \newcommand{\gerguiquote}[1]{%
+        \xspace{\setquotestyle[guillemets]{german}\enquote{#1}}\xspace
+    }%
+    % A 'light' version, i.e. single-Guillemet
+    \newcommand{\gerguiquotel}[1]{%
+        \xspace{\setquotestyle[guilsingl]{DenKr}\enquote{#1}}\xspace
+    }%
+}{%
+    \newcommand{\gerguiquote}[1]{%
+        \xspace{\guillemetright\relax#1\guillemetleft\relax}\xspace
+    }%
+    \newcommand{\gerguiquotel}[1]{%
+        \xspace{\guilsinglright\relax#1\guilsinglleft\relax}\xspace
+    }%
+}}\makeatother%
+%/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+%				Quoting done
+%------------------------------------------------------------------------
+%________________________________________________________________________
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%________________________________________________________________________
+%               Just some 'enlightening' Info
+%/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+% Some USAGE Info for "BlockQuote"
+% - \blockquote{} only typesets as blockquote, when a certain threshold for the amount of contained text is exceeded. Is the contained text below that amount of words or lines, it typesets as a usual inline-quote.
+% - You can set this threshold via \SetBlockThreshold{}
+% - This is actually a "global setting", meaning that it affects all blockquotes after the command is issued.
+% - But it is of course a scoped value. Hence, you can embrace it in a scope to change only locally and temporary the behavior
+% E.g.:
+%        {
+%        \SetBlockThreshold{0}
+%        \blockquote{Only those who believe in such, encounter their limits!}
+%        }%
+%
+%
+% About the "BlockQuote"
+%    The default for the Environment:
+%			\SetBlockEnvironment{quote}%
+%    'quote' is an environment usually defined by all documentclasses. And that is like:
+%			\newenvironment{quote}%
+%			{\list{}{\rightmargin\leftmargin}\item\relax}%
+%			{\endlist}%
+%/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+%				Info done
+%------------------------------------------------------------------------
+%________________________________________________________________________

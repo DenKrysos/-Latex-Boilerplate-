@@ -1,0 +1,133 @@
+%________________________________________________________________________
+%------------------------------------------------------------------------
+%				Citation, References  /  Zitate, Quellen  (biblatex, bibtex, biber)
+%                   --- Begin biblatex ---
+%/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+\input{"\DenKrLayoutMainRootDir/2includes/packages/biblatex-1options".tex}%
+%
+\usepackage[%
+	backend=biber,%
+	hyperref=\DenKrHyperrefUsageState,%
+	sorting=none,%
+	natbib=true,%
+	language=\DenKrLanguageStringCmd,%
+	defernumbers=true,%
+	locallabelwidth,%
+	pagetracker=false,% true, false, page, spread
+	citecounter=false,% true, false, context
+	citetracker=true,% true, false, context, strict, constrict
+]{biblatex}%
+%
+%
+%
+%============================================================================
+%%========  Some Settings  =========
+\renewcommand*{\bibfont}{\normalfont\footnotesize}%
+%----------------------------------------------------------------------------
+%%--------  Style-dependent Settings, especially for use with 'style=ieee'
+%% - - - - - - -  Therewith capital letters stay capitals, when using 'style=ieee'
+%%                 (One might also want to take a look at 'titlecase', when using 'style=ieee')
+%%                 (As Reference: \DeclareFieldFormat[article]{titlecase}{\MakeSentenceCase*{#1}})
+%\DeclareFieldFormat{sentencecase}{\csname bbx@colon@search\endcsname#1}% Old one, now creates other issues
+\DeclareFieldFormat{sentencecase}{#1}%
+%
+%
+%
+%============================================================================
+%%========  More Configuration
+%%--------  A custom cite-command "Footnote-on-First" that prints the Reference's Info as footnote on first Citation
+\makeatletter%
+\let\cbx@citehook=\empty%
+\DeclareCiteCommand{\citeff}[\cbx@DKwrapper]%[\cbx@superscript]%[\mkbibbrackets]%[\mkbibparens]%
+{%
+    \usebibmacro{cite:init}%
+    %\let\multicitedelim=\supercitedelim%
+    \usebibmacro{prenote}%
+}%
+{%
+    \usebibmacro{citeindex}%
+    \usebibmacro{cite:comp}%
+    \usebibmacro{citeAddFootOnFirst}%
+}%
+{}%\multicitedelim
+{%
+    \usebibmacro{cite:dump}%
+    \usebibmacro{postnote}%
+}%
+\newbibmacro*{citeAddFootOnFirst}{%
+    \ifciteseen{}%
+    {%
+        \xappto\cbx@citehook{%
+        \noexpand\footnotetext[\thefield{labelnumber}]{%
+            $^{*}$%
+            \citefield{\thefield{entrykey}}{title}%
+            \ifnameundef{author}{}{ | \citename{\thefield{entrykey}}{author}}%
+            \iffieldundef{year}{}{ | \citefield{\thefield{entrykey}}{year}}%
+        }}%
+    }%
+}%
+\newrobustcmd{\cbx@superscript}[1]{%
+    \mkbibsuperscript{#1}%
+    \cbx@citehook%
+    \global\let\cbx@citehook=\empty%
+}%
+\newrobustcmd{\cbx@DKwrapper}[1]{%
+    \bibopenbracket%
+    #1%
+    \cbx@citehook%
+    \bibclosebracket%
+    \ifx\cbx@citehook\empty%
+    \else%
+        $^{*}$%
+    \fi%
+    \global\let\cbx@citehook=\empty%
+}%
+\makeatother%
+%
+%============================================================================
+%%========  Environment for Printing the Bibliography
+\newlength\bibhangDenKr%
+\setlength\bibhangDenKr{-0.5em}%
+\defbibenvironment{bibliographyDenKrEnv}%
+{\list%
+    {%
+        \printtext[labelnumberwidth]{%
+        \printfield{labelprefix}%
+        \printfield{labelnumber}}%
+    }%
+    {%
+        \setlength{\labelwidth}{\labelnumberwidth}%
+        \setlength{\leftmargin}{\labelwidth}%
+        % \setlength{\labelsep}{0.5em}%
+        \addtolength{\leftmargin}{\labelsep}%
+        \setlength{\itemsep}{\bibitemsep}%
+        \setlength{\parsep}{\bibparsep}%
+        % \setlength\bibhangDenKr{-\labelsep}%
+        % \addtolength{\leftmargin}{\bibhangDenKr}%
+        % \addtolength{\itemindent}{-\bibhangDenKr}%
+        % - - - - - -
+        % \setlength{\labelwidth}{\labelnumberwidth}%
+        % \setlength{\leftmargin}{\labelwidth}%
+        % \setlength{\labelsep}{\biblabelsep}%
+        % \addtolength{\leftmargin}{\labelsep}%
+        % \setlength{\itemsep}{\bibitemsep}%
+        % \setlength{\parsep}{\bibparsep}%
+        % - - - - - -
+        % \setlength{\leftmargin}{\bibhang}%
+        % \setlength{\itemindent}{-\leftmargin}%
+        % \setlength{\itemsep}{\bibitemsep}%
+        % \setlength{\parsep}{\bibparsep}%
+    }%
+}%
+{\endlist}%
+{\item}%
+%-------------------------------------------------
+%
+%
+%
+%
+\input{"\DenKrLayoutMainRootDir/2includes/packages/biblatex-2config".tex}%
+%/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+%               --- END biblatex ---
+%------------------------------------------------------------------------
+%________________________________________________________________________

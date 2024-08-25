@@ -1,0 +1,150 @@
+%________________________________________________________________________
+%------------------------------------------------------------------------
+%					Custom Key Definitions
+%/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\%
+% - For the DualEntry Cmd, to link the opposing entry in Acronyms or Glossaries
+\glsaddkey*{crossRef}%Key Name
+% {\glsentrytext{\glslabel}deutsch}%Default Value
+{}%Default Value
+{\glsentrycrossRef}%Use analog \glsentrytext
+{\GlsentrycrossRef}%Use analog \Glsentrytext
+{\glscrossRef}%Use analog \glstext
+{\GlscrossRef}%Use analog \Glstext
+{\GLScrossRef}%Use analog \GLStext%
+%------------------------------------------------------------------------
+%------------------------------------------------------------------------
+% - LANGUAGE-specific Definitions
+% - - USAGE: Consider these as 'Alternatives' to the actual Glossary-Definition. I.e. it wouldn't make sense in many cases to use multiple at a time.
+% - -  (I.e. define the 'actual entry', i.e. the standard-keys in one language and then only use the lang-secific keys for other language(s))
+% - - -  (E.g. don't use english- and german-specific simultaneously, but define the entry as e.g. in english and then only populate the alternative keys for german)
+% - - Other than that, you could also of course just define different entries, one for each language, and use the "see" key to reference them.
+%- - - - - - - - - - - - - - - - - - - - - - - - -
+% - Some keys to define explicitly in DEUTSCH/GERMAN
+% The Abbreviation / Short Form. E.g. 'WiP'
+\glsaddkey*{textDE}%Key Name
+{}%Default Value
+{\glsentrytextDE}%Use analog \glsentrytext
+{\GlsentrytextDE}%Use analog \Glsentrytext
+{\glstextDE}%Use analog \glstext
+{\GlstextDE}%Use analog \Glstext
+{\GLStextDE}%Use analog \GLStext%
+% The Expansion / Long Form / Full Form. E.g. 'Work in Progress'
+\glsaddkey*{longDE}%Key Name
+{}%Default Value
+{\glsentrylongDE}%Use analog \glsentrytext
+{\GlsentrylongDE}%Use analog \Glsentrytext
+{\glslongDE}%Use analog \glstext
+{\GlslongDE}%Use analog \Glstext
+{\GLSlongDE}%Use analog \GLStext%
+% The Description / Longer Text in a Glossary-Entry (not Acronym)
+\glsaddkey*{descDE}%Key Name
+{}%Default Value
+{\glsentrydescDE}%Use analog \glsentrytext
+{\GlsentrydescDE}%Use analog \Glsentrytext
+{\glsdescDE}%Use analog \glstext
+{\GlsdescDE}%Use analog \Glstext
+{\GLSdescDE}%Use analog \GLStext%
+%------------------------------------------------------------------------
+% - Some keys to define explicitly in DEUTSCH/GERMAN
+% The Abbreviation / Short Form. E.g. 'WiP'
+\glsaddkey*{textEN}%Key Name
+{}%Default Value
+{\glsentrytextEN}%Use analog \glsentrytext
+{\GlsentrytextEN}%Use analog \Glsentrytext
+{\glstextEN}%Use analog \glstext
+{\GlstextEN}%Use analog \Glstext
+{\GLStextEN}%Use analog \GLStext%
+% The Expansion / Long Form / Full Form. E.g. 'Work in Progress'
+\glsaddkey*{longEN}%Key Name
+{}%Default Value
+{\glsentrylongEN}%Use analog \glsentrytext
+{\GlsentrylongEN}%Use analog \Glsentrytext
+{\glslongEN}%Use analog \glstext
+{\GlslongEN}%Use analog \Glstext
+{\GLSlongEN}%Use analog \GLStext%
+% The Description / Longer Text in a Glossary-Entry (not Acronym)
+\glsaddkey*{descEN}%Key Name
+{}%Default Value
+{\glsentrydescEN}%Use analog \glsentrytext
+{\GlsentrydescEN}%Use analog \Glsentrytext
+{\glsdescEN}%Use analog \glstext
+{\GlsdescEN}%Use analog \Glstext
+{\GLSdescEN}%Use analog \GLStext%
+%------------------------------------------------------------------------
+% To provide an "Alternative"
+% The Abbreviation / Short Form. E.g. 'WiP'
+\glsaddkey*{textAlt}%Key Name
+{}%Default Value
+{\glsentrytextAlt}%Use analog \glsentrytext
+{\GlsentrytextAlt}%Use analog \Glsentrytext
+{\glstextAlt}%Use analog \glstext
+{\GlstextAlt}%Use analog \Glstext
+{\GLStextAlt}%Use analog \GLStext%
+% The Expansion / Long Form / Full Form. E.g. 'Work in Progress'
+\glsaddkey*{longAlt}%Key Name
+{}%Default Value
+{\glsentrylongAlt}%Use analog \glsentrytext
+{\GlsentrylongAlt}%Use analog \Glsentrytext
+{\glslongAlt}%Use analog \glstext
+{\GlslongAlt}%Use analog \Glstext
+{\GLSlongAlt}%Use analog \GLStext%
+% The Description / Longer Text in a Glossary-Entry (not Acronym)
+\glsaddkey*{descAlt}%Key Name
+{}%Default Value
+{\glsentrydescAlt}%Use analog \glsentrytext
+{\GlsentrydescAlt}%Use analog \Glsentrytext
+{\glsdescAlt}%Use analog \glstext
+{\GlsdescAlt}%Use analog \Glstext
+{\GLSdescAlt}%Use analog \GLStext%
+%------------------------------------------------------------------------
+%------------------------------------------------------------------------
+\glsaddkey*{subtitle}%Key Name
+{}%Default Value
+{\glsentrysubtitle}%Use analog \glsentrytext
+{\Glsentrysubtitle}%Use analog \Glsentrytext
+{\glssubtitle}%Use analog \glstext
+{\Glssubtitle}%Use analog \Glstext
+{\GLSsubtitle}%Use analog \GLStext%
+%
+% - Just some additional Keys
+\glsaddkey*{url}%Key Name
+{}%Default Value
+{\glsentryurl}%Use analog \glsentrytext
+{\Glsentryurl}%Use analog \Glsentrytext
+{\glsurl}%Use analog \glstext
+{\Glsurl}%Use analog \Glstext
+{\GLSurl}%Use analog \GLStext%
+%
+\glsaddkey*{longpltwo}%Key Name
+{}%Default Value
+{\glsentrylongpltwo}%Use analog \glsentrytext
+{\Glsentrylongpltwo}%Use analog \Glsentrytext
+{\glslongpltwo}%Use analog \glstext
+{\Glslongpltwo}%Use analog \Glstext
+{\GLSlongpltwo}%Use analog \GLStext%
+%/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+%					Custom Key Definitions END
+%------------------------------------------------------------------------
+%________________________________________________________________________
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%________________________________________________________________________
+%------------------------------------------------------------------------
+%					Custom "Composite" Key Definitions
+%/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\%
+% These are constructed automatically from the Keys defined above
+%
+%  TODO The composite stuff is not yet finished. For ME, look into: glossaries_keys__TODO.tex
+%
+%/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+%					Composite Keys DONE
+%------------------------------------------------------------------------
+%________________________________________________________________________

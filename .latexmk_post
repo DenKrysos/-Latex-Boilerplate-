@@ -1,0 +1,44 @@
+# This File is a general Perl Script.
+#   It is issued AFTER (successful) Compilation.
+#   It can be used e.g. for cleaning up (temporary) Directories & Files.
+#   It could also be used, for copying and/or renaming Resulting Files.
+# It is Set up by the accompanying '.latexmkrc' (May be commented out).
+
+use strict;
+use warnings;
+use File::Spec;
+use File::Find;
+
+print "DenKr(latexmkrc): Post-Build Steps.\n";
+######################################
+# Getting Arguments  #################
+#=====================================
+my $argc=$#ARGV + 1;
+print "DenKr(latexmkrc, Post): Got Arguments (\#$argc).\n";
+foreach my $argnum (0 .. $#ARGV){
+	print "  - $ARGV[$argnum]\n";
+}
+# Actually, we need only the first.
+my $clean_dirs=$ARGV[0];
+
+
+######################################
+# Preparation for Post  ##############
+#=====================================
+sub rem_empty_dirs{
+	my ($root)=@_;
+	finddepth(sub{rmdir},$root);
+}
+
+
+######################################
+# Post-Build Steps  ##################
+#=====================================
+sub postBuildSteps{
+	print "DenKr(latexmkrc): Clean empty Sub-Directories from: $clean_dirs\n";
+	rem_empty_dirs($clean_dirs);
+}
+
+# Execute
+postBuildSteps();
+print "\n";

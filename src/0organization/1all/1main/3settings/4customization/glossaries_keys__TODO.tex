@@ -1,0 +1,84 @@
+
+%
+%
+%
+% !!! TODO, the Composite stuff is still TODO. Do stuff like below
+% % % %
+% % Define a custom key "mycompositekey" that is constructed from "key1" and "key2"
+% \glsaddkey{mycompositekey}{\empty}{\glsentrymycompositekey}{\Glsentrymycompositekey}{\glsmycompositekey}{\Glsmycompositekey}{\GLSmycompositekey}
+% % % %
+% % Define a handler for the custom key that constructs it from "key1" and "key2"
+% \glsdefpostmycompositekey{%
+%   \glsdefentry{mycompositekey}%
+%   {%
+%     \glsentrykey1%
+%     \glsentrykey2%
+%   }%
+% }
+% % % %
+% % Define entries using the custom key
+% \newglossaryentry{entry1}{
+%   name={Entry 1},
+%   description={This is the first entry},
+%   key1={Value1},
+%   key2={Value2},
+%   mycompositekey={}
+% }
+% % % %
+% \begin{document}
+% This is \gls{entry1}'s custom key: \glsentrymycompositekey{entry1}.
+% \end{document}
+%
+%
+%
+%
+%  Or try to replicate \glsfirst
+% % % %
+% Certainly! The `\glsfirst` command in the `glossaries` package is defined by default in the package's source code. Below is a simplified version of how it's defined:
+
+% ```latex
+% \newcommand*{\glsfirst}[2][]{%
+%   \ifglsused{#2}{%
+%     \glsdisp{#2}{#1}%
+%   }{%
+%     \glsdisp{#2}{#1\glstext{#2}}%
+%     \glsused{#2}%
+%   }%
+% }
+% ```
+% % % %
+% Here's a breakdown of what this code does:
+% - `\glsfirst` is defined as a command that takes two arguments: an optional argument `#1` for formatting and the glossary key `#2`.
+% - It checks if the glossary entry associated with the key `#2` has been used before by using `\ifglsused`.
+% - If the entry has been used, it displays the entry's text using `\glsdisp` with the optional formatting argument `#1`.
+% - If the entry has not been used, it displays the entry's text with the optional formatting argument `#1` and marks the entry as used with `\glsused`.
+% % % %
+% This command is used to print the first usage of a term with its full definition from the glossary, and on subsequent uses, it only displays the term itself without the definition. The optional argument `#1` can be used to apply formatting to the first usage of the term, like making it bold or italic.
+%
+%
+%
+%
+%
+% The `\glsdisp` command in the `glossaries` package is used to explicitly display a glossary entry without actually referencing it in the text. Here's a simplified version of how `\glsdisp` is defined in the package's source code:
+% % % %
+% ```latex
+% \newcommand*{\glsdisp}[3][\glsdefaulttype]{%
+%   \glsdoifexists{#2}{%
+%     \def\@gls@link{#2}%
+%     \def\@gls@prev{#2}%
+%     \glsdisp@setup{#1}{#3}%
+%     \@@glsdisp
+%   }%
+%   \ifglshasshort{#2}{\@gls@link{#2}{\glslink{#1}{\glsshort{#2}}}}{%
+%     \glslink{#1}{\glsname{#2}}%
+%   }%
+% }
+% ```
+% % % %
+% Here's a breakdown of what this code does:
+% - `\glsdisp` is defined as a command that takes three arguments. The first argument `#1` is optional and is used to specify the type of the glossary (defaulting to `\glsdefaulttype`). The second argument `#2` is the glossary entry's label, and the third argument `#3` is the text to display.
+% - It checks if the glossary entry associated with the label `#2` exists by using `\glsdoifexists`.
+% - If the entry exists, it sets up some internal variables for the entry and then calls `\@@glsdisp`, which is responsible for displaying the entry text.
+% - If the entry has a short form (as indicated by `\ifglshasshort`), it displays the short form with a link to the full form (using `\glslink`). Otherwise, it displays the full form of the entry with a link to the glossary.
+% % % %
+% The `\glsdisp` command is useful when you want to display the content of a glossary entry explicitly, without relying on the automatic referencing behavior provided by commands like `\gls`. This can be handy for formatting or layout purposes, or when you want to reference glossary entries in places where automatic referencing is not desired.

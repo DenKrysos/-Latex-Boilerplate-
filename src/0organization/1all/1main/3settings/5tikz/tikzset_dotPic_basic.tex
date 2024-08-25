@@ -1,0 +1,1414 @@
+%%###########################################################%%
+%%        vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv        %%
+%%-----------------------------------------------------------%%
+%  - Author: Dennis Krummacker
+%%------------------------------------------------------------%%
+%%        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^        %%
+%%============================================================%%
+%
+%
+%
+%========-------------------------------------------========
+%========		General Setup	========
+%========       (For dotPics)   ========
+%========-------------------------------------------========
+\tikzset{%
+  DenKrScale/.initial=1,%
+  DenKrRotate/.initial=0,%
+}%
+%
+%
+%
+%========-------------------------------------------========
+%========		\pic(NodeName)[Style]{.PicIdentifier}	========
+%========-------------------------------------------========
+%
+%
+%
+%========-------------------------------------------========
+%========   Rather Generic    ========
+%========-------------------------------------------========
+\definecolor{TikzCol_folderbg}{RGB}{124,166,198}%
+\definecolor{TikzCol_folderborder}{RGB}{110,144,169}%
+% \definecolor{txtbg}{RGB}{90,130,170}%
+\definecolor{TikzCol_DirTxtbg}{RGB}{170,170,190}%
+\definecolor{TikzCol_DirTxtborder}{RGB}{255,255,255}%
+%
+\def\SmallPicSize{4pt}
+\tikzset{%
+  folder/.pic={%
+    \filldraw[draw=TikzCol_folderborder,top color=TikzCol_folderbg!50,bottom color=TikzCol_folderbg]%
+      (-1.05*\SmallPicSize,0.2\SmallPicSize+5pt) rectangle ++(.75*\SmallPicSize,-0.2\SmallPicSize-5pt);%
+    \filldraw[draw=TikzCol_folderborder,top color=TikzCol_folderbg!50,bottom color=TikzCol_folderbg]%
+      (-1.15*\SmallPicSize,-\SmallPicSize) rectangle (1.15*\SmallPicSize,\SmallPicSize);%
+  }%
+}%
+\tikzset{%
+  txt/.pic={%
+    \coordinate(-Center)at(0,0);%
+    \coordinate(-North)at($(-Center)+(0,1.2*\SmallPicSize)$);%
+    \coordinate(-South)at($(-Center)+(0,-1.2*\SmallPicSize)$);%
+    \coordinate(-East)at($(-Center)+(1.15*\SmallPicSize,0)$);%
+    \coordinate(-West)at($(-Center)+(-1.15*\SmallPicSize,0)$);%
+    \coordinate(-NorthWest)at(-West|--North);%
+    \coordinate(-NorthEast)at(-East|--North);%
+    \coordinate(-SouthWest)at(-West|--South);%
+    \coordinate(-SouthEast)at(-East|--South);%
+    \filldraw[draw=TikzCol_DirTxtborder,top color=TikzCol_DirTxtbg,bottom color=TikzCol_DirTxtbg!50]%
+      (-SouthWest)rectangle(-NorthEast);%
+    \draw[draw=black]%
+      (-0.8*\SmallPicSize,0.7*\SmallPicSize)--(0.8*\SmallPicSize,0.7*\SmallPicSize);%
+    \draw[draw=black]%
+      (-0.8*\SmallPicSize,0.15*\SmallPicSize)--(0.7*\SmallPicSize,0.15*\SmallPicSize);%
+    \draw[draw=black]%
+      (-0.8*\SmallPicSize,-0.4*\SmallPicSize)--(0.2*\SmallPicSize,-0.4*\SmallPicSize);%
+  }%
+}%
+%
+% \definecolor{TikzCol_PadlockLine}{named}{black}
+\definecolor{TikzCol_PadlockLine}{RGB}{13,96,139}%
+\newdimen\PadlockSize%
+\setlength{\PadlockSize}{4.5em}%
+\newdimen\PadlockLineWidth%
+\setlength{\PadlockLineWidth}{0.06\PadlockSize}%
+% \def\PadlockSize{4.5em}%
+% \def\PadlockLineWidth{0.03*\PadlockSize}%
+%
+\tikzset{%
+  PadlockLine/.style={%
+    draw=TikzCol_PadlockLine,%
+    line width=\PadlockLineWidth,%
+    line join=round,%
+    line cap=round%
+  },%
+  PadlockClosed/.pic={%
+    \coordinate(-CorpusLB)at(-0.7*\PadlockSize,0);%
+    \coordinate(-CorpusRB)at(0.7*\PadlockSize,0);%
+    \coordinate(-CorpusLT)at($(-CorpusLB)+(0,\PadlockSize)$);%
+    \coordinate(-CorpusRT)at($(-CorpusRB)+(0,\PadlockSize)$);%
+    \coordinate(-CorpusC)at($(-CorpusLB)!.5!(-CorpusRT)$);%
+    \coordinate(-UpperAnchor)at($(-CorpusLT)!.5!(-CorpusRT)+(0,0.3*\PadlockSize)$);%
+    \coordinate(-UpperAnchor2)at($(-UpperAnchor)+(0,0.05*\PadlockSize)$);%
+    \path[PadlockLine]%
+        (-CorpusLB)%
+        --%
+        (-CorpusLT)%
+        to[out=10,in=180-10]%
+            coordinate[pos=0.1](-ShackleJoint1)%
+            coordinate[pos=0.2](-ShackleJoint2)%
+            coordinate[pos=0.8](-ShackleJoint3)%
+            coordinate[pos=0.9](-ShackleJoint4)%
+        (-CorpusRT)%
+        --%
+        (-CorpusRB)%
+        to[in=-10,out=180+10]%
+        cycle
+    ;%
+    \path[PadlockLine,rounded corners=0.05\PadlockSize]%
+        (-ShackleJoint1)%
+        --%
+        (-ShackleJoint1|--UpperAnchor2)%
+        to[out=70,in=180-70]%
+        (-ShackleJoint4|--UpperAnchor2)%
+        --%
+        (-ShackleJoint4)%
+    ;%
+    \path[PadlockLine,rounded corners=0.05\PadlockSize]%
+        (-ShackleJoint2)%
+        --%
+        (-ShackleJoint2|--UpperAnchor)%
+        to[out=70,in=180-70]%
+        (-ShackleJoint3|--UpperAnchor)%
+        --%
+        (-ShackleJoint3)%
+    ;%
+    \path[PadlockLine,rounded corners=0.03\PadlockSize]%
+        ($(-CorpusC)+(0,0.2*\PadlockSize)$)%
+        ++(-60:0.2\PadlockSize)%
+        arc%[start angle=10,end angle=80,radius=10pt]%
+        (-60:180+60:0.2\PadlockSize)%
+        --%
+        ($(\tikzcurrentcoordinate-|-CorpusC)+(-0.25\PadlockSize,-0.4\PadlockSize)$)%
+        --%
+        ++(0.5\PadlockSize,0)%
+        --cycle%
+    ;%
+  }%
+}%
+%
+%
+%
+%
+%
+%
+%========-------------------------------------------========
+%========   IT, Computer    ========
+%========-------------------------------------------========
+% Todo
+\usetikzlibrary{fit}
+\tikzset{
+  comp/.style = {
+    minimum width  = 8cm,
+    minimum height = 4.5cm,
+    text width     = 8cm,
+    inner sep      = 0pt,
+    text           = green,
+    align          = center,
+    font           = \Huge,
+    transform shape,
+    thick
+  },
+  monitor/.style = {draw = none, xscale = 18/16, yscale = 11/9},
+  display/.style = {shading = axis, left color = black!60, right color = black},
+  ut/.style      = {fill = gray}
+}
+\tikzset{
+  computer/.pic = {
+    % screen (with border)
+    \node(-m) [comp, pic actions, monitor]
+      {\phantom{\parbox{\linewidth}{\tikzpictext}}};
+    % display (without border)
+    \node[comp, pic actions, display] {\tikzpictext};
+    \begin{scope}[x = (-m.east), y = (-m.north)]
+      % filling the lower part
+      \path[pic actions, draw = none]
+        ([yshift=2\pgflinewidth]-0.1,-1) -- (-0.1,-1.3) -- (-1,-1.3) --
+        (-1,-2.4) -- (1,-2.4) -- (1,-1.3) -- (0.1,-1.3) --
+        ([yshift=2\pgflinewidth]0.1,-1);
+      % filling the border of the lower part
+      \path[ut]
+        (-1,-2.4) rectangle (1,-1.3)
+        (-0.9,-1.4) -- (-0.7,-2.3) -- (0.7,-2.3) -- (0.9,-1.4) -- cycle;
+      % drawing the frame of the whole computer
+      \path[pic actions, fill = none]
+        (-1,1) -- (-1,-1) -- (-0.1,-1) -- (-0.1,-1.3) -- (-1,-1.3) --
+        (-1,-2.4) coordinate(sw)coordinate[pos=0.5] (-b west) --
+        (1,-2.4) -- (1,-1.3) coordinate[pos=0.5] (-b east) --
+        (0.1,-1.3) -- (0.1,-1) -- (1,-1) -- (1,1) -- cycle;
+      % node around the whole computer
+      \node(-c) [fit = (sw)(-m.north east), inner sep = 0pt] {};
+    \end{scope}
+  }
+}
+%
+\definecolor{TikzCol_ComputerServer}{RGB}{0,0,0}%
+%
+\def\ComputerServerSize{10em}%
+\def\ComputerServerLineWidth{0.01*\ComputerServerSize}%
+\def\ComputerServerWidth{\ComputerServerSize}%
+\def\ComputerServerRackWidth{\ComputerServerSize}%
+\def\ComputerServerRackHeight{0.2*\ComputerServerSize}%
+%
+\tikzset{%
+  ComputerServerLine/.style={%
+    draw=TikzCol_ComputerServer,%
+    line width=\ComputerServerLineWidth,%
+    line join=round,%
+    line cap=round%
+  },%
+  ComputerServerOneRack/.pic={%
+    \coordinate(-LT)at(-0.5*\ComputerServerRackWidth,0.5*\ComputerServerRackHeight);%
+    \coordinate(-RT)at(0.5*\ComputerServerRackWidth,0.5*\ComputerServerRackHeight);%
+    \coordinate(-LB)at(-0.5*\ComputerServerRackWidth,-0.5*\ComputerServerRackHeight);%
+    \coordinate(-RB)at(0.5*\ComputerServerRackWidth,-0.5*\ComputerServerRackHeight);%
+    \path[ComputerServerLine,rounded corners=0.2*\ComputerServerRackHeight](-LT)--(-RT)--(-RB)--(-LB)--cycle;%
+    \path[ComputerServerLine,fill=TikzCol_ComputerServer!40!gray](-0.4*\ComputerServerRackWidth,0)circle(0.2*\ComputerServerRackHeight);%
+    \path[ComputerServerLine,line width=0.7*\ComputerServerLineWidth,fill=TikzCol_ComputerServer!40!white](-0.3*\ComputerServerRackWidth,0.35*\ComputerServerRackHeight)--++(0.05*\ComputerServerRackWidth,0)--++(0,-0.7*\ComputerServerRackHeight)--++(-0.05*\ComputerServerRackWidth,0)--cycle;
+    \path[ComputerServerLine,line width=0.7*\ComputerServerLineWidth,fill=TikzCol_ComputerServer!40!white](-0.22*\ComputerServerRackWidth,0.35*\ComputerServerRackHeight)--++(0.05*\ComputerServerRackWidth,0)--++(0,-0.7*\ComputerServerRackHeight)--++(-0.05*\ComputerServerRackWidth,0)--cycle;
+    \path[ComputerServerLine,line width=0.7*\ComputerServerLineWidth,fill=TikzCol_ComputerServer!40!white](-0.14*\ComputerServerRackWidth,0.35*\ComputerServerRackHeight)--++(0.05*\ComputerServerRackWidth,0)--++(0,-0.7*\ComputerServerRackHeight)--++(-0.05*\ComputerServerRackWidth,0)--cycle;
+    \path[ComputerServerLine,line width=0.7*\ComputerServerLineWidth,fill=TikzCol_ComputerServer!40!white](-0.06*\ComputerServerRackWidth,0.35*\ComputerServerRackHeight)--++(0.05*\ComputerServerRackWidth,0)--++(0,-0.7*\ComputerServerRackHeight)--++(-0.05*\ComputerServerRackWidth,0)--cycle;
+    \path[ComputerServerLine,line width=1.5*\ComputerServerLineWidth](0.2*\ComputerServerRackWidth,0.2*\ComputerServerRackHeight)--++(0.1*\ComputerServerRackWidth,0);
+    \path[ComputerServerLine,line width=1.5*\ComputerServerLineWidth](0.2*\ComputerServerRackWidth,0.0*\ComputerServerRackHeight)--++(0.1*\ComputerServerRackWidth,0);
+    \path[ComputerServerLine,line width=1.5*\ComputerServerLineWidth](0.2*\ComputerServerRackWidth,-0.2*\ComputerServerRackHeight)--++(0.1*\ComputerServerRackWidth,0);
+  },%
+  ComputerServerOne/.pic={%
+    \coordinate(-SwitchLT)at(-0.07*\ComputerServerSize,0.04*\ComputerServerSize);%
+    \coordinate(-SwitchRT)at(0.07*\ComputerServerSize,0.04*\ComputerServerSize);%
+    \coordinate(-SwitchLB)at(-0.07*\ComputerServerSize,-0.04*\ComputerServerSize);%
+    \coordinate(-SwitchRB)at(0.07*\ComputerServerSize,-0.04*\ComputerServerSize);%
+    \coordinate(-SwitchCT)at($(-SwitchLT)!.5!(-SwitchRT)$);%
+    \coordinate(-SwitchCL)at($(-SwitchLT)!.5!(-SwitchLB)$);%
+    \coordinate(-SwitchCR)at($(-SwitchRT)!.5!(-SwitchRB)$);%
+    \path[ComputerServerLine](-SwitchLT)--(-SwitchRT)--(-SwitchRB)--(-SwitchLB)--cycle;%
+    \pic(-RackOne)at($(-SwitchLT)!.5!(-SwitchRT)+(0,0.2*\ComputerServerSize)$){ComputerServerOneRack};%
+    % \colorlet{TikzCol_ComputerServer}{blue}
+    \pic(-RackTwo)at($(-RackOne-LT)!.5!(-RackOne-RT)+(0,0.5*\ComputerServerRackHeight+\ComputerServerLineWidth)$){ComputerServerOneRack};%
+    \pic(-RackThree)at($(-RackTwo-LT)!.5!(-RackTwo-RT)+(0,0.5*\ComputerServerRackHeight+\ComputerServerLineWidth)$){ComputerServerOneRack};%
+    \coordinate(-CableLeft)at($(-SwitchCL-|-RackOne-LB)+(0.07*\ComputerServerSize,0)$);%
+    \coordinate(-CableRight)at($(-SwitchCR-|-RackOne-RB)+(-0.07*\ComputerServerSize,0)$);%
+    \draw[ComputerServerLine](-SwitchCT)--($(-RackOne-LB)!.5!(-RackOne-RB)$);%
+    \draw[ComputerServerLine](-SwitchCL)--(-CableLeft);%
+    \draw[ComputerServerLine](-SwitchCR)--(-CableRight);%
+  },%
+}%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%========-------------------------------------------========
+%========   Communication    ========
+%========-------------------------------------------========
+% \definecolor{TikzCol_RadioTowerLine}{named}{black}%
+\definecolor{TikzCol_RadioTowerLine}{RGB}{13,96,139}%
+%
+\def\RadioTowerSize{4.5em}% 80*0.6pt % 80*\RadioTowerLineWidth % 4.5em
+\def\RadioTowerLineWidth{0.03*\RadioTowerSize}% 1.4pt
+\def\RadioTowerWidth{0.7*\RadioTowerSize}%
+\def\RadioTowerHeight{\RadioTowerSize}%
+\def\RadioTowerAntennaRadius{0.04*\RadioTowerSize}%
+%
+\tikzset{%
+  RadioTowerLine/.style={%
+    draw=TikzCol_RadioTowerLine,%
+    line width=\RadioTowerLineWidth,%
+    line join=round,%
+    line cap=round%
+  },%
+  RadioTower/.pic={%
+    \newcommand{\RadioTowerIntersectOnePos}{0.4}%
+    \newcommand{\RadioTowerIntersectTwoPos}{0.7}%
+    \coordinate(-TowerBottomL)at(0,0);%
+    \coordinate(-TowerBottomR)at(\RadioTowerWidth,0);%
+    \coordinate(-TowerTip)at(0.5*\RadioTowerWidth,\RadioTowerHeight);%
+    \coordinate(-TowerAntennaCenter)at($(-TowerTip)+(0,\RadioTowerAntennaRadius)$);%
+    \path[RadioTowerLine,line join=round,line cap=round]%
+        (-TowerBottomL)%
+        --%
+        (-TowerTip)%
+            coordinate[pos=\RadioTowerIntersectOnePos](-IntersectOneL)%
+            coordinate[pos=\RadioTowerIntersectTwoPos](-IntersectTwoL)%
+        --%
+        (-TowerBottomR)%
+            coordinate[pos=1-\RadioTowerIntersectOnePos](-IntersectOneR)%
+            coordinate[pos=1-\RadioTowerIntersectTwoPos](-IntersectTwoR)%
+    ;%
+    %
+    \path[RadioTowerLine,line join=round,line cap=round]%
+        (\RadioTowerWidth,0)%
+        --%
+        (-IntersectOneL)%
+    ;%
+    \path[RadioTowerLine,line join=round,line cap=round]%
+        (0,0)%
+        --%
+        (-IntersectOneR)%
+    ;%
+    \path[RadioTowerLine,line join=round,line cap=round]%
+        (-IntersectOneL)%
+        --%
+        (-IntersectTwoR)%
+    ;%
+    \path[RadioTowerLine,line join=round,line cap=round]%
+        (-IntersectOneR)%
+        --%
+        (-IntersectTwoL)%
+    ;%
+    %
+    \draw[RadioTowerLine](-TowerAntennaCenter)circle(\RadioTowerAntennaRadius);%
+  },%
+  RadioTowerWFloor/.pic={%
+    \pic(-RadioTowerPic){RadioTower};%
+    \coordinate(-FloorTwoL)at($(-RadioTowerPic-TowerBottomL)+(-0.1*\RadioTowerSize,0)$);%
+    \coordinate(-FloorTwoR)at($(-RadioTowerPic-TowerBottomR)+(0.1*\RadioTowerSize,0)$);%
+    \coordinate(-FloorOneL)at($(-FloorTwoL)+(0,-0.06*\RadioTowerHeight)$);%
+    \coordinate(-FloorOneR)at(-FloorOneL-|-FloorTwoR);%
+    \path[RadioTowerLine,line join=round,line cap=round]%
+        (-FloorTwoL)%
+        --%
+        (-FloorTwoR)%
+    ;%
+    \path[RadioTowerLine,line join=round,line cap=round]%
+        (-FloorOneL)%
+        --%
+        (-FloorOneR)%
+    ;%
+  },%
+  RadioTowerWRadioWave/.pic={%
+    \pic(-RadioTowerPic){RadioTower};%
+    \newcommand{\RadioWave}[2]{%
+        %\draw[RadioTowerLine](-RadioTowerPic-TowerAntennaCenter)+(##1,0)arc[start angle=0,end angle=360,radius=##1];%
+        \draw[RadioTowerLine,line width=0.8*\RadioTowerLineWidth](-RadioTowerPic-TowerAntennaCenter)+(-##2:##1)arc(-##2:##2:##1);%
+        \draw[RadioTowerLine,line width=0.8*\RadioTowerLineWidth](-RadioTowerPic-TowerAntennaCenter)+(180-##2:##1)arc(180-##2:180+##2:##1);%
+    }%
+    \RadioWave{3.0*\RadioTowerAntennaRadius}{30}%
+    \RadioWave{5.0*\RadioTowerAntennaRadius}{30}%
+    \RadioWave{7.0*\RadioTowerAntennaRadius}{30}%
+  },%
+  RadioTowerWFloorWRadioWave/.pic={%
+    \pic(-RadioTowerWFloorPic){RadioTowerWFloor};%
+    \newcommand{\RadioWave}[2]{%
+        %\draw[RadioTowerLine](-RadioTowerPic-TowerAntennaCenter)+(##1,0)arc[start angle=0,end angle=360,radius=##1];%
+        \draw[RadioTowerLine,line width=0.8*\RadioTowerLineWidth](-RadioTowerWFloorPic-RadioTowerPic-TowerAntennaCenter)+(-##2:##1)arc(-##2:##2:##1);%
+        \draw[RadioTowerLine,line width=0.8*\RadioTowerLineWidth](-RadioTowerWFloorPic-RadioTowerPic-TowerAntennaCenter)+(180-##2:##1)arc(180-##2:180+##2:##1);%
+    }%
+    \RadioWave{3.0*\RadioTowerAntennaRadius}{30}%
+    \RadioWave{5.0*\RadioTowerAntennaRadius}{30}%
+    \RadioWave{7.0*\RadioTowerAntennaRadius}{30}%
+  }%
+}%
+%
+% Usage Suggestion:
+%    \scopenode[name=RadioTower,draw=none,anchor=north west,at={(0,0)}]{%
+%    \pic(RadioTowerPic){RadioTowerWFloorWRadioWave};%
+%    }
+%
+%
+%
+%
+%
+%========-------------------------------------------========
+%========   Industry    ========
+%========-------------------------------------------========
+%
+%-------------------------------------------
+%--------   Unmanned Aerial Vehicle (UAV)    --------
+%-------------------------------------------
+% Usage Example:
+% - Default Behaviour
+%    - The lines are drawn
+%    - It is not filled
+%    - Line Color is Black
+%    - Fill Color is White
+% - The Colors can be changed as shown in the Example below (which acts for all subsequent Pics within the scope)
+% - To make it filled, change the "FillOpacity" Value as shown below (acts for all subsequent Pics within the scope)
+%
+%            \node(UAV1)[nestedTikz,anchor=north west]at(0,0){\tikz[remember picture]{%
+%                \colorlet{TikzCol_UnmannedAerialVehicleLine}{blue}%
+%                \colorlet{TikzCol_UnmannedAerialVehicleFill}{yellow}%
+%                \def\UnmannedAerialVehicleFillOpacity{1}%
+%                \pic(UAV1Pic){UnmannedAerialVehicleOne};%
+%            }};%
+%            \node(UAV2)[nestedTikz,anchor=north]at(0,0){\tikz[remember picture]{%
+%                \colorlet{TikzCol_UnmannedAerialVehicleLine}{orange}%
+%                \colorlet{TikzCol_UnmannedAerialVehicleFill}{green}%
+%                \def\UnmannedAerialVehicleFillOpacity{1}%
+%                \pic(UAV2Pic){UnmannedAerialVehicleTwo};%
+%            }};%
+%-------------------------------------------
+\definecolor{TikzCol_UnmannedAerialVehicleLine}{RGB}{0,0,0}%
+\definecolor{TikzCol_UnmannedAerialVehicleFill}{RGB}{255,255,255}%
+%
+\def\UnmannedAerialVehicleSize{10em}%
+\def\UnmannedAerialVehicleLineWidth{0.01*\UnmannedAerialVehicleSize}%
+%
+\def\UnmannedAerialVehicleFillOpacity{0.0}%
+%
+\tikzset{%
+  UnmannedAerialVehicleLine/.style={%
+    draw=TikzCol_UnmannedAerialVehicleLine,%
+    line width=\UnmannedAerialVehicleLineWidth,%
+    line join=round,%
+    line cap=round,%
+    fill=TikzCol_UnmannedAerialVehicleFill,%
+    fill opacity=\UnmannedAerialVehicleFillOpacity%
+  },%
+  UnmannedAerialVehicleOne/.pic={%
+    \def\UnmannedAerialVehicleRoundedCorners{0.02*\UnmannedAerialVehicleSize}%
+    \coordinate(-CorpusLT)at(-0.5*\UnmannedAerialVehicleSize,0);%
+    \coordinate(-CorpusLB)at($(-CorpusLT)+(0,-0.04*\UnmannedAerialVehicleSize)$);%
+    \coordinate(-CorpusRT)at(0.5*\UnmannedAerialVehicleSize,0);%
+    \coordinate(-CorpusRB)at($(-CorpusRT)+(0,-0.04*\UnmannedAerialVehicleSize)$);%
+    \coordinate(-CorpusCT)at(0,0.03*\UnmannedAerialVehicleSize);%
+    %
+    \coordinate(-CorpusLT1)at($(-CorpusLT)+(0.2*\UnmannedAerialVehicleSize,0)$);%
+    \coordinate(-CorpusRT1)at($(-CorpusRT)+(-0.2*\UnmannedAerialVehicleSize,0)$);%
+    \coordinate(-CorpusLT2)at($(-CorpusLT)+(0.4*\UnmannedAerialVehicleSize,-0.03*\UnmannedAerialVehicleSize)$);%
+    \coordinate(-CorpusRT2)at($(-CorpusRT)+(-0.4*\UnmannedAerialVehicleSize,-0.03*\UnmannedAerialVehicleSize)$);%
+    %
+    \coordinate(-CorpusLB1)at($(-CorpusLB-|-CorpusLT1)+(0.0*\UnmannedAerialVehicleSize,-0.03*\UnmannedAerialVehicleSize)$);%
+    \coordinate(-CorpusRB1)at($(-CorpusRB-|-CorpusRT1)+(0.0*\UnmannedAerialVehicleSize,-0.03*\UnmannedAerialVehicleSize)$);%
+    \coordinate(-CorpusLB2)at($(-CorpusLB1-|-CorpusLT2)+(0,-0.07*\UnmannedAerialVehicleSize)$);%
+    \coordinate(-CorpusRB2)at($(-CorpusRB1-|-CorpusRT2)+(0,-0.07*\UnmannedAerialVehicleSize)$);%
+    \coordinate(-CorpusLB3)at($(-CorpusLB2)+(0,-0.02*\UnmannedAerialVehicleSize)$);%
+    \coordinate(-CorpusRB3)at($(-CorpusRB2)+(0,-0.02*\UnmannedAerialVehicleSize)$);%
+    %
+    \coordinate(-CameraLT)at($(-CorpusLB3)+(0.03*\UnmannedAerialVehicleSize,-0.025*\UnmannedAerialVehicleSize)$);%
+    \coordinate(-CameraRT)at($(-CorpusRB3)+(-0.03*\UnmannedAerialVehicleSize,-0.025*\UnmannedAerialVehicleSize)$);%
+    \coordinate(-CameraLB)at($(-CameraLT)+(0,-0.1*\UnmannedAerialVehicleSize)$);%
+    \coordinate(-CameraRB)at(-CameraLB-|-CameraRT);%
+    \coordinate(-CameraCenter)at($(-CameraLT)!.5!(-CameraRB)$);%
+    %
+    \coordinate(-LegLeftT1L)at($(-CorpusLB1)!.2!(-CorpusLB2)+(0,-0.02*\UnmannedAerialVehicleSize)$);%
+    \coordinate(-LegLeftT1R)at($(-CorpusLB1)!.35!(-CorpusLB2)+(0,-0.02*\UnmannedAerialVehicleSize)$);%
+    \coordinate(-LegLeftT2L)at($(-CorpusLB1)!.65!(-CorpusLB2)+(0,-0.02*\UnmannedAerialVehicleSize)$);%
+    \coordinate(-LegLeftT2R)at($(-CorpusLB1)!.8!(-CorpusLB2)+(0,-0.02*\UnmannedAerialVehicleSize)$);%
+    \coordinate(-LegLeftBL)at($(-LegLeftT1L)+(-0.06*\UnmannedAerialVehicleSize,-0.25*\UnmannedAerialVehicleSize)$);%
+    \coordinate(-LegLeftBR)at($(-LegLeftBL)+(0.02*\UnmannedAerialVehicleSize,0)$);%
+    \coordinate(-LegLeftJoinT)at($(-LegLeftBR)!.8!(-LegLeftT1R)$);%
+    \coordinate(-LegLeftJoinB)at($(-LegLeftBR)!.67!(-LegLeftT1R)$);%
+    %
+    \coordinate(-LegRightT1L)at($(-CorpusRB1)!.2!(-CorpusRB2)+(0,-0.02*\UnmannedAerialVehicleSize)$);%
+    \coordinate(-LegRightT1R)at($(-CorpusRB1)!.35!(-CorpusRB2)+(0,-0.02*\UnmannedAerialVehicleSize)$);%
+    \coordinate(-LegRightT2L)at($(-CorpusRB1)!.65!(-CorpusRB2)+(0,-0.02*\UnmannedAerialVehicleSize)$);%
+    \coordinate(-LegRightT2R)at($(-CorpusRB1)!.8!(-CorpusRB2)+(0,-0.02*\UnmannedAerialVehicleSize)$);%
+    \coordinate(-LegRightBL)at($(-LegRightT1L)+(0.06*\UnmannedAerialVehicleSize,-0.25*\UnmannedAerialVehicleSize)$);%
+    \coordinate(-LegRightBR)at($(-LegRightBL)+(-0.02*\UnmannedAerialVehicleSize,0)$);%
+    \coordinate(-LegRightJoinT)at($(-LegRightBR)!.8!(-LegRightT1R)$);%
+    \coordinate(-LegRightJoinB)at($(-LegRightBR)!.67!(-LegRightT1R)$);%
+    %
+    \coordinate(-RotorLMotorLB)at($(-CorpusLT)+(0.08*\UnmannedAerialVehicleSize,0.02*\UnmannedAerialVehicleSize)$);%
+    \coordinate(-RotorLMotorRB)at($(-RotorLMotorLB)+(0.06*\UnmannedAerialVehicleSize,0)$);%
+    \coordinate(-RotorLMotorLT)at($(-RotorLMotorLB)+(0,0.02*\UnmannedAerialVehicleSize)$);%
+    \coordinate(-RotorLMotorRT)at($(-RotorLMotorRB)+(0,0.02*\UnmannedAerialVehicleSize)$);%
+    \coordinate(-RotorLMotorL1)at($(-RotorLMotorLT)+(0.017*\UnmannedAerialVehicleSize,0)$);%
+    \coordinate(-RotorLMotorR1)at($(-RotorLMotorRT)+(-0.017*\UnmannedAerialVehicleSize,0)$);%
+    \coordinate(-RotorLMotorL2)at($(-RotorLMotorL1)+(0,0.02*\UnmannedAerialVehicleSize)$);%
+    \coordinate(-RotorLMotorR2)at($(-RotorLMotorR1)+(0,0.02*\UnmannedAerialVehicleSize)$);%
+    \coordinate(-RotorLMotorTip)at($(-RotorLMotorLB)!.5!(-RotorLMotorRB)+(0,0.05*\UnmannedAerialVehicleSize)$);%
+    %
+    \coordinate(-RotorLBladeL1)at($(-RotorLMotorTip)+(-0.03*\UnmannedAerialVehicleSize,0.01*\UnmannedAerialVehicleSize)$);%
+    \coordinate(-RotorLBladeL2)at($(-RotorLBladeL1)+(0,-0.015*\UnmannedAerialVehicleSize)$);%
+    \coordinate(-RotorLBladeL3)at($(-RotorLBladeL2)+(-0.04*\UnmannedAerialVehicleSize,-0.01*\UnmannedAerialVehicleSize)$);%
+    \coordinate(-RotorLBladeL4)at($(-RotorLBladeL3)+(-0.2*\UnmannedAerialVehicleSize,0.01*\UnmannedAerialVehicleSize)$);%
+    \coordinate(-RotorLBladeR1)at($(-RotorLMotorTip)+(0.03*\UnmannedAerialVehicleSize,0.01*\UnmannedAerialVehicleSize)$);%
+    \coordinate(-RotorLBladeR2)at($(-RotorLBladeR1)+(0,-0.015*\UnmannedAerialVehicleSize)$);%
+    \coordinate(-RotorLBladeR3)at($(-RotorLBladeR2)+(0.04*\UnmannedAerialVehicleSize,-0.01*\UnmannedAerialVehicleSize)$);%
+    \coordinate(-RotorLBladeR4)at($(-RotorLBladeR3)+(0.2*\UnmannedAerialVehicleSize,0.01*\UnmannedAerialVehicleSize)$);%
+    %
+    \coordinate(-RotorRMotorRB)at($(-CorpusRT)+(-0.08*\UnmannedAerialVehicleSize,0.02*\UnmannedAerialVehicleSize)$);%
+    \coordinate(-RotorRMotorLB)at($(-RotorRMotorRB)+(-0.06*\UnmannedAerialVehicleSize,0)$);%
+    \coordinate(-RotorRMotorLT)at($(-RotorRMotorLB)+(0,0.02*\UnmannedAerialVehicleSize)$);%
+    \coordinate(-RotorRMotorRT)at($(-RotorRMotorRB)+(0,0.02*\UnmannedAerialVehicleSize)$);%
+    \coordinate(-RotorRMotorL1)at($(-RotorRMotorLT)+(0.017*\UnmannedAerialVehicleSize,0)$);%
+    \coordinate(-RotorRMotorR1)at($(-RotorRMotorRT)+(-0.017*\UnmannedAerialVehicleSize,0)$);%
+    \coordinate(-RotorRMotorL2)at($(-RotorRMotorL1)+(0,0.02*\UnmannedAerialVehicleSize)$);%
+    \coordinate(-RotorRMotorR2)at($(-RotorRMotorR1)+(0,0.02*\UnmannedAerialVehicleSize)$);%
+    \coordinate(-RotorRMotorTip)at($(-RotorRMotorLB)!.5!(-RotorRMotorRB)+(0,0.05*\UnmannedAerialVehicleSize)$);%
+    %
+    \coordinate(-RotorRBladeL1)at($(-RotorRMotorTip)+(-0.03*\UnmannedAerialVehicleSize,0.01*\UnmannedAerialVehicleSize)$);%
+    \coordinate(-RotorRBladeL2)at($(-RotorRBladeL1)+(0,-0.015*\UnmannedAerialVehicleSize)$);%
+    \coordinate(-RotorRBladeL3)at($(-RotorRBladeL2)+(-0.04*\UnmannedAerialVehicleSize,-0.01*\UnmannedAerialVehicleSize)$);%
+    \coordinate(-RotorRBladeL4)at($(-RotorRBladeL3)+(-0.2*\UnmannedAerialVehicleSize,0.01*\UnmannedAerialVehicleSize)$);%
+    \coordinate(-RotorRBladeR1)at($(-RotorRMotorTip)+(0.03*\UnmannedAerialVehicleSize,0.01*\UnmannedAerialVehicleSize)$);%
+    \coordinate(-RotorRBladeR2)at($(-RotorRBladeR1)+(0,-0.015*\UnmannedAerialVehicleSize)$);%
+    \coordinate(-RotorRBladeR3)at($(-RotorRBladeR2)+(0.04*\UnmannedAerialVehicleSize,-0.01*\UnmannedAerialVehicleSize)$);%
+    \coordinate(-RotorRBladeR4)at($(-RotorRBladeR3)+(0.2*\UnmannedAerialVehicleSize,0.01*\UnmannedAerialVehicleSize)$);%
+    %
+    % - - - - - - -
+    % Corpus
+    \path[UnmannedAerialVehicleLine]%
+        (-CorpusLT)%
+        --%
+        (-CorpusLT1)%
+        --%
+        (-CorpusLT2)%
+        to[out=70,in=180]%
+        (-CorpusCT)%
+        to[out=0,in=110]%
+        (-CorpusRT2)%
+        --%
+        (-CorpusRT1)%
+        [rounded corners=\UnmannedAerialVehicleRoundedCorners]%
+        --%
+        (-CorpusRT)%
+        --%
+        (-CorpusRB)%
+        [rounded corners=0pt]%
+        --%
+        (-CorpusRB1)%
+        --%
+        (-CorpusRB2)%
+        --%
+        (-CorpusRB3)%
+        --%
+        (-CorpusLB3)%
+        --%
+        (-CorpusLB2)%
+        --%
+        (-CorpusLB1)%
+        [rounded corners=\UnmannedAerialVehicleRoundedCorners]%
+        --%
+        (-CorpusLB)%
+        --%
+    cycle;%
+    %
+    % - - - - - - -
+    % Rotor Links - Motor
+    \path[UnmannedAerialVehicleLine,line join=miter,line width=0.6*\UnmannedAerialVehicleLineWidth]%
+        (-RotorLMotorLB)%
+        [rounded corners=0.005*\UnmannedAerialVehicleSize]%
+        --%
+        (-RotorLMotorLT)%
+        --%
+        (-RotorLMotorL1)%
+        --%
+        (-RotorLMotorL2)%
+        [rounded corners=0pt]%
+        --%
+        (-RotorLMotorTip)%
+        [rounded corners=0.005*\UnmannedAerialVehicleSize]%
+        --%
+        (-RotorLMotorR2)%
+        --%
+        (-RotorLMotorR1)%
+        --%
+        (-RotorLMotorRT)%
+        [rounded corners=0pt]%
+        --%
+        (-RotorLMotorRB)%
+        --%
+    cycle;%
+    %
+    % - - - - - - -
+    % Rotor Links - Left Blade
+    \path[UnmannedAerialVehicleLine,line join=miter,line width=0.8*\UnmannedAerialVehicleLineWidth]%
+        (-RotorLBladeL1)%
+        --%
+        (-RotorLBladeL2)%
+        --%
+        (-RotorLBladeL3)%
+        ..controls%
+            ++(-0.07*\UnmannedAerialVehicleSize,0.012*\UnmannedAerialVehicleSize)%
+            and%
+            ++(0.1*\UnmannedAerialVehicleSize,-0.01*\UnmannedAerialVehicleSize)%
+        ..%
+        (-RotorLBladeL4)%
+        ..controls%
+            ++(0.07*\UnmannedAerialVehicleSize,0.012*\UnmannedAerialVehicleSize)%
+            and%
+            ++(-0.1*\UnmannedAerialVehicleSize,0.007*\UnmannedAerialVehicleSize)%
+        ..%
+    cycle;%
+    % - - - - - - -
+    % Rotor Links - Right Blade
+    \path[UnmannedAerialVehicleLine,line join=miter,line width=0.8*\UnmannedAerialVehicleLineWidth]%
+        (-RotorLBladeR1)%
+        --%
+        (-RotorLBladeR2)%
+        --%
+        (-RotorLBladeR3)%
+        ..controls%
+            ++(0.07*\UnmannedAerialVehicleSize,0.012*\UnmannedAerialVehicleSize)%
+            and%
+            ++(-0.1*\UnmannedAerialVehicleSize,-0.01*\UnmannedAerialVehicleSize)%
+        ..%
+        (-RotorLBladeR4)%
+        ..controls%
+            ++(-0.07*\UnmannedAerialVehicleSize,0.012*\UnmannedAerialVehicleSize)%
+            and%
+            ++(0.1*\UnmannedAerialVehicleSize,0.007*\UnmannedAerialVehicleSize)%
+        ..%
+    cycle;%
+    %
+    % - - - - - - -
+    % Rotor Rechts - Motor
+    \path[UnmannedAerialVehicleLine,line join=miter,line width=0.6*\UnmannedAerialVehicleLineWidth]%
+        (-RotorRMotorLB)%
+        [rounded corners=0.005*\UnmannedAerialVehicleSize]%
+        --%
+        (-RotorRMotorLT)%
+        --%
+        (-RotorRMotorL1)%
+        --%
+        (-RotorRMotorL2)%
+        [rounded corners=0pt]%
+        --%
+        (-RotorRMotorTip)%
+        [rounded corners=0.005*\UnmannedAerialVehicleSize]%
+        --%
+        (-RotorRMotorR2)%
+        --%
+        (-RotorRMotorR1)%
+        --%
+        (-RotorRMotorRT)%
+        [rounded corners=0pt]%
+        --%
+        (-RotorRMotorRB)%
+        --%
+    cycle;%
+    %
+    % - - - - - - -
+    % Rotor Links - Left Blade
+    \path[UnmannedAerialVehicleLine,line join=miter,line width=0.8*\UnmannedAerialVehicleLineWidth]%
+        (-RotorRBladeL1)%
+        --%
+        (-RotorRBladeL2)%
+        --%
+        (-RotorRBladeL3)%
+        ..controls%
+            ++(-0.07*\UnmannedAerialVehicleSize,0.012*\UnmannedAerialVehicleSize)%
+            and%
+            ++(0.1*\UnmannedAerialVehicleSize,-0.01*\UnmannedAerialVehicleSize)%
+        ..%
+        (-RotorRBladeL4)%
+        ..controls%
+            ++(0.07*\UnmannedAerialVehicleSize,0.012*\UnmannedAerialVehicleSize)%
+            and%
+            ++(-0.1*\UnmannedAerialVehicleSize,0.007*\UnmannedAerialVehicleSize)%
+        ..%
+    cycle;%
+    % - - - - - - -
+    % Rotor Links - Right Blade
+    \path[UnmannedAerialVehicleLine,line join=miter,line width=0.8*\UnmannedAerialVehicleLineWidth]%
+        (-RotorRBladeR1)%
+        --%
+        (-RotorRBladeR2)%
+        --%
+        (-RotorRBladeR3)%
+        ..controls%
+            ++(0.07*\UnmannedAerialVehicleSize,0.012*\UnmannedAerialVehicleSize)%
+            and%
+            ++(-0.1*\UnmannedAerialVehicleSize,-0.01*\UnmannedAerialVehicleSize)%
+        ..%
+        (-RotorRBladeR4)%
+        ..controls%
+            ++(-0.07*\UnmannedAerialVehicleSize,0.012*\UnmannedAerialVehicleSize)%
+            and%
+            ++(0.1*\UnmannedAerialVehicleSize,0.007*\UnmannedAerialVehicleSize)%
+        ..%
+    cycle;%
+    %
+    % - - - - - - -
+    % Camera
+    \path[UnmannedAerialVehicleLine]%
+        (-CameraLT)%
+        --%
+        (-CameraRT)%
+        --%
+        (-CameraRB)%
+        --%
+        (-CameraLB)%
+        --%
+    cycle;%
+    \draw[draw=TikzCol_UnmannedAerialVehicleLine,fill=none,line width=0.6*\UnmannedAerialVehicleLineWidth](-CameraCenter)circle(0.036*\UnmannedAerialVehicleSize);%
+    \draw[draw=none,fill=TikzCol_UnmannedAerialVehicleLine,line width=0pt](-CameraCenter)circle(0.019*\UnmannedAerialVehicleSize);%
+    \draw[draw=none,fill=white,line width=0pt]($(-CameraCenter)+(135:0.01*\UnmannedAerialVehicleSize)$)circle(0.01*\UnmannedAerialVehicleSize);%
+    %
+    % - - - - - - -
+    % Leg Left
+    \path[UnmannedAerialVehicleLine,line join=miter]%
+        (-LegLeftT1L)%
+        --%
+        (-LegLeftT1R)%
+        --%
+        (-LegLeftJoinT)%
+        --%
+        (-LegLeftT2L)%
+        --%
+        (-LegLeftT2R)%
+        --%
+        (-LegLeftJoinB)%
+        --%
+        (-LegLeftBR)%
+        ..controls%
+            ($(-LegLeftBR)!.5!(-LegLeftBL)+(280:0.02*\UnmannedAerialVehicleSize)$)%
+            and%
+            ($(-LegLeftBR)!.5!(-LegLeftBL)+(240:0.03*\UnmannedAerialVehicleSize)$)%
+        ..%
+        (-LegLeftBL)%
+        --%
+    cycle;%
+    %
+    % - - - - - - -
+    % Leg Right
+    \path[UnmannedAerialVehicleLine,line join=miter]%
+        (-LegRightT1L)%
+        --%
+        (-LegRightT1R)%
+        --%
+        (-LegRightJoinT)%
+        --%
+        (-LegRightT2L)%
+        --%
+        (-LegRightT2R)%
+        --%
+        (-LegRightJoinB)%
+        --%
+        (-LegRightBR)%
+        ..controls%
+            ($(-LegRightBR)!.5!(-LegRightBL)+(260:0.02*\UnmannedAerialVehicleSize)$)%
+            and%
+            ($(-LegRightBR)!.5!(-LegRightBL)+(300:0.03*\UnmannedAerialVehicleSize)$)%
+        ..%
+        (-LegRightBL)%
+        --%
+    cycle;%
+    %
+    % - - - - - - -
+    % Some Accents
+    \path[UnmannedAerialVehicleLine,fill=none,line join=miter]%
+        ($(-CorpusLT)!.8!(-CorpusLT1)$)%
+        to[out=-40,in=40]%
+        ($(-CorpusLB)!.8!(-CorpusLB1)$);%
+    \path[UnmannedAerialVehicleLine,fill=none,line join=miter]%
+        ($(-CorpusLT1)!.2!(-CorpusLT2)$)%
+        ..controls%
+            ++(0.025*\UnmannedAerialVehicleSize,-0.03*\UnmannedAerialVehicleSize)%
+            and%
+            ++(0.025*\UnmannedAerialVehicleSize,0.005*\UnmannedAerialVehicleSize)%
+        ..%
+        ($(-CorpusLB1)!.1!(-CorpusLB2)$);%
+    %
+    \path[UnmannedAerialVehicleLine,fill=none,line join=miter]%
+        ($(-CorpusRT)!.8!(-CorpusRT1)$)%
+        to[out=180+40,in=180-40]%
+        ($(-CorpusRB)!.8!(-CorpusRB1)$);%
+    \path[UnmannedAerialVehicleLine,fill=none,line join=miter]%
+        ($(-CorpusRT1)!.2!(-CorpusRT2)$)%
+        ..controls%
+            ++(-0.025*\UnmannedAerialVehicleSize,-0.03*\UnmannedAerialVehicleSize)%
+            and%
+            ++(-0.025*\UnmannedAerialVehicleSize,0.005*\UnmannedAerialVehicleSize)%
+        ..%
+        ($(-CorpusRB1)!.1!(-CorpusRB2)$);%
+    %
+    \let\UnmannedAerialVehicleRoundedCorners\undefined%
+  },%
+  UnmannedAerialVehicleTwo/.pic={%
+    \def\UnmannedAerialVehicleRoundedCorners{0.02*\UnmannedAerialVehicleSize}%
+    \coordinate(-CorpusLT)at(-0.5*\UnmannedAerialVehicleSize,0);%
+    \coordinate(-CorpusLB)at($(-CorpusLT)+(0,-0.04*\UnmannedAerialVehicleSize)$);%
+    \coordinate(-CorpusRT)at(0.5*\UnmannedAerialVehicleSize,0);%
+    \coordinate(-CorpusRB)at($(-CorpusRT)+(0,-0.04*\UnmannedAerialVehicleSize)$);%
+    \coordinate(-CorpusCT)at(0,0.01*\UnmannedAerialVehicleSize);%
+    %
+    \coordinate(-CorpusLT1)at($(-CorpusLT)+(0.2*\UnmannedAerialVehicleSize,0)$);%
+    \coordinate(-CorpusRT1)at($(-CorpusRT)+(-0.2*\UnmannedAerialVehicleSize,0)$);%
+    \coordinate(-CorpusLT2)at($(-CorpusLT)+(0.35*\UnmannedAerialVehicleSize,-0.03*\UnmannedAerialVehicleSize)$);%
+    \coordinate(-CorpusRT2)at($(-CorpusRT)+(-0.35*\UnmannedAerialVehicleSize,-0.03*\UnmannedAerialVehicleSize)$);%
+    %
+    \coordinate(-CorpusLB1)at($(-CorpusLB-|-CorpusLT1)+(0.0*\UnmannedAerialVehicleSize,-0.03*\UnmannedAerialVehicleSize)$);%
+    \coordinate(-CorpusRB1)at($(-CorpusRB-|-CorpusRT1)+(0.0*\UnmannedAerialVehicleSize,-0.03*\UnmannedAerialVehicleSize)$);%
+    \coordinate(-CorpusLB2)at($(-CorpusLB1-|-CorpusLT2)+(0.05*\UnmannedAerialVehicleSize,-0.07*\UnmannedAerialVehicleSize)$);%
+    \coordinate(-CorpusRB2)at($(-CorpusRB1-|-CorpusRT2)+(-0.05*\UnmannedAerialVehicleSize,-0.07*\UnmannedAerialVehicleSize)$);%
+    \coordinate(-CorpusLB3)at($(-CorpusLB2)+(0,-0.02*\UnmannedAerialVehicleSize)$);%
+    \coordinate(-CorpusRB3)at($(-CorpusRB2)+(0,-0.02*\UnmannedAerialVehicleSize)$);%
+    %
+    \coordinate(-CameraLT)at($(-CorpusLB3)+(0.03*\UnmannedAerialVehicleSize,-0.025*\UnmannedAerialVehicleSize)$);%
+    \coordinate(-CameraRT)at($(-CorpusRB3)+(-0.03*\UnmannedAerialVehicleSize,-0.025*\UnmannedAerialVehicleSize)$);%
+    \coordinate(-CameraLB)at($(-CameraLT)+(0,-0.1*\UnmannedAerialVehicleSize)$);%
+    \coordinate(-CameraRB)at(-CameraLB-|-CameraRT);%
+    \coordinate(-CameraCenter)at($(-CameraLT)!.5!(-CameraRB)$);%
+    %
+    \coordinate(-LegLeftT1L)at($(-CorpusLB1)!.2!(-CorpusLB2)+(0,-0.02*\UnmannedAerialVehicleSize)$);%
+    \coordinate(-LegLeftT1R)at($(-CorpusLB1)!.35!(-CorpusLB2)+(0,-0.02*\UnmannedAerialVehicleSize)$);%
+    \coordinate(-LegLeftT2L)at($(-CorpusLB1)!.65!(-CorpusLB2)+(0,-0.02*\UnmannedAerialVehicleSize)$);%
+    \coordinate(-LegLeftT2R)at($(-CorpusLB1)!.8!(-CorpusLB2)+(0,-0.02*\UnmannedAerialVehicleSize)$);%
+    \coordinate(-LegLeftBL)at($(-LegLeftT1L)+(-0.06*\UnmannedAerialVehicleSize,-0.25*\UnmannedAerialVehicleSize)$);%
+    \coordinate(-LegLeftBR)at($(-LegLeftBL)+(0.02*\UnmannedAerialVehicleSize,0)$);%
+    \coordinate(-LegLeftJoinT)at($(-LegLeftBR)!.8!(-LegLeftT1R)$);%
+    \coordinate(-LegLeftJoinB)at($(-LegLeftBR)!.67!(-LegLeftT1R)$);%
+    %
+    \coordinate(-LegRightT1L)at($(-CorpusRB1)!.2!(-CorpusRB2)+(0,-0.02*\UnmannedAerialVehicleSize)$);%
+    \coordinate(-LegRightT1R)at($(-CorpusRB1)!.35!(-CorpusRB2)+(0,-0.02*\UnmannedAerialVehicleSize)$);%
+    \coordinate(-LegRightT2L)at($(-CorpusRB1)!.65!(-CorpusRB2)+(0,-0.02*\UnmannedAerialVehicleSize)$);%
+    \coordinate(-LegRightT2R)at($(-CorpusRB1)!.8!(-CorpusRB2)+(0,-0.02*\UnmannedAerialVehicleSize)$);%
+    \coordinate(-LegRightBL)at($(-LegRightT1L)+(0.06*\UnmannedAerialVehicleSize,-0.25*\UnmannedAerialVehicleSize)$);%
+    \coordinate(-LegRightBR)at($(-LegRightBL)+(-0.02*\UnmannedAerialVehicleSize,0)$);%
+    \coordinate(-LegRightJoinT)at($(-LegRightBR)!.8!(-LegRightT1R)$);%
+    \coordinate(-LegRightJoinB)at($(-LegRightBR)!.67!(-LegRightT1R)$);%
+    %
+    \coordinate(-RotorLMotorLB)at($(-CorpusLT)+(0.08*\UnmannedAerialVehicleSize,0.02*\UnmannedAerialVehicleSize)$);%
+    \coordinate(-RotorLMotorRB)at($(-RotorLMotorLB)+(0.06*\UnmannedAerialVehicleSize,0)$);%
+    \coordinate(-RotorLMotorLT)at($(-RotorLMotorLB)+(0,0.02*\UnmannedAerialVehicleSize)$);%
+    \coordinate(-RotorLMotorRT)at($(-RotorLMotorRB)+(0,0.02*\UnmannedAerialVehicleSize)$);%
+    \coordinate(-RotorLMotorL1)at($(-RotorLMotorLT)+(0.017*\UnmannedAerialVehicleSize,0)$);%
+    \coordinate(-RotorLMotorR1)at($(-RotorLMotorRT)+(-0.017*\UnmannedAerialVehicleSize,0)$);%
+    \coordinate(-RotorLMotorL2)at($(-RotorLMotorL1)+(0,0.02*\UnmannedAerialVehicleSize)$);%
+    \coordinate(-RotorLMotorR2)at($(-RotorLMotorR1)+(0,0.02*\UnmannedAerialVehicleSize)$);%
+    \coordinate(-RotorLMotorTip)at($(-RotorLMotorLB)!.5!(-RotorLMotorRB)+(0,0.05*\UnmannedAerialVehicleSize)$);%
+    %
+    \coordinate(-RotorLBladeL1)at($(-RotorLMotorTip)+(-0.03*\UnmannedAerialVehicleSize,0.01*\UnmannedAerialVehicleSize)$);%
+    \coordinate(-RotorLBladeL2)at($(-RotorLBladeL1)+(0,-0.015*\UnmannedAerialVehicleSize)$);%
+    \coordinate(-RotorLBladeL3)at($(-RotorLBladeL2)+(-0.04*\UnmannedAerialVehicleSize,-0.01*\UnmannedAerialVehicleSize)$);%
+    \coordinate(-RotorLBladeL4)at($(-RotorLBladeL3)+(-0.2*\UnmannedAerialVehicleSize,0.01*\UnmannedAerialVehicleSize)$);%
+    \coordinate(-RotorLBladeR1)at($(-RotorLMotorTip)+(0.03*\UnmannedAerialVehicleSize,0.01*\UnmannedAerialVehicleSize)$);%
+    \coordinate(-RotorLBladeR2)at($(-RotorLBladeR1)+(0,-0.015*\UnmannedAerialVehicleSize)$);%
+    \coordinate(-RotorLBladeR3)at($(-RotorLBladeR2)+(0.04*\UnmannedAerialVehicleSize,-0.01*\UnmannedAerialVehicleSize)$);%
+    \coordinate(-RotorLBladeR4)at($(-RotorLBladeR3)+(0.2*\UnmannedAerialVehicleSize,0.01*\UnmannedAerialVehicleSize)$);%
+    %
+    \coordinate(-RotorRMotorRB)at($(-CorpusRT)+(-0.08*\UnmannedAerialVehicleSize,0.02*\UnmannedAerialVehicleSize)$);%
+    \coordinate(-RotorRMotorLB)at($(-RotorRMotorRB)+(-0.06*\UnmannedAerialVehicleSize,0)$);%
+    \coordinate(-RotorRMotorLT)at($(-RotorRMotorLB)+(0,0.02*\UnmannedAerialVehicleSize)$);%
+    \coordinate(-RotorRMotorRT)at($(-RotorRMotorRB)+(0,0.02*\UnmannedAerialVehicleSize)$);%
+    \coordinate(-RotorRMotorL1)at($(-RotorRMotorLT)+(0.017*\UnmannedAerialVehicleSize,0)$);%
+    \coordinate(-RotorRMotorR1)at($(-RotorRMotorRT)+(-0.017*\UnmannedAerialVehicleSize,0)$);%
+    \coordinate(-RotorRMotorL2)at($(-RotorRMotorL1)+(0,0.02*\UnmannedAerialVehicleSize)$);%
+    \coordinate(-RotorRMotorR2)at($(-RotorRMotorR1)+(0,0.02*\UnmannedAerialVehicleSize)$);%
+    \coordinate(-RotorRMotorTip)at($(-RotorRMotorLB)!.5!(-RotorRMotorRB)+(0,0.05*\UnmannedAerialVehicleSize)$);%
+    %
+    \coordinate(-RotorRBladeL1)at($(-RotorRMotorTip)+(-0.03*\UnmannedAerialVehicleSize,0.01*\UnmannedAerialVehicleSize)$);%
+    \coordinate(-RotorRBladeL2)at($(-RotorRBladeL1)+(0,-0.015*\UnmannedAerialVehicleSize)$);%
+    \coordinate(-RotorRBladeL3)at($(-RotorRBladeL2)+(-0.04*\UnmannedAerialVehicleSize,-0.01*\UnmannedAerialVehicleSize)$);%
+    \coordinate(-RotorRBladeL4)at($(-RotorRBladeL3)+(-0.2*\UnmannedAerialVehicleSize,0.01*\UnmannedAerialVehicleSize)$);%
+    \coordinate(-RotorRBladeR1)at($(-RotorRMotorTip)+(0.03*\UnmannedAerialVehicleSize,0.01*\UnmannedAerialVehicleSize)$);%
+    \coordinate(-RotorRBladeR2)at($(-RotorRBladeR1)+(0,-0.015*\UnmannedAerialVehicleSize)$);%
+    \coordinate(-RotorRBladeR3)at($(-RotorRBladeR2)+(0.04*\UnmannedAerialVehicleSize,-0.01*\UnmannedAerialVehicleSize)$);%
+    \coordinate(-RotorRBladeR4)at($(-RotorRBladeR3)+(0.2*\UnmannedAerialVehicleSize,0.01*\UnmannedAerialVehicleSize)$);%
+    %
+    % - - - - - - -
+    % Corpus
+    \path[UnmannedAerialVehicleLine]%
+        (-CorpusLT)%
+        --%
+        (-CorpusLT1)%
+        --%
+        (-CorpusLT2)%
+        to[out=30,in=180]%
+        (-CorpusCT)%
+        to[out=0,in=180-30]%
+        (-CorpusRT2)%
+        --%
+        (-CorpusRT1)%
+        [rounded corners=\UnmannedAerialVehicleRoundedCorners]%
+        --%
+        (-CorpusRT)%
+        --%
+        (-CorpusRB)%
+        [rounded corners=0pt]%
+        --%
+        (-CorpusRB1)%
+        --%
+        (-CorpusRB2)%
+        --%
+        (-CorpusRB3)%
+        --%
+        (-CorpusLB3)%
+        --%
+        (-CorpusLB2)%
+        --%
+        (-CorpusLB1)%
+        [rounded corners=\UnmannedAerialVehicleRoundedCorners]%
+        --%
+        (-CorpusLB)%
+        --%
+    cycle;%
+    %
+    % - - - - - - -
+    % Rotor Links - Motor
+    \path[UnmannedAerialVehicleLine,line join=miter,line width=0.6*\UnmannedAerialVehicleLineWidth]%
+        (-RotorLMotorLB)%
+        [rounded corners=0.005*\UnmannedAerialVehicleSize]%
+        --%
+        (-RotorLMotorLT)%
+        --%
+        (-RotorLMotorL1)%
+        --%
+        (-RotorLMotorL2)%
+        [rounded corners=0pt]%
+        --%
+        (-RotorLMotorTip)%
+        [rounded corners=0.005*\UnmannedAerialVehicleSize]%
+        --%
+        (-RotorLMotorR2)%
+        --%
+        (-RotorLMotorR1)%
+        --%
+        (-RotorLMotorRT)%
+        [rounded corners=0pt]%
+        --%
+        (-RotorLMotorRB)%
+        --%
+    cycle;%
+    %
+    % - - - - - - -
+    % Rotor Links - Left Blade
+    \path[UnmannedAerialVehicleLine,line join=miter,line width=0.8*\UnmannedAerialVehicleLineWidth]%
+        (-RotorLBladeL1)%
+        --%
+        (-RotorLBladeL2)%
+        --%
+        (-RotorLBladeL3)%
+        ..controls%
+            ++(-0.07*\UnmannedAerialVehicleSize,0.012*\UnmannedAerialVehicleSize)%
+            and%
+            ++(0.1*\UnmannedAerialVehicleSize,-0.01*\UnmannedAerialVehicleSize)%
+        ..%
+        (-RotorLBladeL4)%
+        ..controls%
+            ++(0.07*\UnmannedAerialVehicleSize,0.012*\UnmannedAerialVehicleSize)%
+            and%
+            ++(-0.1*\UnmannedAerialVehicleSize,0.007*\UnmannedAerialVehicleSize)%
+        ..%
+    cycle;%
+    % - - - - - - -
+    % Rotor Links - Right Blade
+    \path[UnmannedAerialVehicleLine,line join=miter,line width=0.8*\UnmannedAerialVehicleLineWidth]%
+        (-RotorLBladeR1)%
+        --%
+        (-RotorLBladeR2)%
+        --%
+        (-RotorLBladeR3)%
+        ..controls%
+            ++(0.07*\UnmannedAerialVehicleSize,0.012*\UnmannedAerialVehicleSize)%
+            and%
+            ++(-0.1*\UnmannedAerialVehicleSize,-0.01*\UnmannedAerialVehicleSize)%
+        ..%
+        (-RotorLBladeR4)%
+        ..controls%
+            ++(-0.07*\UnmannedAerialVehicleSize,0.012*\UnmannedAerialVehicleSize)%
+            and%
+            ++(0.1*\UnmannedAerialVehicleSize,0.007*\UnmannedAerialVehicleSize)%
+        ..%
+    cycle;%
+    %
+    % - - - - - - -
+    % Rotor Rechts - Motor
+    \path[UnmannedAerialVehicleLine,line join=miter,line width=0.6*\UnmannedAerialVehicleLineWidth]%
+        (-RotorRMotorLB)%
+        [rounded corners=0.005*\UnmannedAerialVehicleSize]%
+        --%
+        (-RotorRMotorLT)%
+        --%
+        (-RotorRMotorL1)%
+        --%
+        (-RotorRMotorL2)%
+        [rounded corners=0pt]%
+        --%
+        (-RotorRMotorTip)%
+        [rounded corners=0.005*\UnmannedAerialVehicleSize]%
+        --%
+        (-RotorRMotorR2)%
+        --%
+        (-RotorRMotorR1)%
+        --%
+        (-RotorRMotorRT)%
+        [rounded corners=0pt]%
+        --%
+        (-RotorRMotorRB)%
+        --%
+    cycle;%
+    %
+    % - - - - - - -
+    % Rotor Links - Left Blade
+    \path[UnmannedAerialVehicleLine,line join=miter,line width=0.8*\UnmannedAerialVehicleLineWidth]%
+        (-RotorRBladeL1)%
+        --%
+        (-RotorRBladeL2)%
+        --%
+        (-RotorRBladeL3)%
+        ..controls%
+            ++(-0.07*\UnmannedAerialVehicleSize,0.012*\UnmannedAerialVehicleSize)%
+            and%
+            ++(0.1*\UnmannedAerialVehicleSize,-0.01*\UnmannedAerialVehicleSize)%
+        ..%
+        (-RotorRBladeL4)%
+        ..controls%
+            ++(0.07*\UnmannedAerialVehicleSize,0.012*\UnmannedAerialVehicleSize)%
+            and%
+            ++(-0.1*\UnmannedAerialVehicleSize,0.007*\UnmannedAerialVehicleSize)%
+        ..%
+    cycle;%
+    % - - - - - - -
+    % Rotor Links - Right Blade
+    \path[UnmannedAerialVehicleLine,line join=miter,line width=0.8*\UnmannedAerialVehicleLineWidth]%
+        (-RotorRBladeR1)%
+        --%
+        (-RotorRBladeR2)%
+        --%
+        (-RotorRBladeR3)%
+        ..controls%
+            ++(0.07*\UnmannedAerialVehicleSize,0.012*\UnmannedAerialVehicleSize)%
+            and%
+            ++(-0.1*\UnmannedAerialVehicleSize,-0.01*\UnmannedAerialVehicleSize)%
+        ..%
+        (-RotorRBladeR4)%
+        ..controls%
+            ++(-0.07*\UnmannedAerialVehicleSize,0.012*\UnmannedAerialVehicleSize)%
+            and%
+            ++(0.1*\UnmannedAerialVehicleSize,0.007*\UnmannedAerialVehicleSize)%
+        ..%
+    cycle;%
+    %
+    % - - - - - - -
+    % Camera
+    \path[UnmannedAerialVehicleLine]%
+        (-CameraLT)%
+        --%
+        (-CameraRT)%
+        --%
+        (-CameraRB)%
+        --%
+        (-CameraLB)%
+        --%
+    cycle;%
+    \draw[draw=TikzCol_UnmannedAerialVehicleLine,fill=none,line width=0.6*\UnmannedAerialVehicleLineWidth](-CameraCenter)circle(0.036*\UnmannedAerialVehicleSize);%
+    \draw[draw=none,fill=TikzCol_UnmannedAerialVehicleLine,line width=0pt](-CameraCenter)circle(0.019*\UnmannedAerialVehicleSize);%
+    \draw[draw=none,fill=white,line width=0pt]($(-CameraCenter)+(135:0.01*\UnmannedAerialVehicleSize)$)circle(0.01*\UnmannedAerialVehicleSize);%
+    %
+    % - - - - - - -
+    % Leg Left
+    \path[UnmannedAerialVehicleLine,line join=miter]%
+        (-LegLeftT1L)%
+        --%
+        (-LegLeftT1R)%
+        --%
+        (-LegLeftJoinT)%
+        --%
+        (-LegLeftT2L)%
+        --%
+        (-LegLeftT2R)%
+        --%
+        (-LegLeftJoinB)%
+        --%
+        (-LegLeftBR)%
+        ..controls%
+            ($(-LegLeftBR)!.5!(-LegLeftBL)+(280:0.02*\UnmannedAerialVehicleSize)$)%
+            and%
+            ($(-LegLeftBR)!.5!(-LegLeftBL)+(240:0.03*\UnmannedAerialVehicleSize)$)%
+        ..%
+        (-LegLeftBL)%
+        --%
+    cycle;%
+    %
+    % - - - - - - -
+    % Leg Right
+    \path[UnmannedAerialVehicleLine,line join=miter]%
+        (-LegRightT1L)%
+        --%
+        (-LegRightT1R)%
+        --%
+        (-LegRightJoinT)%
+        --%
+        (-LegRightT2L)%
+        --%
+        (-LegRightT2R)%
+        --%
+        (-LegRightJoinB)%
+        --%
+        (-LegRightBR)%
+        ..controls%
+            ($(-LegRightBR)!.5!(-LegRightBL)+(260:0.02*\UnmannedAerialVehicleSize)$)%
+            and%
+            ($(-LegRightBR)!.5!(-LegRightBL)+(300:0.03*\UnmannedAerialVehicleSize)$)%
+        ..%
+        (-LegRightBL)%
+        --%
+    cycle;%
+    %
+    % - - - - - - -
+    % Some Accents
+    \path[UnmannedAerialVehicleLine,fill=none,line join=miter]%
+        ($(-CorpusLT)!.8!(-CorpusLT1)$)%
+        to[out=-40,in=40]%
+        ($(-CorpusLB)!.8!(-CorpusLB1)$);%
+    \path[UnmannedAerialVehicleLine,fill=none,line join=miter]%
+        ($(-CorpusLT1)!.2!(-CorpusLT2)$)%
+        ..controls%
+            ++(0.025*\UnmannedAerialVehicleSize,-0.03*\UnmannedAerialVehicleSize)%
+            and%
+            ++(0.025*\UnmannedAerialVehicleSize,0.005*\UnmannedAerialVehicleSize)%
+        ..%
+        ($(-CorpusLB1)!.1!(-CorpusLB2)$);%
+    %
+    \path[UnmannedAerialVehicleLine,fill=none,line join=miter]%
+        ($(-CorpusRT)!.8!(-CorpusRT1)$)%
+        to[out=180+40,in=180-40]%
+        ($(-CorpusRB)!.8!(-CorpusRB1)$);%
+    \path[UnmannedAerialVehicleLine,fill=none,line join=miter]%
+        ($(-CorpusRT1)!.2!(-CorpusRT2)$)%
+        ..controls%
+            ++(-0.025*\UnmannedAerialVehicleSize,-0.03*\UnmannedAerialVehicleSize)%
+            and%
+            ++(-0.025*\UnmannedAerialVehicleSize,0.005*\UnmannedAerialVehicleSize)%
+        ..%
+        ($(-CorpusRB1)!.1!(-CorpusRB2)$);%
+    % - - - - - - -
+    % Some Accents - Central
+    \path[UnmannedAerialVehicleLine,fill=none,line width=0.5*\UnmannedAerialVehicleLineWidth]%
+        (-CorpusLT2)%
+        --%
+        ++(0.06*\UnmannedAerialVehicleSize,-0.07*\UnmannedAerialVehicleSize)%
+        let\p1=(-CorpusRT2)in%
+        --%
+        ($(\p1)+(-0.06*\UnmannedAerialVehicleSize,-0.07*\UnmannedAerialVehicleSize)$)%
+        --%
+        (\p1)%
+    ;%
+    \path[UnmannedAerialVehicleLine,fill=none]%
+        ($(-CorpusCT)+(-0.06*\UnmannedAerialVehicleSize,-0.035*\UnmannedAerialVehicleSize)$)%
+        --%
+        ++(0.12*\UnmannedAerialVehicleSize,0)%
+    ;%
+    \path[UnmannedAerialVehicleLine,fill=none]%
+        ($(-CorpusCT)+(-0.025*\UnmannedAerialVehicleSize,-0.055*\UnmannedAerialVehicleSize)$)%
+        --%
+        ++(0.05*\UnmannedAerialVehicleSize,0)%
+    ;%
+    \path[UnmannedAerialVehicleLine,fill=none]%
+        ($(-CorpusCT)+(-0.04*\UnmannedAerialVehicleSize,-0.075*\UnmannedAerialVehicleSize)$)%
+        --%
+        ++(0.08*\UnmannedAerialVehicleSize,0)%
+    ;%
+    %
+    \let\UnmannedAerialVehicleRoundedCorners\undefined%
+  },%
+}%
+%
+%
+%-------------------------------------------
+%--------   Automated Guided Vehicle (AGV) aka Autonomous Mobile Robot (AMR)    --------
+%-------------------------------------------
+% Usage Example:
+% - Default Behaviour
+%    - The lines are drawn
+%    - It is not filled
+%    - Line Color is Black
+%    - Fill Color is White
+% - The Colors can be changed as shown in the Example below (which acts for all subsequent Pics within the scope)
+% - To make it filled, change the "FillOpacity" Value as shown below (acts for all subsequent Pics within the scope)
+%
+%            \node(AGV2)[nestedTikz,anchor=north]at(0,0){\tikz[remember picture]{%
+%                \colorlet{TikzCol_AutomatedGuidedVehicleLine}{purple}%
+%                \colorlet{TikzCol_AutomatedGuidedVehicleFill}{yellow}%
+%                \def\AutomatedGuidedVehicleFillOpacity{1}%
+%                \pic(AGV2Pic){AutomatedGuidedVehicleOne};%
+%            }};%
+%-------------------------------------------
+\definecolor{TikzCol_AutomatedGuidedVehicleLine}{RGB}{0,0,0}%
+\definecolor{TikzCol_AutomatedGuidedVehicleFill}{RGB}{255,255,255}%
+%
+\def\AutomatedGuidedVehicleSize{10em}%
+\def\AutomatedGuidedVehicleLineWidth{0.01*\AutomatedGuidedVehicleSize}%
+%
+\def\AutomatedGuidedVehicleFillOpacity{0.0}%
+%
+\tikzset{%
+  AutomatedGuidedVehicleLine/.style={%
+    draw=TikzCol_AutomatedGuidedVehicleLine,%
+    line width=\AutomatedGuidedVehicleLineWidth,%
+    line join=round,%
+    line cap=round,%
+    fill=TikzCol_AutomatedGuidedVehicleFill,%
+    fill opacity=\AutomatedGuidedVehicleFillOpacity%
+  },%
+  AutomatedGuidedVehicleOne/.pic={%
+    % \node()[anchor=center]at(0.5,-0.6){\includegraphics[width=23em]{IMG_4516.jpg}};%
+    %
+    %
+    \def\AutomatedGuidedVehicleLength{0.62*\AutomatedGuidedVehicleSize}%
+    \def\AutomatedGuidedVehicleBroad{0.34*\AutomatedGuidedVehicleSize}%
+    \def\AutomatedGuidedVehicleCornerEdgeOne{0.14*\AutomatedGuidedVehicleSize}%
+    \def\AutomatedGuidedVehicleCornerEdgeTwo{0.45*\AutomatedGuidedVehicleCornerEdgeOne}%
+    \def\AutomatedGuidedVehicleSidepanelHeight{0.2*\AutomatedGuidedVehicleSize}%
+    \def\AutomatedGuidedVehicleAngleOne{24}%
+    \def\AutomatedGuidedVehicleAngleTwo{19}%
+    \def\AutomatedGuidedVehicleAngleCornerOne{1}%
+    \def\AutomatedGuidedVehicleAngleCornerTwo{10}%
+    %
+    \coordinate(-L1-L2)at(0,0);%
+    \coordinate(-L1-B1)at($(-L1-L2)+(-\AutomatedGuidedVehicleAngleOne:\AutomatedGuidedVehicleLength)$);%
+    \coordinate(-L1-B2)at($(-L1-B1)+(-\AutomatedGuidedVehicleAngleCornerOne+9:1.5*\AutomatedGuidedVehicleCornerEdgeOne)$);%
+    \coordinate(-L1-R1)at($(-L1-B2)+(\AutomatedGuidedVehicleAngleOne+5:0.74*\AutomatedGuidedVehicleBroad)$);%
+    \coordinate(-L1-R2)at($(-L1-R1)+(90-7+\AutomatedGuidedVehicleAngleCornerOne:1.8*\AutomatedGuidedVehicleCornerEdgeTwo)$);%
+    \coordinate(-L1-T1)at($(-L1-R2)+(180-\AutomatedGuidedVehicleAngleTwo:\AutomatedGuidedVehicleLength)$);%
+    \coordinate(-L1-T2)at($(-L1-T1)+(180-\AutomatedGuidedVehicleAngleCornerOne:0.9*\AutomatedGuidedVehicleCornerEdgeOne)$);%
+    \coordinate(-L1-L1)at($(-L1-T2)+(180+0.8*\AutomatedGuidedVehicleAngleTwo:0.7*\AutomatedGuidedVehicleBroad)$);%
+    %
+    \coordinate(-L2-L2)at($(-L1-L2)+(0,\AutomatedGuidedVehicleSidepanelHeight)$);%
+    \coordinate(-L2-B1)at($(-L2-L2)+(-\AutomatedGuidedVehicleAngleOne:\AutomatedGuidedVehicleLength)$);%
+    \coordinate(-L2-B2)at($(-L2-B1)+(-\AutomatedGuidedVehicleAngleCornerOne:\AutomatedGuidedVehicleCornerEdgeOne)$);%
+    \coordinate(-L2-R1)at($(-L2-B2)+(\AutomatedGuidedVehicleAngleOne:\AutomatedGuidedVehicleBroad)$);%
+    \coordinate(-L2-R2)at($(-L2-R1)+(90+\AutomatedGuidedVehicleAngleCornerOne:\AutomatedGuidedVehicleCornerEdgeTwo)$);%
+    \coordinate(-L2-T1)at($(-L2-R2)+(180-\AutomatedGuidedVehicleAngleTwo:\AutomatedGuidedVehicleLength)$);%
+    \coordinate(-L2-T2)at($(-L2-T1)+(180-\AutomatedGuidedVehicleAngleCornerOne:0.9*\AutomatedGuidedVehicleCornerEdgeOne)$);%
+    \coordinate(-L2-L1)at($(-L2-T2)+(180+0.8*\AutomatedGuidedVehicleAngleTwo:0.9*\AutomatedGuidedVehicleBroad)$);%
+    %
+    % Define Bottom Layer Path (no draw)
+    \path[name path=Layer Bottom](-L1-L2)--(-L1-B1)--(-L1-B2)--(-L1-R1)--(-L1-R2)--(-L1-T1)--(-L1-T2)--(-L1-L1)--cycle;%
+    %
+    % Top Layer (no draw: Below get intersection with Cargo, then draw)
+    \path[name path=Layer Top](-L2-L2)--coordinate[pos=0.03](-SidePanelB)coordinate[pos=0.85](-SidePanelF)(-L2-B1)--(-L2-B2)--coordinate[pos=0.2](-CtrlPanelLT)coordinate[pos=0.93](-CtrlPanelRT)(-L2-R1)--(-L2-R2)--(-L2-T1)--(-L2-T2)--(-L2-L1)--cycle;%
+    %
+    % Side Panel Left (Drawn later below)
+    \path[save path=\SidePanelLeft,name path=SidePanel](-SidePanelB)--(-SidePanelF)--coordinate[pos=1](-SidePanelFT)++(-50:0.5*\AutomatedGuidedVehicleSidepanelHeight)--++(270:0.8*\AutomatedGuidedVehicleSidepanelHeight)--%
+        coordinate(-SidePanelLowest)%
+    ++(270-70:0.3*\AutomatedGuidedVehicleSidepanelHeight)--%
+        coordinate[pos=0.6](-WheelBackR1)%
+        coordinate[pos=0.56](-WheelBackR2)%
+        coordinate[pos=0.8](-WheelBackL1)%
+    ++(180-3-\AutomatedGuidedVehicleAngleOne:0.95*\AutomatedGuidedVehicleLength)--%
+        coordinate(-SidePanelLeftmost)%
+    ++(90+20:0.27*\AutomatedGuidedVehicleSidepanelHeight)--++(90:0.6*\AutomatedGuidedVehicleSidepanelHeight)--cycle;%
+    %
+    % \path[AutomatedGuidedVehicleLine](-CtrlPanelRT)--coordinate[pos=1](-CtrlPanelInnerR)++(270:0.5*\AutomatedGuidedVehicleSidepanelHeight)--(-L1-R2)--(-L1-R1)--(-L1-B2)
+    %     % --(-L1-B1)
+    %     --coordinate[pos=1](-CtrlPanelInnerL)($(-CtrlPanelLT)+(270:0.7*\AutomatedGuidedVehicleSidepanelHeight)$)--(-CtrlPanelLT)--(-L2-B2)--cycle%
+    % ;%
+    % \path[AutomatedGuidedVehicleLine](-CtrlPanelInnerR)--(-CtrlPanelInnerL);%
+    % \path[AutomatedGuidedVehicleLine](-L1-B2)--(-CtrlPanelInnerL);%
+    % \path[AutomatedGuidedVehicleLine](-CtrlPanelRT)--++(270:0.5*\AutomatedGuidedVehicleSidepanelHeight)--(-L1-R2)--(-L1-R1)--(-L1-B2)--(-L1-B1)--(-L2-B1)--(-L2-B2)--cycle;%
+    %
+    % Frontal Control-Panel Surface
+    \path[name intersections={of=Layer Bottom and SidePanel,total=\t}]coordinate(-JoinSidePanelLBottom)at(intersection-1){};%
+    \path[save path=\FrontalCtrlPanel]%
+        (-JoinSidePanelLBottom)--(-L1-B1)--(-L1-B2)--%
+            coordinate[pos=0.6](-WheelFrontR1)%
+            coordinate[pos=0.7](-WheelFrontR2)%
+            coordinate[pos=0.2](-WheelFrontL1)%
+        (-L1-R1)--%
+            coordinate[pos=0.9](-BounceRAnchorT)%
+            coordinate[pos=0.65](-BounceRAnchorB)%
+            coordinate[pos=0.5](-JoinSidePanelR)%
+        (-CtrlPanelRT)--(-L2-B2)--(-L2-B1)--(-SidePanelF)--(-SidePanelFT)--cycle%
+        (-CtrlPanelLT)--(-L1-B2);%
+    %
+    % Side Panel Right (Partially Visible)
+    \path[AutomatedGuidedVehicleLine](-L2-R2)--++(-50:0.35*\AutomatedGuidedVehicleSidepanelHeight)--++(-90:0.55*\AutomatedGuidedVehicleSidepanelHeight)--++(180+30:0.2*\AutomatedGuidedVehicleSidepanelHeight)--(-JoinSidePanelR)--(-CtrlPanelRT)--(-L2-R1)--cycle;%
+    %
+    % Cargo
+    \coordinate(-Packet1-BL)at($(-L2-L2)+(-\AutomatedGuidedVehicleAngleOne+20:0.45*\AutomatedGuidedVehicleLength)$);%
+    \coordinate(-Packet1-BC)at($(-Packet1-BL)+(-\AutomatedGuidedVehicleAngleOne:0.4*\AutomatedGuidedVehicleLength)$);%
+    \coordinate(-Packet2-BL)at($(-Packet1-BC)+(\AutomatedGuidedVehicleAngleOne:0.15*\AutomatedGuidedVehicleLength)$);%
+    \coordinate(-Packet2-BC)at($(-Packet2-BL)+(-\AutomatedGuidedVehicleAngleOne:0.2*\AutomatedGuidedVehicleLength)$);%
+    \coordinate(-Packet2-BR)at($(-Packet2-BC)+(\AutomatedGuidedVehicleAngleOne:0.15*\AutomatedGuidedVehicleLength)$);%
+    \coordinate(-Packet2-TR)at($(-Packet2-BR)+(90:0.2*\AutomatedGuidedVehicleLength)$);%
+    \coordinate(-Packet2-TC)at($(-Packet2-TR)+(180-\AutomatedGuidedVehicleAngleOne:0.2*\AutomatedGuidedVehicleLength)$);%
+    \coordinate(-Packet2-TL)at($(-Packet2-TC)+(180+\AutomatedGuidedVehicleAngleOne:0.15*\AutomatedGuidedVehicleLength)$);%
+    \coordinate(-Packet1-TR)at($(-Packet2-TC)+(90:0.1*\AutomatedGuidedVehicleLength)$);%
+    \coordinate(-Packet1-TC)at($(-Packet1-TR)+(180-\AutomatedGuidedVehicleAngleOne:0.4*\AutomatedGuidedVehicleLength)$);%
+    \coordinate(-Packet1-TL)at($(-Packet1-TC)+(180+\AutomatedGuidedVehicleAngleOne:0.3*\AutomatedGuidedVehicleLength)$);%
+    %
+    % Packet 2 (Small)  (no draw)
+    \path[name path=Packet 2](-Packet2-BL)--(-Packet2-BC)--(-Packet2-BR)--(-Packet2-TR)--(-Packet2-TC)--coordinate[pos=0.5](-Packet2-TapeL)(-Packet2-TL)--cycle;%
+    % Packet 1 (Big)  (no draw)
+    \path[name path=Packet 1](-Packet2-BL)--(-Packet1-BC)--(-Packet1-BL)--(-Packet1-TL)--coordinate[pos=0.5](-Packet1-TapeL)(-Packet1-TC)--(-Packet1-TR)--(-Packet2-TC)--(-Packet2-TL)--cycle;%
+    %
+    % Top Layer
+    %   Get Intersections with Cargo
+    \path[name intersections={of=Layer Top and Packet 2,total=\t}]coordinate(-JoinPack2Top)at(intersection-1){};%
+    \path[name intersections={of=Layer Top and Packet 1,total=\t}]coordinate(-JoinPack1Top)at(intersection-\t){};%
+    %   Draw Top Layer, including outer Packet Lining
+    \path[AutomatedGuidedVehicleLine](-L2-L2)--(-L2-B1)--(-L2-B2)--(-L2-R1)--(-L2-R2)%
+        --(-JoinPack2Top)--(-Packet2-TR)--(-Packet2-TC)--(-Packet1-TR)--(-Packet1-TC)--(-Packet1-TL)--(-JoinPack1Top)%
+        --(-L2-L1)--cycle;%
+    %
+    % Draw remaining Lines of Cargo
+    %   Pack 2
+    \path[AutomatedGuidedVehicleLine,fill=none](-Packet2-BL)--(-Packet2-BC)--(-Packet2-BR)--(-Packet2-TR)--(-Packet2-TC)--(-Packet2-TL)--cycle;%
+    \path[AutomatedGuidedVehicleLine,fill=none]let\p1=($(-Packet2-BC)+(90:0.2*\AutomatedGuidedVehicleLength)$)in%
+        (-Packet2-BC)--(\p1)--coordinate[pos=0.5](-Packet2-TapeR)(-Packet2-TR)%
+        (\p1)--(-Packet2-TL)%
+    ;%
+    %   Pack 1
+    \path[AutomatedGuidedVehicleLine,fill=none](-Packet2-BL)--(-Packet1-BC)--(-Packet1-BL)--(-Packet1-TL)--(-Packet1-TC)--(-Packet1-TR)--(-Packet2-TC)--(-Packet2-TL)--cycle;%
+    \path[AutomatedGuidedVehicleLine,fill=none]let\p1=($(-Packet1-BC)+(90:0.3*\AutomatedGuidedVehicleLength)$)in%
+        (-Packet1-BC)--(\p1)--coordinate[pos=0.5](-Packet1-TapeR)(-Packet1-TR)%
+        (\p1)--(-Packet1-TL)%
+    ;%
+    %   Packets Flourish
+    \path[AutomatedGuidedVehicleLine,fill=none,line join=miter,line width=0.6*\AutomatedGuidedVehicleLineWidth]let\p1=(0.03*\AutomatedGuidedVehicleLength,0)in% Tape-Width
+        ($(-Packet1-TapeL)+(\AutomatedGuidedVehicleAngleOne:\x1)$)%
+        --($(-Packet1-TapeL)+(180+\AutomatedGuidedVehicleAngleOne:\x1)$)%
+        --($(-Packet1-TapeR)+(180+\AutomatedGuidedVehicleAngleOne:\x1)$)%
+        --++(-90:0.07*\AutomatedGuidedVehicleLength)%
+        --++(\AutomatedGuidedVehicleAngleOne:2*\x1)%
+        --($(-Packet1-TapeR)+(\AutomatedGuidedVehicleAngleOne:\x1)$)%
+    --cycle;%
+    \path[AutomatedGuidedVehicleLine,line width=0.6*\AutomatedGuidedVehicleLineWidth](-Packet2-TapeL)--(-Packet2-TapeR);%
+    %
+    \path[AutomatedGuidedVehicleLine,fill=none,line width=0.6*\AutomatedGuidedVehicleLineWidth]($(-Packet1-TL)+(-\AutomatedGuidedVehicleAngleOne-30:0.12*\AutomatedGuidedVehicleLength)$)--++(-\AutomatedGuidedVehicleAngleOne:0.15*\AutomatedGuidedVehicleLength)--++(-90:0.1*\AutomatedGuidedVehicleLength)--++(180-\AutomatedGuidedVehicleAngleOne:0.15*\AutomatedGuidedVehicleLength)--cycle;
+    %
+    % Wheels (no draw/fill of outer Lining first, in order to overwrite the following surface)
+    \path[save path=\WheelFrontOuter](-WheelFrontR1)%
+        ..controls%
+            ++(0.01*\AutomatedGuidedVehicleSize,-0.06*\AutomatedGuidedVehicleSize)%
+            and%
+            ++(0.03*\AutomatedGuidedVehicleSize,-0.03*\AutomatedGuidedVehicleSize)%
+        ..%
+        coordinate[pos=0.6](-WheelFrontC)%
+        (-WheelFrontL1)--cycle;%
+    % 3D-Effekt by drawing rolling surface
+    \path[AutomatedGuidedVehicleLine,line width=0.4*\AutomatedGuidedVehicleLineWidth](-WheelFrontR2)%
+        ..controls%
+            ++(0.01*\AutomatedGuidedVehicleSize,-0.04*\AutomatedGuidedVehicleSize)%
+            and%
+            ++(0.05*\AutomatedGuidedVehicleSize,-0.0*\AutomatedGuidedVehicleSize)%
+        ..%
+        (-WheelFrontC)%
+        to[out=10,in=-80](-WheelFrontR1)--cycle;%
+    \path[AutomatedGuidedVehicleLine,use path=\WheelFrontOuter];% Now drawing it
+    \path[AutomatedGuidedVehicleLine,fill=none,line width=0.5*\AutomatedGuidedVehicleLineWidth]($(-WheelFrontR1)!.3!(-WheelFrontL1)$)%
+        ..controls%
+            ++(0.01*\AutomatedGuidedVehicleSize,-0.02*\AutomatedGuidedVehicleSize)%
+            and%
+            ++(0.02*\AutomatedGuidedVehicleSize,-0.02*\AutomatedGuidedVehicleSize)%
+        ..%
+        ($(-WheelFrontR1)!.7!(-WheelFrontL1)$);%
+    %
+    \path[save path=\WheelBackOuter](-WheelBackR1)%
+        ..controls%
+            ++(-0.04*\AutomatedGuidedVehicleSize,-0.05*\AutomatedGuidedVehicleSize)%
+            and%
+            ++(-0.02*\AutomatedGuidedVehicleSize,-0.06*\AutomatedGuidedVehicleSize)%
+        ..%
+        coordinate[pos=0.45](-WheelBackC)%
+        (-WheelBackL1)--cycle;%
+    % 3D-Effekt by drawing rolling surface
+    \path[AutomatedGuidedVehicleLine,line width=0.4*\AutomatedGuidedVehicleLineWidth](-WheelBackR2)%
+        ..controls%
+            ++(-0.02*\AutomatedGuidedVehicleSize,-0.03*\AutomatedGuidedVehicleSize)%
+            and%
+            ++(0.01*\AutomatedGuidedVehicleSize,0.0*\AutomatedGuidedVehicleSize)%
+        ..%
+        (-WheelBackC)%
+        to[out=-10,in=-130](-WheelBackR1)--cycle;%
+    \path[AutomatedGuidedVehicleLine,use path=\WheelBackOuter];% Now drawing it
+    \path[AutomatedGuidedVehicleLine,use path=\SidePanelLeft];% Draw the Sidepanel
+    \path[AutomatedGuidedVehicleLine,fill=none,line width=0.5*\AutomatedGuidedVehicleLineWidth]($(-WheelBackR1)!.3!(-WheelBackL1)$)%
+        ..controls%
+            ++(-0.01*\AutomatedGuidedVehicleSize,-0.02*\AutomatedGuidedVehicleSize)%
+            and%
+            ++(-0.012*\AutomatedGuidedVehicleSize,-0.03*\AutomatedGuidedVehicleSize)%
+        ..%
+        ($(-WheelBackR1)!.7!(-WheelBackL1)$);%
+    %
+    % Frontal Ctrl-Area (draw saved path)
+    \path[AutomatedGuidedVehicleLine,use path=\FrontalCtrlPanel];%
+    %
+    % Buttons and Lever on Ctrl-Panel
+    \coordinate(-Button1)at($(-CtrlPanelRT)+(245:0.45*\AutomatedGuidedVehicleSidepanelHeight)$);%
+    \coordinate(-Button2)at($(-Button1)+(180+\AutomatedGuidedVehicleAngleOne:0.25*\AutomatedGuidedVehicleSidepanelHeight)$);%
+    \coordinate(-LeverCenter)at($(-Button2)+(180+5+\AutomatedGuidedVehicleAngleOne:0.45*\AutomatedGuidedVehicleSidepanelHeight)$);%
+    \def\AutomatedGuidedVehicleButtonRad{0.015*\AutomatedGuidedVehicleSize}%
+    \def\AutomatedGuidedVehicleLeverAngle{20}%
+    \path[AutomatedGuidedVehicleLine,fill=none,line width=0.4*\AutomatedGuidedVehicleLineWidth](-Button1)circle(\AutomatedGuidedVehicleButtonRad);
+    \path[AutomatedGuidedVehicleLine,fill=none,line width=0.4*\AutomatedGuidedVehicleLineWidth](-Button2)circle(\AutomatedGuidedVehicleButtonRad);
+    \path[AutomatedGuidedVehicleLine,fill=none,line width=0.4*\AutomatedGuidedVehicleLineWidth]
+        ($(-LeverCenter)+(180+\AutomatedGuidedVehicleAngleOne:0.1*\AutomatedGuidedVehicleSidepanelHeight)+(90+\AutomatedGuidedVehicleLeverAngle:0.1*\AutomatedGuidedVehicleSidepanelHeight)$)%
+        --++(\AutomatedGuidedVehicleAngleOne:0.2*\AutomatedGuidedVehicleSidepanelHeight)%
+        --++(-90+\AutomatedGuidedVehicleLeverAngle:0.2*\AutomatedGuidedVehicleSidepanelHeight)%
+        --++(180+\AutomatedGuidedVehicleAngleOne:0.2*\AutomatedGuidedVehicleSidepanelHeight)%
+        --cycle%
+    ;
+    \path[AutomatedGuidedVehicleLine,line width=0.6*\AutomatedGuidedVehicleLineWidth](-LeverCenter)--++(270+\AutomatedGuidedVehicleLeverAngle:0.1*\AutomatedGuidedVehicleSidepanelHeight);
+    \let\AutomatedGuidedVehicleButtonRad\undefined%
+    \let\AutomatedGuidedVehicleLeverAngle\undefined%
+    %
+    % Bouncers
+    \path[AutomatedGuidedVehicleLine,fill=none,line width=0.6*\AutomatedGuidedVehicleLineWidth](-BounceRAnchorT)--++(0:0.035*\AutomatedGuidedVehicleSize)to[out=-20,in=20]($(-BounceRAnchorB)+(0:0.035*\AutomatedGuidedVehicleSize)$)--(-BounceRAnchorB);%
+    \path[AutomatedGuidedVehicleLine,fill=none,line width=0.6*\AutomatedGuidedVehicleLineWidth]%
+        let\p1=(0:0.02*\AutomatedGuidedVehicleSize),%Circle Radius
+        \p2=($(-L2-B2)+(-90:0.08*\AutomatedGuidedVehicleSize)$),%CircleCenter
+        \p3=($(\p2)+(0:\x1)$),%CircleR
+        \p4=($(\p2)+(180:\x1)$),%CircleL
+        in%
+        (\p2)circle(\x1)%
+        (\p3)--++(90:0.03*\AutomatedGuidedVehicleSize)%
+        to[out=90+20,in=90-20]($(\p4)+(90:0.03*\AutomatedGuidedVehicleSize)$)%
+        --(\p4)%
+    ;%
+    %
+    % Extend Bounding-Box to include the drawn line
+    \coordinate(-lowestY)at(-SidePanelLowest);
+    \coordinate(-leftmostX)at(-SidePanelLeftmost);
+    \path[line width=0pt](-lowestY-|-leftmostX)--++(-0.5*\AutomatedGuidedVehicleLineWidth,0.5*-\AutomatedGuidedVehicleLineWidth);
+    %
+    %
+    \let\AutomatedGuidedVehicleLength\undefined%
+    \let\AutomatedGuidedVehicleBroad\undefined%
+    \let\AutomatedGuidedVehicleCornerEdgeOne\undefined%
+    \let\AutomatedGuidedVehicleCornerEdgeTwo\undefined%
+    \let\AutomatedGuidedVehicleSidepanelHeight\undefined%
+    \let\AutomatedGuidedVehicleAngleOne\undefined%
+    \let\AutomatedGuidedVehicleAngleTwo\undefined%
+    \let\AutomatedGuidedVehicleAngleCornerOne\undefined%
+    \let\AutomatedGuidedVehicleAngleCornerTwo\undefined%
+  },%
+}%

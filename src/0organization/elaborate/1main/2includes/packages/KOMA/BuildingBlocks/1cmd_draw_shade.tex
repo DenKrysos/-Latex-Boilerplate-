@@ -1,0 +1,134 @@
+%________________________________________________________________________
+%       Some Macros/Cmds that draw Shapes, Figures, Geometry, ...
+%           - e.g. for the Background
+%========================================================================
+%
+% - - - - - - - - - -
+% Some Definitions
+% - - - - - - - - - -
+\newcommand{\DenKrKomaHeadDrawShadingStepsDefault}{20}%
+%
+%
+\DeclareDocumentCommand{\ChapShadeCorner}{%
+% Define the Coordinates to use before accordingly
+%  ShadeOrigin: The Right-Angle of the corner
+%  ShadeFrom[x]: A Moving-Point, that converges per iteration
+%  ShadeTo[x]: A Fixed-Point, towards the Shade is moving
+%   -> 1: The inner one, at the Title
+%      2: The outer one, at the vertical line
+%  ShadeCtrl1: Control-Point for the Bezier to create the curve
+%  ShadeCtrl2: 2nd Control-Point
+%   -> Same thing for those: There is a ...From and ...To Point
+O{\DenKrKomaHeadDrawShadingStepsDefault}% 1: Number of Shading Steps
+}{%
+    \tikzmath{%
+        \opacstep=1/(#1+1);%
+        \scalestep=1/#1;%
+        \scalecur=1;%
+    }%
+    \foreach\i in {0,...,#1}{%
+        \tikzmath{%
+            \smoothen=1/(sqrt(\i+1));%
+            \opacCur=(\i+1)*\opacstep*\smoothen;%
+            \scalecur=\i*\scalestep;%
+        }%
+        \path[line width=0pt,line join=miter,fill=DenKrKomaColor_ChapterHeading_Decal1,opacity=\opacCur]%
+            let\p1=($(ShadeFrom1)!\scalecur!(ShadeTo1)$),\p2=($(ShadeFrom2)!\scalecur!(ShadeTo2)$),%
+            \p3=($(ShadeCtrl1From)!\scalecur!(ShadeCtrl1To)$),\p4=($(ShadeCtrl2From)!\scalecur!(ShadeCtrl2To)$)in%
+            (\p1)..controls(\p3)and(\p4)..(\p2)|-cycle;%
+    }%
+    \let\scalestep\undefined\let\opacstep\undefined\let\scalecur\undefined\let\smoothen\undefined\let\opacCur\undefined%
+}%
+%
+%
+%
+\DeclareDocumentCommand{\ChapShadeCornerB}{%
+% Define the Coordinates to use before accordingly
+%   See, for which are involved, at being used in one of the design_chapter_4_3_x_y
+O{\DenKrKomaHeadDrawShadingStepsDefault}% 1: Number of Shading Steps
+O{0.25}% 2: Relative Position on the Edge for Coordinate (ChapShadeCornerBInter1)
+O{0.8}% 3: Relative Position on the Edge for Coordinate (ChapShadeCornerBInter2)
+}{%
+    \tikzmath{%
+        \opacstep=1/(#1+1);%
+        \scalestep=1/#1;%
+        \scalecur=1;%
+    }%
+    \foreach\i in {0,...,#1}{%
+        \tikzmath{%
+            \smoothen=1/(sqrt(\i+1));%
+            \opacCur=(\i+1)*\opacstep*\smoothen;%
+            \scalecur=\i*\scalestep;%
+        }%
+        %Draw the same path as below, only to put a Coordinate on it
+        \path[line width=0pt,draw=none,fill=none](ShadeFrom1)to[out=90\ShiftDirectionOpp 70,in=270]coordinate[pos=#3](ChapShadeCornerBInter2)(ShadeFrom2)|-(ShadeFrom3)to[out=90\ShiftDirection 90,in=90\ShiftDirectionOpp 20]coordinate[pos=#2](ChapShadeCornerBInter1)(ShadeFrom4)--cycle;%
+        %
+        \path[line width=0pt,line join=miter,fill=DenKrKomaColor_ChapterHeading_Decal1,opacity=\opacCur]%
+            let\p1=($(ShadeFrom1)!\scalecur!(ShadeTo1)$),\p2=($(ShadeFrom2)!\scalecur!(ShadeTo2)$),\p3=($(ShadeFrom3)!\scalecur!(ShadeTo3)$),\p4=($(ShadeFrom4)!\scalecur!(ShadeTo4)$)in%
+            (\p1)to[out=90\ShiftDirectionOpp 70,in=270](\p2)|-(\p3)to[out=90\ShiftDirection 90,in=90\ShiftDirectionOpp 20](\p4)--cycle;%
+    }%
+    \let\scalestep\undefined\let\opacstep\undefined\let\scalecur\undefined\let\smoothen\undefined\let\opacCur\undefined%
+}%
+%
+%
+%
+\DeclareDocumentCommand{\ChapAccentLineCornerBase}{%
+% Define the Coordinates to use before accordingly
+%   See, for which are involved, at being used in one of the design_chapter_4_3_x_y
+O{\DenKrKomaHeadDrawShadingStepsDefault}% 1: Number of Shading Steps
+O{0.02*\pagewidth}% 2: Max Linewidth
+O{140}% 3: Upper Line OUT
+O{80}% 4: Upper Line IN
+O{75}% 5: Lower Line OUT
+O{85}% 6: Lower Line IN
+}{%
+    \tikzmath{%
+        \opacstep=1/(#1);%
+        \scalestep=1/#1+(1/#1*0.5)/(#1-1);% Leaves for the final Step a Factor 0.5
+        \lwidthMax=#2;%
+        \surmount=0.6*\lwidthMax+10pt;%
+    }%
+    \foreach\i in {1,...,#1}{%
+        \tikzmath{%
+            \iNVERS=#1-\i+1;%
+            \smoothen=1/(sqrt(\i+1));%
+            \opacstepCur=(\i)*\opacstep;%
+            \opacCur=\opacstepCur;%*\smoothen;%
+            \scalestepcur=(\i-1)*\scalestep;%
+            % \scalestepcur=min(\scalestepcur,1);%Caps, because the final step would be too large. Which actually doesn't happen here, because of the -1 above for the \i
+            \scalecur=(1-\scalestepcur)*\lwidthMax;%Here actually: The Linewidth
+            \colMixStep=(pow(\i,3))/(pow(#1,3))*100;%
+        }%
+        \colorlet{DenKrKomaColor_ChapterHeading_DecalAccent_Draw}{DenKrKomaColor_ChapterHeading_DecalAccent!\colMixStep!DenKrKomaColor_ChapterHeading_Decal1}%
+        % \colorlet{DenKrKomaColor_ChapterHeading_DecalAccent_Draw}{red!\colMixStep!green}%
+        % \path[draw=DenKrKomaColor_ChapterHeading_DecalAccent_Draw]($(ChapShadeCornerBInter1)+(-8,-\i)$)--++(-3,0)node(){\i|\iNVERS: \opacstepCur:\opacCur , \scalestepcur , \colMixStep};
+        %
+        % Upper Line
+        \path[line width=\scalecur,shorten <=\surmount,line cap=round,draw=DenKrKomaColor_ChapterHeading_DecalAccent_Draw,opacity=\opacCur]%
+            let\p1=($(chapter_title.north \nodeAnch)!.25!(chapter_title.north \nodeAnchOpposite)+(0,-\surmount pt)$)in%
+            (ChapShadeCornerBInter1)to[out=90\ShiftDirection #3,in=90\ShiftDirectionOpp #4](\p1);%
+        % Lower Line
+        \path[line width=\scalecur,shorten <=\surmount,line cap=round,draw=DenKrKomaColor_ChapterHeading_DecalAccent_Draw,opacity=\opacCur]%
+            let\p1=($(chapter_title.north \nodeAnch)!.2!(chapter_title.north \nodeAnchOpposite)$),\p2=($(\p1)!.6!(\p1|-chapter_title.south \nodeAnch)$)in%
+            (ChapShadeCornerBInter2)to[out=90\ShiftDirection #5,in=90\ShiftDirectionOpp #6](\p2);%
+    }%
+    \let\scalestep\undefined\let\scalestepcur\undefined\let\opacstep\undefined\let\scalestepCur\undefined\let\scalecur\undefined\let\smoothen\undefined\let\opacCur\undefined\let\lwidthMax\undefined\let\surmount\undefined%
+}%
+%
+\DeclareDocumentCommand{\ChapAccentLineCornerABase}{%
+% Define the Coordinates to use before accordingly
+%   See, for which are involved, at being used in one of the design_chapter_4_3_x_y
+O{\DenKrKomaHeadDrawShadingStepsDefault}% 1: Number of Shading Steps
+O{0.02*\pagewidth}% 2: Max Linewidth
+}{%
+    \ChapAccentLineCornerBase[#1][#2][190][45][75][90]%
+}%
+%
+\DeclareDocumentCommand{\ChapAccentLineCornerBBase}{%
+% Define the Coordinates to use before accordingly
+%   See, for which are involved, at being used in one of the design_chapter_4_3_x_y
+O{\DenKrKomaHeadDrawShadingStepsDefault}% 1: Number of Shading Steps
+O{0.02*\pagewidth}% 2: Max Linewidth
+}{%
+    \ChapAccentLineCornerBase[#1][#2]%
+}%

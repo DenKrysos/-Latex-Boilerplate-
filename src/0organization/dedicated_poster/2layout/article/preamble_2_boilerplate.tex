@@ -1,0 +1,61 @@
+\usepackage{mathptmx}
+%
+\pagestyle{empty}%
+\hoffset-1in%
+\voffset-1in%
+\oddsidemargin20truemm%
+%
+\makeatletter%
+\let\ps@plain\ps@empty%
+\def\@xivpt{14bp}%
+%
+\setcounter{secnumdepth}{4}%
+\columnsep5mm%
+\def\@sect#1#2#3#4#5#6[#7]#8{%
+  \ifnum #2>\c@secnumdepth%
+    \let\@svsec\@empty%
+  \else%
+    \refstepcounter{#1}%
+    \protected@edef\@svsec{%
+      \ifnum #2<4%
+        \hb@xt@10mm{\csname the#1\endcsname}\relax%
+      \else%
+        \hb@xt@12mm{\csname the#1\endcsname}\relax%
+      \fi}%
+  \fi%
+  \@tempskipa #5\relax%
+  \ifdim \@tempskipa>\z@%
+    \begingroup%
+      #6{%
+        \@hangfrom{\hskip #3\relax\@svsec}%
+          \interlinepenalty \@M #8\@@par}%
+    \endgroup%
+    \csname #1mark\endcsname{#7}%
+    \addcontentsline{toc}{#1}{%
+      \ifnum #2>\c@secnumdepth \else%
+        \protect\numberline{\csname the#1\endcsname}%
+      \fi%
+      #7}%
+  \else%
+    \def\@svsechd{%
+      #6{\hskip #3\relax
+      \@svsec #8}%
+      \csname #1mark\endcsname{#7}%
+      \addcontentsline{toc}{#1}{%
+        \ifnum #2>\c@secnumdepth \else%
+          \protect\numberline{\csname the#1\endcsname}%
+        \fi%
+        #7}}%
+  \fi%
+  \@xsect{#5}}%
+    %
+% \renewcommand\LARGE{\@setfontsize\LARGE{16}{20}}%
+\def\abstract#1{\def\@abstract{#1}}%
+\def\abstractEn#1{\def\@abstractEn{#1}}%
+\def\titleEn#1{\def\@titleEn{#1}}%
+%% Def. Titelei
+\input{"\DenKrLayoutRootDir/class/\DenKrLayoutLanguage".tex}%
+%
+\parindent\p@%
+\makeatother%
+\raggedbottom%

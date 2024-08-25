@@ -1,0 +1,30 @@
+\def\temporaryblfootnote{\gdef\@thefnmark{}\@footnotetext}
+%
+%
+\headheight0bp
+\headsep0mm
+\topskip10bp
+\topmargin18mm
+\textwidth170mm
+\textheight=60\baselineskip
+\def\@maketitle{%
+  \newpage
+  \null
+  \let \footnote \thanks
+    {\LARGE\bfseries\RaggedRight \@titleEn \par}%
+    \vskip 1\baselineskip%
+    {\normalsize
+      % \lineskip 1ex%
+      \@author\par}%
+    \vskip 0\baselineskip%
+    \vskip 0\baselineskip%
+    {\section*{Abstract}
+      \@abstractEn}%
+    {\par\vskip 0.5\baselineskip
+    \hfill\begin{minipage}{0.6\textwidth}
+        \footnotesize\textit{Preprint. \TitlePageDataPostprintPolicyNotice}%
+    \end{minipage}}
+  \par
+  \vskip 2\baselineskip}
+%
+%\undef\temporaryblfootnote

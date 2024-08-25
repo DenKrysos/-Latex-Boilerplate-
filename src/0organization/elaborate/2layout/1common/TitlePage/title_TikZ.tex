@@ -1,0 +1,36 @@
+%   \input{"\DenKrLayoutBaseRootDir/standalone_constituent/macro_exclusionMux".tex}% -->
+\providecommand{\onlyinsubfile}[1]{#1}%
+\providecommand{\notinsubfile}[1]{}%
+\providecommand{\onlyinmainfile}[1]{\notinsubfile{#1}}%
+\onlyinsubfile{%
+    \input{"2ProjectSetup".tex}%
+    \renewcommand{\DenKrJPFont}{0}%
+}%
+\input{"\DenKrInternalLayoutRootDir/standalone_constituent/1ConstituentIncludeThis".tex}%
+\DenKrStandaloneConstituentPreA%
+\documentclass[class=scrbook,multi=true,float=true,crop=false]{standalone}%
+\DenKrStandaloneConstituentPreB%
+\begin{document}%
+\DenKrStandaloneConstituentPreC%
+%================================================================
+%      BEGIN
+%----------------------------------------------------------------
+%================================================================
+\input{"\DenKrLayoutCommonDir/TitlePage/titlePage_buildingBlocks/title_1_common_begin".tex}%
+%
+%
+\input{"\DenKrLayoutCommonDir/TitlePage/background/CircleRayFadeShade".tex}%
+%
+%
+%
+%
+\colorlet{TitlePage_TypoAccentColorOne}{TitlePage_colorOne}%
+\input{"\DenKrLayoutCommonDir/TitlePage/title_TikZ_text".tex}%
+%
+\input{"\DenKrLayoutCommonDir/TitlePage/titlePage_buildingBlocks/title_1_common_end".tex}%
+%================================================================
+%      FIN
+%----------------------------------------------------------------
+%================================================================
+\end{document}%
+\DenKrStandaloneConstituentPost%

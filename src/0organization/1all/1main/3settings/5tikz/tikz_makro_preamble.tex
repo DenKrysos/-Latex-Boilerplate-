@@ -1,0 +1,195 @@
+%%###########################################################%%
+%%        vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv        %%
+%%-----------------------------------------------------------%%
+%  - Author: Dennis Krummacker
+%%------------------------------------------------------------%%
+%%        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^        %%
+%%============================================================%%
+%
+%
+%
+%========-------------------------------------------========
+%========		General					========
+%========-------------------------------------------========
+% USAGE Example for following
+%        \begin{tikzpicture}
+%          \node(mynode)[text width=3cm, draw=red]{This is a node that varies in height and I need to know the hieght and store it in a length};
+%          \getnodedimen{mynode}
+%          \node[draw, minimum height=\nodeheight, minimum width=\nodewidth]at(4,0){};
+%        \end{tikzpicture}
+\NewDocumentCommand{\getnodedimen}{O{\nodewidth} O{\nodeheight} m}{%
+  \begin{pgfinterruptboundingbox}%
+  \begin{scope}[local bounding box=bb@temp]%
+    \node[inner sep=0pt, fit=(#3)]{};%
+  \end{scope}%
+  \path($(bb@temp.north east)-(bb@temp.south west)$);%
+  \end{pgfinterruptboundingbox}%
+  \pgfgetlastxy{#1}{#2}%
+}
+%
+\makeatletter%
+\newcommand\tikzcurrentcoordinate{\the\tikz@lastxsaved,\the\tikz@lastysaved}%
+\makeatother%
+%
+%
+%
+%========-------------------------------------------========
+%========		Measurements and Text					========
+%========-------------------------------------------========
+% Explanation:
+%    PGF/TikZ sets the "current font" inside a picture environment to \nullfont to ignore any text. Inside \node {..}; the font is then restored using \pgfinterruptpicture .. \endpgfinterruptpicture
+%    In order to make something like \settowidth work, one needs to add \pgfinterruptpicture .. \endpgfinterruptpicture around the content. E.g.:
+%       \settowidth{\somelength}{\pgfinterruptpicture <Text>\endpgfinterruptpicture}
+
+%
+%
+%
+%
+%
+%
+%
+%
+%####################################################################
+%====================================================================
+%------------- Macro to calc the distance between two points in tikz -------------
+%vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
+\makeatletter%
+\def\calcLength(#1,#2)#3{%
+\pgfpointdiff{\pgfpointanchor{#1}{center}}%
+             {\pgfpointanchor{#2}{center}}%
+\pgf@xa=\pgf@x%
+\pgf@ya=\pgf@y%
+\FPeval\@temp@a{\pgfmath@tonumber{\pgf@xa}}%
+\FPeval\@temp@b{\pgfmath@tonumber{\pgf@ya}}%
+\FPeval\@temp@sum{(\@temp@a*\@temp@a+\@temp@b*\@temp@b)}%
+\FProot{\FPMathLen}{\@temp@sum}{2}%
+\FPround\FPMathLen\FPMathLen5\relax%
+\global\expandafter\edef\csname #3\endcsname{\FPMathLen}%
+}%
+\makeatother%
+%
+% Usage Example
+    % REMARK: The FPeval approach (i.e. the Macro "calcLength" is more precise
+    %
+        % \begin{tikzpicture}
+        % \coordinate (A) at (1,2);
+        % \coordinate (B) at (4,6);
+        % \calcLength(A,B){mylen}
+        % % \draw (A) circle (\mylen pt); % pt is important here
+        % \end{tikzpicture}
+        % With calclength the length of AB is : \mylen
+        %
+        % \begin{tikzpicture}
+        % %  Two alternatives: Create an "Pseudo-Coordinate" (\p3) as subtraction and us its elements, or directly us the actual points in calculation (\n2 & \n4).
+        % \coordinate(A)at(1,2);%
+        % \coordinate(B)at(4,6);%
+        % \path[draw=green]%
+        %     let\p1=(A),\p2=(B),%
+        %         \p3=($(B)-(A)$),% or: ($(\p2)-(\p1)$)
+        %         \n1={veclen(\x3,\y3)},\n2={veclen(\x2-\x1,\y2-\y1)},%
+        %         \n3={atan2(\y3,\x3)},\n4={atan2(\y2-\y1,\x2-\x1)}%
+        %     in%
+        %         (A)--(B)%
+        %         node[draw,text=red,align=left]{Distance using veclen:\\\ \ \n1 / \n2\\Angle:\\\ \ \n3 / \n4}%
+        % ;%
+        % \end{tikzpicture}
+%^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+%------------- tikz distance calc End -------------
+%====================================================================
+%####################################################################
+%
+%
+%
+%
+%
+%
+%========-------------------------------------------========
+%========		Remainder					========
+%========-------------------------------------------========
+%
+% Extrusion Makros (needs shape=rectangleRoundedAnchorSurround)
+% You have to specify a coordinate-Node as Base-Anchor and pass it
+% Then pass the Directions
+% Styles have to contain at least:
+%	minimum width, minimum height, rounded corners attributes=RoundedCornersAmount
+% Arguments:
+% {AnchorNode}
+% {up / down} %Not used for now
+% {left / right} %Not used for now
+% {StyleFront}
+% {StyleBack}
+% {FrontColor}
+% {BackColor}
+% {RoundedCornersAmount}
+% Later on added:
+% {ShiftAmountX}
+% {SjoftAmountY}
+%
+\DeclareDocumentCommand{\ExtrudeOutRoundedTop}{ m m m m m m m m }{%
+	\node(#1back)[#5,fill=#7,anchor=south]at(#1){};%
+	\node(#1front)[#4,fill=#6,xshift=-2mm,yshift=2mm,anchor=south]at(#1){};%
+	\path[draw=black,fill=#7](#1front.south west)--(#1front.south east)--%
+		(#1back.south east)-- (#1back.south west)--(#1front.south west);%
+	\path[shading=axis,%
+		top color=#6,bottom color=#7,%
+% 		middle color=#6,%
+		shading angle=45,%
+		transform canvas={shift={(-0.5\pgflinewidth,0)}},%
+		]%
+		($(#1front.east|-#1front.north)+(-#8,0)$)to[out=0,in=90]%
+		($(#1front.east|-#1front.north)+(0,-#8)$)to%
+		($(#1back.east|-#1back.north)+(0,-#8)$)to[out=90,in=0]%
+		($(#1back.east|-#1back.north)+(-#8,0)$)to%
+		($(#1front.east|-#1front.north)+(-#8,0)$);%
+% 	\path[draw=black]%
+% 		($(#1front.east|-#1front.north)+(-#8,0)$)to[out=0,in=90]%
+% 		($(#1front.east|-#1front.north)+(0,-#8)$);%
+% 	\path[draw=black]%
+% 		($(#1back.east|-#1back.north)+(0,-16pt)$)to%
+% 		($(#1back.east|-#1back.north)+(0,-#8)$)to[out=90,in=-45]%
+%  		(#1back.north east);%
+% 		($(#1back.east|-#1back.north)+(-#8,0)$)to%
+% 		($(#1back.east|-#1back.north)+(-16pt,0)$);%
+	\node(#1front2)[#4,fill=#6,anchor=south]at(#1front.south){};%
+}%
+%
+\DeclareDocumentCommand{\ExtrudeOutRoundedBottom}{ m m m m m m m m }{%
+	\node(#1back)[#5,fill=#7,anchor=north]at(#1){};%
+	\node(#1front)[#4,fill=#6,xshift=-2mm,yshift=2mm,anchor=north]at(#1){};%
+	\path[fill=abifacebackcolor](#1front.north east)--%
+		(#1back.north east)--%
+		(#1back.north east-|#1front.north east)--%
+		(#1front.north east);%
+		\draw[draw=abifacebackcolor,line width=0.8pt]%
+			($(#1back.north east)+(0,-0.25\pgflinewidth)$)--%
+			($(#1back.north east-|#1front.north east)+(0,-0.25\pgflinewidth)$);%
+		\draw(#1front.north east)--(#1back.north east);%
+		\draw[](#1back.north east)--%
+			($(#1back.north east)+(0,-0.6pt)$);%
+	\path[shading=axis,%
+		left color=abifacebackcolor,right color=abifacebackcolor,%
+		middle color=abifacecolor,%
+		shading angle=135,]%
+		($(#1front.east|-#1front.south)+(0pt,#8)$)to[out=-90,in=0]%
+		($(#1front.east|-#1front.south)+(-#8,0pt)$)to%
+		($(#1back.east|-#1back.south)+(-#8,0pt)$)to[out=0,in=-90]%
+		($(#1back.east|-#1back.south)+(0pt,#8)$)to%
+		($(#1front.east|-#1front.south)+(0pt,#8)$);%
+	\path[draw=black]%
+		($(#1back.east|-#1back.south)+(-16pt,0pt)$)to%
+		($(#1back.east|-#1back.south)+(-#8,0pt)$)to[out=0,in=-90]%
+		($(#1back.east|-#1back.south)+(0pt,#8)$)to%
+		($(#1back.east|-#1back.south)+(0pt,16pt)$);%
+	\path[shading=axis,%
+		bottom color=#6,top color=#7,%
+% 		middle color=#6,%
+		shading angle=-135,%
+		transform canvas={shift={(0,0.5\pgflinewidth)}},%
+		]%
+		($(#1front.west|-#1front.south)+(0,#8)$)to[out=-90,in=0]%
+		($(#1front.west|-#1front.south)+(#8,0)$)to%
+		($(#1back.west|-#1back.south)+(#8,0)$)to[out=180,in=-90]%
+		($(#1back.west|-#1back.south)+(0,#8)$)to%
+		($(#1front.west|-#1front.south)+(0,#8)$);%
+	\node(#1front2)[#4,fill=#6,anchor=north]at(#1front.north){};%
+}%

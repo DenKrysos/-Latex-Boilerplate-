@@ -1,0 +1,318 @@
+% !TEX root = ../1main.tex
+%
+
+% \headingOpenTempRight%
+% \part[Test NewLine]{Test\\Linebreak}%
+% \headingOpenTempRestore%
+% \label{part:TestingNLinPart}%
+
+% REMARK: These weird "\DenKrHeadingCmdLvl" are only created by be because this Boilerplate supports both Book-&-Article (having \chapter or not). After you opted for one in "./ProjectSetup.tex", you can simply and safely just use '\chapter' or '\section'
+\DenKrHeadingCmdLvlA[Alternative \enquote{Some Chap} Title. Shorter for page-heading]{Some Chap: An absurd Title, way too long to be a reasonable choice, but to see the effect on multi-line}
+\label{chap:chapter1}
+
+
+Example-Citation:
+\cite{DenKr_denkrement1_indeco}
+\nl%
+A custom citation command that puts information about the reference to the footnote on first occurrence:
+\citeff{DenKr_MigArb,DenKr_denkrement1_indeco}%
+
+\npi%
+Some special characters:
+»«.
+\nl%
+Some Example Macro:
+\gerguiquote{My Enquote}.
+\nl%
+Example Acronym, Glossary-Entry \& Symbol:\nl
+\gls{fsa}, \glsunset{api}\gls{api}, \gls{shmem}\nl
+\gls{molmass}, \gls{sigma}\nl
+\gls{eventfd}
+
+\np
+\newcommand{\I}{\mathrm{i}}
+$y = \int_0^x\cos(x)\,\mathrm{d}{x} = \frac{e^{\I x} - e^{-\I x}}{2\I} | 0123456789$
+\nl
+\begin{equation}
+y = \int_0^x\cos(x)\,\mathrm{d}{x} = \frac{e^{\I x} - e^{-\I x}}{2\I} | 0123456789
+\end{equation}
+
+
+
+
+
+
+
+\section{Font Settings}
+
+\input{"\DenKrLayoutMainRootDir/8templates/example_chapter/table_FontSettings".tex}%
+
+
+
+
+
+
+\np
+%
+\lstinputlisting[
+    frame=single,
+    label=lst:waitingChain,
+    caption={Example-Listing (for Programming-Language \textit{C})},
+    captionpos=b,
+    language=DenKr-C,
+    morekeywords={[3]{
+        some_struct
+    }},
+    morekeywords={[4]{
+        entry,
+        member,
+        iterator
+    }}
+]
+{\DenKrListingsRootDir/example_lst_C.c}
+%
+
+
+
+\section{Testing Stuff}
+\label{sec:testing}
+
+Document-within References to check whether hyperref \& nameref work properly:\nl%
+\ref{chap:intro} (\nameref{chap:intro}). \ref{chap:chapter1}  (\nameref{chap:chapter1}). \ref{sec:testing} (\nameref{sec:testing})\nl%
+Consider using my Macros:\nl
+\eleref{fig:tikzexample} or \elenumnamref{fig:tikzexample}
+
+
+\begin{figure*}[!htpb]
+\centering
+    \includegraphics[width=0.2\linewidth]{{"\DenKrGraphicsRootDir/example_AGV"}.pdf}
+    \caption{A Caption with long enough text to cause a line wrap, for the goal of testing whether the setting puts a hanging indent, which separates the text from the Figure Label.}%
+    \label{fig:testFig}
+\end{figure*}
+
+
+
+\subsection{Enumeration}
+
+\begin{itemize}
+\item%
+    Example Itemization
+\end{itemize}
+\begin{enumerate}
+\item%
+    Example Enumeration
+\end{enumerate}
+\begin{description}
+\item[Description Item Label]%
+    An Example Description List, with a longer Parapgraph. Just some random Text without any sense, but with sufficient length to cause a line-break, so that the indentation is properly showing influence.
+\end{description}
+\begin{enuminlrom}
+\item%
+    Example Inline Roman Enumeration
+\item%
+    Item 2.
+\end{enuminlrom}
+
+
+\subsubsection{A-SubSubSection}
+With some arbitrary Text.
+
+\paragraph{A-Paragraph}
+With some arbitrary Text.
+
+\subparagraph{A-SubParagraph}
+With some arbitrary Text.
+
+
+
+
+
+% \section{\textbackslash gls{} in Heading: \glstextHead{dll}, \glsdescHead{dll}, \glstextplHead{dll}, \glsdescplHead{dll}. And some more words, to make it multi-line to check the configured section-format}
+\section{\textbackslash gls\{\} in Heading:
+    \texorpdfstring{\glstextHead{dll}}{DLL},
+    \texorpdfstring{\glsdescHead{dll}}{DLL},
+    \texorpdfstring{\glstextplHead{dll}}{DLLs},
+    \texorpdfstring{\glsdescplHead{dll}}{DLLs}.
+    And some more words, to make it multi-line to check the configured section-format
+}
+
+Just some text.
+
+
+
+\edef\tokenA{\glsentrytext{dll}}
+\edef\tokenB{\glsentrydesc{dll}}
+% \subsection{Alternative Solution: \texorpdfstring{\tokenA}{\tokenA}, \texorpdfstring{\tokenB}{\tokenB}}
+\subsection{Alternative Solution: \texorpdfstring{\tokenA}{DLL}, \texorpdfstring{\tokenB}{DLL}}
+Hem, in TexLive 2023, something with the Macro Expansion changed, so that is not properly working anymore. Well, haven't investigated on it yet. My apologies.
+
+These macros allow to use glossaries entries in Section-Heading, without the Warning \enquote{Token not allowed}.
+
+
+\subsection{My Recommendation: 
+\glsfmtshort{dll}, \glsfmtshortpl{dll},
+\glsfmtlong{dll}, \glsfmtlongpl{dll}
+}
+
+Using \enquote{glossaries-extra}, one has access to these Commands above.\nl
+So, basically, when using \enquote{glossaries-extra} (as opposed to plain glossaries, without -extra), don't employ my macros from above, but use these \textbackslash glsfmt[\ldots], like in the heading here.
+
+
+\subsubsection{Some useful Glossaries-Cmds as Reference}
+\glsreset{dll}\glspl{dll}\nl
+\glstext{dll}, \glsdesc{dll}, \glsplural{dll},\nl
+$\rightarrow$ Just saying, the \textbackslash glsdescpl\{\} cmd, used here, is not from the Glossaries package, but defined by DenKr: \glsdescpl{dll}%\glsdescplural{dll}
+\nl
+\ \ \ (Because the \textbackslash glsdescplural\{\} seems to be always buggy as hell\ldots)
+
+\npi
+\glsentryshortpl{dll}, \glsentrylongpl{dll}, \glsentryshort{dll}, \glsentrylong{dll};\nl
+\glsentrytext{dll}, \glsentryplural{dll}, \glsentrydesc{dll}, \glsentrydescplural{dll}.\nl
+\glsentryshortpl{eventfd}, \glsentrylongpl{eventfd}, \glsentryshort{eventfd}, \glsentrylong{eventfd};\nl
+\glsentrytext{eventfd}, \glsentryplural{eventfd}, (Careful with the \enquote{descs} on glossary-entries \emoji{winking-face}. Outcommented here:)%\glsentrydesc{eventfd}, \glsentrydescplural{eventfd}.
+
+\npi
+\glsfmtshort{dll}, \glsfmtlong{dll}, \glsfmtshortpl{dll}, \glsfmtlongpl{dll},\nl
+\glsfmttext{dll}, \glsfmtname{dll}.
+\nl
+\glsfmtshort{eventfd}, \glsfmtlong{eventfd}, \glsfmtshortpl{eventfd}, \glsfmtlongpl{eventfd},\nl
+\glsfmttext{eventfd}, \glsfmtname{eventfd}.\nl
+\ \ \ (As you see above, the fmtshort/long are not available for Glossary-Entries, but for Acronyms. So, in essence, just use \textbackslash glsfmttext\{\} for basically everything, except when you need the long-form of an Acronym.)
+
+
+
+
+
+\ifdef{\DenKrJPFont}{\ifnumcomp{\number\numexpr\DenKrJPFont\relax}{>}{0}{%
+\section{Japanese Font -- 日本語}
+
+Ordinary | \textrm{Serif} | \textsf{Sans-Serif} | \texttt{Monospaced-Teletype} | \textbf{Bold} | \textit{Italic/Kursiv} | \textit{\textbf{BoldItalic}} | \textsc{SmallCaps}\nl%
+Some Japanese Characters:\nl%
+\begin{tabular}{llll}%
+Ordinary:&日本語行無&いきます&チョット\\%
+Bold:&\textbf{日本語行無}&\textbf{いきます}&\textbf{チョット}\\%
+Serif (Mincho):&\textrm{日本語行無}&\textrm{いきます}&\textrm{チョット}\\%
+Sans-Serif (Gothic):&\textsf{日本語行無}&\textsf{いきます}&\textsf{チョット}\\%
+Bold-Sans:&\textbf{\textsf{日本語行無}}&\textbf{\textsf{いきます}}&\textbf{\textsf{チョット}}\\%
+Monospaced:&\texttt{日本語行無}&\texttt{いきます}&\texttt{チョット}\\%
+Mono-Bold:&\textbf{\texttt{日本語行無}}&\textbf{\texttt{いきます}}&\textbf{\texttt{チョット}}\\%
+\hline%
+Italic:&\textit{日本語行無}&\textit{いきます}&\textit{チョット}\\%
+Serif-It:&\textit{\textrm{日本語行無}}&\textit{\textrm{いきます}}&\textit{\textrm{チョット}}\\%
+Sans-It:&\textit{\textsf{日本語行無}}&\textit{\textsf{いきます}}&\textit{\textsf{チョット}}\\%
+Mono-It:&\textit{\texttt{日本語行無}}&\textit{\texttt{いきます}}&\textit{\texttt{チョット}}\\%
+\hline%
+SmallCaps:&\textsc{日本語行無}&\textsc{いきます}&\textsc{チョット}\\%
+% Serif-SC:&\textsc{\textrm{日本語行無}}&\textsc{\textrm{いきます}}&\textsc{\textrm{チョット}}\\%
+% Sans-SC:&\textsc{\textsf{日本語行無}}&\textsc{\textsf{いきます}}&\textsc{\textsf{チョット}}\\%
+% Mono-SC:&\textsc{\texttt{日本語行無}}&\textsc{\texttt{いきます}}&\textsc{\texttt{チョット}}\\%
+\end{tabular}%
+}{%
+    \section{Japanese Font}
+    Not activated per default, but Boilerplate is ready for it. You can activate \textbackslash DenKrJPFont in \enquote{./2ProjectSetup.tex} to enable them.
+}}{}%
+
+
+\np
+Imported Standalone Snippet: -->
+\import{\DenKrLayoutMainRootDir/8templates/example_chapter/}{3020_StandaloneConstituent_Snippet}
+<--
+% \np
+% As Standalone-Inclusion: -->
+% \includestandalone[mode=\includestandalonedefaultmode]{\DenKrLayoutMainRootDir/8templates/example_chapter/3020_StandaloneConstituent_Snippet}%
+% <--
+% \np
+
+
+\section{Text with Outline / Contour}
+Two different Packages and by that Methods are supplied here:
+\begin{itemize}
+    \item contour: Prints the actual text as normal and surrounds it with the Contour.
+    \item pdfrender: Prints the outline as the actual text and fills this inside with a different Color.
+\end{itemize}
+
+\begin{itemize}[labpragA]
+    \item contour grows bigger to the outside and makes the Outline sleeked (when growing too big)
+    \item pdfrender keeps the outline sharp and well defined, but may let the inside look wonky
+\end{itemize}
+
+\begin{itemize}[labpragB]
+    \item Methods to be ideally employed depends on the use-case
+\end{itemize}
+
+\subsection{Package \enquote{pdfrender}}
+{%
+    \Huge%
+    \definecolor{CharFillColor}{rgb}{1,.8,.8}%
+    \colorlet{CharFillColor}{orange}%
+    \sffamily%
+    \textcolor{violet}{%
+    \textpdfrender{%
+        TextRenderingMode=FillStroke,
+        LineWidth=\DenKrOutlineWidth,
+        FillColor=CharFillColor,
+        MiterLimit=1,
+    }{Text with Outline/Contour}}\nl%
+    \textcolor{violet}{%
+    \textpdfrender{%
+        TextRenderingMode=FillStroke,
+        LineWidth=0.06em,
+        FillColor=CharFillColor,
+        MiterLimit=1,
+    }{Text with Outline/Contour}}%
+}%
+
+\subsection{Package \enquote{contour}}
+{%
+    \LARGE%
+    \contourlength{\DenKrOutlineWidth}% The Default-Value here
+    \contour{violet}{\textcolor{orange}{Text with Outline/Contour}}\nl%
+    {%
+        \contourlength{0.2em}%
+        \contour{violet}{\textcolor{orange}{Text with Outline/Contour}}\nl%
+        \contour{violet}{\textcolor{orange}{Text with Outline/Contour}}\nl%
+    }%
+    \contour{violet}{\textcolor{orange}{Text with Outline/Contour}}\nl%
+}%
+
+
+\np
+%
+\begin{figure}[!htpb]
+    \centering
+	\includestandalone[mode=\includestandalonedefaultmode]{\tikzFilesPath/tikztest}% width=\columnwidth
+    \caption{Tikz-Picture Caption. Some Example Standalone-Tikz-Pic (Another Example is below outcommented). Examples for Standalone-TikZ Picture Files can be found in \enquote{0organization/1main/8templates/tikz/7Tikz}.}
+    \label{fig:tikz_test}
+\end{figure}
+%
+%
+% \tikzabb%[tex]%
+% {tikztest}%
+% [\DenKrLayoutMainRootDir/8templates/tikz/7Tikz]% Alternative Path to the std "./7Tikz"
+% {%
+% Tikz-Picture Caption. Some Example Standalone-Tikz-Pic
+% }%
+% {1}[1,1,!ht]%[0.55,1,!ht]%
+% {fig:tikz_test2}%
+%
+%
+
+
+
+\setcounter{\DenKrHeadingTopLvl}{9}
+\DenKrHeadingCmdLvlA{A Chapter with two-digit number}
+\section{And more Sections}
+\subsection{to make the ToC two pages}
+\section{More Sec}
+\section{Yet more Sec}
+\subsection{And a Subsec}
+
+
+
+
+
+\headingOpenTempAny%
+\DenKrHeadingCmdLvlA{Chapter opened Left}
+\headingOpenTempRestore%
+
+Temporary set to open Chapters on any side, which makes this on the left side.

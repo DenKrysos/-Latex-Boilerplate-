@@ -1,0 +1,117 @@
+\KOMAoptions{%
+    chapterprefix=false%
+}%
+\setkomafont{chapter}{\sffamily\bfseries\huge\color{DenKrKomaColor_ChapterHeading}}%
+\RedeclareSectionCommand[%
+    beforeskip=0ex,%
+    %innerskip=0pt,%
+    %afterskip=1.725\baselineskip plus .115\baselineskip minus .192\baselineskip%
+]{chapter}%
+\makeatletter\@ifundefined{DenKrSetChapter}{}{\DenKrSetChapter}\makeatother% Workaround to reset to my macro after RedeclareSectionCommand
+\renewcommand\raggedchapter{\raggedleft}%
+\providecommand\raggedchapterPrint{\raggedchapter}%
+\setkomafont{chapter}{\Huge}%
+\setkomafont{chapterprefix}{\large}%
+\setkomafont{chapternumberN}{\mdseries\fontsize{60pt}{50pt}\selectfont}%
+\setkomafont{chapternumberS}{\mdseries\fontsize{50pt}{44pt}\selectfont}%
+\setkomafont{chapternumberSS}{\mdseries\fontsize{40pt}{34pt}\selectfont}%
+\setkomafont{chapternumber}{\usekomafont{chapternumber}}%
+%
+\renewcommand*\chapterformat\chapterformatOriginal%
+%
+\def\chapSplit#1#2{%
+    \StrSplit{#2}{#1}\tempa\tempb%
+    \tempa\let\tempa\empty%
+    \unless\ifx\tempb\empty\def\tempa{\\\chapSplit{#1}{\tempb}}\fi%
+    \tempa%
+}%
+%
+\makeatletter%
+\renewcommand*\DenKrKOMAHookFormatChapter[3]{%
+    \ifstrempty{#2}{}{%
+        \StrLen{\thechapter}[\tmpval]%
+        \ifnumcomp{\tmpval}{=}{1}{%
+            \setkomafont{chapternumber}{\usekomafont{chapternumberN}}%
+        }{\ifnumcomp{\tmpval}{=}{2}{%
+            \setkomafont{chapternumber}{\usekomafont{chapternumberS}}%
+        }{%
+            \setkomafont{chapternumber}{\usekomafont{chapternumberSS}}%
+        }}%
+        \StrSplit{\thechapter}{1}\tempa\tempb%
+        \settoheight{\tmpheight}{\usekomafont{chapternumber}\tempa}%
+        \settowidth{\tmpwidth}{\usekomafont{chapternumber}M}%
+        \sbox{\tmpbox}{%
+            \usekomafont{chapternumber}\parbox{\tmpwidth}{\usekomafont{chapternumber}\centering\chapSplit{1}{\thechapter}}%
+        }%
+    }%
+    \begin{tikzpicture}[remember picture,baseline=(chapter_title.base)]%
+        \coordinate(chapter_anchor)at(0,0);%
+        \Ifthispageodd{%Right
+            \def\nodeAnch{east}%
+            \def\nodeAnchOpposite{west}%
+            \colorlet{DenKrKomaColor_ChapterHeading_Left}{white}%
+            \colorlet{DenKrKomaColor_ChapterHeading_Right}{DenKrKomaColor_ChapterHeading_2}%
+            \renewcommand\raggedchapterPrint{\raggedleft}%
+            \def\ShiftDirection{+}%
+        }{%Left
+            \def\nodeAnch{west}%
+            \def\nodeAnchOpposite{east}%
+            \colorlet{DenKrKomaColor_ChapterHeading_Left}{DenKrKomaColor_ChapterHeading_2}%
+            \colorlet{DenKrKomaColor_ChapterHeading_Right}{white}%
+            \renewcommand\raggedchapterPrint{\raggedright}%
+            \def\ShiftDirection{-}%
+        }%
+        %
+        % Common Code, parameterized before
+        %
+        % Chapapp / Prefix
+        \node[outer sep=0pt,inner sep=5pt,text=DenKrKomaColor_ChapterHeading,font=\usekomafont{chapterprefix},anchor=north \nodeAnch]%
+        (chapter_prefix)at(chapter_anchor)%
+        {\Ifstr{#2}{}{}{\chapapp}\strut};%
+        % Title & Background
+        \node[anchor=north \nodeAnch,outer sep=0pt,inner sep=5pt,shade,left color=DenKrKomaColor_ChapterHeading_Left,right color=DenKrKomaColor_ChapterHeading_Right]%
+            (chapter_title)at(chapter_prefix.south \nodeAnch)%
+            {%
+                \parbox[t]%
+                {\dimexpr\textwidth-10pt\relax}%
+                {\raggedchapterPrint #3}%
+            };%
+        % \tikzmark{chapter_title_LT}{(chapter_title.north west)}%
+        % \tikzmark{chapter_title_RT}{(chapter_title.north east)}%
+        % \tikzmark{chapter_title_RB}{(chapter_title.south east)}%
+        % \tikzmark{chapter_title_LB}{(chapter_title.south west)}%
+        \useasboundingbox%
+        (current bounding box.north west)%
+        rectangle%
+        ([yshift=-10pt]current bounding box.south east);%
+        %Chapter-Line
+        \path[draw=DenKrKomaColor_ChapterHeading,line width=2pt]%
+            (current bounding box.south \nodeAnch)++(\ShiftDirection.5\pgflinewidth,0)%
+                coordinate(chapter_line_B)%
+            --+(0,\paperheight);%coordinate(chapter_line_T);%
+        %Chapter-Number
+        \ifstrempty{#2}{}{%
+            \ifnumcomp{\tmpval}{=}{1}{%
+                \coordinate(chapter_number_anchor)at(chapter_title.base);%
+            }{\ifnumcomp{\tmpval}{=}{2}{%
+                \coordinate(chapter_number_anchor)at(chapter_title.north);%
+            }{%
+                \coordinate(chapter_number_anchor)at($(chapter_prefix.south)!.8!(chapter_prefix.north)$);%
+            }}%
+            \coordinate(chapter_number_anchor)at($(chapter_number_anchor-|current bounding box.\nodeAnch)+(\ShiftDirection 4pt,\tmpheight)$);%
+            % \def\anchor{base west}%
+            % \def\atPos{([xshift=10pt]chapter_title.base-|current bounding box.east)}%
+            % \foreach\x[count=\i from 0] in {\chapDigits}{% \chapSplit{1}{\thechapter}
+            %     \node[outer sep=0pt,inner sep=5pt,shape=rectangle,anchor=\anchor,align=right,text=DenKrKomaColor_ChapterHeading,font=\usekomafont{chapternumber}]%
+            %         (digit-\i)%
+            %         at\atPos{\x};%
+            %     \def\anchor{north}%
+            %     \def\atPos{(digit-\i.south)}%
+            % }%
+            \node[draw=none,outer sep=0pt,inner sep=0pt,shape=rectangle,anchor=north \nodeAnchOpposite,align=right,text=DenKrKomaColor_ChapterHeading,font=\usekomafont{chapternumber}](chapter_number)%
+                at([xshift=0pt]chapter_number_anchor){\usebox{\tmpbox}};%#2
+        }%
+    \end{tikzpicture}%
+    % \par%
+}%
+\makeatother%

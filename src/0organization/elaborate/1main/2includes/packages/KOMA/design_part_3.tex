@@ -1,0 +1,41 @@
+\setkomafont{part}{\sffamily\bfseries\huge\color{DenKrKomaColor_PartHeading}}%
+\renewcommand*{\partformat}{%
+    {\usekomafont{part}\partname~\thepart}%
+}%
+%
+\makeatletter%
+\renewcommand*\DenKrKOMAHookFormatPartWithPrefix[3]{%
+    \begin{center}%
+    \begin{tikzpicture}[remember picture,baseline=(num.base)]%
+        \ifstrempty{#2}{%
+            \node[draw=none,shape=rectangle,anchor=base,inner sep=0ex](num){};%
+        }{%
+            \node[draw=none,shape=rectangle,anchor=base,inner sep=0ex](num){\partformat};%
+        }%
+        \node[draw=none,shape=rectangle,anchor=north,line width=0pt,inner sep=0pt](name)at($(num.south)+(0,-2cm)$){\parbox{\textwidth-1ex}{\centering #3}};%
+        \coordinate(crossC)at($(num.south)!.5!(name.north)$);%
+        \path let\p1=(3.5cm,0.8cm),\p2=(\x1,\y1)in%
+            coordinate(crossLB)at($(crossC)+(-\x2,-\y2)$)%
+            coordinate(crossRT)at($(crossC)+(\x1,\y1)$)%
+            coordinate(crossLT)at($(crossC)+(-\x1,\y1)$)%
+            coordinate(crossRB)at($(crossC)+(\x2,-\y2)$)%
+        ;%
+        \path[draw=DenKrKomaColor_SectionHeading!70!gray,line width=4pt,line cap=round,line join=round]%
+            let\n1={40},\n2={30},\n3={-10}in%
+        (crossLB)%
+            to[out=\n1,in=180+\n3]%
+            (crossC)%
+            to[in=180+\n2,out=\n3]%
+            (crossRT)%
+        (crossLT)%
+            % to[out=-30,in=170]%
+            %
+            to[out=-\n2,in=180-\n3]%
+            (crossC)%
+            to[in=180-\n1,out=-\n3]%
+            (crossRB)%
+        ;%
+    \end{tikzpicture}%
+    \end{center}%
+}%
+\makeatother%

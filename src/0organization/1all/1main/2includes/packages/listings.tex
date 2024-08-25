@@ -1,0 +1,34 @@
+%________________________________________________________________________
+%------------------------------------------------------------------------
+%            Für Source-Code Hervorhebung/Formatierung
+%                     'csquotes should be loaded after minted'
+%/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+% % package listings:
+% % scheint wohl "minderwertig" zu sein, jedoch tex-only solution
+\usepackage{listings}%
+%
+% Obviously not required with already "utf8 based engines" (which, for example LuLaTex is)
+\expandafter\ifstrequal\expandafter{\DenKrCompiler}{pdfLaTeX}{%
+    \usepackage{listingsutf8}%
+}{}%
+% %\usepackage{minted}%braucht externes Programm
+% \renewcommand\listoflistingscaption{List of source codes}
+%/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+%							END Source-Code Listings
+%------------------------------------------------------------------------
+%________________________________________________________________________
+%
+%
+%
+%
+%
+%________________________________________________________________________
+%------------------------------------------------------------------------
+%            USAGE Instructions
+%/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+% For some Instructions on how to properly format a Listing, see the File
+%    "1main/3settings/listings_listings.tex"
+%/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+%			Usage Done
+%------------------------------------------------------------------------
+%________________________________________________________________________

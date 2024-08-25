@@ -1,0 +1,257 @@
+% Author: Dennis Krummacker%
+\ifdefined\DenKr\documentclass[tikz,fontsize=11pt,class=scrbook]{standalone}\begin{document}\else%
+\input{"./2ProjectSetup".tex}%
+\input{"\DenKrAllMainRootDirPATH/2includes/packages/preamble_pre".tex}%
+\documentclass[tikz,fontsize=11pt,class=scrbook]{standalone}% I.e. the content from \input{"\DenKrLayoutMainRootDir/2layout/tikz_standalone/preamble_1_class".tex}%
+\input{"\DenKrInternalLayoutRootDir/tikz_standalone/1TikzStandalonePicIncludeThis".tex}%
+\DenKrTikzStandalonePre\fi%
+%
+%
+%
+\newcommand\nodedistance{1.5cm}%
+\newcommand\innabst{0.8em}% Abstand zwischen Text und Zellenrand
+%
+\let\breite\undefined%
+\newlength\breite%
+\settowidth{\breite}{\large \textbf{Interfacename}}%
+\setlength\breite{\breite+\innabst+\innabst+1em}%
+%
+% Define the layers to draw the diagram
+\pgfdeclarelayer{background}%
+%\pgfdeclarelayer{foreground}
+\pgfsetlayers{background,main}%,foreground}
+%
+\begin{tikzpicture}[%
+	scale = \tikzpicturescale,%
+	auto,%
+	node distance=\nodedistance%
+]%
+\newcommand{\cnt}{2}%
+%
+\definecolor{critred}{RGB}{255,70,40}%
+\definecolor{entryred}{RGB}{255,50,50}%
+\definecolor{slightblue}{RGB}{230,230,255}%
+\definecolor{processblue}{RGB}{180,180,255}%
+\definecolor{processblue2}{RGB}{90,180,250}%
+%
+\tikzstyle{background}=[%
+	rectangle,%
+	rounded corners,%
+	minimum width=3cm,%
+	minimum height=1cm,%
+	text centered,%
+	draw=black,%
+	fill=slightblue%
+]%
+\tikzstyle{process1} = [%
+	rectangle,%
+	minimum width=3cm,%
+	minimum height=1cm,%
+	text centered,%
+	align=center,%
+	inner sep=\innabst,%
+	draw=black,%
+	fill=processblue%
+]%
+\tikzstyle{processsplit} = [%
+	minimum width=3cm,%
+	%minimum height=1cm,%
+	text centered,%
+	align=left,%
+	inner sep=0.5*\innabst,%
+	draw=black,%
+	rectangle split,%
+	rectangle split parts=#1,%
+	rectangle split part fill={processblue,processblue2},%
+    rectangle split every empty part={},% delete existing height, depth and width
+	rectangle split empty part height=0.1ex,%
+	rectangle split empty part depth=0ex,%
+% 	shade,%
+% 	shading=axis,%
+% 	top color=white,%
+% 	bottom color=processblue,%
+% 	shading angle=45,%
+]%
+%
+%
+\begin{pgfonlayer}{main}%
+\bfseries%
+%
+%
+	\node(absint)%
+		[process1]%
+		{\ico{AbsInt}};%
+	\node(wlanmon)%
+		[process1,%
+		below=of absint]%
+		{WLAN-Monitor};%
+	\node(netman)%
+		[process1,%
+		left=of wlanmon]%
+		{netman};%
+	\node(kanalwechsel)%
+		[process1,%
+		right=of wlanmon]%
+		{Seamless Kanal-Wechsel};%
+	\node(netzwerk)%
+		[processsplit=4,%
+		anchor=north east,%
+		xshift=-1.25cm,%
+		yshift=-\nodedistance]%
+		at(netman.south east)%
+		{\nodepart{one}Netzwerk%
+		\nodepart{two}ARP-Tabellen\\ füllen%
+		\nodepart{three}ARP-Tabellen\\ auslesen%
+		\nodepart{four}Direkte Port\\ Nachbarn ermitteln};%
+	\node(interfaces)%
+		[processsplit=4,%
+		anchor=north west,%
+		xshift=0.25*\nodedistance]%
+		at(netzwerk.north east)%
+		{\nodepart{one}Interfaces%
+		\nodepart{two}Liefert:\\ Ports\\ IPv4 Adressen%
+		\nodepart{three}Selektion der\\ WLAN Interfaces%
+		\nodepart{four}Prüft Existenz\\ eines Ports};%
+	\node(wlanpakete)%
+		[processsplit=3,%
+		anchor=north west,%
+		xshift=0.75*\nodedistance]%
+		at(interfaces.north east)%
+		{\nodepart{one}WLAN Pakete
+		\nodepart{two}Parsing roher\\ WLAN Pakete
+		\nodepart{three}Extraktion von:\\ Sender\\ Empfangene\\ \ \ Signalstärke};%
+	\node(wlanverbindung)
+		[processsplit=3,%
+		anchor=north west,%
+		xshift=0.75*\nodedistance]%
+		at(wlanpakete.north east)%
+		{\nodepart{one}WLAN Verbindung
+		\nodepart{two}Einstellen von:\\ SSID\\ Kanal
+		\nodepart{three}Ad-hoc\\ \ starten/stoppen};%
+	\node(kanalbelegung)
+		[processsplit=2,%
+		anchor=north,%
+		xshift=0.375*\nodedistance,%
+		yshift=-0.25*\nodedistance]%
+		at(interfaces.south east)%
+		{\nodepart{one}WLAN Kanal\\ Statistik
+		\nodepart{two}Belegung\\ überlappungsfreier\\ Kanäle durch\\ Datenverkehr};%
+	\node(ctrlkomm)
+		[processsplit=3,%
+		anchor=north,%
+		xshift=0.375*\nodedistance]%
+		at(kanalbelegung.north east -| wlanpakete.south east)%
+		{\nodepart{one}AI Controller\\ Kommunikation
+		\nodepart{two}Daten an\\ Controller senden
+		\nodepart{three}Anweisung von\\ Controller empfangen};%
+%
+%
+%
+	\draw[arrow](absint.south)--(wlanmon.north);
+	\node(netmanabove)%
+		[shape=coordinate]%
+		at($(netman.north)+(0,0.5*\nodedistance)$)
+		{};%
+	\draw[connect]($(absint.south)+(-0.75cm,0)$)|-(netmanabove);
+	\draw[arrow](netmanabove)--(netman.north);
+	\node(kanalwechselabove)%
+		[shape=coordinate]%
+		at($(kanalwechsel.north)+(0,0.5*\nodedistance)$)
+		{};%
+	\draw[connect]($(absint.south)+(0.75cm,0)$)|-(kanalwechselabove);
+	\draw[arrow](kanalwechselabove)--(kanalwechsel.north);
+%
+	\node(netzwerkabove)%
+		[shape=coordinate]%
+		at($(netzwerk.north)+(0,0.5*\nodedistance)$)
+		{};%
+	\draw[connect]($(netman.south)+(-0.5cm,0)$)|-(netzwerkabove);
+	\draw[arrow](netzwerkabove)--(netzwerk.north);
+%
+	\node(interfacesabove1)%
+		[shape=coordinate]%
+		at($(interfaces.north)+(-0.75cm,0.5*\nodedistance)$)
+		{};%
+	\node(interfacesabove2)%
+		[shape=coordinate]%
+		at($(interfaces.north)+(0.75cm,0.5*\nodedistance)$)
+		{};%
+	\draw[connect]($(netman.south)+(0.5cm,0)$)|-(interfacesabove1);
+	\draw[arrow](interfacesabove1)--(interfaces.north -| interfacesabove1);
+%
+	\draw[connect](wlanmon.south -| interfacesabove2)--(interfacesabove2);
+	\draw[arrow](interfacesabove2)--(interfaces.north -| interfacesabove2);
+	\draw[arrow](wlanmon.south -| kanalbelegung.north)--(kanalbelegung.north);
+	\node(wlanpaketeabove)%
+		[shape=coordinate]%
+		at($(wlanpakete.north)+(-0.75cm,0.33*\nodedistance)$)
+		{};%
+	\draw[connect](wlanmon.south -| wlanpakete.north west)|-(wlanpaketeabove);
+	\draw[arrow](wlanpaketeabove)--(wlanpakete.north -| wlanpaketeabove);
+%
+	\node(ctrlkommabove1)%
+		[shape=coordinate]%
+		at($(wlanpakete.north east)+(0.2*\nodedistance,0.67*\nodedistance)$)
+		{};%
+	\node(ctrlkommabove2)%
+		[shape=coordinate]%
+		at($(wlanverbindung.north west)+(-0.2*\nodedistance,0.5*\nodedistance)$)
+		{};%
+%
+	\draw[connect]($(wlanmon.south -| wlanpakete.north west)+
+		(0.33*\nodedistance,0)$)
+			|-(ctrlkommabove1);%
+	\draw[arrow](ctrlkommabove1)--(ctrlkomm.north -| ctrlkommabove1);%
+	\draw[connect](kanalwechsel.south)|-(ctrlkommabove2);%
+	\draw[arrow](ctrlkommabove2)--(ctrlkomm.north -| ctrlkommabove2);%
+	\draw[arrow](kanalwechsel.south -| wlanverbindung.north)
+		--(wlanverbindung.north);%
+%
+\end{pgfonlayer}%
+
+
+
+
+
+
+	% Background
+	\begin{pgfonlayer}{background}%
+	%Ermittle Top Koordinate (Node mit oberster Kante)
+	%und left Koordinate (Node mit linkster Kante)
+		\path let \p1 = (absint.north),%
+			\p2 = (netzwerk.west)%
+			in node (topleft)[shape=coordinate,inner sep=0pt] at (\x2,\y1) {};%
+	%Ermittle Bottom Koordinate (Node mit unterster Kante)
+	%und right Koordinate (Node mit rechtester Kante)
+		\path let \p3 = (ctrlkomm.south),%
+			\p4 = (wlanverbindung.east)%
+			in node (bottomright)[shape=coordinate,inner sep=0pt] at (\x4,\y3) {};%
+	
+	    \path[fill=slightblue]%
+	    	($(topleft)+(-0.25,0.25)$)%
+	    		rectangle%
+	    	($(bottomright)+(0.25,-0.25)$);%
+	\end{pgfonlayer}%
+
+
+
+
+
+	\foreach \x in {1,...,1}{%
+		\ifnodedefined{mat\x}{%
+			\aeundefinethesenodes{mat\x}%
+		}{}%
+		\ifnodedefined{entry}{%
+			\aeundefinethesenodes{entry}%
+		}{}%
+		\ifnodedefined{exit}{%
+			\aeundefinethesenodes{exit}%
+		}{}%
+	}%
+%
+\normalfont%
+%
+\end{tikzpicture}%
+%
+%
+\ifdefined\DenKr\end{document}\else\DenKrTikzStandalonePost\fi%

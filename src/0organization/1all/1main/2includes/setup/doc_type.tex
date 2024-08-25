@@ -1,0 +1,28 @@
+%/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+%		Setting up directive for Querying
+%________________________________________________________________________
+\makeatletter%
+\newif\ifChapterExists%
+\@ifundefined{chapter}{\ChapterExistsfalse}{\ChapterExiststrue}%
+\makeatother%
+%== USAGE
+%    \ifChapterExist
+%        Structuring-Level for Chapter exists in Document
+%    \else
+%        Chapter does NOT exist
+%    \fi
+%=============
+\ifChapterExists%
+\def\DenKrHeadingTopLvl{chapter}%
+\def\DenKrHeadingTopLvlCmd{\chapter}%
+\def\DenKrHeadingCmdLvlA{\DenKrHeadingTopLvlCmd}%
+\def\DenKrHeadingCmdLvlB{\section}%
+\else%
+\def\DenKrHeadingTopLvl{section}%
+\def\DenKrHeadingTopLvlCmd{\section}%
+\def\DenKrHeadingCmdLvlA{\DenKrHeadingTopLvlCmd}%
+\def\DenKrHeadingCmdLvlB{\subsection}%
+\fi%
+%________________________________________________________________________
+%			END TikZ
+%/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\

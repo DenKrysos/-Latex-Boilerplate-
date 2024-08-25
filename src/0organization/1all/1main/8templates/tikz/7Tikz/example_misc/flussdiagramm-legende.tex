@@ -1,0 +1,315 @@
+% Author: Dennis Krummacker%
+\ifdefined\DenKr\documentclass[tikz,fontsize=11pt,class=scrbook]{standalone}\begin{document}\else%
+\input{"./2ProjectSetup".tex}%
+\input{"\DenKrAllMainRootDirPATH/2includes/packages/preamble_pre".tex}%
+\documentclass[tikz,fontsize=11pt,class=scrbook]{standalone}% I.e. the content from \input{"\DenKrLayoutMainRootDir/2layout/tikz_standalone/preamble_1_class".tex}%
+\input{"\DenKrInternalLayoutRootDir/tikz_standalone/1TikzStandalonePicIncludeThis".tex}%
+\DenKrTikzStandalonePre\fi%
+%
+%
+%
+\newcommand\nodedistance{1.0cm}%
+\newcommand\innabst{0.8em}% Abstand zwischen Text und Zellenrand
+%
+\let\breite\undefined%
+\newlength\breite%
+\settowidth{\breite}{\large \textbf{Interfacename}}%
+\setlength\breite{\breite+\innabst+\innabst+1em}%
+%
+%
+\begin{tikzpicture}[%
+	scale = \tikzpicturescale,%
+	auto,%
+	node distance=\nodedistance%
+]%
+\newcommand{\cnt}{2}%
+%
+%
+%
+% \bfseries%
+%
+%\draw[color=slightblue,fill] (-0.5,-4.5) rectangle (10.5,0.5);
+%
+%
+\tikzstyle{legendnote}=[%
+	cleartext,%
+	align=left,%
+	text width=45em,%
+	anchor=north west,%
+	xshift=0cm%
+]%
+%
+%
+%
+%
+	\node(start)%
+		[startstop]%
+		{Start};%
+	\draw[arrow](start.south)--+(0,-0.5cm);
+	\node(stop)%
+		[startstop,below=0.8cm of start,xshift=2cm]%
+		{Ende};%
+	\draw[arrow,<-](stop.north)--+(0,0.5cm);
+\node(textleftanchor)[coord,xshift=1.25cm]%
+	at(start.north east -|stop.north east){};%
+%
+	\node(startnote)%
+		[legendnote]%
+		at(start.north east-|textleftanchor)%
+		{Spezifiziert Anfang oder Ende eines Algorithmus. Die Bearbeitung beginnt
+		am Knoten >>Start<< und endet bei Erreichen des Knotens >>Ende<<.};%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+	\node(process)%
+		[process,below=of stop,xshift=-1.0cm,yshift=-0.5cm]%
+		{Prozess};%
+	\draw[arrow](process.south)--+(0,-0.5cm);
+	\draw[arrow,<-](process.north)--+(0,0.5cm);
+%
+	\node(processnote)%
+		[legendnote,yshift=0.5cm]%
+		at(process.north east-|textleftanchor)%
+		{Prozess Knoten. Enthält eine Verarbeitung, einen konkreten Vorgang
+		innerhalb des Algorithmus. Kann einzelne Operationen oder größere Teile des
+		Algorithmus darstellen; möglicherweise exakte Code-Fragmente eines
+		Programms, ggf. in Pseudo-Code.};%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+	\node(decision)%
+		[decision,anchor=north,yshift=-\nodedistance-0.5cm]%
+		at($(process.south)+(0,-0.5cm)$)%
+		{Entscheidung};%
+	\node(decision2)%
+		[decision2,below=1.0cm of decision]%
+		{Entscheidung};%
+	\draw[arrow,<-](decision.north)--+(0,0.5cm);
+	\draw[arrow,<-](decision2.north)--+(0,0.5cm);
+	\draw[arrow](decision.south east)-|%
+		node[pos=0.6,anchor=west]{Ja}%
+		+(0.5cm,-0.5cm);
+	\draw[arrow](decision.south west)-|%
+		node[pos=0.6,anchor=east]{Nein}%
+		+(-0.5cm,-0.5cm);
+	\draw[arrow](decision2.east)-|%
+		node[pos=0.6,anchor=west]{Ja}%
+		+(0.5cm,-0.5cm);
+	\draw[arrow](decision2.west)-|%
+		node[pos=0.6,anchor=east]{Nein}%
+		+(-0.5cm,-0.5cm);
+%
+	\node(decisionnote)%
+		[legendnote,yshift=0.5cm]%
+		at(decision.north-|textleftanchor)%
+		{Ja-Nein-Entscheidung. Der Knoten trifft eine spezifizierte Entscheidung.
+		Je nach Resultat wird einer der beiden herausführenden Wege für den
+		weiteren Verlauf des Algorithmus verfolgt.\\%
+		Er stellt ein Analogon zu einem\\%
+		\ \ \ \ \lstinline[language=C_var,basicstyle=\ttfamily]%
+		{if(Bedingung)}\{\\%
+		\ \ \ \ \ \ \ \}\lstinline[language=C_var,basicstyle=\ttfamily]%
+		{else}\{\}\\%
+		Konstrukt einer Programmiersprache dar.\\%
+		Die untere Form des Entscheidungs Knoten stellt eine platzeffizientere
+		Darstellungs-Variante dar.};%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+	\node(mux)%
+		[mux2=2,text width=5.4cm,%
+		anchor=north,yshift=-\nodedistance-0.5cm]%
+		at(decision2.south)%
+		{Mehrfachauswahl};%
+	\draw[arrow,<-](mux.north)--+(0,0.5cm);
+%
+	\node(muxwahl1)%
+		[muxwahl2,%
+		anchor=north,%
+		xshift=-1.5cm]%
+		at(mux.south)%
+		{};%
+	\node(muxwahl1_text)%
+		[cleartext,anchor=center,inner sep=1em]%
+		at(muxwahl1)%
+		{Wahl\\1};%
+	\node(muxwahl2)%
+		[muxwahl2,%
+		anchor=north,%
+		xshift=1.5cm]%
+		at(mux.south)%
+		{};%
+	\node(muxwahl2_text)%
+		[cleartext,anchor=center,inner sep=1em]%
+		at(muxwahl2)%
+		{Wahl\\2};%
+	\draw[arrow](muxwahl1.south)--+(0,-0.5cm);
+	\draw[arrow](muxwahl2.south)--+(0,-0.5cm);
+%
+	\node(muxnote)%
+		[legendnote,yshift=0.5cm]%
+		at(mux.north east-|textleftanchor)%
+		{Die Mehrfachauswahl ist eine Erweiterung des einfachen Entscheidungs
+		Knotens. Sie erweitert die möglichen Ausgänge auf eine unbestimmte Anzahl.
+		Statt einer Abfrage mit einem Ja-Nein-Ergebnis, kann ein Abfrage-Muster,
+		ein Tupel aus mehreren Gleichheits-Prüfungen spezifiziert werden. Der
+		Algorithmus folgt jenem Ausgang, dessen Wert mit dem Zustand der zu
+		prüfenden Variable übereinstimmt. Das Analogon einer Programmiersprache
+		wäre eines der beiden folgenden Konstrukte.\\%
+		\begin{minipage}[t]{0.48\textwidth}%
+		\noindent%
+		\ \ \ \ \lstinline[language=C_var,basicstyle=\ttfamily]%
+		{switch(Variable)}\{\nl%
+		\ \ \ \ \lstinline[language=C_var,basicstyle=\ttfamily]%
+		{case 0:}\nl%
+		\ \ \ \ \ \ \ \ \lstinline[language=C_var,basicstyle=\ttfamily]%
+		{break;}\nl%
+		\ \ \ \ \lstinline[language=C_var,basicstyle=\ttfamily]%
+		{case 1:}\nl%
+		\ \ \ \ \ \ \ \ \lstinline[language=C_var,basicstyle=\ttfamily]%
+		{break;}\nl%
+		\ \ \ \ \}%
+		\end{minipage}%
+		\hspace{\fill}%
+		\begin{minipage}[t]{0.48\textwidth}%
+		\ \ \ \ \lstinline[language=C_var,basicstyle=\ttfamily]%
+		{if(Bedingung1)}\{\nl%
+		\ \ \ \ \}\lstinline[language=C_var,basicstyle=\ttfamily]%
+		{else if(Bedingung2)}\{\nl%
+		\ \ \ \ \}
+		\end{minipage}%
+		%
+		};%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+	\node(io)%
+		[io,anchor=north,yshift=-\nodedistance-0.5cm]%
+		at(mux.south|-muxnote.south)%
+		{In / Out};%
+	\draw[arrow](io.south)--+(0,-0.5cm);
+	\draw[arrow,<-](io.north)--+(0,0.5cm);
+%
+	\node(ionote)%
+		[legendnote,yshift=0.5cm]%
+		at(io.north east-|textleftanchor)%
+		{Schnittstellen, an denen der Algorithmus mit externen Entitäten
+		unbestimmter Gestalt kommuniziert. Ein Beispiel bestünde in einer
+		Netzwerkkommunikation via BSD Sockets zwischen zwei Hardware Plattformen,
+		wobei der determinierte Algorithmus alleinig auf einem der Geräte
+		ausgeführt wird.};%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+	\node(interthread)%
+		[interthread,anchor=north,yshift=-\nodedistance-0.5cm]%
+		at($(io.south)+(0,-0.5cm)$)%
+		{Inter Thread\\ Kommunikation};%
+	\draw[arrow](interthread.south)--+(0,-0.5cm);
+	\draw[arrow,<-](interthread.north)--+(0,0.5cm);
+%
+	\node(interthreadnote)%
+		[legendnote,yshift=0.5cm]%
+		at(interthread.north east-|textleftanchor)%
+		{Ähnlich wie die I/O Knoten, mit dem Unterschied, dass diese Kommunikation
+		innerhalb des Algorithmus stattfindet. Die Daten über diese Schnittstelle
+		verlassen den Algorithmus nicht, sondern werden zwischen Teilen desselben
+		Algorithmus ausgetauscht. Der Algorithmus kann über verschiedene
+		Flussdiagramme verteilt sein: In etwa prinzipiell unabhängig agierende, jedoch
+		untereinander interagierende Teile des Algorithmus. Kommunizieren diese
+		Teile miteinander und würden bereits eigenständige Algorithmen darstellen,
+		werden hingegen unter einem umfassenden Algorithmus subsummiert, erfolgt
+		über Knoten dieser Gestalt die interne Kommunikation. Ein Beispiel für
+		diese Art der Kommunikation wären die Threads innerhalb eines Programmes.};%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+	\node(note)%
+		[note,anchor=north east,xshift=-0.25cm,%
+		yshift=-\nodedistance,yshift=-0.5cm]%
+		at(interthread.south|-interthreadnote.south)%
+		{Notiz};%
+	\draw[arrow](note.south)--+(0,-0.5cm);
+	\draw[arrow,<-](note.north)--+(0,0.5cm);
+	\node(note2)%
+		[note,anchor=north west,xshift=0.5cm]%
+		at(note.north east)%
+		{Notiz};%
+%
+	\node(notenote)%
+		[legendnote,yshift=0.5cm]%
+		at(note.north east-|textleftanchor)%
+		{Eine Notiz, für Anmerkungen, die nicht direkt Teil der arbeitenden Routine
+		eines Algorithmus sind. Sie vollziehen keinen Fortschritt oder stellen
+		Verarbeitungsschritte dar. Sie dienen lediglich der besseren
+		Verständlichkeit des Diagramms. Notizblöcke mögen als Teil des Algorithmus
+		innerhalb des Fluss-Verlaufs vorkommen oder als generelle Anmerkung abseits
+		vermerkt sein.\nl%
+		Sie können z.B. Kommentare innerhalb eines Programm-Quelltextes repräsentieren
+		oder besondere Stellen markieren.};%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+\normalfont%
+%
+\end{tikzpicture}%
+%
+%
+\ifdefined\DenKr\end{document}\else\DenKrTikzStandalonePost\fi%

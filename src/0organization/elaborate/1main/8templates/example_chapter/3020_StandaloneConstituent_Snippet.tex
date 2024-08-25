@@ -1,0 +1,50 @@
+%   \input{"\DenKrLayoutBaseRootDir/standalone_constituent/macro_exclusionMux".tex}% -->
+\providecommand{\onlyinsubfile}[1]{#1}%
+\providecommand{\notinsubfile}[1]{}%
+\providecommand{\onlyinmainfile}[1]{\notinsubfile{#1}}%
+\onlyinsubfile{%
+    \input{"./2ProjectSetup".tex}%
+    \renewcommand{\DenKrJPFont}{0}%
+}%
+\input{"\DenKrInternalLayoutRootDir/standalone_constituent/1ConstituentIncludeThis".tex}%
+\DenKrStandaloneConstituentPreA%
+\documentclass[class=scrbook,multi=true,float=true,crop=false]{standalone}%
+\DenKrStandaloneConstituentPreB%
+\begin{document}%
+\DenKrStandaloneConstituentPreC%
+%================================================================
+%      BEGIN
+%----------------------------------------------------------------
+%================================================================
+\onlyinsubfile{
+    Subfile compilation\\
+}
+Example-Citation:
+\cite{DenKr_MigArb}
+\\%
+Some special characters:
+»«.
+\\%
+Some Example Macro:
+\gerguiquote{My Enquote}.
+\\%
+Example Acronym:
+\gls{fsa}
+
+Some float is below here
+
+\begin{figure}[ht]
+\centering
+a
+%\subimport{../}{diagram.tex}
+\caption{A nice simple diagram}
+\label{fig:tikzexample}
+\end{figure}
+
+\textcolor{red}{some red text}
+%================================================================
+%      FIN
+%----------------------------------------------------------------
+%================================================================
+\DenKrStandaloneConstituentPost%
+\end{document}%

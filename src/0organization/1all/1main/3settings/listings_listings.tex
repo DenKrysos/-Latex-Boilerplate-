@@ -1,0 +1,546 @@
+%________________________________________________________________________
+%------------------------------------------------------------------------
+%							listings - Setup. Source-Code Einbindung.
+%/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+\newcommand{\lstC}[1]{\lstinline[language=DenKr-C,breaklines=true]$#1$}%basicstyle=\listingsfontinline
+\newcommand{\lstJS}[1]{\lstinline[language=DenKr-JavaScript,breaklines=true]$#1$}%
+\newcommand{\lstPY}[1]{\lstinline[language=DenKr-Python,breaklines=true]$#1$}%
+% Colors etc. to get the Eclipse Look
+% \newfontfamily\listingsfont[Scale=0.7]{Courier}
+% \newfontfamily\listingsfontinline[Scale=0.8]{Courier New}
+% - - - - - - - - - -
+% Coming from C alike
+\definecolor{eclipse_1_comment}{rgb}{0.12,0.38,0.18}%adjusted, in Eclipse: {0.25, 0.42, 0.30 } = #3F6A4D
+% \definecolor{eclipse_keyword1}{RGB}{128, 0, 40}%Red. Old, formerly used
+%\definecolor{eclipse_keyword2}{RGB}{155,40,128}%Violet. Old, formerly used
+\definecolor{eclipse_keyword_1_purple}{RGB}{128, 0, 40}%Reddish Purple
+\definecolor{eclipse_keyword_1_violet}{RGB}{100,40,128}%Violet
+\definecolor{eclipse_keyword_1_green}{RGB}{0,120,10}%Green
+\definecolor{eclipse_keyword_1_blue}{RGB}{0,0,192}%Blue
+\definecolor{eclipse_keyword_1_purple}{RGB}{155,40,128}%Purple
+\definecolor{eclipse_1_string}{rgb}{0.06, 0.10, 0.98}% #101AF9
+% - - - - - - - - - -
+% Coming from Java-Script alike
+% - - - - - - - - - -
+\definecolor{eclipse_keyword_2_violet}{rgb}{0.65, 0.12, 0.82}%
+\definecolor{eclipse_keyword_2_purple}{RGB}{155,40,128}%
+\definecolor{eclipse_keyword_2_blue}{RGB}{0,119,170}%
+\definecolor{eclipse_keyword_2_red}{RGB}{221,74,104}%
+\definecolor{eclipse_keyword_2_green}{RGB}{102,153,0}%
+%-----------
+\def\lstsmallmath{\leavevmode\ifmmode\scriptstyle\else\fi}%
+\def\lstsmallmathend{\leavevmode\ifmmode\else\fi}%
+%-----------
+% Font-Style
+%   Package listings has too hooks 'TextStyle' and 'DisplayStyle' and the switch '\lst@ifdisplaystyle', which can be used for setting a different font size in inline and displayed code listings.
+\makeatletter%
+% \ttfamily, \scriptsize, \listingsfont, \fontsize{11}{13}\selectfont\ttfamily
+\lstdefinestyle{denkrFontStyle}{%
+  basicstyle=%
+    \lst@ifdisplaystyle%
+        \scriptsize%
+    \else%
+        \ttfamily%
+    \fi%
+}%
+\makeatother%
+%-----------
+\definecolor{lstbg}{RGB}{230,230,230}%
+\lstset{language=C,texcl=true}%
+% Basic lstset (visual settings)
+% \lstset{
+% 	numbers=left,
+% 	numberstyle=\tiny,
+% 	numbersep=5pt,
+% 	tabsize=4,
+% 	xleftmargin=0em,
+% 	backgroundcolor=\color{lstbg},
+% 	keywordstyle=\bfseries\ttfamily\color{blue},
+% 	stringstyle=\color{green}\ttfamily,
+% 	commentstyle=\color{gray}\ttfamily,
+% }
+% lstset for Look like Eclipse
+\lstset{%
+    rulecolor=\color{ipython_frame},%
+    frame=single,%shadowbox, single
+	captionpos=b,%
+    frameround={t}{t}{t}{t},%
+    framexleftmargin=3mm,% 3mm
+    xleftmargin=3mm,% 3mm
+	%xrightmargin=0.3em,
+    numbers=left,% left, none
+    numberstyle=\tiny\color{halfgray},%
+	%numberstyle=\tiny,
+    columns=fixed,% fixed, flexible, fullflexible, space-flexible. Character Spacing and Alignment
+    %
+	%backgroundcolor=\color{lstbg},
+    backgroundcolor=\color{ipython_bg},%
+    %basicstyle=\scriptsize,% Instead of that, I defined a style and load this below
+    style=denkrFontStyle,%
+    %
+	numbersep=5pt,%
+	showtabs=false,%
+	tabsize=2,%
+	breaklines=true,%
+    sensitive=true%
+    keepspaces=true,%
+    showspaces=false,%
+    showstringspaces=false,%
+	keywordstyle=\color{eclipse_keyword_1_1}\bfseries,%
+	keywordstyle=[2]\color{eclipse_keyword_1_2}\bfseries,%
+	keywordstyle=[3]\color{eclipse_keyword_1_3}\bfseries,%
+	keywordstyle=[9]\color{red}\bfseries,%
+	stringstyle=\color{eclipse_string},%
+	commentstyle=\color{eclipse_1_comment}\itshape,%
+	escapebegin={\lstsmallmath}, escapeend={\lstsmallmathend},%
+    escapechar=\¢,%
+    %escapebegin=\color{ipython_green},
+}%
+\lstset{%
+	inputencoding=utf8,%
+	extendedchars=true,%
+	literate=%
+		{ß}{{\ss}}2%
+		{ö}{{\"o}}1%
+		{ä}{{\"a}}1%
+		{ü}{{\"u}}1%
+		{Ö}{{\"O}}1%
+		{Ä}{{\"A}}1%
+		{Ü}{{\"U}}1%
+		{>>}{{\guillemotright}}1%
+		{»}{{\guillemotright}}1%
+		{<<}{{\guillemotleft}}1%
+		{«}{{\guillemotleft}}1,%
+}%
+%
+\lstloadlanguages{ % Check documentation for further languages ...
+    % [Visual]Basic,
+    % Pascal,
+    % C,
+    % C++,
+    % XML,
+    % HTML,
+    % Java,
+    Python%
+}%
+%
+% Zusätzliche Hervorherbungen (for every language)
+\lstset{%
+	emph={%
+    	critical,
+    	section
+    },%
+    emphstyle={\color{red}\bfseries}%\underbar}%
+}%
+%
+%
+\definecolor{lstCol_C_purple}{named}{eclipse_keyword_1_purple}%
+\definecolor{lstCol_C_violet}{named}{eclipse_keyword_1_violet}%
+\definecolor{lstCol_C_green}{named}{eclipse_keyword_1_green}%
+\definecolor{lstCol_C_blue}{named}{eclipse_keyword_1_blue}%
+\definecolor{lstCol_C_foreign1}{named}{eclipse_keyword_2_red}%
+\definecolor{lstCol_C_foreign2}{named}{eclipse_keyword_2_blue}%
+\definecolor{lstCol_C_object}{named}{eclipse_keyword_2_blue}%
+\definecolor{lstCol_C_moreKey}{named}{eclipse_keyword_2_violet}%
+\lstdefinelanguage{DenKr-C}%
+{%
+    language=C,%
+    morecomment=[l]{//},%
+    morekeywords=[1]{%Basic Keywords. If, return, while, ...
+        static,
+        const,
+        register,
+        inline,
+        strlen,
+    },%
+    morekeywords=[2]{%Predefined Library-Functions
+        main,malloc,free,
+        recv,send,recvfrom,sendto,
+        sem_init,sem_wait,sem_post,sem_getvalue,sem_destroy,
+        raise,signal,
+        pthread_create,pthread_join,pthread_detach,pthread_cancel,pthread_setcancelstate,
+        pcap_breakloop,pcap_close,
+        endl,
+        append,push,pop,remove,delete,destroy,
+    },%
+    morekeywords=[4]{%Typedefed, Names of Struct, Enum, ...
+        int8_t,uint8_t,int16_t,uint16_t,int32_t,uint32_t,int64_t,uint64_t,int128_t,uint128_t,
+        uintptr_t,intptr_t,
+        pthread_t,sem_t,
+        size_t,time_t,
+        timespec,timeval,
+        string,
+        sockaddr_storage,sockaddr_in,sockaddr_in6,sockaddr,in_addr,in_addr_t,in6_addr,in6_addr_t,
+        socklen_t,in_port_t,
+    },%
+    morekeywords=[5]{%Collection-Members
+        tm_sec,tm_min,tm_hour,tm_day,tm_mon,tm_year,tv_sec,tv_nsec,
+        sin_port,sin_addr,sin6_port,sin6_addr,sa_data,
+    },%
+    morekeywords=[7]{%Special Keywords
+        NULL, null, Null
+        std,
+    },%
+    morekeywords=[11]{%Foreign Syntax, when typesetting C-alike Pseudo-Code that includes Keywords from another language
+        each,
+    },% constructor, iterator
+    morekeywords=[12]{%Foreign Syntax 2
+        in, of, let, def,
+        function, func
+    },%
+    morekeywords=[13]{%Object-related
+        import,
+        Class, Object,
+        Buffer, Message,
+        Socket, String,
+    },%
+    morekeywords=[14]{%Yet some more Keywords
+        true, false, True, False, TRUE, FALSE,
+        fail, failure,
+        this,
+    },%
+    morekeywords=[99]{%
+        critical section
+    },%
+    %
+    keywordstyle=[1]\color{lstCol_C_purple}\bfseries,%Basic Keywords. If, return, while, void, int, ...
+    keywordstyle=[2]\color{lstCol_C_violet}\bfseries,%Predefined Library-Functions
+    keywordstyle=[3]\color{lstCol_C_purple},%Function-Calls
+    keywordstyle=[4]\color{lstCol_C_green},%Typedefed, Names of Struct, Enum, ...
+    keywordstyle=[5]\color{lstCol_C_blue},%Collection-Members
+    keywordstyle=[7]\color{lstCol_C_purple},%Special Keywords. Like Basic, but not bold.
+    keywordstyle=[8]\color{lstCol_C_violet},%Special Keywords. Like Library-Funcs, but not bold.
+    keywordstyle=[11]\color{lstCol_C_foreign1}\bfseries,%Set one of Syntax from foreign languages for Pseudo-Code
+    keywordstyle=[12]\color{lstCol_C_foreign2}\bfseries,%Set two for Pseudo-Code
+    keywordstyle=[13]\color{lstCol_C_object},%Object-related
+    keywordstyle=[14]\color{lstCol_C_moreKey},%Yet More Special Words
+    keywordstyle=[99]\color{red}\bfseries,%Highlighting in Red (Pseudo-Code)
+    stringstyle=\color{eclipse_1_string},%
+    commentstyle=\color{eclipse_1_comment}\itshape,%
+}%
+\lstdefinelanguage{C_var_old}%
+{%
+	language=C,%
+	morecomment=[l]{//},%
+	morekeywords={%
+		strlen,
+	},%
+	morekeywords=[2]{%
+		malloc,
+		recv,
+		send,
+		sem_init,
+		sem_wait,
+		sem_post,
+		sem_getvalue,
+		sem_destroy,
+		raise,
+		signal,
+		pthread_create,
+		pthread_join,
+		pthread_detach,
+		pthread_cancel,
+		pthread_setcancelstate,
+		pcap_breakloop,
+		pcap_close
+	},%
+	morekeywords=[3]{%
+		int8_t,
+		uint8_t,
+		int16_t,
+		uint16_t,
+		int32_t,
+		uint32_t,
+		int64_t,
+		uint64_t,
+		int128_t,
+		uint128_t,
+		uintptr_t,
+		sem_t,
+		pthread_t
+	},%
+	morekeywords=[9]{%
+		critical section
+	},%
+}%
+%Additional languages with keywords
+\lstdefinelanguage{semaphore}%
+{%
+	morekeywords={%
+		type,
+		record,
+		end,
+		if,
+		then,
+		else,
+		loop
+	},%
+	morekeywords=[2]{%
+		wait,
+		signal,
+		await,
+		advance,
+		sem_wait,
+		sem_post,
+		sem_init,
+		sem_getvalue
+	},%
+	morekeywords=[3]{%
+		val
+	},%
+	morekeywords=[4]{%
+		ticket
+	},%
+	sensitive=true,%
+	morecomment=[l]{//},%
+	morecomment=[s]{/*}{*/},%
+	morestring=[b]",%
+	morestring=[b]',%
+	keywordstyle=\bfseries\ttfamily\color{blue},%
+	keywordstyle=[2]\bfseries\ttfamily\color{teal},%
+	keywordstyle=[3]\bfseries\ttfamily\color{olive},%
+	keywordstyle=[4]\bfseries\ttfamily\color{olive},%
+	stringstyle=\color{green}\ttfamily,%
+}%
+%
+%
+\definecolor{maroon}{cmyk}{0, 0.87, 0.68, 0.32}%
+\definecolor{halfgray}{gray}{0.55}%
+\definecolor{ipython_frame}{RGB}{207, 207, 207}%
+\definecolor{ipython_bg}{RGB}{247, 247, 247}%
+\definecolor{ipython_red}{RGB}{186, 33, 33}%
+\definecolor{ipython_green}{RGB}{0, 128, 0}%
+\definecolor{ipython_cyan}{RGB}{64, 128, 128}%
+\definecolor{ipython_purple}{RGB}{170, 34, 255}%
+% - - - -
+\lstdefinelanguage{DenKr-Python}{%
+    morekeywords={access,and,break,class,continue,def,del,elif,else,except,exec,finally,for,from,global,if,import,in,is,lambda,not,or,pass,print,raise,return,try,while},%
+    %
+    % Built-ins
+    morekeywords=[2]{%
+    abs,all,any,basestring,bin,bool,bytearray,callable,chr,classmethod,cmp,compile,complex,delattr,dict,dir,divmod,enumerate,eval,execfile,file,filter,float,format,frozenset,getattr,globals,hasattr,hash,help,hex,id,input,int,isinstance,issubclass,iter,len,list,locals,long,map,max,memoryview,min,next,object,oct,open,ord,pow,property,range,raw_input,reduce,reload,repr,reversed,round,set,setattr,slice,sorted,staticmethod,str,sum,super,tuple,type,unichr,unicode,vars,xrange,zip,apply,buffer,coerce,intern},%
+    %
+    sensitive=true,%
+    morecomment=[l]\#,%
+    morestring=[b]',%
+    morestring=[b]",%
+    %
+    morestring=[s]{'''}{'''},% used for documentation text (mulitiline strings)
+    morestring=[s]{"""}{"""},% added by Philipp Matthias Hahn
+    %
+    morestring=[s]{r'}{'},% `raw' strings
+    morestring=[s]{r"}{"},%
+    morestring=[s]{r'''}{'''},%
+    morestring=[s]{r"""}{"""},%
+    morestring=[s]{u'}{'},% unicode strings
+    morestring=[s]{u"}{"},%
+    morestring=[s]{u'''}{'''},%
+    morestring=[s]{u"""}{"""},%
+    %
+    % {replace}{replacement}{lenght of replace}
+    % *{-}{-}{1} will not replace in comments and so on
+    literate=%
+    {á}{{\'a}}1 {é}{{\'e}}1 {í}{{\'i}}1 {ó}{{\'o}}1 {ú}{{\'u}}1%
+    {Á}{{\'A}}1 {É}{{\'E}}1 {Í}{{\'I}}1 {Ó}{{\'O}}1 {Ú}{{\'U}}1%
+    {à}{{\`a}}1 {è}{{\`e}}1 {ì}{{\`i}}1 {ò}{{\`o}}1 {ù}{{\`u}}1%
+    {À}{{\`A}}1 {È}{{\'E}}1 {Ì}{{\`I}}1 {Ò}{{\`O}}1 {Ù}{{\`U}}1%
+    {ä}{{\"a}}1 {ë}{{\"e}}1 {ï}{{\"i}}1 {ö}{{\"o}}1 {ü}{{\"u}}1%
+    {Ä}{{\"A}}1 {Ë}{{\"E}}1 {Ï}{{\"I}}1 {Ö}{{\"O}}1 {Ü}{{\"U}}1%
+    {â}{{\^a}}1 {ê}{{\^e}}1 {î}{{\^i}}1 {ô}{{\^o}}1 {û}{{\^u}}1%
+    {Â}{{\^A}}1 {Ê}{{\^E}}1 {Î}{{\^I}}1 {Ô}{{\^O}}1 {Û}{{\^U}}1%
+    {œ}{{\oe}}1 {Œ}{{\OE}}1 {æ}{{\ae}}1 {Æ}{{\AE}}1 {ß}{{\ss}}1%
+    {ç}{{\c c}}1 {Ç}{{\c C}}1 {ø}{{\o}}1 {å}{{\r a}}1 {Å}{{\r A}}1%
+    {€}{{\EUR}}1 {£}{{\pounds}}1%
+    %
+    {^}{{{\color{ipython_purple}\^{}}}}1%
+    {=}{{{\color{ipython_purple}=}}}1%
+    %
+    {+}{{{\color{ipython_purple}+}}}1%
+    {*}{{{\color{ipython_purple}$^\ast$}}}1%
+    {/}{{{\color{ipython_purple}/}}}1%
+    %
+    {+=}{{{+=}}}1%
+    {-=}{{{-=}}}1%
+    {*=}{{{$^\ast$=}}}1%
+    {/=}{{{/=}}}1,%
+    literate=%
+    *{-}{{{\color{ipython_purple}-}}}1,%
+    %
+    identifierstyle=\color{black}\ttfamily,%
+    commentstyle=\color{ipython_cyan}\ttfamily,%
+    stringstyle=\color{ipython_red}\ttfamily,%
+    keepspaces=true,%
+    showspaces=false,%
+    showstringspaces=false,%
+    %
+    rulecolor=\color{ipython_frame},%
+    frame=single,%
+    frameround={t}{t}{t}{t},%
+    framexleftmargin=6mm,%
+    numbers=left,%
+    numberstyle=\tiny\color{halfgray},%
+    %
+    %
+    backgroundcolor=\color{ipython_bg},%
+    %   extendedchars=true,
+    basicstyle=\scriptsize,%
+    keywordstyle=\color{ipython_green}\ttfamily,%
+    escapechar=\¢,escapebegin=\color{ipython_green},%
+}%
+%
+\definecolor{lstCol_JS_violet}{named}{eclipse_keyword_2_violet}%
+\definecolor{lstCol_JS_purple}{named}{eclipse_keyword_2_purple}%
+\definecolor{lstCol_JS_blue}{named}{eclipse_keyword_2_blue}%
+\definecolor{lstCol_JS_blue2}{named}{eclipse_keyword_1_blue}%
+\definecolor{lstCol_JS_red}{named}{eclipse_keyword_2_red}%
+\definecolor{lstCol_JS_green}{named}{eclipse_keyword_2_green}%
+\definecolor{lstCol_JS_function}{named}{lstCol_JS_violet}%
+\lstdefinelanguage{DenKr-JavaScript}{%
+    keywords={%Basic Keywords. If, void, ...
+        break, case, catch, continue, debugger, default, delete, do, else, finally, for, if, in, of, instanceof, new, return, switch, throw, try, typeof, var, void, while, with, let
+    },%
+	morekeywords=[2]{%Predefined Library-Functions
+        function,
+        send, recv, new, delete
+    },%
+	morekeywords=[4]{%Types, Objects and related
+    	class, export, boolean, throw, implements, import, this, extends
+    },%
+	morekeywords=[6]{%Operators. each, constructor,
+    	each, constructor
+    },%
+	morekeywords=[7]{%Various Keywords
+        null, String, true, false
+    },%
+    morecomment=[l]{//},%
+    morecomment=[s]{/*}{*/},%
+    morestring=[b]',%
+    morestring=[b]",%
+    keywordstyle=\color{lstCol_JS_blue}\bfseries,%
+    keywordstyle=[2]\color{lstCol_JS_violet}\bfseries,%
+    keywordstyle=[4]\color{lstCol_JS_blue2}\bfseries,%
+    keywordstyle=[6]\color{lstCol_JS_red}\bfseries,%
+    keywordstyle=[7]\color{lstCol_JS_purple}\bfseries,%
+    identifierstyle=\color{black},%
+    % commentstyle=\color{lstCol_JS_purple}\ttfamily,
+    commentstyle=\color{eclipse_1_comment}\ttfamily,%
+    stringstyle=\color{lstCol_JS_green}\ttfamily,%
+    sensitive=true%
+    keepspaces=true,%
+    showspaces=false,%
+    showstringspaces=false,%
+	tabsize=2,%
+    %
+    rulecolor=\color{ipython_frame},%
+    frame=single,%
+    frameround={t}{t}{t}{t},%
+    framexleftmargin=3mm,%
+    xleftmargin=3mm,%
+    numbers=left,%
+    numberstyle=\tiny\color{halfgray},%
+    %
+    backgroundcolor=\color{ipython_bg},%
+    basicstyle=\scriptsize,%
+}%
+%/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+%							Listings Done
+%------------------------------------------------------------------------
+%________________________________________________________________________
+%
+%
+%
+%
+%
+%________________________________________________________________________
+%------------------------------------------------------------------------
+%			Some commands for custom Formatting inside a listing
+%/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+%- - For Code in "C" formatted like Eclipse
+\newcommand{\lsthighl}[1]{{\color{red}\bfseries\escapeus{#1}}}%Highlighting in red (e.g. for Pseudo-Code)
+\newcommand{\lstfuncdeclplain}[1]{{\bfseries\escapeus{#1}}}%Formats only Bold. Might also be viable for Function-Declaration
+%------------------------------------------
+%- - For Code in "C" formatted like Eclipse
+\newcommand{\lstCbasic}[1]{{\color{lstCol_C_purple}\bfseries\escapeus{#1}}}%Basic Keywords. If, return, while, int, void
+\newcommand{\lstCfunclib}[1]{{\color{lstCol_C_violet}\bfseries\escapeus{#1}}}%Function from a predefined Library
+\newcommand{\lstCfuncdecl}[1]{{\color{lstCol_C_purple}\bfseries\escapeus{#1}}}%Formats like predefined Library-Functions (but with slightly divergent Color). Might also look good on Function-Declaration
+\newcommand{\lstCfunc}[1]{{\color{lstCol_C_purple}\escapeus{#1}}}%Any Function-Call of a self-declared Function
+\newcommand{\lstCtype}[1]{{\color{lstCol_C_green}\escapeus{#1}}}%For self-defined types, struct, enum
+\newcommand{\lstCmember}[1]{{\color{lstCol_C_blue}\escapeus{#1}}}%Collection-Members, like struct
+\newcommand{\lstCbasicalike}[1]{{\color{lstCol_C_purple}\escapeus{#1}}}%Special-Keywords. Like Basic, but not bold.
+\newcommand{\lstClibalike}[1]{{\color{lstCol_C_violet}\escapeus{#1}}}%Special-Keywords. Like Basic, but not bold.
+\newcommand{\lstCcomment}[1]{{\color{eclipse_1_comment}\itshape\escapeus{#1}}}%Like a Comment, without the need to add the Comment-Symbols
+% - - For some additional "Pseudo-Code" part within a C-alike Listing:
+\newcommand{\lstCforeignA}[1]{{\color{lstCol_C_foreign1}\bfseries\escapeus{#1}}}%like each
+\newcommand{\lstCforeignB}[1]{{\color{lstCol_C_foreign2}\bfseries\escapeus{#1}}}% like of, in, let, def
+\newcommand{\lstCobject}[1]{{\color{lstCol_C_object}\escapeus{#1}}}%Object-related, like Class, Object
+\newcommand{\lstCspecial}[1]{{\color{lstCol_C_moreKey}\escapeus{#1}}}%Some more Special Words, like true, false, this
+% - - Some Symbols
+\newcommand{\lstCCommentSlash}{/\ /\ }%Formats a "Double-Slash aka Line-Comment" (//) like Listings would do. I.e. in the main-Font, but monospaced
+%------------------------------------------
+%- - For Code in "Python" formatted like Eclipse
+%   ToDo
+\newcommand{\lstPYbasic}[1]{{\color{red}\bfseries\escapeus{#1}}}%Basic Keywords. If, return, while, int, void
+\newcommand{\lstPYfunclib}[1]{{\color{red}\bfseries\escapeus{#1}}}%Function from a predefined Library
+\newcommand{\lstPYfuncdecl}[1]{{\color{red}\bfseries\escapeus{#1}}}%Formats like predefined Library-Functions. Might also look good on Function-Declaration
+\newcommand{\lstPYfunc}[1]{{\color{red}\escapeus{#1}}}%Any Function-Call of a self-declared Function
+\newcommand{\lstPYtype}[1]{{\color{red}\escapeus{#1}}}%For self-defined types, struct, enum
+\newcommand{\lstPYmember}[1]{{\color{red}\escapeus{#1}}}%Collection-Members, like struct
+\newcommand{\lstPYbasicalike}[1]{{\color{red}\escapeus{#1}}}%Special-Keywords. Like Basic, but not bold.
+\newcommand{\lstPYlibalike}[1]{{\color{red}\escapeus{#1}}}%Special-Keywords. Like Basic, but not bold.
+\newcommand{\lsPYCcomment}[1]{{\color{red}\itshape\escapeus{#1}}}%Like a Comment, without the need to add the Comment-Symbols
+%------------------------------------------
+%- - For Code in "JavaScript" formatted like Eclipse
+\newcommand{\lstJSbasic}[1]{{\color{lstCol_JS_blue}\bfseries\escapeus{#1}}}%Basic Keywords. If, return, while, int, void
+\newcommand{\lstJSfunclib}[1]{{\color{lstCol_JS_purple}\bfseries\escapeus{#1}}}%Function from a predefined Library
+\newcommand{\lstJSfuncdecl}[1]{{\color{lstCol_JS_function}\bfseries\escapeus{#1}}}%Formats like predefined Library-Functions. Might also look good on Function-Declaration
+\newcommand{\lstJSfunc}[1]{{\color{lstCol_JS_function}\escapeus{#1}}}%Any Function-Call of a self-declared Function
+\newcommand{\lstJStype}[1]{{\color{lstCol_JS_blue2}\escapeus{#1}}}%Types, Objects and related
+\newcommand{\lstJSkey}[1]{{\color{lstCol_JS_red}\escapeus{#1}}}%Like specific Keywords. each, constructor, ...
+\newcommand{\lstJSbasicalike}[1]{{\color{lstCol_JS_blue}\escapeus{#1}}}%Special-Keywords. Like Basic, but not bold.
+\newcommand{\lstJSlibalike}[1]{{\color{lstCol_JS_violet}\escapeus{#1}}}%Special-Keywords. Like Basic, but not bold.
+\newcommand{\lstJScomment}[1]{{\color{eclipse_1_comment}\ttfamily\escapeus{#1}}}%Like a Comment, without the need to add the Comment-Symbols
+%/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+%			Cmds Done
+%------------------------------------------------------------------------
+%________________________________________________________________________
+%
+%
+%
+%
+%
+%________________________________________________________________________
+%------------------------------------------------------------------------
+%            USAGE Instructions
+%/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+% Some Instructions on how to properly format a Listing.
+% The Problem to solve:
+%  - Standard Keywords are actually by itself properly formatted, like 'main', 'int', etc.
+%     -> What is automatically detected as such a keyword depends on the specified language at Listing-Inclusion
+%  - But of course, it cannot detect arbitrary functions-names, you defined, or typedefs, ...
+% To have them still nicely formatted, I provide two methods (Examples below):
+%  1) Just define them as "morekeywords" for their fitting category, on the \lstinputlisting
+%  2) Manual formatting. This would be done per word directly in the listing.
+%     In principle, you "escape-to-LaTeX" via a special escape-character. In my setup, I defined this to be '¢'. Everything between two of these, is treated as standard LaTeX, so you can format it.
+%     To make that easier, use the Commands, defined above.
+%------------------------------------------------------------------------
+%= = 1)   = = = = = = = =
+%    \lstinputlisting[language=DenKr-C,label=lst:ecs,%
+%        caption={ECS code snippet},%
+%        morekeywords={[1]{void}},%Basic Keywords. If, return, int, void
+%        morekeywords={[2]{memcpy}},%Predefined Library-Functions
+%        morekeywords={[3]{some_function}},%Function-Calls
+%        morekeywords={[4]{PluginManager}},%Typedefed, Names of Struct, Enum, ...
+%        morekeywords={[5]{structMember}},%Collection-Members
+%        morekeywords={[7]{ReddishPurple}},%Special Keywords. Like Basic, but not bold.
+%        morekeywords={[8]{BlueishViolet}},%Special Keywords. Like Library-Func, but not bold.
+%        morekeywords={[9]{plugman_init}},%Highlighting in Red (Pseudo-Code)
+%    ]{\DenKrGraphicsRootDir/ecs.cpp}%
+%
+%
+%= = 2)   = = = = = = = =
+%     Directly in the listing-File, e.g.:
+%           ¢\lstfunc{some_function}¢(argc, argv);
+%/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+%			Usage Done
+%------------------------------------------------------------------------
+%________________________________________________________________________

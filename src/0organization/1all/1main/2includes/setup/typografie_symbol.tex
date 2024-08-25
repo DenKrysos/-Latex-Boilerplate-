@@ -1,0 +1,505 @@
+%==========================
+%  Defining some Symbols
+%--------------------------
+%  Handy, e.g. for using as Delimiters in Heading
+% - - - - - - - - - - - - -
+% An Asterisk (Star) to be vertically nicely aligned
+\newcommand*{\DenKrKomaHeadingAsteriskChar}{{\small$\mathrm{\ast}$}}%
+\newlength{\DenKrKomaHeadingAsteriskRaise}%
+\setlength{\DenKrKomaHeadingAsteriskRaise}{\heightof{\vphantom{H}}-\heightof{\DenKrKomaHeadingAsteriskChar}}%
+\setlength{\DenKrKomaHeadingAsteriskRaise}{0.5\DenKrKomaHeadingAsteriskRaise}%
+\newcommand*{\DenKrKomaHeadingAsterisk}{\raisebox{\DenKrKomaHeadingAsteriskRaise}{\DenKrKomaHeadingAsteriskChar}}%
+%
+%
+%
+%--------------------------
+%  "Pointing-alike" Symbols
+% - - - - - - - - - - - - -
+\newcommand*{\DenKrKomaHeadingPointRightAChar}{%
+    \tikz[baseline]{%
+        \coordinate(LB)at(0,0);%
+        \coordinate(LT)at($(LB)+(0,1.3ex)$);%
+        \coordinate(RC)at($(LB)!.5!(LT)+(0.6em,0)$);%
+        % \coordinate(RT)at($(0,0)+(3ex,1.8ex)+(45:0.8ex)$);%
+        \path[draw,line cap=round,line join=miter,line width=0.2ex](LB)%
+            to[out=60,in=200]%
+        (RC)%
+            to[in=-60,out=160]%
+        (LT);%
+    }%
+}%
+\newlength{\DenKrKomaHeadingPointRightARaise}%
+\setlength{\DenKrKomaHeadingPointRightARaise}{\heightof{\vphantom{H}}-\heightof{\DenKrKomaHeadingPointRightAChar}}%
+\setlength{\DenKrKomaHeadingPointRightARaise}{0.5\DenKrKomaHeadingPointRightARaise}%
+\newcommand*{\DenKrKomaHeadingPointRightAVertC}{\raisebox{\DenKrKomaHeadingPointRightARaise}{\DenKrKomaHeadingPointRightAChar}}%
+\newcommand*{\DenKrKomaHeadingPointRightA}{\raisebox{0.2ex}{\DenKrKomaHeadingPointRightAChar}}%
+%
+%
+%
+\newcommand*{\DenKrKomaHeadingPointRightBChar}{%
+    \tikz[baseline]{%
+        \coordinate(LB)at(0,0);%
+        \coordinate(LT)at($(LB)+(0,1.2ex)$);% 1.8ex
+        \coordinate(RC)at($(LB)!.7!(LT)+(0.7em,0)$);%
+        % \coordinate(RT)at($(0,0)+(3ex,1.8ex)+(45:0.8ex)$);%
+        \path[draw,line cap=round,line join=miter,line width=0.2ex](LB)%
+            to[out=65,in=195]%
+        (RC)%
+            --%
+        (LT);%
+    }%
+}%
+\newlength{\DenKrKomaHeadingPointRightBRaise}%
+\setlength{\DenKrKomaHeadingPointRightBRaise}{\heightof{\vphantom{H}}-\heightof{\DenKrKomaHeadingPointRightBChar}}%
+\setlength{\DenKrKomaHeadingPointRightBRaise}{0.5\DenKrKomaHeadingPointRightBRaise}%
+\newcommand*{\DenKrKomaHeadingPointRightBVertC}{\raisebox{\DenKrKomaHeadingPointRightBRaise}{\DenKrKomaHeadingPointRightBChar}}%
+\newcommand*{\DenKrKomaHeadingPointRightB}{\raisebox{0.2ex}{\DenKrKomaHeadingPointRightBChar}}%
+%
+%
+%
+%--------------------------
+%  Some curvated, Tilde-alike Symbols
+% - - - - - - - - - - - - -
+\newcommand{\DenKrKomaHeadingTildeWidth}{0.7em}%
+\newcommand{\DenKrKomaHeadingTildeLinewidth}{0.1*\DenKrKomaHeadingTildeWidth}%
+\newcommand{\DenKrKomaHeadingTildeHeight}{0.7*\DenKrKomaHeadingTildeWidth}%
+\newcommand{\DenKrKomaHeadingTildePlateau}{0.25*\DenKrKomaHeadingTildeWidth}%
+\newcommand{\DenKrKomaHeadingTildeAngleOut}{80}%
+\newcommand{\DenKrKomaHeadingTildeAngleIn}{0}%
+\newcommand*{\DenKrKomaHeadingTildeUpChar}{\tikz{%
+    \path[draw,line cap=round,line width=\DenKrKomaHeadingTildeLinewidth]%
+    (0,0)%
+        to[out=\DenKrKomaHeadingTildeAngleOut,in=180+\DenKrKomaHeadingTildeAngleIn]%
+    ++(0.5*\DenKrKomaHeadingTildeWidth-0.5*\DenKrKomaHeadingTildePlateau,0.5*\DenKrKomaHeadingTildeHeight)%
+        --%
+    ++(\DenKrKomaHeadingTildePlateau,0)%
+        to[in=180+\DenKrKomaHeadingTildeAngleOut,out=\DenKrKomaHeadingTildeAngleIn]%
+    (\DenKrKomaHeadingTildeWidth,\DenKrKomaHeadingTildeHeight)%
+    ;%
+}}%
+\newlength{\DenKrKomaHeadingTildeUpRaise}%
+\setlength{\DenKrKomaHeadingTildeUpRaise}{\heightof{\vphantom{H}}-\heightof{\DenKrKomaHeadingTildeUpChar}}%
+\setlength{\DenKrKomaHeadingTildeUpRaise}{0.5\DenKrKomaHeadingTildeUpRaise}%
+\newcommand*{\DenKrKomaHeadingTildeUp}{\raisebox{\DenKrKomaHeadingTildeUpRaise}{\DenKrKomaHeadingTildeUpChar}}%
+%
+\newcommand*{\DenKrKomaHeadingTildeUpRotateChar}{\rotatebox{90}{\DenKrKomaHeadingTildeUpChar}}%
+\newlength{\DenKrKomaHeadingTildeUpRotateRaise}%
+\setlength{\DenKrKomaHeadingTildeUpRotateRaise}{\heightof{\vphantom{H}}-\heightof{\DenKrKomaHeadingTildeUpRotateChar}}%
+\setlength{\DenKrKomaHeadingTildeUpRotateRaise}{0.5\DenKrKomaHeadingTildeUpRotateRaise}%
+\newcommand*{\DenKrKomaHeadingTildeUpRotate}{\raisebox{\DenKrKomaHeadingTildeUpRotateRaise}{\DenKrKomaHeadingTildeUpRotateChar}}%
+%
+%
+%
+%
+\newcommand*{\DenKrKomaHeadingTildeDownChar}{\tikz{%
+    \path[draw,line cap=round,line width=\DenKrKomaHeadingTildeLinewidth]%
+    (0,\DenKrKomaHeadingTildeHeight)%
+        to[out=-\DenKrKomaHeadingTildeAngleOut,in=180-\DenKrKomaHeadingTildeAngleIn]%
+    ++(0.5*\DenKrKomaHeadingTildeWidth-0.5*\DenKrKomaHeadingTildePlateau,-0.5*\DenKrKomaHeadingTildeHeight)%
+        --%
+    ++(\DenKrKomaHeadingTildePlateau,0)%
+        to[in=180-\DenKrKomaHeadingTildeAngleOut,out=-\DenKrKomaHeadingTildeAngleIn]%
+    (\DenKrKomaHeadingTildeWidth,0)%
+    ;%
+}}%
+\newlength{\DenKrKomaHeadingTildeDownRaise}%
+\setlength{\DenKrKomaHeadingTildeDownRaise}{\heightof{\vphantom{H}}-\heightof{\DenKrKomaHeadingTildeDownChar}}%
+\setlength{\DenKrKomaHeadingTildeDownRaise}{0.5\DenKrKomaHeadingTildeDownRaise}%
+\newcommand*{\DenKrKomaHeadingTildeDown}{\raisebox{\DenKrKomaHeadingTildeDownRaise}{\DenKrKomaHeadingTildeDownChar}}%
+%
+\newcommand*{\DenKrKomaHeadingTildeDownRotateChar}{\rotatebox{90}{\DenKrKomaHeadingTildeDownChar}}%
+\newlength{\DenKrKomaHeadingTildeDownRotateRaise}%
+\setlength{\DenKrKomaHeadingTildeDownRotateRaise}{\heightof{\vphantom{H}}-\heightof{\DenKrKomaHeadingTildeDownRotateChar}}%
+\setlength{\DenKrKomaHeadingTildeDownRotateRaise}{0.5\DenKrKomaHeadingTildeDownRotateRaise}%
+\newcommand*{\DenKrKomaHeadingTildeDownRotate}{\raisebox{\DenKrKomaHeadingTildeDownRotateRaise}{\DenKrKomaHeadingTildeDownRotateChar}}%
+%
+%
+%
+%
+\newcommand*{\DenKrKomaHeadingTildeCrossChar}{\tikz{%
+    \path[draw,line cap=round,line width=\DenKrKomaHeadingTildeLinewidth]%
+    (0,0)%
+        to[out=\DenKrKomaHeadingTildeAngleOut,in=180+\DenKrKomaHeadingTildeAngleIn]%
+    ++(0.5*\DenKrKomaHeadingTildeWidth-0.5*\DenKrKomaHeadingTildePlateau,0.5*\DenKrKomaHeadingTildeHeight)%
+        --%
+    ++(\DenKrKomaHeadingTildePlateau,0)%
+        to[in=180+\DenKrKomaHeadingTildeAngleOut,out=\DenKrKomaHeadingTildeAngleIn]%
+    (\DenKrKomaHeadingTildeWidth,\DenKrKomaHeadingTildeHeight)%
+    (0,\DenKrKomaHeadingTildeHeight)%
+        to[out=-\DenKrKomaHeadingTildeAngleOut,in=180-\DenKrKomaHeadingTildeAngleIn]%
+    ++(0.5*\DenKrKomaHeadingTildeWidth-0.5*\DenKrKomaHeadingTildePlateau,-0.5*\DenKrKomaHeadingTildeHeight)%
+        --%
+    ++(\DenKrKomaHeadingTildePlateau,0)%
+        to[in=180-\DenKrKomaHeadingTildeAngleOut,out=-\DenKrKomaHeadingTildeAngleIn]%
+    (\DenKrKomaHeadingTildeWidth,0)%
+    ;%
+}}%
+\newlength{\DenKrKomaHeadingTildeCrossRaise}%
+\setlength{\DenKrKomaHeadingTildeCrossRaise}{\heightof{\vphantom{H}}-\heightof{\DenKrKomaHeadingTildeCrossChar}}%
+\setlength{\DenKrKomaHeadingTildeCrossRaise}{0.5\DenKrKomaHeadingTildeCrossRaise}%
+\newcommand*{\DenKrKomaHeadingTildeCross}{\raisebox{\DenKrKomaHeadingTildeCrossRaise}{\DenKrKomaHeadingTildeCrossChar}}%
+%
+\newcommand*{\DenKrKomaHeadingTildeCrossRotateChar}{\rotatebox{90}{\DenKrKomaHeadingTildeCrossChar}}%
+\newlength{\DenKrKomaHeadingTildeCrossRotateRaise}%
+\setlength{\DenKrKomaHeadingTildeCrossRotateRaise}{\heightof{\vphantom{H}}-\heightof{\DenKrKomaHeadingTildeCrossRotateChar}}%
+\setlength{\DenKrKomaHeadingTildeCrossRotateRaise}{0.5\DenKrKomaHeadingTildeCrossRotateRaise}%
+\newcommand*{\DenKrKomaHeadingTildeCrossRotate}{\raisebox{\DenKrKomaHeadingTildeCrossRotateRaise}{\DenKrKomaHeadingTildeCrossRotateChar}}%
+%
+%
+%
+%
+\newcommand*{\DenKrKomaHeadingTildeDoubleChar}{\tikz{%
+    \path[draw,line cap=round,line width=\DenKrKomaHeadingTildeLinewidth]%
+    (0,0)%
+        to[out=\DenKrKomaHeadingTildeAngleOut,in=180+\DenKrKomaHeadingTildeAngleIn]%
+    ++(0.5*\DenKrKomaHeadingTildeWidth-0.5*\DenKrKomaHeadingTildePlateau,0.5*\DenKrKomaHeadingTildeHeight-0.2*\DenKrKomaHeadingTildeLinewidth)%
+        --%
+    ++(\DenKrKomaHeadingTildePlateau,0)%
+        to[in=180-\DenKrKomaHeadingTildeAngleOut,out=-\DenKrKomaHeadingTildeAngleIn]%
+    (\DenKrKomaHeadingTildeWidth,0)%
+    (0,\DenKrKomaHeadingTildeHeight)%
+        to[out=-\DenKrKomaHeadingTildeAngleOut,in=180-\DenKrKomaHeadingTildeAngleIn]%
+    ++(0.5*\DenKrKomaHeadingTildeWidth-0.5*\DenKrKomaHeadingTildePlateau,-0.5*\DenKrKomaHeadingTildeHeight+0.2*\DenKrKomaHeadingTildeLinewidth)%
+        --%
+    ++(\DenKrKomaHeadingTildePlateau,0)%
+        to[in=180+\DenKrKomaHeadingTildeAngleOut,out=\DenKrKomaHeadingTildeAngleIn]%
+    (\DenKrKomaHeadingTildeWidth,\DenKrKomaHeadingTildeHeight)%
+    ;%
+}}%
+\newlength{\DenKrKomaHeadingTildeDoubleRaise}%
+\setlength{\DenKrKomaHeadingTildeDoubleRaise}{\heightof{\vphantom{H}}-\heightof{\DenKrKomaHeadingTildeDoubleChar}}%
+\setlength{\DenKrKomaHeadingTildeDoubleRaise}{0.5\DenKrKomaHeadingTildeDoubleRaise}%
+\newcommand*{\DenKrKomaHeadingTildeDouble}{\raisebox{\DenKrKomaHeadingTildeDoubleRaise}{\DenKrKomaHeadingTildeDoubleChar}}%
+%
+\newcommand*{\DenKrKomaHeadingTildeDoubleRotateChar}{\rotatebox{90}{\DenKrKomaHeadingTildeDoubleChar}}%
+\newlength{\DenKrKomaHeadingTildeDoubleRotateRaise}%
+\setlength{\DenKrKomaHeadingTildeDoubleRotateRaise}{\heightof{\vphantom{H}}-\heightof{\DenKrKomaHeadingTildeDoubleRotateChar}}%
+\setlength{\DenKrKomaHeadingTildeDoubleRotateRaise}{0.5\DenKrKomaHeadingTildeDoubleRotateRaise}%
+\newcommand*{\DenKrKomaHeadingTildeDoubleRotate}{\raisebox{\DenKrKomaHeadingTildeDoubleRotateRaise}{\DenKrKomaHeadingTildeDoubleRotateChar}}%
+%
+%
+%
+%--------------------------
+%  Rope- and Barock-Cross-alike Symbols
+% - - - - - - - - - - - - -
+\newcommand{\DenKrKomaHeadingRopeLineWidth}{0.1em}
+\newcommand*{\DenKrKomaHeadingRopeAChar}{\tikz{%
+    \coordinate(crossRef)at(0,0);%
+    \path let\p1=(0.7em,0.4em),\p2=(\x1,\y1)in%
+        coordinate(crossC)at($(crossRef)+(\x1,\y1)$)%
+        coordinate(crossLB)at($(crossC)+(-\x2,-\y2)$)%
+        coordinate(crossRT)at($(crossC)+(\x1,\y1)$)%
+        coordinate(crossLT)at($(crossC)+(-\x1,\y1)$)%
+        coordinate(crossRB)at($(crossC)+(\x2,-\y2)$)%
+    ;%
+    \path[draw,line width=\DenKrKomaHeadingRopeLineWidth,line cap=round,line join=round]%
+        let\n1={70},\n2={70},\n3={-60}in%
+    (crossLB)%
+        to[out=\n1,in=180+\n3]%
+        (crossC)%
+        to[in=180+\n2,out=\n3]%
+        (crossRT)%
+    (crossLT)%
+        % to[out=-30,in=170]%
+        %
+        to[out=-\n2,in=180-\n3]%
+        (crossC)%
+        to[in=180-\n1,out=-\n3]%
+        (crossRB)%
+    ;%
+}}%
+%
+\newcommand*{\DenKrKomaHeadingRopeBChar}{\tikz{%
+    \coordinate(crossRef)at(0,0);%
+    \path let\p1=(0.7em,0.4em),\p2=(\x1,\y1)in%
+        coordinate(crossC)at($(crossRef)+(\x1,\y1)$)%
+        coordinate(crossLB)at($(crossC)+(-\x2,-\y2)$)%
+        coordinate(crossRT)at($(crossC)+(\x1,\y1)$)%
+        coordinate(crossLT)at($(crossC)+(-\x1,\y1)$)%
+        coordinate(crossRB)at($(crossC)+(\x2,-\y2)$)%
+    ;%
+    \path[draw,line width=\DenKrKomaHeadingRopeLineWidth,line cap=round,line join=round]%
+        let\n1={70},\n2={70},\n3={-60}in%
+    (crossLB)%
+        to[out=\n1,in=180+\n3]%
+        (crossC)%
+        to[in=180+\n2,out=\n3]%
+        (crossRT)%
+    (crossLT)%
+        % to[out=-30,in=170]%
+        %
+        to[out=-\n2,in=180-\n3]%
+        (crossC)%
+        to[in=180-\n1,out=-\n3]%
+        (crossRB)%
+    ;%
+    %
+    \path let\p1=(0.08em,0.4em),\p2=(4em,0.08em)in%
+        coordinate(c1T)at($(crossC)+(0,\y1)$)%
+        coordinate(c1TL)at($(crossC)+(-\x1,0.3*\y1)$)%
+        coordinate(c1TR)at($(crossC)+(\x1,0.3*\y1)$)%
+        coordinate(c1B)at($(crossC)+(0,-\y1)$)%
+        coordinate(c1BL)at($(crossC)+(-\x1,-0.4*\y1)$)%
+        coordinate(c1BR)at($(crossC)+(\x1,-0.4*\y1)$)%
+    ;%
+    \path[draw=none,fill,line width=0pt,line cap=round,line join=round]%
+        let\n1={40},\n2={0}in%
+    (crossC)%
+        to[out=90+\n1,in=270+\n2]%
+        (c1TL)%
+        to[in=270-\n1,out=90-\n2]%
+        (c1T)%
+        to[out=270+\n1,in=90+\n2]%
+        (c1TR)%
+        to[in=90-\n1,out=270-\n2]%
+        cycle%
+    (crossC)%
+        to[out=270-\n1,in=90-\n2]%
+        (c1BL)%
+        to[in=90+\n1,out=270+\n2]%
+        (c1B)%
+        to[out=90-\n1,in=270-\n2]%
+        (c1BR)%
+        to[in=270+\n1,out=90+\n2]%
+        cycle%
+    ;%
+}}%
+%
+\newcommand*{\DenKrKomaHeadingRopeCChar}{\tikz{%
+    \coordinate(crossRef)at(0,0);%
+    \path let\p1=(0.7em,0.4em),\p2=(\x1,\y1)in%
+        coordinate(crossC)at($(crossRef)+(\x1,\y1)$)%
+        coordinate(crossLB)at($(crossC)+(-\x2,-\y2)$)%
+        coordinate(crossRT)at($(crossC)+(\x1,\y1)$)%
+        coordinate(crossLT)at($(crossC)+(-\x1,\y1)$)%
+        coordinate(crossRB)at($(crossC)+(\x2,-\y2)$)%
+    ;%
+    \path[draw,line width=\DenKrKomaHeadingRopeLineWidth,line cap=round,line join=round]%
+        let\n1={70},\n2={70},\n3={-60}in%
+    (crossLB)%
+        to[out=\n1,in=180+\n3]%
+        (crossC)%
+        to[in=180+\n2,out=\n3]%
+        (crossRT)%
+    (crossLT)%
+        % to[out=-30,in=170]%
+        %
+        to[out=-\n2,in=180-\n3]%
+        (crossC)%
+        to[in=180-\n1,out=-\n3]%
+        (crossRB)%
+    ;%
+    %
+    \path let\p1=(0.08em,0.4em),\n1={0.4}in%
+        coordinate(c1T)at($(crossC)+(0,\y1)$)%
+        coordinate(c1L)at($(crossC)+(-\x1,0)$)%
+        coordinate(c1R)at($(crossC)+(\x1,0)$)%
+        coordinate(c1B)at($(crossC)+(0,-\y1)$)%
+        %
+        coordinate(c1TL)at($(crossC)+(-\x1,\n1*\y1)$)%
+        coordinate(c1TR)at($(crossC)+(\x1,\n1*\y1)$)%
+        coordinate(c1BL)at($(crossC)+(-\x1,-\n1*\y1)$)%
+        coordinate(c1BR)at($(crossC)+(\x1,-\n1*\y1)$)%
+    ;%
+    \path[draw=none,fill,line width=0pt,line cap=round,line join=round]%
+        let\n1={40},\n2={20}in%
+    (c1T)%
+        to[out=270+\n1,in=90+\n2]%
+        (c1TR)
+        to[out=270-\n2,in=90+\n2]%
+        (c1R)%
+        to[in=90+\n2,out=270-\n2]%
+        (c1BR)%
+        to[in=90-\n1,out=270-\n2]%
+        (c1B)%
+        to[out=90+\n1,in=270+\n2]%
+        (c1BL)%
+        to[out=90-\n2,in=270+\n2]%
+        (c1L)%
+        to[in=270+\n2,out=90-\n2]%
+        (c1TL)%
+        to[in=270-\n1,out=90-\n2]%
+        cycle%
+    ;%
+}}%
+%
+\newcommand*{\DenKrKomaHeadingBarockCrossAChar}{\tikz{%
+    \coordinate(crossRef)at(0,0);%
+    \path let\p1=(0.075em,0.4em),\p2=(0.8em,0.075em)in%
+        coordinate(crossC)at($(crossRef)+(\x2,\y1)$)%
+        coordinate(c1T)at($(crossC)+(0,\y1)$)%
+        coordinate(c1TL)at($(crossC)+(-\x1,0.3*\y1)$)%
+        coordinate(c1TR)at($(crossC)+(\x1,0.3*\y1)$)%
+        coordinate(c1B)at($(crossC)+(0,-\y1)$)%
+        coordinate(c1BL)at($(crossC)+(-\x1,-0.4*\y1)$)%
+        coordinate(c1BR)at($(crossC)+(\x1,-0.4*\y1)$)%
+        %
+        coordinate(c2L)at($(crossC)+(-\x2,0)$)%
+        coordinate(c2LT)at($(crossC)+(-0.5*\x2,\y2)$)%
+        coordinate(c2LB)at($(crossC)+(-0.5*\x2,-\y2)$)%
+        coordinate(c2R)at($(crossC)+(\x2,0)$)%
+        coordinate(c2RT)at($(crossC)+(0.5*\x2,\y2)$)%
+        coordinate(c2RB)at($(crossC)+(0.5*\x2,-\y2)$)%
+    ;%
+    \path[draw=none,fill,line width=\DenKrKomaHeadingRopeLineWidth,line cap=round,line join=round]%
+        let\n1={40},\n2={0}, \n3={20},\n4={15}in%
+    (crossC)%
+        to[out=90+\n1,in=270+\n2]%
+        (c1TL)%
+        to[in=270-\n1,out=90-\n2]%
+        (c1T)%
+        to[out=270+\n1,in=90+\n2]%
+        (c1TR)%
+        to[in=90-\n1,out=270-\n2]%
+        cycle%
+    (crossC)%
+        to[out=270-\n1,in=90-\n2]%
+        (c1BL)%
+        to[in=90+\n1,out=270+\n2]%
+        (c1B)%
+        to[out=90-\n1,in=270-\n2]%
+        (c1BR)%
+        to[in=270+\n1,out=90+\n2]%
+        cycle%
+    (crossC)%
+        to[out=180-\n3,in=0-\n4]%
+        (c2LT)%
+        to[in=0+\n3,out=180+\n4]%
+        (c2L)%
+        to[out=0-\n3,in=180-\n4]%
+        (c2LB)%
+        to[in=180+\n3,out=0+\n4]%
+        cycle%
+    (crossC)%
+        to[out=0+\n3,in=180+\n4]%
+        (c2RT)%
+        to[in=180-\n3,out=0-\n4]%
+        (c2R)%
+        to[out=180+\n3,in=0+\n4]%
+        (c2RB)%
+        to[in=0-\n3,out=180-\n4]%
+        cycle%
+    ;%
+}}%
+%
+\newcommand*{\DenKrKomaHeadingBarockCrossBChar}{\tikz{%
+    \coordinate(crossRef)at(0,0);%
+    \path let\p1=(0.075em,0.4em),\p2=(0.8em,0.075em), \n1={0.4},\n2={0.6}in%
+        coordinate(crossC)at($(crossRef)+(\x2,\y1)$)%
+        coordinate(c1T)at($(crossC)+(0,\y1)$)%
+        coordinate(c1L)at($(crossC)+(-\x1,0)$)%
+        coordinate(c1R)at($(crossC)+(\x1,0)$)%
+        coordinate(c1B)at($(crossC)+(0,-\y1)$)%
+        %
+        coordinate(c1TL)at($(crossC)+(-\x1,\n1*\y1)$)%
+        coordinate(c1TR)at($(crossC)+(\x1,\n1*\y1)$)%
+        coordinate(c1BL)at($(crossC)+(-\x1,-\n1*\y1)$)%
+        coordinate(c1BR)at($(crossC)+(\x1,-\n1*\y1)$)%
+        %
+        coordinate(c2L)at($(crossC)+(-\x2,0)$)%
+        coordinate(c2T)at($(crossC)+(0,\y2)$)%
+        coordinate(c2B)at($(crossC)+(0,-\y2)$)%
+        coordinate(c2R)at($(crossC)+(\x2,0)$)%
+        %
+        coordinate(c2LT)at($(crossC)+(-\n2*\x2,\y2)$)%
+        coordinate(c2LB)at($(crossC)+(-\n2*\x2,-\y2)$)%
+        coordinate(c2RT)at($(crossC)+(\n2*\x2,\y2)$)%
+        coordinate(c2RB)at($(crossC)+(\n2*\x2,-\y2)$)%
+    ;%
+    \path[draw=none,fill,line width=0pt,line cap=round,line join=round]%
+        let\n1={40},\n2={20}, \n3={20},\n4={5}in%
+    (c1T)%
+        to[out=270+\n1,in=90+\n2]%
+        (c1TR)%
+        to[out=270-\n2,in=90+\n2]%
+        (c1R)%
+        to[in=90+\n2,out=270-\n2]%
+        (c1BR)%
+        to[in=90-\n1,out=270-\n2]%
+        (c1B)%
+        to[out=90+\n1,in=270+\n2]%
+        (c1BL)%
+        to[out=90-\n2,in=270+\n2]%
+        (c1L)%
+        to[in=270+\n2,out=90-\n2]%
+        (c1TL)%
+        to[in=270-\n1,out=90-\n2]%
+        cycle%
+    (c2L)%
+        to[out=0+\n3,in=180+\n4]%
+        (c2LT)%
+        to[out=0-\n4,in=180+\n4]%
+        (c2T)%
+        to[out=0-\n4,in=180+\n4]%
+        (c2RT)%
+        to[in=180-\n3,out=0-\n4]%
+        (c2R)%
+        to[out=180+\n3,in=0+\n4]%
+        (c2RB)%
+        to[in=0+\n4,out=180-\n4]%
+        (c2B)%
+        to[in=0+\n4,out=180-\n4]%
+        (c2LB)%
+        to[in=0-\n3,out=180-\n4]%
+        cycle%
+    ;%
+}}%
+%
+%
+%
+%--------------------------
+%  Miscellaneous Symbols
+% - - - - - - - - - - - - -
+\newcommand*{\DenKrKomaHeadingSeedAChar}{\tikz{%
+    \tikzmath{%
+        \width=0.8em;%
+        \height=1.3*\width;%
+        \lwidth=0.1*\width;%
+    }%
+    \coordinate(B)at(0.5*\width pt,0);%
+    \coordinate(BellyL)at(0,0.2*\height pt);%
+    \coordinate(BellyR)at(\width pt,0.25*\height pt);%
+    \coordinate(NeckL)at(0.2*\width pt,0.45*\height pt);%
+    \coordinate(NeckR)at(0.75*\width pt,0.5*\height pt);%
+    \coordinate(TipR)at(0.8*\width pt,\height pt);%
+    \coordinate(TipL)at($(NeckL)+(-0.0*\width pt,0.15*\height pt)$);%
+    \coordinate(Bud1B)at($(TipL)+(0.12*\width pt,0.07*\height pt)$);%
+    \coordinate(Bud1T)at(0.2*\width pt,0.9*\height pt);%
+    \coordinate(Bud2B)at(0.45*\width pt,0.25*\height pt);%
+    \coordinate(Bud2C)at(0.5*\width pt,0.6*\height pt);%
+    \coordinate(Bud2T)at(0.5*\width pt,0.99*\height pt);%
+    \path[draw,line join=round,line cap=round,line width=\lwidth pt]%
+    (TipR)%
+        ..controls%
+            ++(-0.3*\width pt,-0.2*\height pt)%
+            and%
+            ++(-0.1*\width pt,0.1*\height pt)%
+        ..%
+    (NeckR)%
+        to[out=-50,in=95]%
+    (BellyR)%
+        to[out=270,in=0]%
+    (B)%
+        to[out=180,in=280]%
+    (BellyL)%
+        to[out=95,in=240]%
+    (NeckL)%
+        to[out=60,in=310]%
+    (TipL)%
+    ;%
+    \path[draw,line join=round,line cap=round,line width=0.6*\lwidth pt]%
+    (Bud1B)%
+        to[out=100,in=310]%
+    (Bud1T)%
+    %
+    (Bud2B)%
+        to[out=140,in=280]%
+    (Bud2C)%
+        to[out=100,in=240]%
+    (Bud2T)%
+    ;%
+}}%
+\newlength{\DenKrKomaHeadingSeedARaise}%
+\setlength{\DenKrKomaHeadingSeedARaise}{\heightof{\vphantom{H}}-\heightof{\DenKrKomaHeadingSeedAChar}}%
+\setlength{\DenKrKomaHeadingSeedARaise}{0.5\DenKrKomaHeadingSeedARaise}%
+\newcommand*{\DenKrKomaHeadingSeedA}{\raisebox{\DenKrKomaHeadingSeedARaise}{\DenKrKomaHeadingSeedAChar}}%

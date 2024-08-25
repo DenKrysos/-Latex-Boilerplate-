@@ -1,0 +1,112 @@
+%
+%
+%	Usage Notes:
+% 	\ifdefempty needs the \usepackage{etoolbox}
+%
+%
+%
+%
+%
+%
+%
+\newcommand{\HRule}{\rule{\linewidth}{0.5mm}}%
+%
+%
+\begin{titlepage}%
+%
+\begin{center}%
+%
+%
+% Oberer Teil der Titelseite:
+% Uni und DFKI Logo
+\begin{minipage}{0.4\textwidth}%
+%\includegraphics[height=0.15\textheight]{\DenKrLayoutCommonDir/TitlePage/titlegraphics//logotukl.png}\\[1cm]
+\begin{flushleft}%
+% \includegraphics[height=4\baselineskip]{\DenKrLayoutCommonDir/TitlePage/titlegraphics/DFKI-Logos/DFKI_Logo.png}%
+% \textsc{\Large Technische Universität Kaiserslautern}\\
+% \textsc{\Large }%
+\end{flushleft}%
+\end{minipage}%
+\hfill%
+\begin{minipage}{0.5\textwidth}%
+\begin{flushright}%
+% {\Large \fontfamily{phv}\fontseries{m}\fontshape{n}\selectfont Deutsches}\\%
+% {\Large \fontfamily{phv}\fontseries{m}\fontshape{n}\selectfont Forschungszentrum}\\%
+% {\Large \fontfamily{phv}\fontseries{m}\fontshape{n}\selectfont für künstliche}\\%
+% {\Large \fontfamily{phv}\fontseries{m}\fontshape{n}\selectfont Intelligenz GmbH}%
+\end{flushright}%
+\end{minipage}%
+%
+\vspace{0.07\textheight}%
+%
+\begin{spacing}{1.2}%
+\textsc{\LARGE\DenKrTPpublicationType}%
+\end{spacing}%
+%
+\vspace{0.02\textheight}%
+%
+%
+% Title
+\HRule \\[0.2\baselineskip]%
+\begin{spacing}{1}%
+\huge\bfseries%
+\DenKrTPtitle%
+\\[0\baselineskip]%
+\end{spacing}%
+\HRule \\[0.08\textheight]%
+%
+% Author and supervisor
+\begin{minipage}[t]{0.47\textwidth}%
+\begin{flushleft} \large%
+{Autor:}\\%
+\ifdefempty{\DenKrTPauthorAnrede}%
+	{}%
+	{\DenKrTPauthorAnrede\ }%
+\ifdefempty{\DenKrTPauthorTitleBefore}%
+	{}%
+	{\DenKrTPauthorTitleBefore\ }%
+\DenKrTPauthorFirst\ \textsc{\DenKrTPauthorLast}%
+\ifdefempty{\DenKrTPauthorTitleAfter}%
+	{}%
+	{, \DenKrTPauthorTitleAfter}%
+\end{flushleft}%
+\end{minipage}%
+\hfill%
+\begin{minipage}[t]{0.52\textwidth}%
+\begin{flushright} \large%
+% \vspace*{\baselineskip}%
+% {Betreuer:}\\%
+{\ }\\%
+\ifdefempty{\DenKrTPsupervisorOneAnrede}%
+	{}%
+	{\DenKrTPsupervisorOneAnrede\ }%
+\ifdefempty{\DenKrTPsupervisorOneTitleBefore}%
+	{}%
+	{\DenKrTPsupervisorOneTitleBefore\ }%
+\DenKrTPsupervisorOneFirst\ \textsc{\DenKrTPsupervisorOneLast}%
+\ifdefempty{\DenKrTPsupervisorOneTitleAfter}%
+	{}%
+	{, \DenKrTPsupervisorOneTitleAfter}%
+\\%
+\ifdefempty{\DenKrTPsupervisorTwoAnrede}%
+	{}%
+	{\DenKrTPsupervisorTwoAnrede\ }%
+\ifdefempty{\DenKrTPsupervisorTwoTitleBefore}%
+	{}%
+	{\DenKrTPsupervisorTwoTitleBefore\ }%
+\DenKrTPsupervisorTwoFirst\ \textsc{\DenKrTPsupervisorTwoLast}%
+\ifdefempty{\DenKrTPsupervisorTwoTitleAfter}%
+	{}%
+	{, \DenKrTPsupervisorTwoTitleAfter}%
+\\%
+\end{flushright}%
+\end{minipage}%
+%
+\vfill%
+%
+% Unterer Teil der Seite
+{\large \DenKrTPdate}%
+%
+\end{center}%
+%
+\end{titlepage}%

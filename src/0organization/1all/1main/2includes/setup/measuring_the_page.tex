@@ -1,0 +1,153 @@
+%________________________________________________________________________
+%------------------------------------------------------------------------
+%			Some Macros for Measuring Positions on the Page / the Page
+%/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+%
+% - - - - - - - - - - - - - - -
+%  Get in which column, the current text is, when compiling in "twocolumn" mode
+% Usage:
+% \getColumnNum\the\value{columnCur}
+%
+\usepackage{tikz}%
+\usetikzlibrary{calc,tikzmark}%
+%
+\newcounter{columncheck}%
+\newcounter{columnCur}%
+\makeatletter%
+\newcommand*{\getColumnNum}{%
+  \stepcounter{columncheck}%
+  \pgfmark{columnNum-\thecolumncheck}%
+  \noindent%
+  \begin{tikzpicture}[remember picture,overlay]%
+    \coordinate(PageM)at($(current page.north east)!.5!(current page.south west)$);%
+    \coordinate(columnNum-\thecolumncheck)at(pic cs:columnNum-\thecolumncheck);%
+    \coordinate(midDist)at($(PageM)-(columnNum-\thecolumncheck)$);%
+    \newdimen\midOffsetX%
+    \pgfextractx{\midOffsetX}{\pgfpointanchor{midDist}{center}}%
+    \ifnumcomp{0}{<}{\midOffsetX}{% Offset positive: Left Column
+        \setcounter{columnCur}{1}%
+    }{%
+        \setcounter{columnCur}{2}%
+    }%
+  \end{tikzpicture}%
+  %\the\value{columnCur}%
+}%
+\makeatother%
+% - - - - - - - - - - - - - - -
+%
+%
+%
+%
+%
+% - - - - - - - - - - - - - - -
+% Get remaining Vertical Space from measurement Position to the End of Page/Column
+%   Usage: Put \measureRemainingVerticalSpace on the very last possible Position, i.e. right before \end{document}. It measure on first run, stores in .aux and has then access to the value on 2nd run
+% ToDo: Works currently in only in twocolumn mode
+%
+\usepackage{tikzpagenodes}%
+\makeatletter%
+\newdimen\lastPageRemainingVerticalSpace%
+\newdimen\minimumRemainingHeight%
+\newif\ifEndOnNewPage%
+\EndOnNewPagefalse%
+% The Calculation Variant is crappy, because LaTeX only very unreliably resets \pagetotal to 0. Hence prefer the measuring via an overlay-Tikzpicture
+\newcommand*{\calcRemainingHeightInColumn}{%
+    % \par%
+    % in case a new page just started report a remaining height of 0pt
+    \ifdim\pagegoal=\maxdimen%
+        \lastPageRemainingVerticalSpace\z@%
+        \EndOnNewPagetrue%
+    \else%
+        \lastPageRemainingVerticalSpace\pagegoal%
+        \advance\lastPageRemainingVerticalSpace by -\pagetotal%
+        \advance\lastPageRemainingVerticalSpace by -\lineskip%
+        \EndOnNewPagefalse%
+    \fi%
+}%
+\newcommand*{\tikzMeasureRemainingHeightInColumn}{%
+    \ifdim\pagegoal=\maxdimen%
+        \lastPageRemainingVerticalSpace\z@%
+        \EndOnNewPagetrue%
+    \else%
+        \pgfmark{behindLastText}%
+        \noindent%
+        \begin{tikzpicture}[remember picture,overlay]%
+            \coordinate(behindLastText)at(pic cs:behindLastText);%
+            \coordinate(bottom)at(current page text area.south east);%
+            \path let \p1=(bottom-|behindLastText)in coordinate(heightDiff)at($(behindLastText)-(\p1)$);%
+            \pgfextracty{\lastPageRemainingVerticalSpace}{\pgfpointanchor{heightDiff}{center}}%
+            \global\lastPageRemainingVerticalSpace\lastPageRemainingVerticalSpace%
+        \end{tikzpicture}%
+        \EndOnNewPagefalse%
+    \fi%
+}%
+\newcommand*{\adjustRemainingHeightByCurColumn}{%
+    \getColumnNum%
+    \ifnumcomp{\value{columnCur}}{=}{1}{%
+        \advance\lastPageRemainingVerticalSpace by \pagegoal%
+    }{}%
+}%
+\newcommand*{\calcRemainingHeightOnPage}{%
+    \tikzMeasureRemainingHeightInColumn%
+    % \adjustRemainingHeightByCurColumn%
+}%
+\newcommand*{\measureRemainingVerticalSpace}{%
+    \par%
+    \calcRemainingHeightOnPage%
+    % if not enough space, report 0pt remaining space
+    \ifdim\lastPageRemainingVerticalSpace<\minimumRemainingHeight%
+        \lastPageRemainingVerticalSpace\z@%
+    \else%
+        % important, otherwise the remaining height reported would be slightly too large
+        \noindent%
+        \calcRemainingHeightOnPage%
+    \fi%
+    % write .aux-File
+    \immediate\write\@auxout{\string\global\string\lastPageRemainingVerticalSpace=\the\lastPageRemainingVerticalSpace}%
+    \immediate\write\@auxout{\ifEndOnNewPage\string\global\string\EndOnNewPagetrue\else\string\global\string\EndOnNewPagefalse\fi}%
+}%
+% just load the file to show the values in this document
+% this will of course need two runs
+% \AtBeginDocument{\InputIfFileExists{\jobname.xyz}{}{}}
+%                                            ^^^
+% just for testing, will of course produce a third page, if the
+% remaining height is less then \baselineskip
+% \AtEndDocument{\getremainingheight
+%    \ifdim\lastPageRemainingVerticalSpace>0pt\rule{10pt}{\lastPageRemainingVerticalSpace}\fi
+% }
+\makeatother%
+% set minimum space to be reported, less then that will be reported as 0pt
+\setlength{\minimumRemainingHeight}{\baselineskip}%
+\newcommand{\showRemainingHeightOnLastPage}{%
+Remaining height: \the\lastPageRemainingVerticalSpace; ended on new page: \ifEndOnNewPage yes\else no\fi.%
+}%
+%
+% Minimum Working Example:
+% \begin{document}
+% \lipsum
+%
+% \showRemainingHeightOnLastPage
+%
+% Random text\footnote{A random footnote.}.
+%
+% see what happens if page is full
+%\lipsum[4]
+%\lipsum[4]
+%One more line to fill the page.
+%
+% \begin{figure}[t] \rule{2cm}{2cm} \caption{A small black square} \end{figure}
+%
+% \begin{figure}[b] \rule{3cm}{3cm} \caption{A black square} \end{figure}
+%
+% this will produce a float page, which is not recognized at all
+%\begin{figure}[p] \rule{4cm}{4cm} \caption{A big black square} \end{figure}
+%
+% see what happens, if there is a newpage at the end
+%\newpage
+% \end{document}
+%
+%
+%
+%
+%
+% - - - - - - - - - - - - - - -

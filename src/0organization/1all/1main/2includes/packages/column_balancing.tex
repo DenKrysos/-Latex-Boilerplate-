@@ -1,0 +1,66 @@
+%
+% REQUIREMENTS:
+%   The automatic Column-Balancing requires Macros from the File
+%   "2includes/setup/measuring_the_page".tex
+%______________________________________________________________
+%\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\......
+%  Automatic Method
+%////////////////////////////////////////////////////////////////////´´´´´´
+%''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+% USAGE:
+%  - Put \measureRemainingVerticalSpace from "2includes/setup/measuring_the_page".tex
+%       -> This measure the remaning height on the last page and provides it via the .aux-File
+%  - Put \ from here
+%
+% ToDo. It is not finished yet
+%
+%
+%______________________________________________________________
+%\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\......
+%  Manual Method
+%////////////////////////////////////////////////////////////////////´´´´´´
+%''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+%
+%- - Balancing columns at last page - - - - - - - - - - - - - -
+%\usepackage{flushend}% Lasst uns das balance package statt flushend nehmen um die Spalten auf die gleiche Länge zu bringen. Flushend ruiniert sonst die Einrückung in der letzten Zeile. (Michael)
+%\usepackage{balance}% Even better yet: All of that 'automatic approaches' pretty much suck in most applications. Just fiddle around manually a little at finishing the paper, with the following.
+%
+%Use the command:
+%  \addtolength{height}{-x}%, where:
+%    x=((height of the residual vertical white space in the last column)/2).
+% Note that \addtolength needs to be entered just before the last page, so that only both columns of the last page are redefined as having a different height.
+% If the balancing gives any micro-problems you can fine tune it entering n \vspace{y} commands between items or paragraphs in either of the left or right column, where: n is the number of items in the selected column and
+%    y=((height of the vertical micro-adjustment)/n).
+% Finally, if you need to balance columns on some other page, where multicolumn didn't work properly, you can do it by using \vbox{text you don't want to brake} on the shorter column or using \newpage and \hspace{} on the longer column.
+%
+% Bottom-Line for Balancing the Columns on the Last Page, use one page before the last:
+%\addtolength{\textheight}{-1cm}%
+%    or:
+% To make it still a little more easier, I guess, I supply the following Macro. So you may use this instead (and pass the length to shorten without Minus).
+\newcommand{\DenKrLastPageColumnBalancing}[1]{\addtolength{\textheight}{-#1}}%
+%
+%
+%
+%
+%
+% So, finally, I suggest, pasting one of the following two Variants to a position in your Manuscript that is rendered on the Page before the last page. (You may want to paste it including the Comment, to make clear what that thing does there.)
+% Fine-tune the balancing with the length you pass as argument.
+%
+%
+%
+%
+%==== Variant 1)
+%%% This command serves to balance the column lengths on the last page of the document manually.
+%%% It shortens the textheight of the last page by a suitable amount.
+%%% This command does not take effect until the next page so it should come on the page before the last.
+%%% Make sure that you do not shorten the textheight too much.
+%\DenKrLastPageColumnBalancing{1cm}%
+%
+%
+%==== Variant 2)
+%%% This command serves to balance the column lengths on the last page of the document manually.
+%%% It shortens the textheight of the last page by a suitable amount.
+%%% This command does not take effect until the next page so it should come on the page before the last.
+%%% Make sure that you do not shorten the textheight too much.
+%\addtolength{\textheight}{-1cm}%
+%

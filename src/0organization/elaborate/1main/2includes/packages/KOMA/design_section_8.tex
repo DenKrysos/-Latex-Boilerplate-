@@ -1,0 +1,150 @@
+\setkomafont{section}{\sffamily\bfseries\Large\color{DenKrKomaColor_SectionHeading}}%
+\RedeclareSectionCommand[%
+    beforeskip=7ex,%
+    afterskip=2ex,%
+]{section}%
+\makeatletter\@ifundefined{DenKrSetSection}{}{\DenKrSetSection}\makeatother% Workaround to reset to my macro after RedeclareSectionCommand
+\renewcommand*{\sectionformat}{\usekomafont{section}\thesection}%
+%
+\colorlet{secTFrame}{DenKrKomaColor_ChapterHeading!60!white}%
+\colorlet{secTBG}{DenKrKomaColor_ChapterHeading_2!60!white}%
+\colorlet{secTBGDark}{secTBG!60!black}%
+\colorlet{secTBGFakeEdge}{black!80!white}%
+%
+\let\sectionMinHeight\relax%
+\newlength{\sectionMinHeight}%
+\settoheight{\sectionMinHeight}{\usekomafont{section}ÜÉÂgqQ}%
+\setlength{\sectionMinHeight}{1.4\sectionMinHeight}%
+%
+\makeatletter%
+\newif\if@DeKrRight%
+\renewcommand*{\DenKrKOMAHookFormatSection}[4]{%
+    \def\bandIndentOut{0.7cm}%
+    \def\bandIndentIn{0.2cm}%
+    \begin{tikzpicture}[remember picture]%
+        \if@twoside% Twoside Document
+            \Ifthispageodd{%Right
+                \@DeKrRighttrue
+            }{%Left
+                \@DeKrRightfalse
+            }%
+        \else% Oneside Document: Treat every Page as 'right'
+            \@DeKrRighttrue
+        \fi%
+        %
+        \if@DeKrRight%
+            \def\secTitleIndent{\bandIndentIn}%
+        \else%
+            \def\secTitleIndent{0pt}%
+        \fi%
+        \begin{pgfonlayer}{foreground}%
+            \coordinate(section_anchor)at(0,0);%
+            \node[draw=none,line width=0pt,shape=rectangle,anchor=north west,inner sep=0pt,minimum height=\sectionMinHeight](section_title)at($(section_anchor)+(\secTitleIndent,0)$){%
+                \parbox[b]{\dimexpr\textwidth-\bandIndentIn\relax}{%
+                    #3
+                    \scalebox{0.8}{\textcolor{DenKrKomaColor_ChapterHeading}{\DenKrKomaHeadingBarockCrossAChar}}
+                    #4%
+                }%
+            };%
+        \end{pgfonlayer}%
+        % Set some values/sizes
+        \path let\n1={0.8ex},\n2={5em}in%
+            coordinate(bgSepOut)at(\bandIndentOut,\n1)%
+            coordinate(bgSepIn)at(\bandIndentIn,\n1)%
+            coordinate(bgFadeLen)at(\n2,0.5*\n2)%X: Out, Y: In
+            ;%
+        % Update bounding-box and thus make the shift of the title node take effect. (Adding also the Y-component creates the appropriate size downwards)
+        \path[draw=none,line width=0pt]let\p1=(bgSepOut)in(section_anchor)--($(section_title.south west)-(0,0.5*\y1+0.1ex)$);%
+        % "Bake" the previous typeset pieces and "decouple" a new bounding box.
+        \useasboundingbox%
+            (current bounding box.north west)%
+            rectangle%
+            (current bounding box.south east);%
+        \begin{pgfonlayer}{background}%
+        \if@DeKrRight%Right
+            \path let\p1=(bgSepOut),\p2=(bgSepIn),\p3=(bgFadeLen)in%
+                coordinate(bgLT)at($(section_title.north west)+(0,\y2)$)%
+                coordinate(bgLB)at($(section_title.south west)+(0,-\y2)$)%
+                coordinate(bgLC)at($(section_title.west)+(-\x2,0)$)%
+                coordinate(bgRT)at($(section_title.north east)+(\x1,\y1)$)%
+                coordinate(bgRB)at($(section_title.south east)+(\x1,-\y1)$)%
+                coordinate(bgFadeLT)at($(bgLT)+(\y3,0)$)%
+                coordinate(bgFadeLB)at($(bgLB)+(\y3,0)$)%
+                coordinate(bgFadeRT)at($(bgRT)+(-\x3,0)$)%
+                coordinate(bgFadeRB)at($(bgRB)+(-\x3,0)$)%
+                coordinate(lappetR_T)at($(bgRB)-(\bandIndentOut-0.8ex,0)$)%
+                coordinate(lappetR_B)at($(lappetR_T)+(0,-2ex)$)%
+                ;%
+            %
+            \path[draw=secTFrame,fill=secTBGDark,line width=0.1ex,line join=round](bgRB)--(lappetR_T)--(lappetR_B)--cycle;%
+            \path[draw=secTBGFakeEdge,line width=0.15ex](lappetR_T)--(lappetR_B)--++(0,-0.3ex)coordinate(lappetR_Bfadeout);%
+            %Why this first unconnected node here: Doesn't do anything for the path. But without it, some inverse-matrix fancy shenanigan shit fails to dimension too large. The coordinate extends the bounding box to the side, nothing else.
+            \path[draw=secTBGFakeEdge,line width=0.15ex,path fading=south]($(lappetR_Bfadeout)+(-0.1ex,0)$)(lappetR_Bfadeout)--++(0,-1.2ex);%
+            \path[shade,left color=white,right color=secTBG](bgRT)--(bgRB)--(bgFadeRB)--(bgFadeRT)--cycle;%
+            \path[shade,left color=white,right color=secTFrame,line cap=round,line join=round]%
+                let\n1={0.2ex}in%
+                ($(bgRT)+(0,0.1ex)$)--(current subpath start-|bgFadeRT)--++(0,-\n1)-|cycle%
+                ($(bgRB)+(0,-0.1ex)$)--(current subpath start-|bgFadeRB)--++(0,\n1)-|cycle%
+            ;%
+            \path[draw=secTFrame,line width=0.2ex,line cap=round,line join=round]%
+                (bgRT)--(bgRB);%
+            %
+            %
+            \path[shade,left color=secTBG,right color=white]let\n1={40}in%
+                (bgLT)to[out=180+\n1,in=90](bgLC)to[in=180-\n1,out=270](bgLB)%
+                --(bgFadeLB)--(bgFadeLT)--cycle;%
+            \path[shade,left color=secTFrame,right color=white,line cap=round,line join=round]%
+                let\n1={0.2ex}in%
+                ($(bgLT)+(0,0.1ex)$)--(current subpath start-|bgFadeLT)--++(0,-\n1)-|cycle%
+                ($(bgLB)+(0,-0.1ex)$)--(current subpath start-|bgFadeLB)--++(0,\n1)-|cycle%
+            ;%
+            \path[draw=secTFrame,line width=0.2ex,line cap=round,line join=round]let\n1={40}in%
+                (bgLT)to[out=180+\n1,in=90](bgLC)to[in=180-\n1,out=270](bgLB)%
+                ;%
+        \else%Left
+            \path let\p1=(bgSepOut),\p2=(bgSepIn),\p3=(bgFadeLen)in%
+                coordinate(bgLT)at($(section_title.north west)+(-\x1,\y1)$)%
+                coordinate(bgLB)at($(section_title.south west)+(-\x1,-\y1)$)%
+                coordinate(bgRT)at($(section_title.north east)+(0,\y2)$)%
+                coordinate(bgRB)at($(section_title.south east)+(0,-\y2)$)%
+                coordinate(bgRC)at($(section_title.east)+(\x2,0)$)%
+                coordinate(bgFadeLT)at($(bgLT)+(\x3,0)$)%
+                coordinate(bgFadeLB)at($(bgLB)+(\x3,0)$)%
+                coordinate(bgFadeRT)at($(bgRT)+(-\y3,0)$)%
+                coordinate(bgFadeRB)at($(bgRB)+(-\y3,0)$)%
+                coordinate(lappetL_T)at($(bgLB)+(\bandIndentOut-0.8ex,0)$)%
+                coordinate(lappetL_B)at($(lappetL_T)+(0,-2ex)$)%
+                ;%
+            %
+            \path[draw=secTFrame,fill=secTBGDark,line width=0.1ex,line join=round](bgLB)--(lappetL_T)--(lappetL_B)--cycle;%
+            \path[draw=secTBGFakeEdge,line width=0.15ex](lappetL_T)--(lappetL_B)--++(0,-0.3ex)coordinate(lappetL_Bfadeout);%
+            %This first unconnected Node: See above
+            \path[draw=secTBGFakeEdge,line width=0.15ex,path fading=south]($(lappetL_Bfadeout)+(-0.1ex,0)$)(lappetL_Bfadeout)--++(0,-1.2ex);%
+            \path[shade,left color=secTBG,right color=white](bgLT)--(bgLB)--(bgFadeLB)--(bgFadeLT)--cycle;%
+            \path[shade,left color=secTFrame,right color=white,line cap=round,line join=round]%
+                let\n1={0.2ex}in%
+                ($(bgLT)+(0,0.1ex)$)--(current subpath start-|bgFadeLT)--++(0,-\n1)-|cycle%
+                ($(bgLB)+(0,-0.1ex)$)--(current subpath start-|bgFadeLB)--++(0,\n1)-|cycle%
+            ;%
+            \path[draw=secTFrame,line width=0.2ex,line cap=round,line join=round]%
+                (bgLT)--(bgLB);%
+            %
+            %
+            \path[shade,left color=white,right color=secTBG]let\n1={40}in%
+                (bgRT)to[out=0-\n1,in=90](bgRC)to[in=0+\n1,out=270](bgRB)%
+                --(bgFadeRB)--(bgFadeRT)--cycle%
+                ;%
+            \path[shade,left color=white,right color=secTFrame,line cap=round,line join=round]%
+                let\n1={0.2ex}in%
+                ($(bgRT)+(0,0.1ex)$)--(current subpath start-|bgFadeRT)--++(0,-\n1)-|cycle%
+                ($(bgRB)+(0,-0.1ex)$)--(current subpath start-|bgFadeRB)--++(0,\n1)-|cycle%
+            ;%
+            \path[draw=secTFrame,line width=0.2ex,line cap=round,line join=round]let\n1={40}in%
+                (bgRT)to[out=0-\n1,in=90](bgRC)to[in=0+\n1,out=270](bgRB)%
+                ;%
+        \fi%
+    \end{pgfonlayer}%
+    \end{tikzpicture}%
+    % \par%
+}%
+\makeatother%

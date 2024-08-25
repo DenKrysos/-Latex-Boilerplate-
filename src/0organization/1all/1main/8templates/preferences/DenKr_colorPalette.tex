@@ -1,0 +1,457 @@
+% Author: Dennis Krummacker%
+\ifdefined\DenKr\documentclass[tikz,fontsize=11pt,class=scrbook]{standalone}\begin{document}\else%
+\input{"./2ProjectSetup".tex}%
+\input{"\DenKrAllMainRootDirPATH/2includes/packages/preamble_pre".tex}%
+\documentclass[tikz,fontsize=11pt,class=scrbook]{standalone}% I.e. the content from \input{"\DenKrLayoutMainRootDir/2layout/tikz_standalone/preamble_1_class".tex}%
+\input{"\DenKrInternalLayoutRootDir/tikz_standalone/1TikzStandalonePicIncludeThis".tex}%
+\DenKrTikzStandalonePre\fi%
+%
+%
+%
+%
+%
+%#1 Positioning Method:
+%    1 - Custom. Give it a complete and exact Position in 'Position'
+%    2 - Start of a Line (manually). Positions it 'south west' of the given Node in 'Position'. (Also sets the Prev-Line-Cache)
+%    3 - Automatic New-Line. It caches the node at the Front, when starting a new-Line and also uses the cached one.
+%    4 - Any in a Line (manually). Positions it 'north east' of the given Node in 'Position'
+%    5 - Automatic Next-in-Line.
+%#2 Color, without Prefix
+%#3 Position
+%#4 Prefix for Color-Palette
+%#5 Node-Width
+\newcommand{\DrawBoxColorReference}[5]{%
+    \def\colorPrefix{#4}%
+    %
+    \ifnumcomp{1}{=}{#1}{%
+        \def\posAt{#3}%
+    }{\ifnumcomp{3}{=}{#1}{%
+        \def\posAt{(\colorPrefix}%
+        \appto\posAt{\cacheNL}%
+        \appto\posAt{.south west)}%
+    }{%
+        \ifnumcomp{5}{=}{#1}{%
+            \def\posAt{(\colorPrefix}%
+            \appto\posAt{\cachePrevNode}%
+            \appto\posAt{.north east)}%
+        }{%
+            \def\posAt{(\colorPrefix}%
+            \appto\posAt{#3}%
+            \ifnumcomp{2}{=}{#1}{%
+                \appto\posAt{.south west}%
+            }{\ifnumcomp{4}{=}{#1}{%
+                \appto\posAt{.north east}%
+            }{}}%
+            \appto\posAt{)}%
+        }%
+    }}%
+    %
+    \def\colorName{\colorPrefix}%
+    \appto\colorName{#2}%
+    %
+    \node(\colorName)[line width=0pt,anchor=north west,draw=none,fill=\colorName,minimum width=#5,minimum height=10ex]at\posAt{%
+        \bfseries%
+        \contourlength{0.12em}%
+        \contour{white}{\textcolor{black}{#2}}%
+    };%
+    %
+    \def\cachePrevNode{#2}%
+    \ifnumcomp{4}{=}{#1}{%
+        %
+    }{\ifnumcomp{3}{=}{#1}{%
+        \def\cacheNL{#2}%
+    }{\ifnumcomp{2}{=}{#1}{%
+        \def\cacheNL{#2}%
+    }{\ifnumcomp{1}{=}{#1}{%
+        %
+    }{}}}}%
+}%
+%
+%
+%
+%
+\begin{tikzpicture}[%
+	scale = 1.0,%Könnte das Makro \tikzpicturescale sein. Siehe in makros.tex
+	% (Sollte eigentlich übergeben werden)(Beachte Möglichkeiten der Übergabe;
+	% standalone mode=tex vs mode=buildnew)
+	auto,%
+	node distance=\nodedistance%
+]%
+%
+\node(PST_title)[anchor=north west]at(0,0){Palette comprising \textbf{Primary}, \textbf{Secondary} \& \textbf{Tertiary} Colors -- building a Color-Wheel};
+\node(PST_desc1)[anchor=north west]at($(PST_title.south west)+(0,0)$){Color-Name: <PalettePrefix>\_<ColorName>\_<Suffix>};
+\node(PST_desc2)[anchor=north west,align=left]at($(PST_desc1.south west)+(0,0)$){
+    | <PalettePrefix>: \texttt{PST}\\
+    | <Suffix>: \enquote{From outer to inner}: [Hue, Tint, Tone, Shade]\\
+    | Example:  \textcolor{PST_Coral_Tint}{\bfseries PST\_Coral\_Tint}  |  \textcolor{PST_Purple_Tone}{\bfseries PST\_Purple\_Tone}
+};
+%
+\coordinate(PSTWheelC)at($(PST_title.south west)+(10cm,-12cm)$);
+\tikzmath{%
+    \wheelAngleStep=360/12;%
+    \wheelAngleStart=90-\wheelAngleStep/2;%
+    \wheelRadiusPart=2;%
+}%
+% #1: color
+% #2: Number-of-Angle-Pos (Starting from '0')
+% #3: Number-of-Radius-Pos (Starting from '1')
+\newcommand{\wheelDrawPatch}[3]{%
+    \tikzmath{%
+        \angleS=\wheelAngleStart+#2*\wheelAngleStep;%
+        \angleE=\angleS+\wheelAngleStep;%
+        \radius=#3*\wheelRadiusPart;%
+    }%
+    \path[line width=0pt,draw=none,fill=#1](PSTWheelC)--($(PSTWheelC)+(\angleS:\radius)$)--($(PSTWheelC)+(\angleE:\radius)$)--cycle;%
+}%
+% #1: color, without Prefix/Suffix (like: Red)
+% #2: Number-of-Angle-Pos (Starting from '0')
+\newcommand{\wheelDrawSnippet}[2]{%
+    \def\colorNamePref{PST_}%
+    \appto\colorNamePref{#1}%
+    %
+    \def\colorName{\colorNamePref}%
+    \appto\colorName{_Hue}%
+    \wheelDrawPatch{\colorName}{#2}{4}%
+    %
+    \def\colorName{\colorNamePref}%
+    \appto\colorName{_Tint}%
+    \wheelDrawPatch{\colorName}{#2}{3}%
+    %
+    \def\colorName{\colorNamePref}%
+    \appto\colorName{_Tone}%
+    \wheelDrawPatch{\colorName}{#2}{2}%
+    %
+    \def\colorName{\colorNamePref}%
+    \appto\colorName{_Shade}%
+    \wheelDrawPatch{\colorName}{#2}{1}%
+    %
+    \tikzmath{%
+        \lableAangle=\wheelAngleStart+(#2+0.5)*\wheelAngleStep;%
+        \lableRadius=4*\wheelRadiusPart+0.7;%
+    }%
+    \node()[anchor=center]at($(PSTWheelC)+(\lableAangle:\lableRadius)$){\bfseries\large #1};%
+}%
+\wheelDrawSnippet{Red}{0}%
+\wheelDrawSnippet{Coral}{1}%
+\wheelDrawSnippet{Orange}{2}%
+\wheelDrawSnippet{Gold}{3}%
+\wheelDrawSnippet{Yellow}{4}%
+\wheelDrawSnippet{GreenYellow}{5}%
+\wheelDrawSnippet{Green}{6}%
+\wheelDrawSnippet{RoyalBlue}{7}%
+\wheelDrawSnippet{Blue}{8}%
+\wheelDrawSnippet{Purple}{9}%
+\wheelDrawSnippet{Orchid}{10}%
+\wheelDrawSnippet{Pink}{11}%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+\node(Contrast_title)[anchor=north west]at($(PST_title.north east)+(6cm,0)$){Palette Contrast-Optimized};
+\node(Contrast_desc1)[anchor=north west]at($(Contrast_title.south west)+(0,0)$){Color-Name: <PalettePrefix>\_<ColorName>};
+\node(Contrast_desc2)[anchor=north west,align=left]at($(Contrast_desc1.south west)+(0,0)$){
+    | <PalettePrefix>: \texttt{Contrast}\\
+    | Example:  \textcolor{Contrast_Lime}{\bfseries Contrast\_Lime}  |  \textcolor{Contrast_Violet}{\bfseries Contrast\_Violet}
+};
+% Arguments: The first three from "\DrawBoxColorReference" above
+\newcommand{\contrastDrawBox}[3]{%
+    \DrawBoxColorReference{#1}{#2}{#3}{Contrast_}{8em}%
+}%
+\contrastDrawBox{1}{RedDark}{($(Contrast_desc2.south west)+(0,-0.5cm)$)}%
+\contrastDrawBox{5}{Red}{}%
+\contrastDrawBox{5}{Orange}{}%
+\contrastDrawBox{5}{OrangeLight}{}%
+\contrastDrawBox{5}{Coral}{}%
+\contrastDrawBox{5}{Salmon}{}%
+%
+\contrastDrawBox{2}{CrimsonDark}{RedDark}%
+\contrastDrawBox{5}{Crimson}{}%
+%
+\contrastDrawBox{3}{BlueDark}{}%
+\contrastDrawBox{5}{Blue}{}%
+\contrastDrawBox{5}{BlueRoyal}{}%
+\contrastDrawBox{5}{BlueLight}{}%
+\contrastDrawBox{5}{BlueGray}{}%
+%
+\contrastDrawBox{3}{BlueFlax}{}%
+\contrastDrawBox{5}{Aqua}{}%
+\contrastDrawBox{5}{Turquoise}{}%
+%
+\contrastDrawBox{3}{GreenDark}{}%
+\contrastDrawBox{5}{Green}{}%
+\contrastDrawBox{5}{GreenLight}{}%
+\contrastDrawBox{5}{Lime}{}%
+\contrastDrawBox{5}{GreenYellow}{}%
+%
+\contrastDrawBox{3}{Gold}{}%
+\contrastDrawBox{5}{Yellow}{}%
+\contrastDrawBox{5}{Goldenrod}{}%
+\contrastDrawBox{5}{YellowPale}{}%
+%
+\contrastDrawBox{3}{Brown}{}%
+\contrastDrawBox{5}{Chocolate}{}%
+\contrastDrawBox{5}{Wood}{}%
+\contrastDrawBox{5}{Khaki}{}%
+\contrastDrawBox{5}{KhakiLight}{}%
+%
+\contrastDrawBox{3}{Sand}{}%
+\contrastDrawBox{5}{Beige}{}%
+\contrastDrawBox{5}{BeigeLight}{}%
+\contrastDrawBox{5}{BeigeLightL}{}%
+\contrastDrawBox{5}{eggShell}{}%
+%
+\contrastDrawBox{3}{Orchid}{}%
+\contrastDrawBox{5}{Plum}{}%
+\contrastDrawBox{5}{PinkLight}{}%
+\contrastDrawBox{5}{Lavender}{}%
+\contrastDrawBox{5}{Pansy}{}%
+%
+\contrastDrawBox{3}{Indigo}{}%
+\contrastDrawBox{5}{IndigoLight}{}%
+\contrastDrawBox{5}{IndigoLightL}{}%
+\contrastDrawBox{3}{Violet}{}%
+\contrastDrawBox{5}{VioletLight}{}%
+\contrastDrawBox{5}{VioletLightL}{}%
+\contrastDrawBox{3}{Purple}{}%
+\contrastDrawBox{5}{PurpleLight}{}%
+\contrastDrawBox{5}{PurpleLightL}{}%
+\contrastDrawBox{3}{Tyrian}{}%
+\contrastDrawBox{5}{TyrianLight}{}%
+\contrastDrawBox{5}{TyrianLightL}{}%
+%
+\contrastDrawBox{3}{Gray}{}%
+\contrastDrawBox{5}{GrayLight}{}%
+%
+%
+\node(Contrast_title_alt)[anchor=north west]at($(Contrast_Gray.south west)+(0,-0.5cm)$){Palette Contrast-Optimized (Additional Colors)};
+%
+\contrastDrawBox{1}{Orchid2}{($(Contrast_title_alt.south west)+(0,-0.5cm)$)}%
+\contrastDrawBox{5}{Orchid3}{Orchid2}%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+\node(HTML_title)[anchor=north west]at($(PST_title.south west)+(0,-30cm)$){Palette for HTML/CSS Color-Names};
+\node(HTML_desc1)[anchor=north west]at($(HTML_title.south west)+(0,0)$){Color-Name: <PalettePrefix>\_<ColorName>};
+\node(HTML_desc2)[anchor=north west,align=left]at($(HTML_desc1.south west)+(0,0)$){
+    | <PalettePrefix>: \texttt{HTML}\\
+    | Example:  \textcolor{HTML_MediumVioletRed}{\bfseries HTML\_MediumVioletRed}  |  \textcolor{HTML_MediumAquamarine}{\bfseries HTML\_MediumAquamarine}
+};
+%#1 Positioning Method:
+%    1 - Custom. Give it a complete and exact Position in 'Position'
+%    2 - Start of a Line (manually). Positions it 'south west' of the given Node in 'Position'. (Also sets the Prev-Line-Cache)
+%    3 - Automatic New-Line. It caches the node at the Front, when starting a new-Line and also uses the cached one.
+%    4 - Any in a Line. Positions it 'north east' of the given Node in 'Position'
+%#2 Color, without Prefix
+%#3 Position
+\newcommand{\HTMLDrawBox}[3]{%
+    \DrawBoxColorReference{#1}{#2}{#3}{HTML_}{10em}%
+}%
+% Red HTML Color Names
+\HTMLDrawBox{1}{IndianRed}{($(HTML_desc2.south west)+(0,-0.5cm)$)}%
+\HTMLDrawBox{5}{LightCoral}{}%
+\HTMLDrawBox{5}{Salmon}{}%
+\HTMLDrawBox{5}{DarkSalmon}{}%
+\HTMLDrawBox{5}{LightSalmon}{}%
+\HTMLDrawBox{5}{Crimson}{}%
+\HTMLDrawBox{5}{Red}{}%
+\HTMLDrawBox{5}{FireBrick}{}%
+\HTMLDrawBox{5}{DarkRed}{}%
+% Pink HTML Color Names
+\HTMLDrawBox{2}{Pink}{IndianRed}%
+\HTMLDrawBox{5}{LightPink}{}%
+\HTMLDrawBox{5}{HotPink}{}%
+\HTMLDrawBox{5}{DeepPink}{}%
+\HTMLDrawBox{5}{MediumVioletRed}{}%
+\HTMLDrawBox{5}{PaleVioletRed}{}%
+% Orange HTML Color Names
+\HTMLDrawBox{3}{Coral}{}%
+\HTMLDrawBox{5}{Tomato}{}%
+\HTMLDrawBox{5}{OrangeRed}{}%
+\HTMLDrawBox{5}{DarkOrange}{}%
+\HTMLDrawBox{5}{Orange}{}%
+% Yellow HTML Color Names
+\HTMLDrawBox{3}{Gold}{}%
+\HTMLDrawBox{5}{Yellow}{}%
+\HTMLDrawBox{5}{LightYellow}{}%
+\HTMLDrawBox{5}{LemonChiffon}{}%
+\HTMLDrawBox{5}{LightGoldenrodYellow}{}%
+\HTMLDrawBox{5}{PapayaWhip}{}%
+%
+\HTMLDrawBox{3}{Moccasin}{}%
+\HTMLDrawBox{5}{PeachPuff}{}%
+\HTMLDrawBox{5}{PaleGoldenrod}{}%
+\HTMLDrawBox{5}{Khaki}{}%
+\HTMLDrawBox{5}{DarkKhaki}{}%
+% Purple HTML Color Names
+\HTMLDrawBox{3}{Lavender}{}%
+\HTMLDrawBox{5}{Thistle}{}%
+\HTMLDrawBox{5}{Plum}{}%
+\HTMLDrawBox{5}{Violet}{}%
+\HTMLDrawBox{5}{Orchid}{}%
+\HTMLDrawBox{5}{Fuchsia}{}%
+\HTMLDrawBox{5}{Magenta}{}%
+\HTMLDrawBox{5}{MediumOrchid}{}%
+\HTMLDrawBox{5}{MediumPurple}{}%
+\HTMLDrawBox{5}{RebeccaPurple}{}%
+%
+\HTMLDrawBox{3}{BlueViolet}{}%
+\HTMLDrawBox{5}{DarkViolet}{}%
+\HTMLDrawBox{5}{DarkOrchid}{}%
+\HTMLDrawBox{5}{DarkMagenta}{}%
+\HTMLDrawBox{5}{Purple}{}%
+\HTMLDrawBox{5}{Indigo}{}%
+\HTMLDrawBox{5}{SlateBlue}{}%
+\HTMLDrawBox{5}{DarkSlateBlue}{}%
+\HTMLDrawBox{5}{MediumSlateBlue}{}%
+% Green HTML Color Names
+\HTMLDrawBox{3}{GreenYellow}{}%
+\HTMLDrawBox{5}{Chartreuse}{}%
+\HTMLDrawBox{5}{LawnGreen}{}%
+\HTMLDrawBox{5}{Lime}{}%
+\HTMLDrawBox{5}{LimeGreen}{}%
+\HTMLDrawBox{5}{PaleGreen}{}%
+\HTMLDrawBox{5}{LightGreen}{}%
+\HTMLDrawBox{5}{MediumSpringGreen}{}%
+%
+\HTMLDrawBox{3}{SpringGreen}{}%
+\HTMLDrawBox{5}{MediumSeaGreen}{}%
+\HTMLDrawBox{5}{SeaGreen}{}%
+\HTMLDrawBox{5}{ForestGreen}{}%
+\HTMLDrawBox{5}{Green}{}%
+\HTMLDrawBox{5}{DarkGreen}{}%
+\HTMLDrawBox{5}{YellowGreen}{}%
+\HTMLDrawBox{5}{OliveDrab}{}%
+%
+\HTMLDrawBox{3}{Olive}{}%
+\HTMLDrawBox{5}{DarkOliveGreen}{}%
+\HTMLDrawBox{5}{MediumAquamarine}{}%
+\HTMLDrawBox{5}{DarkSeaGreen}{}%
+\HTMLDrawBox{5}{LightSeaGreen}{}%
+\HTMLDrawBox{5}{DarkCyan}{}%
+\HTMLDrawBox{5}{Teal}{}%
+% Blue HTML Color Names
+\HTMLDrawBox{3}{Aqua}{}%
+\HTMLDrawBox{5}{Cyan}{}%
+\HTMLDrawBox{5}{LightCyan}{}%
+\HTMLDrawBox{5}{PaleTurquoise}{}%
+\HTMLDrawBox{5}{Aquamarine}{}%
+\HTMLDrawBox{5}{Turquoise}{}%
+\HTMLDrawBox{5}{MediumTurquoise}{}%
+\HTMLDrawBox{5}{DarkTurquoise}{}%
+\HTMLDrawBox{5}{CadetBlue}{}%
+%
+\HTMLDrawBox{3}{SteelBlue}{}%
+\HTMLDrawBox{5}{LightSteelBlue}{}%
+\HTMLDrawBox{5}{PowderBlue}{}%
+\HTMLDrawBox{5}{LightBlue}{}%
+\HTMLDrawBox{5}{SkyBlue}{}%
+\HTMLDrawBox{5}{LightSkyBlue}{}%
+\HTMLDrawBox{5}{DeepSkyBlue}{}%
+\HTMLDrawBox{5}{DodgerBlue}{}%
+\HTMLDrawBox{5}{CornflowerBlue}{}%
+%
+\HTMLDrawBox{3}{MediumSlateBlue}{}%
+\HTMLDrawBox{5}{RoyalBlue}{}%
+\HTMLDrawBox{5}{Blue}{}%
+\HTMLDrawBox{5}{MediumBlue}{}%
+\HTMLDrawBox{5}{DarkBlue}{}%
+\HTMLDrawBox{5}{Navy}{}%
+\HTMLDrawBox{5}{MidnightBlue}{}%
+% Brown HTML Color Names
+\HTMLDrawBox{3}{Cornsilk}{}%
+\HTMLDrawBox{5}{BlanchedAlmond}{}%
+\HTMLDrawBox{5}{Bisque}{}%
+\HTMLDrawBox{5}{NavajoWhite}{}%
+\HTMLDrawBox{5}{Wheat}{}%
+\HTMLDrawBox{5}{BurlyWood}{}%
+\HTMLDrawBox{5}{Tan}{}%
+\HTMLDrawBox{5}{RosyBrown}{}%
+\HTMLDrawBox{5}{SandyBrown}{}%
+%
+\HTMLDrawBox{3}{Goldenrod}{}%
+\HTMLDrawBox{5}{DarkGoldenrod}{}%
+\HTMLDrawBox{5}{Peru}{}%
+\HTMLDrawBox{5}{Chocolate}{}%
+\HTMLDrawBox{5}{SaddleBrown}{}%
+\HTMLDrawBox{5}{Sienna}{}%
+\HTMLDrawBox{5}{Brown}{}%
+\HTMLDrawBox{5}{Maroon}{}%
+% White HTML Color Names
+\HTMLDrawBox{3}{White}{}%
+\HTMLDrawBox{5}{Snow}{}%
+\HTMLDrawBox{5}{HoneyDew}{}%
+\HTMLDrawBox{5}{MintCream}{}%
+\HTMLDrawBox{5}{Azure}{}%
+\HTMLDrawBox{5}{AliceBlue}{}%
+\HTMLDrawBox{5}{GhostWhite}{}%
+\HTMLDrawBox{5}{WhiteSmoke}{}%
+\HTMLDrawBox{5}{SeaShell}{}%
+%
+\HTMLDrawBox{3}{Beige}{}%
+\HTMLDrawBox{5}{OldLace}{}%
+\HTMLDrawBox{5}{FloralWhite}{}%
+\HTMLDrawBox{5}{Ivory}{}%
+\HTMLDrawBox{5}{AntiqueWhite}{}%
+\HTMLDrawBox{5}{Linen}{}%
+\HTMLDrawBox{5}{LavenderBlush}{}%
+\HTMLDrawBox{5}{MistyRose}{}%
+% Gray HTML Color Names
+\HTMLDrawBox{3}{Gainsboro}{}%
+\HTMLDrawBox{5}{LightGray}{}%
+\HTMLDrawBox{5}{Silver}{}%
+\HTMLDrawBox{5}{DarkGray}{}%
+\HTMLDrawBox{5}{Gray}{}%
+\HTMLDrawBox{5}{DimGray}{}%
+\HTMLDrawBox{5}{LightSlateGray}{}%
+\HTMLDrawBox{5}{SlateGray}{}%
+\HTMLDrawBox{5}{DarkSlateGray}{}%
+\HTMLDrawBox{5}{Black}{}%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+\node(DKT_title)[anchor=north west]at($(HTML_title.south west)+(0,-37cm)$){Palette for \enquote{DenKr-Historic-TikZ}};
+\node(DKT_desc1)[anchor=north west]at($(DKT_title.south west)+(0,0)$){Color-Name: <PalettePrefix>\_<ColorName>};
+\node(DKT_desc2)[anchor=north west,align=left]at($(DKT_desc1.south west)+(0,0)$){
+    | <PalettePrefix>: \texttt{DKT}\\
+    | Example:  \textcolor{DKT_Beige}{\bfseries DKT\_Beige}  |  \textcolor{DKT_Cyan}{\bfseries DKT\_Cyan}
+};
+% Arguments: The first three from "\DrawBoxColorReference" above
+\newcommand{\DKTDrawBox}[3]{%
+    \DrawBoxColorReference{#1}{#2}{#3}{DKT_}{7em}%
+}%
+\DKTDrawBox{1}{Blue}{($(DKT_desc2.south west)+(0,-0.5cm)$)}%
+\DKTDrawBox{5}{BlueLight}{}%
+\DKTDrawBox{5}{BlueGray}{}%
+\DKTDrawBox{5}{Cyan}{}%
+%
+\DKTDrawBox{2}{Beige}{Blue}%
+\DKTDrawBox{5}{BeigeLight}{}%
+\DKTDrawBox{5}{BeigeLightL}{}%
+%
+\DKTDrawBox{3}{Yellow}{}%
+\DKTDrawBox{5}{YellowLight}{}%
+%
+\DKTDrawBox{3}{GrayLight}{}%
+\DKTDrawBox{5}{eggShell}{}%
+%
+\end{tikzpicture}%
+%
+%
+\ifdefined\DenKr\end{document}\else\DenKrTikzStandalonePost\fi%

@@ -1,0 +1,349 @@
+% Author: Dennis Krummacker%
+\ifdefined\DenKr\documentclass[tikz,fontsize=11pt,class=scrbook]{standalone}\begin{document}\else%
+\input{"./2ProjectSetup".tex}%
+\input{"\DenKrAllMainRootDirPATH/2includes/packages/preamble_pre".tex}%
+\documentclass[tikz,fontsize=11pt,class=scrbook]{standalone}% I.e. the content from \input{"\DenKrLayoutMainRootDir/2layout/tikz_standalone/preamble_1_class".tex}%
+\input{"\DenKrInternalLayoutRootDir/tikz_standalone/1TikzStandalonePicIncludeThis".tex}%
+\DenKrTikzStandalonePre\fi%
+%
+%
+%
+\newcommand\nodedistance{0.5cm}%
+\newcommand\innabst{0.8em}% Abstand zwischen Text und Zellenrand
+%
+\let\breite\undefined%
+\newlength\breite%
+\settowidth{\breite}{\large \textbf{Interfacename}}%
+\setlength\breite{\breite+\innabst+\innabst+1em}%
+%
+%
+\begin{tikzpicture}[%
+	scale = \tikzpicturescale,%
+	auto,%
+	node distance=\nodedistance%
+]%
+\newcommand{\cnt}{2}%
+%
+%
+% \bfseries%
+%
+%\draw[color=slightblue,fill] (-0.5,-4.5) rectangle (10.5,0.5);
+%
+	\node(ctrlkommstart)%
+		[note]%
+		{Thread zur Kommunikation\\ mit Controller};%
+%
+	\node(ctrlconnection)%
+		[io,%
+		below=1*\nodedistance of ctrlkommstart]%
+		{Kontaktiere AI-Controller};%
+	\draw[arrow](ctrlkommstart)--(ctrlconnection);%
+%
+	\node(startthread)%
+		[process,%
+		below=1*\nodedistance of ctrlconnection]%
+		{Starte Thread zum\\ Empfangen von Nachrichten};%
+	\draw[arrow](ctrlconnection)--(startthread);%
+	\node(threadsplit)[shape=coordinate,%
+		below=3*\nodedistance of startthread]{};%
+%
+	\node(mutterthread)%
+		[note,%
+		left=7*\nodedistance of threadsplit]%
+		{Thread zum Senden\\ von Nachrichten};%
+	\node(mutterthread_above)[shape=coordinate,%
+		above=1.3*\nodedistance of mutterthread]{};%
+	\draw[arrow](mutterthread_above)--%
+		node[pos=0,anchor=north west]{Mutterthread}%
+		(mutterthread);%
+	\draw[connect]($(startthread.south)+(-1cm,0)$)|-(mutterthread_above);%
+%
+	\node(sendports)%
+		[io,%
+		below=1.5*\nodedistance of mutterthread]%
+		{Sende Ports\\ an AI-Controller};%
+	\draw[arrow](mutterthread)--(sendports);%
+%
+	\node(wlanmonneigh)%
+		[process,%
+		below=1*\nodedistance of sendports]%
+		{WLAN-Monitor:\\ Ermittle WLAN Stationen\\ in Reichweite};%
+	\draw[arrow](sendports)--(wlanmonneigh);%
+%
+	\node(sendwlanneigh)%
+		[io,%
+		below=1*\nodedistance of wlanmonneigh]%
+		{Sende WLAN Nachbarn\\ an AI-Controller};%
+	\draw[arrow](wlanmonneigh)--(sendwlanneigh);%
+%
+%
+\node(initiallu)[shape=coordinate]at($(sendwlanneigh.south-|wlanmonneigh.west)+(-0.8*\nodedistance,-0.5*\nodedistance)$);%
+\node(initialro)[shape=coordinate]at($(sendports.north-|wlanmonneigh.east)+(0.8*\nodedistance,0.75*\nodedistance)$);%
+\path[draw,thick,loosely dotted](initiallu)|-(initialro)|-(initiallu);%
+\node()[cleartext,anchor=south west,inner sep=3pt,rotate=-90]%
+	at(initialro)%
+	{Initial-Setup Präambel};
+%
+%
+\node(sendloopstart)[shape=coordinate,below=of sendwlanneigh]{};%
+	\draw[connect](sendwlanneigh)--(sendloopstart);%
+%
+	\node(semwaitsend)%
+		[process,%
+		below=1*\nodedistance of sendloopstart]%
+		{\lstinline[language=C_var,basicstyle=\ttfamily]%
+		{sem_wait(&sem_send);}};%
+	\draw[arrow](sendloopstart)--(semwaitsend);%
+%
+	\node(checkctrlconnect)%
+		[interthread,%
+		below=1*\nodedistance of semwaitsend]%
+		{Prüfe Controller Verbindung};%
+	\draw[arrow](semwaitsend)--(checkctrlconnect);%
+%
+% 	\node(switchmodeflag)%
+% 		[decision,%
+% 		below=1*\nodedistance of checkctrlconnect]%
+% 		{\ico{FLAG\_CHECK(}\\%
+% 		\ico{CHAN\_SWITCH\_MODE)}};%
+% 	\draw[arrow](checkctrlconnect)--(switchmodeflag);%
+%
+	\node(ifctrlconnected)%
+		[decision,%
+		below=1.25*\nodedistance of checkctrlconnect]%
+		{Controller\\ getrennt?};%
+	\draw[arrow](checkctrlconnect)--(ifctrlconnected);%
+% 	\draw[arrow](switchmodeflag)--%
+% 		node[pos=0,anchor=north east]{Nein}%
+% 		(ifctrlconnected);%
+%
+\node(reconnectctrl)[shape=coordinate,xshift=-1.5em]at(ctrlconnection-|checkctrlconnect.west){};%
+	\draw[arrow](reconnectctrl)--(ctrlconnection);%
+	\draw[connect](ifctrlconnected.west)-|%
+		node[pos=0,anchor=south east,align=right]{Ja}%
+		(reconnectctrl);%
+%
+	\node(shmem)%
+		[interthread,%
+		below=1.5*\nodedistance of ifctrlconnected]%
+		{ShMem Zugriff};%
+	\draw[arrow](ifctrlconnected)--%
+		node[pos=0,anchor=north east]{Nein}%
+		(shmem);%
+%
+	\node(adhocisset_kommdest)%
+		[cleartext,%
+		right=3*\nodedistance of shmem]%
+		{\textbf{\lipsaround{IT-switch1}}};%
+	\draw[arrowkomm,<-](shmem)--(adhocisset_kommdest);%
+%
+	\node(switchmsg)%
+		[mux,%
+		text width=5.15cm,%
+		below=1*\nodedistance of shmem]%
+		{Nachrichten-Typ zu senden};%
+	\draw[arrow](shmem)--(switchmsg);%
+%
+	\node(msgswitch_rts)%
+		[muxwahl2,%
+		anchor=north,%
+		xshift=1.5cm]%
+		at(switchmsg.south)%
+		{};%
+	\node(msgswitch_rts_text)%
+		[cleartext,anchor=north,inner sep=3pt]%
+		at(msgswitch_rts.north)%
+		{Ready to\\ switch};%
+	\node(msgswitch_etc)%
+		[muxwahl2,%
+		anchor=north,%
+		xshift=-1.5cm]%
+		at(switchmsg.south)%
+		{};%
+	\node(msgswitch_etc_text)%
+		[cleartext,anchor=center,inner sep=1em]%
+		at(msgswitch_etc)%
+		{\textbf{\ldots}};%
+%
+	\node(collectinfo)%
+		[processsplit=3,%
+		rectangle split part align={center, left, left},%
+		below=1*\nodedistance of msgswitch_etc]%
+		{\nodepart{one}ggf. Informationen\\ akquirieren%
+		\nodepart{two}z.B. WLAN Nachbarn%
+		\nodepart{three}z.B. Station Ports};%
+	\draw[arrow](msgswitch_etc)--(collectinfo);%
+%
+	\node(genericpack)%
+		[process,%
+		anchor=north,%
+		text width=5.1cm,%
+		yshift=-\nodedistance]%
+		at(switchmsg.south|-collectinfo.south)%
+		{Generisches Packen\\ der Nachricht};%
+	\draw[arrow](msgswitch_rts.south)--(msgswitch_rts.south|-genericpack.north);%
+	\draw[arrow](collectinfo.south)--(collectinfo.south|-genericpack.north);%
+%
+	\node(sendmsg)%
+		[io,%
+		below=1*\nodedistance of genericpack]%
+		{Nachricht an AI-Controller senden};%
+	\draw[arrow](genericpack)--(sendmsg);%
+%
+%
+	\node(adhocisset_kommdest2)%
+		[cleartext,%
+		right=3*\nodedistance of sendmsg]%
+		{\textbf{\lipsaround{C-switch1}}};%
+	\draw[arrowwait,->](sendmsg)--(adhocisset_kommdest2);%
+%
+	\node(shmempost_send)%
+		[interthread,%
+		below=\nodedistance of sendmsg]%
+		{ShMem Freigabe};%
+	\draw[arrow](sendmsg)--(shmempost_send);%
+%
+\node(sendloopend)[shape=coordinate]%
+at($(shmempost_send.south west)+(-3.5cm,-0.5*\nodedistance)$){};%
+	\draw[connect](shmempost_send)|-(sendloopend);%
+	\draw[arrow](sendloopend)|-(sendloopstart);%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+	\node(listenthreadstart)%
+		[note,%
+		right=7*\nodedistance of threadsplit]%
+		{Thread zum \uline{\ien{blocked}}\\ Empfangen von Nachrichten};%
+	\node(listenthreadstart_above)[shape=coordinate,%
+		above=1.3*\nodedistance of listenthreadstart]{};%
+	\draw[arrow](listenthreadstart_above)--(listenthreadstart);%
+	\draw[connect]($(startthread.south)+(1cm,0)$)|-(listenthreadstart_above);%
+%
+	\node(sockblock)%
+		[io,%
+		below=2*\nodedistance of listenthreadstart]%
+		{Erwarte Nachricht vom Controller\\%
+		(blocked read am \ico{socket})};%
+	\draw[arrow](listenthreadstart)--(sockblock);%
+%
+%
+	\node(channelswitched_kommdest2)%
+		[cleartext,%
+		left=3*\nodedistance of sockblock]%
+		{\textbf{\lipsaround{C-switch2}}};%
+	\draw[arrowwait,<-](sockblock)--(channelswitched_kommdest2);%
+%
+	\node(sockdisco)%
+		[decision,%
+		below=1*\nodedistance of sockblock]%
+		{Controller\\ getrennt?};%
+	\draw[arrow](sockblock)--(sockdisco);%
+%
+	\node(ctrldisconnect_shmem)%
+		[interthread,%
+		anchor=north,%
+		xshift=-0.5cm,%
+		yshift=-2*\nodedistance]%
+		at(sockdisco.west)%
+		{Vermerke getrennte\\ Verbindung im ShMem};%
+	\draw[arrow](sockdisco.west)-|%
+		node[pos=0,anchor=south east]{Ja}%
+		(ctrldisconnect_shmem);%
+%
+	\node(listenstop)%
+		[startstop,%
+		below=1*\nodedistance of ctrldisconnect_shmem]%
+		{Exit\\ Thread};%
+	\draw[arrow](ctrldisconnect_shmem)--(listenstop);%
+%
+\node(disconnecthelp)[shape=coordinate]at($(checkctrlconnect.east)!.5!(ctrldisconnect_shmem.west)$){};%
+\path[draw,arrowkomm,->](ctrldisconnect_shmem.west)-|(disconnecthelp)|-(checkctrlconnect.east);
+%
+	\node(shmemlisten)%
+		[interthread,%
+		anchor=north,%
+		yshift=-2*\nodedistance]%
+		at(sockdisco.south|-listenstop.south east)%
+		{ShMem Zugriff};%
+	\draw[arrow](sockdisco)--%
+		node[pos=0,anchor=north west]{Nein}%
+		(shmemlisten);%
+%
+	\node(channelswitched_kommdest)%
+		[cleartext,%
+		left=3*\nodedistance of shmemlisten]%
+		{\textbf{\lipsaround{IT-switch2}}};%
+	\draw[arrowkomm,->](shmemlisten)--(channelswitched_kommdest);%
+%
+	\node(ctrlmsgread)%
+		[processsplit=3,%
+		below=2*\nodedistance of shmemlisten]%
+		{\nodepart{one}Nachricht auslesen%
+		\nodepart{two}ShMem Header beschreiben%
+		\nodepart{three}ShMem gemäß\\ Nachricht präparieren};%
+	\draw[arrow](shmemlisten)--(ctrlmsgread);%
+%
+	\node(sempost_mainsynch)%
+		[process,below=2*\nodedistance of ctrlmsgread]%
+		{\lstinline[language=C_var,basicstyle=\ttfamily]%
+		{sem_post(&mainsynch);}};%
+	\draw[arrow](ctrlmsgread)--(sempost_mainsynch);%
+%
+	\node(shmempost_listen)%
+		[interthread,%
+		below=2*\nodedistance of sempost_mainsynch]%
+		{ShMem Freigabe};%
+	\draw[arrow](sempost_mainsynch)--(shmempost_listen);%
+%
+\node(listenloop)[shape=coordinate,xshift=1*\nodedistance,yshift=-0.5*\nodedistance]%
+	at(shmempost_listen.south-|sockblock.east){};%
+	\draw[connect](shmempost_listen.south)|-(listenloop);%
+	\draw[arrow](listenloop)|-($(sockblock.north)+(0,1*\nodedistance)$);%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+\normalfont%
+%
+\end{tikzpicture}%
+%
+%
+\ifdefined\DenKr\end{document}\else\DenKrTikzStandalonePost\fi%

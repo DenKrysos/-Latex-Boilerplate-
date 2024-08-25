@@ -1,0 +1,53 @@
+%
+\providecommand{\DenKrStandaloneConstituentPreA}{}%
+\providecommand{\DenKrStandaloneConstituentPreB}{}%
+\providecommand{\DenKrStandaloneConstituentPreC}{}%
+\providecommand{\DenKrStandaloneConstituentPost}{}%
+%
+\renewcommand{\DenKrStandaloneConstituentPreA}{%
+\onlyinsubfile{%
+    \PassOptionsToPackage{subpreambles=true}{standalone}%
+    \input{"\DenKrAllMainRootDirPATH/2includes/packages/preamble_pre".tex}%
+}%
+}%
+%
+%
+\renewcommand{\DenKrStandaloneConstituentPreB}{%
+\onlyinsubfile{%
+    \renewcommand{\DenKrLayout}{standalone_constituent}%
+    \input{"\DenKrLayoutMainRootDir/2includes/preamble_IncludeSkeleton".tex}%
+    \input{"\DenKrLayoutMainRootDir/2includes/packages/tikz".tex}%
+    % %________________________________________________________________________
+    % %/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+    \input{"\DenKrLayoutMainRootDir/makros".tex}%
+    \input{"\DenKrLayoutMainRootDir/makros_typografie".tex}%
+    \input{"\DenKrLayoutMainRootDir/3settings/5tikz/tikz_makro_preamble".tex}%
+    \input{"\DenKrLayoutMainRootDir/3settings/settings_basic".tex}%
+    \input{"\DenKrLayoutMainRootDir/settings_perDoc".tex}%
+}%
+    %-------------------------------------------
+    %-------------------------------------------
+    %-------------------------------------------
+    %______________________________________________________________
+    %\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\......
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    %%#############################################################################%%
+    %\begin{document}%%#############################################################%%
+    %%#############################################################################%%
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    %////////////////////////////////////////////////////////////////////´´´´´´
+    %''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+}%
+%
+%
+\renewcommand{\DenKrStandaloneConstituentPreC}{%
+\onlyinsubfile{%
+    \input{"\DenKrLayoutMainRootDir/settings_inDocument_perDoc".tex}%
+}%
+}%
+%
+%
+%
+\renewcommand{\DenKrStandaloneConstituentPost}{%
+    %\end{document}%
+}%

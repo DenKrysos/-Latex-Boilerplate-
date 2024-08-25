@@ -1,0 +1,122 @@
+%________________________________________________________________________
+%------------------------------------------------------------------------
+%					TikZ
+% - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+% --        & Standalone for assisting Tikz
+%/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+% 	!!! IMPORTANT !!!
+% 	Never forget -shell-escape
+% 	as argument for pdflatex
+% 	when using standalone
+\newcommand{\includestandalonedefaultmode}{buildnew}% buildnew % tex % build % buildmissing % image % image|tex
+\newcommand{\tikzFilesPath}{\DenKrTikzRootDir}%
+\usepackage[%
+	group=true,%
+	mode=\includestandalonedefaultmode,%
+%	subpreambles=true,%
+%	build={%
+% 		latexoptions={-interaction=batchmode -shell-escape -jobname \quote\buildjobname\quote},%
+% 		% Default: -interaction=batchmode -shell-escape -jobname \quote \buildjobname \quote
+%		jobname={},%
+% 		% Jobname for build compiler run. Default: \file
+%		command={\latex\space\latexoptions\space\file},%
+% 		% Full build shell command. Default: \latex \space \latexoptions \space \file
+%	},%
+	]{standalone}%
+\usepackage{import}%
+\usepackage{tikz}%
+\usetikzlibrary{calc}%
+\usetikzlibrary{math}%
+\usetikzlibrary{matrix}%
+\usetikzlibrary{fit}%
+\usetikzlibrary{positioning}%
+\usetikzlibrary{shapes}%
+\usetikzlibrary{shapes.geometric}%
+\usetikzlibrary{decorations}%
+\usetikzlibrary{decorations.markings}%
+\usetikzlibrary{decorations.pathmorphing}%
+\usetikzlibrary{arrows}%
+\usetikzlibrary{arrows.meta}%
+\usetikzlibrary{shadows}%
+\usetikzlibrary{shadows.blur}%
+\usetikzlibrary{fadings}%
+\usetikzlibrary{shadings}%
+\usetikzlibrary{external}
+\usetikzlibrary{backgrounds}%
+\usetikzlibrary{patterns}%
+\usetikzlibrary{tikzmark}%
+\usetikzlibrary{intersections}%
+\usetikzlibrary{through}%
+%
+\usepackage{pgfplots}%
+\pgfplotsset{compat=1.11}%
+\usepgfplotslibrary{dateplot}%
+%/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+%					TikZ End
+%------------------------------------------------------------------------
+%________________________________________________________________________
+%
+%
+%
+%
+%________________________________________________________________________
+%------------------------------------------------------------------------
+%							TikZ / PGF
+%/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+%\tikzset{
+%	fontscale/.style = {font=\relsize{#1}}
+%	}
+%\counterwithin{figure}{section}
+% PSTricks standart umgebung:
+%\psset{xunit=0.5\textwidth,yunit=0.5\textwidth,runit=0.5\textwidth}
+%
+%Remark that PGF-Layers should be declared and set outside of tikz-pictures
+%  Consider using 'standalone' for "Big Pictures" (\documentclass{standalone}\usepackage{tikz}\usetikzlibrary{positioning, shapes}\pgfdeclarelayer{background}\pgfdeclarelayer{foreground}\pgfsetlayers{background,main,foreground}\begin{document}\begin{tikzpicture}[remember picture])
+% And apply a global configuration for "Small Stuff" like 'inline aka [baseline]' drawings
+\pgfdeclarelayer{backgroundlayer}%
+\pgfdeclarelayer{background}%
+\pgfdeclarelayer{scopenodeFill}%
+\pgfdeclarelayer{mainlayer}%
+\pgfdeclarelayer{main}%
+\pgfdeclarelayer{notelayer}%
+\pgfdeclarelayer{note}%
+\pgfdeclarelayer{mindmaplayer}%
+\pgfdeclarelayer{linelayer}%
+\pgfdeclarelayer{line}%
+\pgfdeclarelayer{foregroundlayer}%
+\pgfdeclarelayer{foreground}%
+\pgfdeclarelayer{Layer1}%
+\pgfdeclarelayer{Layer2}%
+\pgfdeclarelayer{Layer3}%
+\pgfdeclarelayer{Layer4}%
+\pgfdeclarelayer{Layer5}%
+\pgfdeclarelayer{Layer6}%
+\pgfdeclarelayer{Layer7}%
+\pgfdeclarelayer{Layer8}%
+\pgfdeclarelayer{Layer9}%
+\pgfdeclarelayer{Layer10}%
+\pgfsetlayers{backgroundlayer,background,scopenodeFill,mainlayer,main,notelayer,note,mindmaplayer,linelayer,line,foregroundlayer,foreground,Layer1,Layer2,Layer3,Layer4,Layer5,Layer6,Layer7,Layer8,Layer9,Layer10}%
+%\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
+%							TikZ / PGF fertig
+%------------------------------------------------------------------------
+%________________________________________________________________________
+%
+%
+%
+%
+%________________________________________________________________________
+%------------------------------------------------------------------------
+%				Useful Commands in Pictures
+%/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+% A command for using "\tikzmath" Values as Coordinates
+%   (NOTE: Calculating something with \tikzmath, like \tikzmath{calcVal=1em;} removes the "unit".)
+%   (tikzmath calculates as if would be "pt", but the actual "pt" won't be contained in the variable.)
+%   (Hence, when pasting a variable from a tikzmath as, say, coordinate, TikZ treats it actually as "cm".)
+%   (Hence, you may either simply add "pt" when using a tikzmath-variable outside tikzmath, e.g. for a coordinate.)
+%   (Or, use the following Macro. Respectively come back here and read this, in case you encounter this problem, and can't remember what causes the issue, but just recall that something about this is standing here.)
+\newcommand{\tikzmathpaste}[1]{#1 pt}%
+\newcommand{\tmathp}{\tikzmathpaste}%
+%\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
+%				Cmds Done
+%------------------------------------------------------------------------
+%________________________________________________________________________

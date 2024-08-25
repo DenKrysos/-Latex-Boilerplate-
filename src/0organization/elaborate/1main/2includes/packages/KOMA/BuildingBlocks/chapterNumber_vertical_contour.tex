@@ -1,0 +1,30 @@
+\setkomafont{chapternumberN}{\mdseries\fontsize{58pt}{50pt}\selectfont}%
+\setkomafont{chapternumberS}{\mdseries\fontsize{48pt}{44pt}\selectfont}%
+\setkomafont{chapternumberSS}{\mdseries\fontsize{38pt}{34pt}\selectfont}%
+\setkomafont{chapternumber}{\usekomafont{chapternumberN}}%
+%
+\def\chapSplitVertical#1#2{%
+    \StrSplit{#2}{#1}\tempa\tempb%
+    \contour{DenKrKomaColor_ChapterHeading_Outline}{\color{DenKrKomaColor_ChapterHeading_NumberCore}\tempa}%
+    \let\tempa\empty%
+    \unless\ifx\tempb\empty\def\tempa{\\\chapSplitVertical{#1}{\tempb}}\fi%
+    \tempa%
+}%
+%
+%
+\def\chapSplitVerticalPasteNum{%
+    \StrLen{\thechapter}[\tmpval]%
+    \ifnumcomp{\tmpval}{=}{1}{%
+        \setkomafont{chapternumber}{\usekomafont{chapternumberN}}%
+    }{\ifnumcomp{\tmpval}{=}{2}{%
+        \setkomafont{chapternumber}{\usekomafont{chapternumberS}}%
+    }{%
+        \setkomafont{chapternumber}{\usekomafont{chapternumberSS}}%
+    }}%
+    \StrSplit{\thechapter}{1}\tempa\tempb%
+    \settoheight{\tmpheight}{\usekomafont{chapternumber}\tempa}%
+    \settowidth{\tmpwidth}{\usekomafont{chapternumber}M}%
+    \sbox{\tmpbox}{%
+        \usekomafont{chapternumber}\parbox{\tmpwidth}{\usekomafont{chapternumber}\centering\chapSplitVertical{1}{\thechapter}}%
+    }%
+}%

@@ -1,0 +1,177 @@
+%
+% Variant "tikzmark"
+%    - Stores in .aux-File
+%----------------------------------------------------
+%====================================================
+%####################################################
+\documentclass[a4paper]{article}
+\usepackage{lipsum,showframe}
+\usepackage{tikz}
+\usetikzlibrary{tikzmark}
+
+\newlength{\lastpagegap}% reserve global name
+
+\makeatletter
+\newcommand{\pagespace}{%
+  \hrule height0pt %terminate last paragraph, is needed
+  \strut\tikzmark{lastpage}
+  \vfill
+  \noindent\begin{tikzpicture}[remember picture,overlay]
+    \coordinate (lastpage) at (pic cs:lastpage);
+    \pgfextracty{\lastpagegap}{\pgfpointanchor{lastpage}{center}}
+    \global\advance\lastpagegap by \ht\strutbox
+    %\node[above right]{\the\lastpagegap};
+  \end{tikzpicture}%
+  \write\@auxout{\string\global\string\lastpagegap=\the\lastpagegap}% store in aux file
+ }
+\makeatother
+
+\begin{document}
+\the\lastpagegap
+
+\lipsum
+
+Random text\footnote{A random footnote.}.
+
+\begin{figure}[t] \rule{3cm}{3cm} \caption{A small black square} \end{figure}
+
+\pagespace\smash{\rule{10pt}{\lastpagegap}}
+\end{document}
+%####################################################
+%====================================================
+%----------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+% Variant "Calculation"
+%    - Creates Cmd in .aux-File to then store in own auxiliary-File
+%----------------------------------------------------
+%====================================================
+%####################################################
+\documentclass[a4paper]{article}
+\usepackage{showframe}
+\usepackage{lipsum}
+
+\makeatletter
+% write information about free space to \jobname.xyz
+\AtEndDocument{\if@filesw\newwrite\tf@xyz
+    %                                 ^^^
+    \immediate\openout\tf@xyz\jobname.xyz\fi
+    %                     ^^^         ^^^
+}
+\newdimen\remainingheight
+\newdimen\minimumheight
+\newif\ifendonnewpage
+\endonnewpagefalse
+\newcommand*{\calcremaining}{%
+    \par
+    % in case a new page just started report a remaining height of 0pt
+    \ifdim\pagegoal=\maxdimen
+        \remainingheight\z@
+        \endonnewpagetrue
+    \else
+        \remainingheight\pagegoal
+        \advance\remainingheight by -\pagetotal
+        \advance\remainingheight by -\lineskip
+        \endonnewpagefalse
+    \fi
+}
+\newcommand*{\getremainingheight}{%
+    \calcremaining
+    % if not enough space, report 0pt remaining space
+    \ifdim\remainingheight<\minimumheight
+        \remainingheight\z@
+    \else
+        % important, otherwise the remaining height reported would be slightly too large
+        \noindent
+        \calcremaining
+    \fi
+    % write to own aux file via main aux
+    \immediate\write\@auxout{\string\@writefile{xyz}{\string\remainingheight\the\remainingheight}}%
+    %                                           ^^^
+    \immediate\write\@auxout{\string\@writefile{xyz}{\ifendonnewpage\string\endonnewpagetrue\else\string\endonnewpagefalse\fi}}%
+    %                                           ^^^
+}
+% just load the file to show the values in this document
+% this will of course need two runs
+\AtBeginDocument{\InputIfFileExists{\jobname.xyz}{}{}}
+%                                            ^^^
+\AtEndDocument{\getremainingheight
+% just for testing, will of course produce a third page, if the
+% remaining height is less then \baselineskip
+%    \ifdim\remainingheight>0pt\rule{10pt}{\remainingheight}\fi
+}
+\makeatother
+
+% set minimum space to be reported, less then that will be reported as 0pt
+\setlength{\minimumheight}{\baselineskip}
+
+\begin{document}
+\lipsum
+
+Remaining height: \the\remainingheight; ended on new page: \ifendonnewpage yes\else no\fi
+
+Random text\footnote{A random footnote.}.
+
+% see what happens if page is full
+%\lipsum[4]
+%\lipsum[4]
+%One more line to fill the page.
+
+\begin{figure}[t] \rule{2cm}{2cm} \caption{A small black square} \end{figure}
+
+\begin{figure}[b] \rule{3cm}{3cm} \caption{A black square} \end{figure}
+
+% this will produce a float page, which is not recognized at all
+%\begin{figure}[p] \rule{4cm}{4cm} \caption{A big black square} \end{figure}
+
+% see what happens, if there is a newpage at the end
+%\newpage
+\end{document}
+%####################################################
+%====================================================
+%----------------------------------------------------
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%==========================================
+%     Dev-Notes for me
+%==========================================
+% Interesting registers/cmds:
+% - - - - -
+% \the\textheight \ |\  \the\pagegoal \ |\  \the\pagetotal
+% \the\dimexpr\pagegoal-\pagetotal\relax
+%
+% \getnoflines{\dimexpr\pagegoal-\pagetotal\relax}
+% \number\noflines
+%
+% \newdimen\spaceleft
+% \spaceleft=\dimexpr\textheight-\pagetotal\relax
+% \the\spaceleft
+% - - In Plain-Tex:
+% \newdimen\spaceleft
+% \spaceleft=\textheight
+% \advance\spaceleft by -\pagetotal
+% Remaining space (above this line):
+% \showthe\spaceleft

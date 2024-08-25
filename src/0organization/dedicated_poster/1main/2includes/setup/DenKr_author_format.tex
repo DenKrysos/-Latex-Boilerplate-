@@ -1,0 +1,741 @@
+% ToDo:
+%- Properly clean all TmpArrays in the End
+%________________________________________________________________________
+%------------------------------------------------------------------------
+%				USAGE NOTES
+%/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+% Usage Notes for how it is to be used by the end-user is to be found in the accompanying File
+%  ./1supply/author_affiliation.tex
+%
+% For setting up a Project:
+% 1) Include this File here
+% 2) Paste Macros "DenKrAuthorFormat[...]" below on the according places for a layout's TitlePage
+%    - See here inside ./0organization/2layout/IEEEtran/TitlePage.tex etc. for examples
+% 3) Include the File "./1supply/author_affiliation.tex"
+% 4) Put Cmds inside File-3)
+%/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+%				END USAGE
+%------------------------------------------------------------------------
+%========================================================================
+%
+%
+%
+%________________________________________________________________________
+%------------------------------------------------------------------------
+%				Text Formatting
+%/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+\DeclareRobustCommand*{\DenKrRefmark}[1]{%
+	\ensuremath{\ifcase#1\or *\or \dagger\or \ddagger\or%
+	\mathsection\or \mathparagraph\or \|\or **\or \dagger\dagger%
+	\or \ddagger\ddagger \else\textsuperscript{\expandafter\romannumeral#1}\fi}%
+}%
+\DeclareRobustCommand*{\DenKrRefmarkSuper}[1]{%
+	\raisebox{0pt}[0pt][0pt]{\textsuperscript{\footnotesize\DenKrRefmark{#1}}}%
+}%
+\DeclareRobustCommand*{\DenKrmarkAsSuper}[1]{%
+	\raisebox{0pt}[0pt][0pt]{\textsuperscript{\footnotesize#1}}%
+}%
+\DeclareRobustCommand*{\DenKrmarkAsSuperMulti}[1]{% Just to have another option. Actually, just use the simple one above (also for multiple, comma separated Superscript-Marks)
+	\raisebox{0pt}[0pt][0pt]{\textsuperscript{\footnotesize\{#1\}}}%
+}%
+%/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+%				END Text
+%------------------------------------------------------------------------
+%========================================================================
+%
+%
+%
+%
+%________________________________________________________________________
+%------------------------------------------------------------------------
+%				Cmds employed by the User
+%/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+% - Idx-association
+% - Author-Ref-Mark(s) (comma-separated list)
+% - Author-Name
+% - Mail-Address
+\DeclareDocumentCommand{\DenKrAuthor}{m m O{!}}{%
+	\addDenKrAuthorDefinedAuth{#1}{#2}{#3}%
+	\addDenKrAuthPerIdx{#1}{#2}{#3}%
+}%
+\DeclareDocumentCommand{\DenKrAuthorNewline}{}{%
+	% \addDenKrAuthorDefinedAuth{!}{!}%
+	\leaveIdxEmpyDenKrAuthorDefinedAuth%
+}%
+%
+% - Idx-association
+% - Affiliation-Ref-Mark(s) (comma-separated list)
+% - Address
+% - Mail-Address(es)
+\DeclareDocumentCommand{\DenKrAffiliation}{m m m}{%
+	\addDenKrAuthorDefinedAffil{#1}{#2}{#3}%
+	\addDenKrAffilPerIdx{#1}{#2}{#3}%
+}%
+%/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+%				END User-Cmds
+%------------------------------------------------------------------------
+%========================================================================
+%
+%
+%
+%
+%________________________________________________________________________
+%------------------------------------------------------------------------
+%				Macros that set-up the Layout
+%/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+%________________________________
+%<><><><><><><><><><><><><><><><>
+%		IEEE
+%vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
+% This Macro typesets both 'vertical' & 'compact'. The only difference between those is whether or not a blank line separates the authors and affiliations. This Macro here gets one argument, which is put between authors and affiliations. Set it to \\ to have a blank line, leave empty for having no effect.
+\DeclareDocumentCommand{\DenKrAuthorFormatIEEEverticalBLANKLINEOPTIONAL}{m}{%
+	\IEEEauthorblockN{%
+		\ifnumcomp{\number\numexpr\DenKrAuthorParboxed\relax}{=}{1}{\begin{minipage}[t]{\textwidth}\vspace*{-1.5\baselineskip}\centering}{}%
+		\setcounter{loopi}{0}%
+		\setcounter{loopj}{\value{DenKrAuthorDefinedAuth}}%
+		\whiledo{\value{loopi}<\value{DenKrAuthorDefinedAuth}}{%
+			\checkEmptyDenKrAuthorDefinedAuth{\theloopi}{%
+				\ifnumcomp{\value{loopj}}{=}{2}{ and}{}%
+				\\%
+				\stepcounter{loopi}%
+				\addtocounter{loopj}{-1}%
+			}{%
+				\getDenKrAuthorDefinedAuthNAME{\theloopi}%
+				%\getDenKrAuthorDefinedAuthMAIL{\theloopi}%
+				\processRefMarksIEEE{\getDenKrAuthorDefinedAuthMARK{\theloopi}}%
+				\stepcounter{loopi}%
+				\addtocounter{loopj}{-1}%
+				\ifnumcomp{\value{loopj}}{>}{1}{, }{\ifnumcomp{\value{loopj}}{=}{1}{, and }{}}%
+			}%
+		}%
+		\ifnumcomp{\number\numexpr\DenKrAuthorParboxed\relax}{=}{1}{\end{minipage}}{}%
+	}%
+	#1%
+	\IEEEauthorblockA{%
+		\ifnumcomp{\number\numexpr\DenKrAuthorParboxed\relax}{=}{1}{\begin{minipage}[t]{\textwidth}\centering}{}%
+		\setcounter{loopi}{0}%
+		\setcounter{loopj}{\value{DenKrAuthorDefinedAffil}}%
+		\whiledo{\value{loopi}<\value{DenKrAuthorDefinedAffil}}{%
+			\processRefMarkIEEEFirst{\getDenKrAuthorDefinedAffilMARK{\theloopi}}%
+			\getDenKrAuthorDefinedAffilADDR{\theloopi}%
+			\processAffilMailsIEEE{\getDenKrAuthorDefinedAffilMAIL{\theloopi}}{\getDenKrAuthPerIdxMAIL{\DenKrRefmarkFirst}}%
+			\stepcounter{loopi}%
+			\addtocounter{loopj}{-1}%
+			\ifnumcomp{\value{loopj}}{>}{0}{\\}{}%
+		}%
+		\ifnumcomp{\number\numexpr\DenKrAuthorParboxed\relax}{=}{1}{\end{minipage}}{}%
+	}%
+}%
+\DeclareDocumentCommand{\DenKrAuthorFormatIEEEvertical}{}{\DenKrAuthorFormatIEEEverticalBLANKLINEOPTIONAL{\\}}%
+\DeclareDocumentCommand{\DenKrAuthorFormatIEEEcompact}{}{\DenKrAuthorFormatIEEEverticalBLANKLINEOPTIONAL{}}%
+\DeclareDocumentCommand{\DenKrAuthorFormatIEEEhorizontal}{}{%
+	\setcounter{loopi}{0}%
+	\setcounter{loopj}{\value{assocIDMax}}%
+	\whiledo{\value{loopi}<\value{assocIDMax}}{%
+		\stepcounter{loopi}%
+		\prepareSplitListTmpArray{\getDenKrAuthPerIdxNAME{\theloopi}}%
+		\IEEEauthorblockN{%
+			\ifnumcomp{\value{tmpArray}}{<}{1}{}{%
+				\setcounter{loopAuthi}{0}%
+				\setcounter{loopAuthj}{\value{tmpArray}}%
+				\whiledo{\value{loopAuthi}<\value{tmpArray}}{%
+					\DenKrAuthorTmpArrayAGetEnt{\theloopAuthi}%
+					\DenKrAuthorTmpArrayADelEnt{\theloopAuthi}%
+					\stepcounter{loopAuthi}%
+					\addtocounter{loopAuthj}{-1}%
+					\ifnumcomp{\value{loopAuthj}}{>}{0}{\\}{}%
+				}%
+			}%
+		}%
+		\prepareSplitListTmpArray{\getDenKrAffilPerIdxADDR{\theloopi}}%
+		\IEEEauthorblockA{%
+			\ifnumcomp{\value{tmpArray}}{<}{1}{}{%
+				\setcounter{loopAuthi}{0}%
+				\setcounter{loopAuthj}{\value{tmpArray}}%
+				\whiledo{\value{loopAuthi}<\value{tmpArray}}{%
+					\DenKrAuthorTmpArrayAGetEnt{\theloopAuthi}%
+					\DenKrAuthorTmpArrayADelEnt{\theloopAuthi}%
+					\stepcounter{loopAuthi}%
+					\addtocounter{loopAuthj}{-1}%
+					\ifnumcomp{\value{loopAuthj}}{>}{0}{\\}{}%
+				}%
+			}%
+			\processAffilMailsIEEE{\getDenKrAffilPerIdxMAIL{\theloopi}}{\getDenKrAuthPerIdxMAIL{\theloopi}}%
+		}%
+		\addtocounter{loopj}{-1}%
+		\ifnumcomp{\value{loopj}}{>}{0}{\and}{}%
+	}%
+}%
+\DeclareDocumentCommand{\DenKrAuthorFormatIEEEConfigSwitch}{}{%
+	\author{%
+		\expandafter\ifstrequal\expandafter{\DenKrAuthorIEEEForm}{vertical}{%
+			\DenKrAuthorFormatIEEEvertical%
+		}{\expandafter\ifstrequal\expandafter{\DenKrAuthorIEEEForm}{horizontal}{%
+			\DenKrAuthorFormatIEEEhorizontal%
+		}{\expandafter\ifstrequal\expandafter{\DenKrAuthorIEEEForm}{compact}{%
+			\DenKrAuthorFormatIEEEcompact%
+		}{}}}%
+	}%
+}%
+%________________________________
+%<><><><><><><><><><><><><><><><>
+%		article / scrarticle
+%vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
+\DeclareDocumentCommand{\DenKrAuthorFormatArticle}{}{%
+	\author{%
+	\setcounter{assocIDMax}{0}% We'll overwrite the "Mail-Association" Array here. It is then filled as the Authors are processed, to store one's Mail-Addr for the assigned running numeric ID
+	\setcounter{loopi}{0}%
+	\setcounter{loopj}{\value{DenKrAuthorDefinedAuth}}%
+	\setcounter{loopk}{1}%For the Refmark to associate the Email-Address
+	\whiledo{\value{loopi}<\value{DenKrAuthorDefinedAuth}}{%
+		\checkEmptyDenKrAuthorDefinedAuth{\theloopi}{%
+			\ifnumcomp{\value{loopj}}{=}{2}{ and}{}%
+			\\%
+			\stepcounter{loopi}%
+			\addtocounter{loopj}{-1}%
+		}{%
+			\getDenKrAuthorDefinedAuthNAME{\theloopi}%
+			\processRefMarksARTICLE{\getDenKrAuthorDefinedAuthMARK{\theloopi}}{\theloopk}%
+			%Store the Mail(s) per assigned running numeric ID
+			\setcounter{assocIDMax}{\value{loopk}}%
+			\csxdef{DenKrDefAuthPerIdxMAIL\theloopk}{\getDenKrAuthorDefinedAuthMAIL{\theloopi}}%
+			\stepcounter{loopk}%
+			\stepcounter{loopi}%
+			\addtocounter{loopj}{-1}%
+			\ifnumcomp{\value{loopj}}{>}{1}{, }{\ifnumcomp{\value{loopj}}{=}{1}{, and }{}}%
+		}%
+	}%
+	\\%
+	\setcounter{loopi}{0}%
+	\setcounter{loopj}{\value{DenKrAuthorDefinedAffil}}%
+	\whiledo{\value{loopi}<\value{DenKrAuthorDefinedAffil}}{%
+		\processRefMarkARTICLEFirst{\getDenKrAuthorDefinedAffilMARK{\theloopi}}%
+		\getDenKrAuthorDefinedAffilADDR{\theloopi}%
+		\expandafter\ifstrequal\expandafter{\DenKrAuthorMailSelect}{collective}{\processAffilMailsARTICLE{\getDenKrAuthorDefinedAffilMAIL{\theloopi}}{\getDenKrAuthPerIdxMAIL{\DenKrRefmarkFirst}}}{}%
+		\stepcounter{loopi}%
+		\addtocounter{loopj}{-1}%
+		\ifnumcomp{\value{loopj}}{>}{0}{\\}{}%
+	}%
+	\expandafter\ifstrequal\expandafter{\DenKrAuthorMailSelect}{auto}{\processAffilMailsARTICLE{\getDenKrAuthorDefinedAffilMAIL{\theloopi}}{\getDenKrAuthPerIdxMAIL{\DenKrRefmarkFirst}}}{\expandafter\ifstrequal\expandafter{\DenKrAuthorMailSelect}{individual}{\processAffilMailsARTICLE{\getDenKrAuthorDefinedAffilMAIL{\theloopi}}{\getDenKrAuthPerIdxMAIL{\DenKrRefmarkFirst}}}{}}%
+	}%
+}%
+% % % % % % % % % % % % % % % % % % % % % % % %
+%________________________________________________________________________
+%------------------------------------------------------------------------
+%			Auxiliary Macros used by the Printing ones
+%/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+\newcounter{loopAuthi}\newcounter{loopAuthj}%
+\newcounter{assocIds}\setcounter{assocIds}{0}%
+\DeclareDocumentCommand{\processRefMarksARTICLE}{mm}{%
+	\prepareAssocIdc{#1}%
+	\ifnumcomp{\value{assocIds}}{<}{1}{}{%
+		\setcounter{loopAuthi}{0}%
+		\DenKrmarkAsSuper{%
+			\expandafter\ifstrequal\expandafter{\DenKrAuthorMailSelect}{collective}{}{%
+				#2,%
+			}%
+			\whiledo{\value{loopAuthi}<\value{assocIds}}{%
+				\DenKrRefmark{\DenKrAuthorTmpArrayAGetEnt{\theloopAuthi}}%
+				\DenKrAuthorTmpArrayADelEnt{\theloopAuthi}%
+				\stepcounter{loopAuthi}%
+			}%
+		}%
+	}%
+}%
+\DeclareDocumentCommand{\processRefMarkARTICLEFirst}{m}{%
+	\processRefMarkIEEEFirst{#1}%
+}%
+\DeclareDocumentCommand{\processRefMarksIEEE}{m}{%
+	\prepareAssocIdc{#1}%
+	\ifnumcomp{\value{assocIds}}{<}{1}{}{%
+		\setcounter{loopAuthi}{0}%
+		\DenKrmarkAsSuper{%
+			\whiledo{\value{loopAuthi}<\value{assocIds}}{%
+				\DenKrRefmark{\DenKrAuthorTmpArrayAGetEnt{\theloopAuthi}}%
+				\DenKrAuthorTmpArrayADelEnt{\theloopAuthi}%
+				\stepcounter{loopAuthi}%
+			}%
+		}%
+	}%
+}%
+% Because for Affiliations only one Ref-Mark should be given. In case, one specifies more, just throw the rest away
+\DeclareDocumentCommand{\processRefMarkIEEEFirst}{m}{%
+	\prepareAssocIdc{#1}%
+	\ifnumcomp{\value{assocIds}}{<}{1}{%
+		\edef\DenKrRefmarkFirst{!}%
+	}{%
+		\edef\DenKrRefmarkFirst{\DenKrAuthorTmpArrayAGetEnt{0}}%
+		\DenKrmarkAsSuper{%
+			\DenKrRefmark{\DenKrRefmarkFirst}%
+			\DenKrAuthorTmpArrayADelEnt{\theloopAuthi}%
+		}%
+	}%
+}%
+\DeclareDocumentCommand{\prepareAssocIdc}{m}{%
+	% Catch empty String or with only Spaces
+	\StrLen{#1}[\tmpa]%
+	\StrCount{#1}{ }[\tmpb]%
+	\setcounter{assocIds}{0}%
+	\setcounter{DenKrAuthorTmpArrayA}{0}%
+	\DenKrAuthorTmpArrayADelEnt{0}%
+	\ifnumcomp{\tmpa}{<}{1}{}{\ifnumcomp{\tmpa}{=}{\tmpb}{}{%
+		% Split the List
+		\StrCount{#1}{°}[\tmpa]%
+		\setcounter{assocIds}{\tmpa+1}%
+		\setcounter{DenKrAuthorTmpArrayA}{0}%
+		\def\tmpb{#1}% Init. The loop runs one iteration too few. For when no comma is contained, the part after loop catches it.
+		\whiledo{\value{DenKrAuthorTmpArrayA}<\numexpr\value{assocIds}-1}{%
+			\StrBefore{\tmpb}{°}[\tmpa]%
+			\StrBehind{\tmpb}{°}[\tmpb]%
+			\DenKrAuthorTmpArrayAAddEnt{\theDenKrAuthorTmpArrayA}{\tmpa}%
+			\stepcounter{DenKrAuthorTmpArrayA}%
+		}%
+		\DenKrAuthorTmpArrayAAddEnt{\theDenKrAuthorTmpArrayA}{\tmpb}%
+	}}%
+	\let\tmpa\undefined\let\tmpb\undefined%
+}%
+% % % % % % % % % % % % % % % % % % % % % % % %
+\newcounter{affilmails}\setcounter{affilmails}{0}%
+\DeclareDocumentCommand{\processAffilMailsARTICLE}{mm}{%
+	% Here, the default Format shall be "individual" (take Mail from Authors), i.e. 'auto' is equally treated to 'individual', i.e. 'collective' is intercepted -> everything else is the default format.
+	\expandafter\ifstrequal\expandafter{\DenKrAuthorMailSelect}{collective}{%
+		\prepareAffilMails{#1}%
+		\ifnumcomp{\value{affilmails}}{<}{1}{}{%
+			\\%
+			Email: {\small%
+			\setcounter{loopAuthi}{0}%
+			\setcounter{loopAuthj}{\value{affilmails}}%
+			\whiledo{\value{loopAuthi}<\value{affilmails}}{%
+				\edef\tmp{\DenKrAuthorTmpArrayBGetEnt{\theloopAuthi}}%
+				\expandafter\escapeus\expandafter{\tmp}%
+				\DenKrAuthorTmpArrayBDelEnt{\theloopAuthi}%
+				\stepcounter{loopAuthi}%
+				\addtocounter{loopAuthj}{-1}%
+				\ifnumcomp{\value{loopAuthj}}{>}{0}{, }{}%
+			}%
+			}%
+		}%
+	}{%
+		\ifnumcomp{\value{assocIDMax}}{<}{1}{}{%
+			\\%
+			\setcounter{loopAuthi}{0}%
+			\whiledo{\value{loopAuthi}<\value{assocIDMax}}{%
+				\stepcounter{loopAuthi}%
+				\DenKrmarkAsSuper{\theloopAuthi}%
+				\prepareAffilMails{\getDenKrAuthPerIdxMAIL{\theloopAuthi}}%
+				\setcounter{loopa}{0}%
+				\whiledo{\value{loopa}<\value{affilmails}}{%
+					\edef\tmp{\DenKrAuthorTmpArrayBGetEnt{\theloopa}}%
+					\remAdditionalFilter{\tmp}%
+					\expandafter\ifstrequal\expandafter{\tmp}{!}{%
+						% \ifthenelse{\value{loopa}<\numexpr\value{affilmails}-1}{{\small, }}{}%
+						\\%
+					}{%
+						{\tt\small\expandafter\escapeus\expandafter{\tmp}}%
+						\ifthenelse{\value{loopa}<\numexpr\value{affilmails}-1}{%
+							\setcounter{loopb}{\value{loopa}+1}%
+							\edef\tmpa{\DenKrAuthorTmpArrayBGetEnt{\theloopb}}%
+							\expandafter\ifstrequal\expandafter{\tmpa}{!}{%
+								%Here we are at: Have written an Addr, next will be linebreak
+								%Check furthermore: After this linebreak, current Group is finished AND another Group will follow. -> Then, make a Group-Seperator
+								\ifthenelse{\numexpr\value{loopa}+1<\numexpr\value{affilmails}-1}{{\small, }}{%
+									\ifthenelse{\numexpr\value{loopAuthi}<\numexpr\value{assocIDMax}}{;}{}%
+								}%
+							}{{\small, }}%
+						}{}%
+					}%
+					\DenKrAuthorTmpArrayBDelEnt{\theloopa}%
+					\stepcounter{loopa}%
+				}%
+				\ifthenelse{\value{loopAuthi}<\numexpr\value{assocIDMax}}{%
+					%No Separator, when we just had a Linebreak
+					\expandafter\ifstrequal\expandafter{\tmp}{!}{}{; }%
+				}{}%
+			}%
+		}%
+	}%
+}%
+\DeclareDocumentCommand{\processAffilMailsIEEE}{mm}{%
+	% Here, the default Format shall be "collective" (take Mail from Affiliation), i.e. 'auto' is equally treated to 'collective', i.e. 'individual' is intercepted -> everything else is the default format.
+	\expandafter\ifstrequal\expandafter{\DenKrAuthorMailSelect}{individual}{%
+		\prepareAffilMails{#2}%
+		\DenKrMailsStripDomain%
+		\ifnumcomp{\value{affilmails}}{<}{1}{}{%
+			\\%
+			Email: \{%
+			\setcounter{loopAuthi}{0}%
+			\setcounter{loopAuthj}{\value{affilmails}}%
+			\whiledo{\value{loopAuthi}<\value{affilmails}}{%
+				\edef\tmp{\DenKrAuthorTmpArrayBGetEnt{\theloopAuthi}}%
+				\expandafter\ifstrequal\expandafter{\tmp}{!}{\\}{%
+					{\small\expandafter\escapeus\expandafter{\tmp}}%
+					\ifnumcomp{\value{loopAuthj}}{>}{1}{{\small\xspace| }}{}%
+				}%
+				\DenKrAuthorTmpArrayBDelEnt{\theloopAuthi}%
+				\stepcounter{loopAuthi}%
+				\addtocounter{loopAuthj}{-1}%
+			}%
+			\prepareAffilMails{#1}%
+			\DenKrMailExtractDomain%
+			\}@\DenKrMailDomain%
+		}%
+	}{%
+		\prepareAffilMails{#1}%
+		\ifnumcomp{\value{affilmails}}{<}{1}{}{%
+			\\%
+			Email: {\small%
+			\setcounter{loopAuthi}{0}%
+			\setcounter{loopAuthj}{\value{affilmails}}%
+			\whiledo{\value{loopAuthi}<\value{affilmails}}{%
+				\edef\tmp{\DenKrAuthorTmpArrayBGetEnt{\theloopAuthi}}%
+				\expandafter\escapeus\expandafter{\tmp}%
+				\DenKrAuthorTmpArrayBDelEnt{\theloopAuthi}%
+				\stepcounter{loopAuthi}%
+				\addtocounter{loopAuthj}{-1}%
+				\ifnumcomp{\value{loopAuthj}}{>}{0}{, }{}%
+			}%
+			}%
+		}%
+	}%
+}%
+\newcommand\remAdditionalFilter[1]{%
+	\StrCount{#1}{@}[\remAdditionalFilterTmp]%
+	\ifnumcomp{\remAdditionalFilterTmp}{>}{1}{\StrBefore[2]{#1}{@}[#1]}{}%
+	\let\remAdditionalFilterTmp\undefined
+}%
+\DeclareDocumentCommand{\prepareAffilMails}{m}{%
+	% Catch empty String or with only Spaces
+	\StrLen{#1}[\tmpa]%
+	\StrCount{#1}{ }[\tmpb]%
+	\setcounter{affilmails}{0}%
+	\setcounter{DenKrAuthorTmpArrayB}{0}%
+	\DenKrAuthorTmpArrayBDelEnt{0}%
+	\ifnumcomp{\tmpa}{<}{1}{}{\ifnumcomp{\tmpa}{=}{\tmpb}{}{%
+		% Split the List
+		\StrCount{#1}{°}[\tmpa]%
+		\setcounter{affilmails}{\tmpa+1}%
+		\setcounter{DenKrAuthorTmpArrayB}{0}%
+		\edef\tmpb{#1}% Init. The loop runs one iteration too few. For when no comma is contained, the part after loop catches it.
+		\whiledo{\value{DenKrAuthorTmpArrayB}<\numexpr\value{affilmails}-1}{%
+			\StrBefore{\tmpb}{°}[\tmpa]%
+			\StrBehind{\tmpb}{°}[\tmpb]%
+			%Remove additional Filter
+			% \remAdditionalFilter{\tmpa}%
+			%Store First Addr
+			\DenKrAuthorTmpArrayBAddEnt{\theDenKrAuthorTmpArrayB}{\tmpa}%
+			\stepcounter{DenKrAuthorTmpArrayB}%
+		}%
+		%Remove additional Filter
+		% \remAdditionalFilter{\tmpb}%
+		\DenKrAuthorTmpArrayBAddEnt{\theDenKrAuthorTmpArrayB}{\tmpb}%
+		\stepcounter{DenKrAuthorTmpArrayB}%
+	}}%
+	\let\tmpa\undefined\let\tmpb\undefined%
+}%
+\DeclareDocumentCommand{\countAffilMails}{m}{%
+	\StrLen{#1}[\tmpa]%
+	\StrCount{#1}{ }[\tmpb]%
+	\setcounter{affilmails}{0}%
+	\ifnumcomp{\tmpa}{<}{1}{}{\ifnumcomp{\tmpa}{=}{\tmpb}{}{%
+		\StrCount{#1}{°}[\tmpa]%
+		\setcounter{affilmails}{\tmpa+1}%
+	}}%
+}%
+% % % % % % % % % % % % % % % % % % % % % % % %
+\newcounter{tmpArray}\setcounter{tmpArray}{0}%
+\DeclareDocumentCommand{\prepareSplitListTmpArray}{m}{%
+	% Catch empty String or with only Spaces
+	\StrLen{#1}[\tmpa]%
+	\StrCount{#1}{ }[\tmpb]%
+	\setcounter{tmpArray}{0}%
+	\setcounter{DenKrAuthorTmpArrayA}{0}%
+	\DenKrAuthorTmpArrayADelEnt{0}%
+	\ifnumcomp{\tmpa}{<}{1}{}{\ifnumcomp{\tmpa}{=}{\tmpb}{}{%
+		% Split the List
+		\StrCount{#1}{°}[\tmpa]%
+		\setcounter{tmpArray}{\tmpa+1}%
+		\setcounter{DenKrAuthorTmpArrayA}{0}%
+		\def\tmpb{#1}% Init. The loop runs one iteration too few. For when no comma is contained, the part after loop catches it.
+		\whiledo{\value{DenKrAuthorTmpArrayA}<\numexpr\value{tmpArray}-1}{%
+			\StrBefore{\tmpb}{°}[\tmpa]%
+			\StrBehind{\tmpb}{°}[\tmpb]%
+			\DenKrAuthorTmpArrayAAddEnt{\theDenKrAuthorTmpArrayA}{\tmpa}%
+			\stepcounter{DenKrAuthorTmpArrayA}%
+		}%
+		\DenKrAuthorTmpArrayAAddEnt{\theDenKrAuthorTmpArrayA}{\tmpb}%
+	}}%
+	\let\tmpa\undefined\let\tmpb\undefined%
+}%
+%______________________________________
+%  Temporary Array Storage
+%vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
+% A general One, where an optional argument allows to customize the internally used control-sequence
+% ToDo. Doesn't work somehow, complains about extra \endcsname. Don't have the nerves right now.
+\DeclareDocumentCommand\DenKrAuthorTmpArrayInit{m O{}}{%
+	\newcounter{DenKrAuthorTmpArray#2}\setcounter{DenKrAuthorTmpArray#2}{0}%
+}%
+\DeclareDocumentCommand\DenKrAuthorTmpArrayAddEnt{m O{} m m}{%
+	\edef\tmp{#4}%
+	\stripLeadTrailSpace{\tmp}%
+	\csxdef{DenKrAuthorTmpArray#2#3}{\tmp}%
+	%\stepcounter{DenKrAuthorTmpArrayA}% In this case, done outside, as the Counter is also used as loopCount
+}%
+\DeclareDocumentCommand\DenKrAuthorTmpArrayGetEnt{m O{} m}{\csuse{DenKrAuthorTmpArray#2#3}}%
+\DeclareDocumentCommand\DenKrAuthorTmpArrayDelEnt{m O{} m}{\csundef{DenKrAuthorTmpArray#2#3}}%
+\DeclareDocumentCommand\DenKrAuthorTmpArrayCheckEnt{m O{} m}{\ifcvoid{DenKrAuthorTmpArray#2#3}}%
+% % % % % % % % %
+% Two that use the general one with argument to have two different Arrays
+\newcommand\DenKrAuthorTmpArrayAInit{\DenKrAuthorTmpArrayInit{}[A]}%
+\DenKrAuthorTmpArrayAInit%
+% \newcommand\DenKrAuthorTmpArrayAAddEnt[2]{\DenKrAuthorTmpArrayAddEnt{}[A]{#1}{#2}}%
+% \newcommand\DenKrAuthorTmpArrayAGetEnt[1]{\DenKrAuthorTmpArrayGetEnt{}[A]{#1}}%
+% \newcommand\DenKrAuthorTmpArrayADelEnt[1]{\DenKrAuthorTmpArrayDelEnt{}[A]{#1}}%
+% \newcommand\DenKrAuthorTmpArrayAcheckEnt[1]{\DenKrAuthorTmpArrayCheckEnt{}[A]{#1}}%
+\newcommand\DenKrAuthorTmpArrayAAddEnt[2]{%
+	\stripLeadTrailSpace{#2}%
+	\csxdef{DenKrAuthorTmpArrayA#1}{#2}%
+	%\stepcounter{DenKrAuthorTmpArrayA}% In this case, done outside, as the Counter is also used as loopCount
+}%
+\newcommand\DenKrAuthorTmpArrayAGetEnt[1]{\csuse{DenKrAuthorTmpArrayA#1}}%
+\newcommand\DenKrAuthorTmpArrayADelEnt[1]{\csundef{DenKrAuthorTmpArrayA#1}}%
+\newcommand\DenKrAuthorTmpArrayAcheckEnt[1]{\ifcsempty{DenKrAuthorTmpArrayA#1}}%
+% % % % % % % % %
+\newcommand\DenKrAuthorTmpArrayBInit{\DenKrAuthorTmpArrayInit{}[B]}%
+\DenKrAuthorTmpArrayBInit%
+\newcommand\DenKrAuthorTmpArrayBAddEnt[2]{%
+	\stripLeadTrailSpace{#2}%
+	\csxdef{DenKrAuthorTmpArrayB#1}{#2}%
+	%\stepcounter{DenKrAuthorTmpArrayB}% In this case, done outside, as the Counter is also used as loopCount
+}%
+\newcommand\DenKrAuthorTmpArrayBGetEnt[1]{\csuse{DenKrAuthorTmpArrayB#1}}%
+\newcommand\DenKrAuthorTmpArrayBDelEnt[1]{\csundef{DenKrAuthorTmpArrayB#1}}%
+\newcommand\DenKrAuthorTmpArrayBcheckEnt[1]{\ifcsempty{DenKrAuthorTmpArrayB#1}}%
+%^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+\DeclareDocumentCommand{\stripLeadingSpace}{m}{%
+	%Strip Leading
+		% \StrPosition{#1}{ }[\stripLeadingSpaceA]%
+		% \whiledo{\numexpr\stripLeadingSpaceA=1}{%
+		% 	\StrGobbleLeft{#1}{1}[#1]%
+		% 	\StrPosition{#1}{ }[\stripLeadingSpaceA]%
+		% }%
+	\IfBeginWith{#1}{ }{\def\stripLeadingSpaceA{1}}{\def\stripLeadingSpaceA{0}}%
+	\whiledo{\numexpr\stripLeadingSpaceA=1}{%
+		\StrGobbleLeft{#1}{1}[#1]%
+		\IfBeginWith{#1}{ }{\def\stripLeadingSpaceA{1}}{\def\stripLeadingSpaceA{0}}%
+	}%
+	\let\stripLeadingSpaceA\undefined%
+}%
+\DeclareDocumentCommand{\stripTrailingSpace}{m}{%
+	\IfEndWith{#1}{ }{\def\stripTrailingSpaceA{1}}{\def\stripTrailingSpaceA{0}}%
+	\whiledo{\numexpr\stripTrailingSpaceA=1}{%
+		\StrGobbleRight{#1}{1}[#1]%
+		\IfEndWith{#1}{ }{\def\stripTrailingSpaceA{1}}{\def\stripTrailingSpaceA{0}}%
+	}%
+	\let\stripTrailingSpaceA\undefined%
+}%
+\DeclareDocumentCommand{\stripLeadTrailSpace}{m}{%
+	\stripLeadingSpace{#1}%
+	\stripTrailingSpace{#1}%
+}%
+%--------------------------------------
+\DeclareDocumentCommand{\DenKrMailsStripDomain}{}{%
+	\ifnumcomp{\value{affilmails}}{<}{1}{}{%
+		\setcounter{loopAuthi}{0}%
+		\whiledo{\value{loopAuthi}<\value{affilmails}}{%
+			\edef\tmp{\DenKrAuthorTmpArrayBGetEnt{\theloopAuthi}}%
+			\IfSubStr{\tmp}{@}{%
+				\StrBefore{\tmp}{@}[\tmp]%
+				\DenKrAuthorTmpArrayBAddEnt{\theloopAuthi}{\tmp}%
+			}{}%
+			\stepcounter{loopAuthi}%
+		}%
+	}%
+}%
+\DeclareDocumentCommand{\DenKrMailExtractDomain}{}{%
+	\edef\tmp{\DenKrAuthorTmpArrayBGetEnt{0}}%
+	\edef\DenKrMailDomain{}%
+	\StrBehind{\tmp}{@}[\DenKrMailDomain]%
+}%
+%--------------------------------------
+%/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+%				END Layout
+%------------------------------------------------------------------------
+%========================================================================
+%
+%
+%
+%
+%________________________________________________________________________
+%------------------------------------------------------------------------
+%				Internally Used Macros
+%/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+% ----  Array-alike Storage
+% - - - - Authors
+\newcounter{DenKrAuthorDefinedAuth}%
+\setcounter{DenKrAuthorDefinedAuth}{0}%
+\newcommand\addDenKrAuthorDefinedAuth[3]{%
+	\edef\DenKrMark{#1}\stripLeadTrailSpace{\DenKrMark}%
+	\edef\DenKrName{#2}\stripLeadTrailSpace{\DenKrName}%
+	\edef\DenKrMail{#3}\stripLeadTrailSpace{\DenKrMail}%
+	\csedef{DenKrAuthorDefinedAuthMARK\theDenKrAuthorDefinedAuth}{\DenKrMark}%
+	\csedef{DenKrAuthorDefinedAuthNAME\theDenKrAuthorDefinedAuth}{\DenKrName}%
+	\expandafter\ifstrequal\expandafter{#3}{!}{}{%
+		\csedef{DenKrAuthorDefinedAuthMAIL\theDenKrAuthorDefinedAuth}{\DenKrMail}%
+	}%
+	\stepcounter{DenKrAuthorDefinedAuth}%
+	\let\DenKrMark\undefined\let\DenKrName\undefined\let\DenKrMail\undefined%
+}%
+\newcommand\getDenKrAuthorDefinedAuthNAME[1]{%
+	\csname DenKrAuthorDefinedAuthNAME#1\endcsname%
+}%
+\newcommand\getDenKrAuthorDefinedAuthMARK[1]{%
+	\csuse{DenKrAuthorDefinedAuthMARK#1}%
+}%
+\newcommand\getDenKrAuthorDefinedAuthMAIL[1]{%
+	\csuse{DenKrAuthorDefinedAuthMAIL#1}%
+}%
+\newcommand\leaveIdxEmpyDenKrAuthorDefinedAuth{%
+	\csundef{DenKrAuthorDefinedAuthNAME\theDenKrAuthorDefinedAuth}%
+	\csundef{DenKrAuthorDefinedAuthMAIL\theDenKrAuthorDefinedAuth}%
+	\stepcounter{DenKrAuthorDefinedAuth}%
+}%
+\newcommand\checkEmptyDenKrAuthorDefinedAuth[3]{%
+	\ifcsvoid{DenKrAuthorDefinedAuthNAME#1}{#2}{#3}%
+}%
+% - - - - Affiliation
+\newcounter{DenKrAuthorDefinedAffil}%
+\setcounter{DenKrAuthorDefinedAffil}{0}%
+\newcommand\addDenKrAuthorDefinedAffil[3]{%
+	\edef\DenKrMark{#1}\stripLeadTrailSpace{\DenKrMark}%
+	\edef\DenKrAddr{#2}\stripLeadTrailSpace{\DenKrAddr}%
+	\edef\DenKrMail{#3}\stripLeadTrailSpace{\DenKrMail}%
+	\csedef{DenKrAuthorDefinedAffilMARK\theDenKrAuthorDefinedAffil}{\DenKrMark}%
+	\csedef{DenKrAuthorDefinedAffilADDR\theDenKrAuthorDefinedAffil}{\DenKrAddr}%
+	\csedef{DenKrAuthorDefinedAffilMAIL\theDenKrAuthorDefinedAffil}{\DenKrMail}%
+	\stepcounter{DenKrAuthorDefinedAffil}%
+	\let\DenKrMark\undefined\let\DenKrAddr\undefined\let\DenKrMail\undefined%
+}%
+\newcommand\getDenKrAuthorDefinedAffilADDR[1]{%
+	\csuse{DenKrAuthorDefinedAffilADDR#1}%
+}%
+\newcommand\getDenKrAuthorDefinedAffilMARK[1]{%
+	\csuse{DenKrAuthorDefinedAffilMARK#1}%
+}%
+\newcommand\getDenKrAuthorDefinedAffilMAIL[1]{%
+	\csuse{DenKrAuthorDefinedAffilMAIL#1}%
+}%
+% - - - - Association
+\newcounter{assocIDMax}\setcounter{assocIDMax}{0}%
+\DeclareDocumentCommand{\addDenKrAuthPerIdx}{m m m}{%
+	\addDenKrAuthPerIdxNAME{#1}{#2}%
+	\addDenKrAuthPerIdxMAIL{#1}{#3}%
+}%
+\DeclareDocumentCommand{\addDenKrAffilPerIdx}{m m m}{%
+	\addDenKrAffilPerIdxADDR{#1}{#2}%
+	\addDenKrAffilPerIdxMAIL{#1}{#3}%
+}%
+\newcommand\addDenKrAuthPerIdxMAIL[2]{\storeMailSplitlistPerIdx{#1}{#2}{DenKrDefAuthPerIdxMAIL}}%
+\newcommand\getDenKrAuthPerIdxMAIL[1]{\csuse{DenKrDefAuthPerIdxMAIL#1}}%Pass the Association-Mark (not something like a Loop-Iterator)
+%
+\newcommand\addDenKrAuthPerIdxNAME[2]{\storeSingleEntryPerIdx{#1}{#2}{DenKrDefAuthPerIdxNAME}}%
+\newcommand\getDenKrAuthPerIdxNAME[1]{\csuse{DenKrDefAuthPerIdxNAME#1}}%Pass the Association-Mark (not something like a Loop-Iterator)
+%
+\newcommand\addDenKrAffilPerIdxADDR[2]{\storeSingleEntryPerIdx{#1}{#2}{DenKrDefAffilPerIdxADDR}}%
+\newcommand\getDenKrAffilPerIdxADDR[1]{\csuse{DenKrDefAffilPerIdxADDR#1}}%Pass the Association-Mark (not something like a Loop-Iterator)
+%
+\newcommand\addDenKrAffilPerIdxMAIL[2]{\storeMailSplitlistPerIdx{#1}{#2}{DenKrDefAffilPerIdxMAIL}}%
+\newcommand\getDenKrAffilPerIdxMAIL[1]{\csuse{DenKrDefAffilPerIdxMAIL#1}}%Pass the Association-Mark (not something like a Loop-Iterator)
+%
+% % % % % % % % % % % % % % % % % % % % % % % %
+%		Auxiliary Macros for this
+\DeclareDocumentCommand{\storeSingleEntryPerIdx}{mmm}{%
+	\prepareAssocIdc{#1}%
+	\ifnumcomp{\value{assocIds}}{<}{1}{}{%
+		\setcounter{loopAuthi}{0}%
+		%Loop over Association-IDs for this Author
+		\whiledo{\value{loopAuthi}<\value{assocIds}}{%
+			%See what the highest Value is
+			\ifnumcomp{\value{assocIDMax}}{<}{\DenKrAuthorTmpArrayAGetEnt{\theloopAuthi}}{\setcounter{assocIDMax}{\DenKrAuthorTmpArrayAGetEnt{\theloopAuthi}}}{}%
+			%The (Target) Array-Identifier for this Iteration
+			\edef\tmp{#3\DenKrAuthorTmpArrayAGetEnt{\theloopAuthi}}%
+			% Store NAME per ID (concatenated)
+			\ifcsvoid{\tmp}{%
+				\csxdef{\tmp}{#2}%
+			}{%
+				\edef\tmpa{\csuse{\tmp}°#2}%
+				\csxdef{\tmp}{\tmpa}%
+			}%
+			%\DenKrAuthorTmpArrayBDelEnt{\theloopAuthj}% No Del here, because Array needed accross iterations. Should do one clean after entire function
+			\stepcounter{loopAuthj}%
+			% \DenKrAuthorTmpArrayADelEnt{\theloopAuthi}%
+			\stepcounter{loopAuthi}%
+		}%
+	}%
+	\let\tmp\undefined\let\tmpa\undefined%
+}%
+\DeclareDocumentCommand{\storeMailSplitlistPerIdx}{mmm}{%
+	\prepareAssocIdc{#1}%
+	\prepareAffilMails{#2}%
+	\ifnumcomp{\value{assocIds}}{<}{1}{}{%
+		\setcounter{loopAuthi}{0}%
+		%Loop over Association-IDs for this Author
+		\whiledo{\value{loopAuthi}<\value{assocIds}}{%
+			%See what the highest Value is
+			\ifnumcomp{\value{assocIDMax}}{<}{\DenKrAuthorTmpArrayAGetEnt{\theloopAuthi}}{\setcounter{assocIDMax}{\DenKrAuthorTmpArrayAGetEnt{\theloopAuthi}}}{}%
+			%The (Target) Array-Identifier for this Iteration
+			\edef\tmp{#3\DenKrAuthorTmpArrayAGetEnt{\theloopAuthi}}%
+			% Store the Addresses per ID (concatenated)
+			% Loop over E-Mails to store individually, while doing, filter according to second @
+			\ifnumcomp{\value{affilmails}}{<}{1}{}{%
+				\setcounter{loopAuthj}{0}%
+				\whiledo{\value{loopAuthj}<\value{affilmails}}{%
+					\edef\tmpa{\DenKrAuthorTmpArrayBGetEnt{\theloopAuthj}}% The Mail-Addr in \tmpa
+					\StrCount{\tmpa}{@}[\tmpc]%
+					%\typeout{<<[\DenKrAuthorTmpArrayAGetEnt{\theloopAuthi}] \tmpa: \tmpc}%
+					\ifnumcomp{\tmpc}{>}{1}{%
+						\StrBehind[2]{\tmpa}{@}[\tmpc]%
+						\StrBefore[2]{\tmpa}{@}[\tmpa]%
+						%\typeout{<<Split: \tmpa | \tmpc}%
+						\ifnumcomp{\tmpc}{=}{\DenKrAuthorTmpArrayAGetEnt{\theloopAuthi}}{}{%
+							%\typeout{<<--> Filter out Addr: \tmpa}%
+							\csundef{tmpa}%
+						}%
+					}{}%
+					% Condition for filtered out Addr, i.e. nothing to add.
+					\ifcsvoid{tmpa}{}{
+						\ifcsvoid{\tmp}{%
+							\csxdef{\tmp}{\tmpa}%
+						}{%
+							\edef\tmpb{\csuse{\tmp}°\tmpa}%
+							\csxdef{\tmp}{\tmpb}%
+						}%
+					}%
+					%\DenKrAuthorTmpArrayBDelEnt{\theloopAuthj}% No Del here, because Array needed accross iterations. Should do one clean after entire function
+					\stepcounter{loopAuthj}%
+				}%
+			}%
+			% \DenKrAuthorTmpArrayADelEnt{\theloopAuthi}%
+			\stepcounter{loopAuthi}%
+		}%
+	}%
+	\let\tmp\undefined\let\tmpa\undefined\let\tmpb\undefined\let\tmpc\undefined%
+}%
+%/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+%				END Internal
+%------------------------------------------------------------------------
+%========================================================================
+%
+%
+%
+%
+%________________________________________________________________________
+%------------------------------------------------------------------------
+%				Variables for Configuration
+%/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+\providecommand{\DenKrAuthorMailSelect}{auto}% auto, individual, collective
+\providecommand{\DenKrAuthorIEEEForm}{vertical}% vertical, horizontal, compact
+\providecommand{\DenKrAuthorParboxed}{0}% 1: Assure keeping Textwidth, 0: Not wrapped
+%/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+%				END Variables
+%------------------------------------------------------------------------
+%========================================================================

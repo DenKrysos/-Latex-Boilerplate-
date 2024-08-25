@@ -1,0 +1,137 @@
+{
+    "files.exclude": {
+        //"**/.0build": true,
+        "*.project": true,
+        "**/.externalToolBuilders": true,
+        "**/.settings": true,
+        "**/.texlipse": true
+    },
+    "latex-workshop.latex.tools": [
+        {
+            "name": "latexmk_plain",
+            "command": "latexmk",
+            "args": [
+            ]
+        },
+        {
+            "name": "latexmk",
+            "command": "latexmk",
+            "args": [
+                "-synctex=1",
+                "-interaction=nonstopmode",
+                "-file-line-error",
+                "-pdf",
+                "-outdir=%OUTDIR%",
+                "%DOC%"
+            ]
+        },
+        {
+            "name": "pdflatex",
+            "command": "pdflatex",
+            "args": [
+                "-synctex=1",
+                "-interaction=nonstopmode",
+                "-file-line-error",
+                "%DOC%"
+            ]
+        },
+        {
+            "name": "xelatex",
+            "command": "xelatex",
+            "args": [
+                "-synctex=1",
+                "-interaction=nonstopmode",
+                "-file-line-error",
+                "%DOC%"
+            ]
+        },
+        {
+            "name": "bibtex",
+            "command": "bibtex",
+            "args": [
+                "%DOCFILE%"
+            ]
+        },
+        {
+            "name": "biber",
+            "command": "biber",
+            "args": [
+                "%DOCFILE%"
+            ]
+        }
+    ],
+    "latex-workshop.latex.recipes": [
+        {
+            "name": "latexmk_plain",
+            "tools": [
+                "latexmk_plain",
+            ]
+        }
+    ],
+    "latex-workshop.latex.external.build.command": "latexmk",
+    //The directory, where the Extension searches for created files
+    "latex-workshop.latex.outDir": "%DIR%/../.2out_final",
+    //Don't build PDF on saving a file (but instead on user trigger)
+    "latex-workshop.latex.autoBuild.run": "never",
+    "latex-workshop.latex.autoClean.run": "never",
+    // Fix citation warnings in editor when using biber (wavy lines).
+    "latex-workshop.intellisense.citation.backend": "biblatex",
+    // Set bibliography indentation to four spaces (default: two).
+    "latex-workshop.bibtex-format.tab": "4 spaces",
+    // Sync PDF with cursor position after compiling.
+    "latex-workshop.synctex.afterBuild.enabled": false,
+    // Automatically choose last used recipe on next build.
+    "latex-workshop.latex.recipe.default": "lastUsed",
+    "latex-workshop.latex.build.clearLog.everyRecipeStep.enabled": false,
+    "editor.wordWrap": "on",
+    "latex-workshop.latex.rootFile.indicator": "\\begin{document}",
+    "latex-workshop.view.pdf.viewer": "external",
+    "latex-workshop.view.pdf.ref.viewer": "auto",
+    //
+    // USAGE: SumatraPDF stores the -inverse-search command in its settings. Hence, one does not have to include it in every call.
+    // Likewise is the "View" Command kind-of redundant. Since the "Synctex" cmd also opens the viewer.
+    // Hence, I do: Set the "viewer" command with als arguments and use this like once per PC, to configure SumatraPDF. Afterwards, for permanent operation, just use the "synctex" cmd.
+    // - Of course, you can just directly set the inverse-search command in SumatraPDF, taking the detour for configuration over VSCode here...
+    //        InverseSearchCmdLine = "C:\Program Files\Microsoft VS Code\Code.exe" "C:\Program Files\Microsoft VS Code\resources\app\out\cli.js" --ms-enable-electron-run-as-node -r -g "%f:%l"
+    //        EnableTeXEnhancements = true
+    //
+    // - VARIANTS for the inverse-search command to VSCode:
+    //    - Working:
+    //        "\"C:\\Program Files\\Microsoft VS Code\\Code.exe\" \"C:\\Program Files\\Microsoft VS Code\\resources\\app\\out\\cli.js\" --ms-enable-electron-run-as-node -r -g \"%f:%l\"",
+    //    - Working, but uncool, since it temporarily opens a cmd-line terminal and takes quite long:
+    //        "code.cmd -r -g \"%f:%l\"",
+    //    - Not working. I suppose because code.exe doesn't directly support runtime cmd-line args
+    //        "\"C:\\Program Files\\Microsoft VS Code\\Code.exe\" -r -g \"%f:%l\"",
+    //
+    // - VARIANTS for handing over the PDF file
+    //    - Filled by Latex Workshop to be [Path: Workspace | Filename: root-file-name]
+    //        "%PDF%"
+    //    - Set it manually:
+    //        "%WORKSPACE_FOLDER%\\ResultTest.pdf"
+    //
+    // External Viewer is opened with "Ctrl + Alt + v"
+    "latex-workshop.view.pdf.external.viewer.command": "C:\\Program Files\\SumatraPDF\\SumatraPDF.exe",
+    "latex-workshop.view.pdf.external.viewer.args": [
+        "-reuse-instance",
+        "-forward-search",
+        "%TEX%",
+        "%LINE%",
+        // "-inverse-search",
+        // "\"C:\\Program Files\\Microsoft VS Code\\Code.exe\" \"C:\\Program Files\\Microsoft VS Code\\resources\\app\\out\\cli.js\" --ms-enable-electron-run-as-node -r -g \"%f:%l\"",
+        "%PDF%"
+    ],
+    // Forward Search with External Viewer is done with "Ctrl + Alt + j"
+    "latex-workshop.view.pdf.external.synctex.command": "C:\\Program Files\\SumatraPDF\\SumatraPDF.exe",
+    "latex-workshop.view.pdf.external.synctex.args": [
+        "-reuse-instance",
+        "-forward-search",
+        "%TEX%",
+        "%LINE%",
+        "%PDF%"
+    ],
+    "latex-workshop.latex.clean.args": [
+        "-c",
+        // "%TEX%",//Not in my Set-Up, because it is nearly completely configured in a .latexmkrc file
+    ],
+    "latex-workshop.latex.clean.subfolder.enabled": true,
+}

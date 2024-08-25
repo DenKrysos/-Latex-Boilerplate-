@@ -1,0 +1,288 @@
+% Author: Dennis Krummacker%
+\ifdefined\DenKr\documentclass[tikz,fontsize=11pt,class=scrbook]{standalone}\begin{document}\else%
+\input{"./2ProjectSetup".tex}%
+\input{"\DenKrAllMainRootDirPATH/2includes/packages/preamble_pre".tex}%
+\documentclass[tikz,fontsize=11pt,class=scrbook]{standalone}% I.e. the content from \input{"\DenKrLayoutMainRootDir/2layout/tikz_standalone/preamble_1_class".tex}%
+\input{"\DenKrInternalLayoutRootDir/tikz_standalone/1TikzStandalonePicIncludeThis".tex}%
+\DenKrTikzStandalonePre\fi%
+%
+%
+%
+\newcommand\nodedistance{0.5cm}%
+\newcommand\innabst{0.8em}% Abstand zwischen Text und Zellenrand
+%
+\let\breite\undefined%
+\newlength\breite%
+\settowidth{\breite}{\large \textbf{Interfacename}}%
+\setlength\breite{\breite+\innabst+\innabst+1em}%
+%
+%
+\begin{tikzpicture}[%
+	scale = \tikzpicturescale,%
+	auto,%
+	node distance=\nodedistance%
+]%
+\newcommand{\cnt}{2}%
+%
+%
+% \bfseries%
+%
+%\draw[color=slightblue,fill] (-0.5,-4.5) rectangle (10.5,0.5);
+%
+\node(start)[startstop]{Start};%
+%
+\node(start_ai)%
+	[note,%
+	rectangle split,%
+	rectangle split parts=2,%
+% 	rectangle split part fill={orange!30,orange!30},%
+    rectangle split every empty part={},%
+	rectangle split empty part height=0.1ex,%
+	rectangle split empty part depth=0ex,%
+	rectangle split part align={center,center},%
+	below=1*\nodedistance of start,%
+	xshift=-5cm]%
+	{\nodepart{one}Abstract Interface%
+	\nodepart{two}Thread zur Kommunikation\\ mit Controller};%
+%
+\node(start_aictrl)%
+	[note,%
+	below=1*\nodedistance of start,%
+	xshift=5cm]%
+	{Abstract Interface\\ Controller};%
+%
+\draw[arrow](start.east)-|(start_aictrl.north);%
+\draw[arrow](start.west)-|(start_ai.north);%
+%
+% 	\node(ctrlkomm)%
+% 		[note,%
+% 		below=\nodedistance of start_ai]%
+% 		{Thread zur Kommunikation\\ mit Controller};%
+% 	\node(ctrlkommabove)[shape=coordinate,%
+% 		above=0.25*\nodedistance of ctrlkomm]{};
+% 	\draw[connect](start_ai.south)--(ctrlkommabove);%
+% 	\draw[arrow](ctrlkommabove)--(ctrlkomm);%
+%
+	\node(send_ports)%
+		[io,%
+		below=1*\nodedistance of start_ai]%
+		{Sende Ports\\ an AI Controller};%
+	\draw[arrow](start_ai)--(send_ports);%
+%
+	\node(get_ports)%
+		[io]%
+		at(send_ports-|start_aictrl)%
+		{Erhalte Ports\\ vom AI};%
+	\draw[arrow](start_aictrl)--(get_ports);%
+	\draw[arrowwait,<->](send_ports)--(get_ports);%
+%
+	\node(wlanmonneigh)%
+		[process,%
+		below=1*\nodedistance of send_ports]%
+		{WLAN-Monitor:\\ Ermittle WLAN Stationen\\ in Reichweite};%
+	\draw[arrow](send_ports)--(wlanmonneigh);%
+%
+	\node(sendwlanneigh)%
+		[io,%
+		below=1*\nodedistance of wlanmonneigh]%
+		{Sende WLAN Nachbarn\\ an AI Controller};%
+	\draw[arrow](wlanmonneigh)--(sendwlanneigh);%
+%
+%
+%
+	\node(getwlanneigh)%
+		[io]%
+		at(sendwlanneigh-|start_aictrl)%
+		{Erhalte WLAN\\ Nachbarn vom AI};%
+%
+	\node(include_ports)%
+		[process]%
+		at($(getwlanneigh)!.5!(get_ports)$)
+		{Inkludiere Ports in Datenbank};%
+	\draw[arrow](include_ports)--(getwlanneigh);%
+	\draw[arrow](get_ports)--(include_ports);%
+%
+	\node(analyse_wlanneigh)%
+		[processsplit=2,%
+		below=1*\nodedistance of getwlanneigh]%
+		{\nodepart{one}Analysiere RSSIs%
+		\nodepart{two}Inkludiere in Datenbank};%
+	\draw[arrow](getwlanneigh)--(analyse_wlanneigh);%
+	\draw[arrowwait,<->](getwlanneigh)--(sendwlanneigh);%
+%
+%
+%
+%
+\node(ctrldecision_anchor)%
+	[shape=coordinate,below=2*\nodedistance of analyse_wlanneigh]{};%
+%
+\node[cleartext,anchor=north,yshift=-0.5*\innabst]%
+	at(ctrldecision_anchor)
+	{\textbf{Netzwerk Setup Entscheidung}};%
+%
+\node(ctrldecision_database)%
+	[cylinder,aspect=0.125,shape border rotate=90,%
+	cylinder uses custom fill,%
+	cylinder end fill=gray!50,%
+	cylinder body fill=gray!25,%
+	draw,%
+	inner sep=\innabst,%
+	text centered,align=center,%
+	text width=3cm,%
+	minimum height=2cm,%
+	anchor=north,%
+	xshift=1.5cm+1*\nodedistance,%
+	yshift=-\nodedistance-\baselineskip]%
+	at(ctrldecision_anchor)%
+	{Datenbank verbundener AIs};%
+%
+\node(ctrldecision_database_topo)%
+	[cylinder,aspect=0.125,shape border rotate=90,%
+	cylinder uses custom fill,%
+	cylinder end fill=gray!50,%
+	cylinder body fill=gray!25,%
+	draw,%
+	inner sep=\innabst,%
+	text centered,align=center,%
+	text width=3cm,%
+	minimum height=2cm,%
+	anchor=north,%
+	below=1*\nodedistance of ctrldecision_database]%
+	{Datenbank bestehender Topologie};%
+%
+\node(ctrldecision_decision)%
+	[process,%
+	anchor=north east,%
+	align=left,%
+	text width=3cm,%
+	minimum height=4.5cm+\nodedistance,%
+	xshift=-1*\nodedistance,%
+	yshift=-\nodedistance-\baselineskip]%
+	at(ctrldecision_anchor)%
+	{AI in Topologie integrieren;\\[0.5\baselineskip]%
+	Topologie (Neu-) Aufbauen;\\[0.5\baselineskip]%
+	Anweisungen an weitere AIs verteilen;};%
+%
+\node(ctrldecision_lo)[shape=coordinate,%
+	xshift=-\nodedistance,%
+	yshift=\nodedistance+\baselineskip]%
+	at(ctrldecision_decision.north west)%
+	{};%
+\node(ctrldecision_ru)[shape=coordinate,%
+	xshift=\nodedistance,%
+	yshift=-\nodedistance]%
+	at(ctrldecision_decision.south-|ctrldecision_database_topo.east)%
+	{};%
+\node(ctrldecision_ro)[shape=coordinate]%
+	at(ctrldecision_lo-|ctrldecision_ru)%
+	{};%
+\node(ctrldecision_lu)[shape=coordinate]%
+	at(ctrldecision_lo|-ctrldecision_ru)%
+	{};%
+\node(ctrldecision_north)[shape=coordinate]%
+	at($(ctrldecision_lo)!.5!(ctrldecision_ro)$)%
+	{};%
+\node(ctrldecision_south)[shape=coordinate]%
+	at($(ctrldecision_lu)!.5!(ctrldecision_ru)$)%
+	{};%
+\path[draw](ctrldecision_lo)-|(ctrldecision_ru)-|(ctrldecision_lo);%
+%
+\node(ai2arrow_connect)[shape=coordinate]%
+	at(ctrldecision_database.west-|ctrldecision_ro){};%
+\node(ai1arrow_connect)[shape=coordinate,yshift=0.5cm]%
+	at(ai2arrow_connect){};%
+\node(ai3arrow_connect)[shape=coordinate,yshift=-0.5cm]%
+	at(ai2arrow_connect){};%
+%
+\draw[arrowwait,<-](ai1arrow_connect)--%
+	node[pos=0.1,anchor=south west,align=left,rotate=0,yshift=3pt]%
+	{Weitere\\ verbundene\\	AIs}%
+	($(ai1arrow_connect)+(1cm,0)$);%
+\draw[arrowwait,<-](ai2arrow_connect)--($(ai2arrow_connect)+(1cm,0)$);%
+\draw[arrowwait,<-](ai3arrow_connect)--%
+	node[pos=0.6,anchor=north,yshift=-5pt]{\Large \textbf{\ldots}}%
+	($(ai3arrow_connect)+(1cm,0)$);%
+%
+\draw[arrow](analyse_wlanneigh.south)--(analyse_wlanneigh.south|-ctrldecision_north);%
+%
+%
+%
+\node(adhocsetupinfo)%
+	[process,%
+	below=2*\nodedistance of ctrldecision_south]%
+	{AI Verbindungspaar und Kanal\\ der Funkverbindung sowie das\\ zu nutzende WLAN
+	Interface\\ sind entschieden};%
+\draw[arrow](ctrldecision_south)--(adhocsetupinfo);%
+%
+\node(send_adhoc)%
+	[io,%
+	below=1*\nodedistance of adhocsetupinfo]%
+	{Sende SSID \& Frequenz\\ der Ad-hoc Verbindung an AI};%
+\draw[arrow](adhocsetupinfo)--(send_adhoc);%
+%
+\node(get_adhoc)%
+	[io]%
+	at(sendwlanneigh|-send_adhoc)%
+	{Erhalte Ad-hoc Parameter\\ vom AI Controller};%
+\draw[arrow](sendwlanneigh)--(get_adhoc);%
+\draw[arrowwait,<->](send_adhoc)--(get_adhoc);%
+%
+\node(take_setup)%
+	[process,%
+	below=1*\nodedistance of get_adhoc]%
+	{Einstellungen für\\ Funkverbindung vornehmen};%
+\draw[arrow](get_adhoc)--(take_setup);%
+%
+\node(get_start)%
+	[io,%
+	below=1*\nodedistance of take_setup]%
+	{Erhalte \ico{Start}-Kommando\\ vom AI Controller};%
+\draw[arrow](take_setup)--(get_start);%
+%
+\node(send_start)%
+	[io]%
+	at(get_start-|send_adhoc)%
+	{Sende \ico{Start}-Kommando\\ an AIController};%
+\draw[arrow](send_adhoc)--(send_start);%
+\draw[arrowwait,<->](send_start)--(get_start);%
+%
+\node(start_adhoc)%
+	[process,%
+	below=1*\nodedistance of get_start]%
+	{Starte Ad-hoc Netzwerk};%
+\draw[arrow](get_start)--(start_adhoc);%
+%
+\node(stop)[startstop,anchor=north,yshift=-\nodedistance]%
+	at(start_adhoc.south-|start.south){Ende\\ Initial-Setup};%
+\draw[arrow]($(start_adhoc.south west)!.67!(start_adhoc.south east)$)%
+	|-(stop.west);%
+\draw[arrow]($(send_start.bottom left corner)!.33!(send_start.bottom right
+corner)$)%
+	|-(stop.east);%
+%
+\node(start_dauerbetrieb)%
+	[process,anchor=north,yshift=-0*\nodedistance]%
+	at(start_adhoc.south|-stop.south west)%
+	{Betritt Dauerbetrieb\\ (Siehe \abbref{fig:absint-flussdiagramm-ctrlkomm})};%
+\node(start_adhoc_leave)[shape=coordinate]%
+at($(start_adhoc.south west)!.33!(start_adhoc.south east)$){};%
+\draw[arrow](start_adhoc_leave)--(start_adhoc_leave|-start_dauerbetrieb.north);%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+\normalfont%
+%
+\end{tikzpicture}%
+%
+%
+\ifdefined\DenKr\end{document}\else\DenKrTikzStandalonePost\fi%

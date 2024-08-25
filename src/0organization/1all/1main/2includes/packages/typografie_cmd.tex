@@ -1,0 +1,391 @@
+%________________________________________________________________________
+%------------------------------------------------------------------------
+%					Part
+%/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+%
+% own command to get a newline, without this disturbing underfull \hbox
+% still beware of the "Glue" from the set \parskip height plus x minus y
+% which in fact allows latex to stretch the space between paragraphs
+% (by default up to 1pt)
+\newcommand{\nl}{\par\noindent}% Abk. für NewLine
+% and here a command to create really a new paragraph
+% inserts an additional free line
+\newcommand{\np}{\par\vspace{\baselineskip}}% Abk. für NewParagraph
+\newcommand{\npi}{\par\vspace{\baselineskip}\noindent}% Abk. für NewParagraph_noIndent
+% Zu benutzen also so:
+% Neue Zeile ohne Einrückung: \nl
+% Neue Zeile mit Einrückung: Freie Zeile im Editor
+% Neuer Absatz mit freier Zeile dazwischen: \na
+\newcommand{\greenuline}[1]{\colorlet{temp}{.}\color{green}\underline{\color{temp}#1}\color{temp}\xspace}%
+%
+%
+%
+%________________________________________________________________________
+%------------------------------------------------------------------------
+%					Part
+%/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+% For creating a "Labeled Paragraph", which looks similar to a Description-List. This essentially just formats the given Text in a uniform way...
+\newcommand{\parLabelBeforeskip}{0.34\baselineskip}%
+\newcommand{\parLabelAfterlabelskip}{0.3em}%\enskip\quad\qquad%
+\ExplSyntaxOn%
+\DeclareDocumentCommand{\parLabel}{O{} m}{%
+    \group_begin:%
+    {%
+    \keys_set:nn { parLabel } { #1 }
+    \vspace{\parLabelBeforeskip}%
+    \bfseries{\color{DenKrColor_LabeledParagraph}#2}\l_parLabel_delim_tl%
+    }\hspace*{\parLabelAfterlabelskip}%
+    \group_end:%
+}%
+% Define keys
+\keys_define:nn { parLabel }{%
+  delim .tl_set:N = \l_parLabel_delim_tl,%
+  delim .initial:n = :,%
+  % Add more keys as needed
+}%
+\ExplSyntaxOff%
+%
+%
+%
+%
+%
+%
+%________________________________________________________________________
+%------------------------------------------------------------------------
+%			Referencing
+%/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+% To do it *automatically*, using "Cleverref"
+\newcommand{\entityref}[1]{\hyperref[#1]{\cref*{#1}}}%
+\newcommand{\eleref}[1]{\entityref{#1}}%
+\newcommand{\typeref}[1]{\entityref{#1}}%
+% - - - - - - - - - - - - - - - -
+% Including the *Name/Title/Caption* of the Element
+\newcommand{\formatnamref}[1]{%
+	%(#1)%
+	$\langle$#1$\rangle$%
+	%{\boldmath$\langle$}#1{\boldmath$\rangle$}%
+	%$\lceil$#1$\rfloor$%
+	%{\boldmath$$\lceil$}#1${\boldmath$\rfloor$}%
+}%
+\makeatletter%
+\newcommand{\numnamref}[1]{%
+    %\cref@gettype{#1}{\currlabtype}%
+	\hyperref[#1]{\cref*{#1} \formatnamref{\nameref*{#1}}}%
+}%
+\makeatother%
+\newcommand{\entitynumnamref}[1]{\numnamref{#1}}%
+\newcommand{\elenumnamref}[1]{\numnamref{#1}}%
+\newcommand{\typenumnamref}[1]{\numnamref{#1}}%
+% - - - - - - - - - - - - - - - -
+% Nameref with some fancy formatting
+% - - Setup for it
+\newcommand{\formatrefFormat}[1]{{\color{DenKrColor_Highlight_Emerald}#1}}%
+\newcommand{\quotrefFormat}[1]{{\gerguiquotel{#1}}}%
+\newcommand{\formatquotrefFormat}[1]{{\quotrefFormat{\formatrefFormat{#1}}}}%
+% - - The actual referenc cmds
+\newcommand{\formattednamref}[1]{{%
+	\hyperref[#1]{\formatrefFormat{\nameref*{#1}}}%
+}}%
+\newcommand{\entityformattednamref}[1]{\formattednamref{#1}}%
+\newcommand{\eleformattednamref}[1]{\formattednamref{#1}}%
+\newcommand{\typeformattednamref}[1]{\formattednamref{#1}}%
+%
+\newcommand{\quotednamref}[1]{{%
+	\hyperref[#1]{\quotrefFormat{\nameref*{#1}}}%
+}}%
+% - - - - - - - - - - - - - - - -
+% The formatted above + quotation
+\newcommand{\formatquotnamref}[1]{%
+	\hyperref[#1]{\formatquotrefFormat{\nameref*{#1}}}%
+}%
+% - - - - - - - - - - - - - - - -
+% For Referencing (additionally) deeper into a Chapter/Section
+%    (Like "See Chapter 1.2 (NameOfIt) and therein the unnumbered SubSubSection ›Something‹)
+%     -> e.g. \formatquotnamref{sec:someSec} (\furtherref{subsub:unnumberedSec})
+%         --> becomes:  Section 1.2 (Section-Name) (→ ›NameOfUnnumberedSection‹)
+\newcommand{\furtherrefFormat}[1]{{%
+	$\rightarrow$ \formatquotnamref{#1}%
+}}%
+\newcommand{\furtherref}[1]{{%
+	(\furtherrefFormat{#1})%
+}}%
+\newcommand{\deeperref}[1]{\furtherref{#1}}%
+%
+% - - - - - - - - - - - - - - - -
+% To create a Reference with Custom-Text
+% 1: The Hyperlink-Destination, i.e. just "sec:target" not "\pageref{sec:target}
+% 2: The text that shall be displayed.
+% -> The entire text is clickable and leads to the link's destination
+\newcommand{\refCustom}[2]{%
+    \hyperref[#1]{#2}%
+}%
+%
+%
+%
+%
+%
+%
+%
+%________________________________________________________________________
+%------------------------------------------------------------------------
+%			Typesetting
+%/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+% Usage: \DenKrSubfloat{<Label>}{<SubCaption>}{<FloatCode>}
+%   Yes, I declared all three Arguments as mandatory, Deal with it.
+\makeatletter\AddToHook{begindocument/before}{%
+\@ifpackageloaded{subfig}{%
+    \DeclareDocumentCommand{\DenKrSubfloat}{m m m}{%
+        \subfloat[#2]{\label{#1}#3}%
+    }%
+}{\@ifpackageloaded{subcaption}{
+    \DeclareDocumentCommand{\DenKrSubfloat}{m m m}{%
+        \sbox{\tmpbox}{#3}%
+        % \settowidth{\tmpwidth}{#3}%
+        \settowidth{\tmpwidth}{\usebox{\tmpbox}}%
+        \begin{minipage}{\tmpwidth}%
+            \centering%
+            \usebox{\tmpbox}%
+            \protect\subcaption{#2}%
+            \label{#1}%
+        \end{minipage}%
+    }%
+}{\gerguiquote{Neither \textbf{subcaption} nor \textbf{subfig} loaded}}%
+}%
+}\makeatother%
+%/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+%				Basic Typesetting END
+%------------------------------------------------------------------------
+%________________________________________________________________________
+%
+%
+%
+%
+%
+%________________________________________________________________________
+%------------------------------------------------------------------------
+%					Part
+%/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+%
+% Chapter with Subtitle
+\newcommand\chaptersubt[2]{\chapter%
+  [#1\hfil\hbox{}\protect\linebreak{\itshape#2}]%
+  {#1\\[2ex]\Large\itshape#2}%
+}%
+\newcommand\sectionsubt[2]{\section%
+  [#1\hfil\hbox{}\protect\linebreak{\itshape#2}]%
+  {#1\\[2ex]\Large\itshape#2}%
+}%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%________________________________________________________________________
+%------------------------------------------------------------------------
+%				Legacy / DEPRECATED
+%/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+%
+%________________________________________________________________________
+% Referencing.
+%   They should all be superseded by the other Referencing-Cmds above.
+%   The ones, directly referencing more than one Element have still some value, though.
+%   I know, I could (and should) extend the above macro to be able to take a SplitList. Someday...
+%------------------------------------------------------------------------
+%
+% Eventuell Labelprüfung vor \cref@gettype einbauen:
+%	(ifcsdef aus der etoolbox)
+% Macros for uniform Formatting of References to Document-Elements (Figure, Equation, Algorithm, Table)
+\newcommand{\abbref}[1]{\hyperref[#1]{Abbildung~\ref*{#1}}}%
+\newcommand{\abbrefzwei}[2]{Abbildungen~\ref{#1} \& \ref{#2}}%
+\newcommand{\figref}[1]{\hyperref[#1]{Figure~\ref*{#1}}}%
+\newcommand{\figreftwo}[2]{Figures~\ref{#1} \& \ref{#2}}%
+\newcommand{\absref}[1]{\hyperref[#1]{Abschnitt~\ref*{#1}}}%
+\newcommand{\secref}[1]{\hyperref[#1]{Section~\ref*{#1}}}%
+\newcommand{\tablref}[1]{\hyperref[#1]{Tabelle~\ref*{#1}}}%
+\newcommand{\tabref}[1]{\hyperref[#1]{Table~\ref*{#1}}}%
+\newcommand{\algorefGer}[1]{\hyperref[#1]{Algorithmus~\ref*{#1}}}%
+\newcommand{\algoref}[1]{\hyperref[#1]{Algorithm~\ref*{#1}}}%
+\newcommand{\gleref}[1]{\hyperref[#1]{Gleichung~\ref*{#1}}}%
+\newcommand{\equref}[1]{\hyperref[#1]{Equation~\ref*{#1}}}%
+% - - - - - - - - - - - - - - - -
+%
+% - - - - - - - - - - - - - - - -
+% - Even more Legacy Referencing stuff
+% - - (Better just ignore. Only still here, because I am not able to delete old code. '^.^  I might have a problem there...)
+%--------------------------------
+\newcommand{\abnamref}[1]{Abbildung~\ref{#1} (\nameref{#1})}%
+\newcommand{\fignamref}[1]{Figure~\ref{#1} (\nameref{#1})}%
+% \newcommand{\absref}[1]{\textbf{Abschnitt~\ref{#1}}}%
+% Und das gleiche inklusive \nameref
+\makeatletter%
+\newcommand{\absamref}[1]{%
+ 	\cref@gettype{#1}{\currlabtype}%
+	\IfSubStr{\currlabtype}{part}{%
+		\textsf{\cref{#1} - \nameref{#1}}%
+	}{%
+	\IfSubStr{#1}{subsubsec}{%
+%	'subsubsection' isn't functional with gettype.
+%	This only goes deep until subsection
+%	So be careful and append a preceding 'subsubsec'
+%	on the label
+		Unterabschnitt >>\nameref{#1}<< aus \ref{#1}%
+	}{%
+		\cref{#1} (\nameref{#1})%
+	}%
+	}%
+}%
+\makeatother%
+\makeatletter%
+\newcommand{\secnamref}[1]{%
+ 	\cref@gettype{#1}{\currlabtype}%
+	\IfSubStr{\currlabtype}{part}{%
+		\textsf{\cref{#1} - \nameref{#1}}%
+	}{%
+	\IfSubStr{#1}{subsubsec}{%
+%	'subsubsection' isn't functional with gettype.
+%	This only goes deep until subsection
+%	So be careful and append a preceding 'subsubsec'
+%	on the label
+		Section >>\nameref{#1}<< of \ref{#1}%
+	}{%
+		\cref{#1} (\nameref{#1})%
+	}%
+	}%
+}%
+\makeatother%
+% \newcommand{\absamref}[1]{\textbf{Abschnitt~\ref{#1}} (\nameref{#1})}%
+% Für 2 Abschnitte zugleich
+\makeatletter%
+\newcommand{\absrefzwei}[2]{%
+	\cref@gettype{#1}{\currlabtype}%
+	\IfSubStr{\currlabtype}{chapter}{%
+		Kapiteln~\ref{#1} \& \ref{#2}%
+	}{%
+		Abschnitten~\ref{#1} \& \ref{#2}%
+	}%
+}%
+\makeatother%
+\makeatletter%
+\newcommand{\absamrefzwei}[2]{%
+	\cref@gettype{#1}{\currlabtype}%
+	\IfSubStr{\currlabtype}{chapter}{%
+		Kapiteln~\ref{#1} (\nameref{#1}) \&%
+			\ref{#2} (\nameref{#2})%
+	}{%
+		Abschnitten~\ref{#1} (\nameref{#1}) \&%
+			\ref{#2} (\nameref{#2})%
+	}%
+}%
+\makeatother%
+% Absatz Name Reference Zwei Short -- means without the subsequent 'n' -
+% i.e. Kapitel instead of Kapiteln
+\makeatletter%
+\newcommand{\absamrefzweis}[2]{%
+	\cref@gettype{#1}{\currlabtype}%
+	\IfSubStr{\currlabtype}{chapter}{%
+		Kapitel~\ref{#1} (\nameref{#1}) \&%
+			\ref{#2} (\nameref{#2})%
+	}{%
+		Abschnitte~\ref{#1} (\nameref{#1}) \&%
+			\ref{#2} (\nameref{#2})%
+	}%
+}%
+\makeatother%
+% \newcommand{\absrefzwei}[2]{\textbf{Abschnitten~\ref{#1}} \& \ref{\ref{#2}}}%
+% \newcommand{\absamrefzwei}[2]{\textbf{Abschnitten~\ref{#1}} (\nameref{#1}) \& \textbf{\ref{#2}} (\nameref{#2})}%
+%
+%
+%
+%
+%
+%
+%________________________________________________________________________
+% Actually, there is no longer a need for this (when Using in the Book-Boilerplate).
+%  I've redefined the normal \chapter-Cmd to be way more powerful and by that, this also includes the here provided Functionality. Look into "0organization/1main/2includes/packages/typografie_redefine.tex"
+%------------------------------------------------------------------------
+% Makro to define a chapter without numbering, but with Entry in Table of Contents
+% Chapter without numbering to TOC
+% Arguments:
+% #1 - Optional. Alternative Name for TOC
+% #2 - Mandatory. Name of the Chap/Sec/Subsec itself
+% #3 - Optional. Label
+%
+%					%				Old Version					%
+% 					% 					% \newcommand{\chapnt}[2]{%
+% 					% 					% 	\chapter*{#1}%
+% 					% 					% 	\label{#2}%
+% 					% 					% 	\addcontentsline{toc}{chapter}{\nameref{#2}}%
+% 					% 					% 	\markboth{\nameref{#2}}{\nameref{#2}}%
+% 					% 					% 	\addtocounter{chapter}{1}%
+% 					% 					% }%
+\DeclareDocumentCommand{\chapnt}{%
+O{#2} m o%
+}{%
+	\chapter*{#2}%
+	\IfValueTF{#3}{%
+		\label{#3}%
+	}{}%
+% 	\addcontentsline{toc}{chapter}{\nameref{#3}}%
+% 	\markboth{\nameref{#2}}{\nameref{#3}}%
+	\addcontentsline{toc}{chapter}{#1}%
+	\markboth{#1}{#1}%
+	\addtocounter{chapter}{1}%
+}%
+% Usage: \chapnt{Chapter Name}{Label}
+%
+% And for Section
+%	Sets the \rightmark. Remember to change the Brackets for \leftmark if needed
+%	With empty Bracket it sets it blank
+%					%				Old Version					%
+% 					% 					% \newcommand{\secnt}[2]{%
+% 					% 					% 	\section*{#1}%
+% 					% 					% 	\label{#2}%
+% 					% 					% 	\addcontentsline{toc}{section}{\nameref{#2}}%
+% 					% 					% 	\markboth{}{\nameref{#2}}%
+% 					% 					% }%
+\DeclareDocumentCommand{\secnt}{%
+O{#2} m o%
+}{%
+	\section*{#2}%
+	\IfValueTF{#3}{%
+		\label{#3}%
+	}{}%
+	\addcontentsline{toc}{section}{#1}%
+% 	\markboth{\leftmark}{#1}%
+	\markright{#1}%
+}%
+%
+% And for SubSection
+%					%				Old Version					%
+% 					% 					% \newcommand{\subsecnt}[2]{%
+% 					% 					% 	\subsection*{#1}%
+% 					% 					% 	\label{#2}%
+% 					% 					% 	%\addcontentsline{toc}{subsection}{\protect\numberline{}#1}%This would add a whitespace, where normally the section-numbering would be.
+% 					% 					% 	\addcontentsline{toc}{subsection}{#1}%
+% 					% 					% 	\markboth{}{\nameref{#2}}%
+% 					% 					% }%
+\DeclareDocumentCommand{\subsecnt}{%
+O{#2} m o%
+}{%
+	\subsection*{#1}%
+	\IfValueTF{#3}{%
+		\label{#3}%
+	}{}%
+	%\addcontentsline{toc}{subsection}{\protect\numberline{}#1}%This would add a whitespace, where normally the section-numbering would be.
+	\addcontentsline{toc}{subsection}{#1}%
+}%

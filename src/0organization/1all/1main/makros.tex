@@ -1,0 +1,988 @@
+%________________________________________________________________________
+%------------------------------------------------------------------------
+%					Part
+%/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+%
+%
+%
+%---------------------------------------------
+% Vertically aligning Text of different size
+%---------------------------------------------
+% USAGE Example:
+%	\npi
+%	{\LARGE SomeUng --\raiseC{\normalsize -- OtherdgM-- }\raiseT{\normalsize -- OtherdgM-- }\raiseT{\normalsize -- OtherdgM}}
+%	\npi
+%	SomeUng --\raiseC{\tiny -- OtherdgM-- }\raiseT{\tiny -- OtherdgM-- }\raiseT{\tiny -- OtherdgM}
+%---------------------------------------------
+\newsavebox{\verticalAlign}%
+\newlength{\verticalAlignHeight}%
+\newcommand{\textOccupyHeight}{%
+	%\ht\strutbox%
+	%\heightof{\strut}%
+	%\heightof{AMXgpqj}%
+	%\ht\vphantom{AMXgpqj}%
+	\heightof{\vphantom{AMXgpqj}}%
+}%
+% \depthof{#1}
+\newcommand*{\raiseT}[1]{%
+	\setlength{\verticalAlignHeight}{\textOccupyHeight}%
+	\sbox{\verticalAlign}{#1}%
+	\raisebox{\verticalAlignHeight-\ht\verticalAlign}{\usebox{\verticalAlign}}%
+}%
+\newcommand*{\raiseC}[1]{%
+	\setlength{\verticalAlignHeight}{\textOccupyHeight}%
+	\sbox{\verticalAlign}{#1}%
+	\raisebox{0.5\verticalAlignHeight-0.5\ht\verticalAlign}{\usebox{\verticalAlign}}%
+}%
+%
+\newcommand*{\adjustT}[1]{%
+	\adjustbox{valign=t}{#1}%
+}%
+\newcommand*{\adjustC}[1]{%
+	\adjustbox{valign=c}{#1}%
+}%
+%
+%
+%
+%
+%
+%
+%________________________________________________________________________
+%------------------------------------------------------------------------
+%			Footnotes - More elaborate use
+%/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+% Fußnote wiederholt referenzieren
+\newcommand{\savefootnote}[2]{\footnote{\label{#1}#2}}%
+\newcommand{\repeatfootnote}[1]{\textsuperscript{\ref{#1}}\ifMultipleFootnote}%
+%
+\newcommand{\savefootnoteNoMark}[2]{\footnote{\label{#1}#2}}%
+% Beispiel
+% %  First sentence.\savefootnote{footnote-label}{footnote content}
+% %  Second sentence.\repeatfootnote{footnote-label}
+%
+%
+% Own Makro für footnote ohne Marker
+% Unmarked Footnote
+\makeatletter%
+%\def\blfootnote{\xdef\@thefnmark{}\@footnotetext}
+\def\blfootnote{\gdef\@thefnmark{}\@footnotetext}%
+\makeatother%
+% Beispiel:
+%  \blfootnote{No number here!}
+%
+% Another Variant for a Blank-Footnote
+\newcommand\blankfootnote[1]{%
+	\begingroup%
+	\renewcommand\thefootnote{}\footnote{#1}%
+	\addtocounter{footnote}{-1}%
+	\endgroup%
+}%
+%
+% This places a footnote on the bottom of the page but does not leave a Mark where the footnote is defined.
+%     It inserts the number nicely into the ordinary numbering series of normal \footnote{}
+% Arguments:
+%  1 - A label for later referencing of this footnote, i.e. creating a mark
+%  2 - The actual footnote
+\newcommand{\footnoteplace}[2]{%
+	\addtocounter{footnote}{1}%
+	\footnotetext[\thefootnote]{\label{#1}#2}%
+}%
+% This creates a marker corresponding to a formerly "placed" footnote, using its declared label
+\newcommand{\footnoteref}[1]{\repeatfootnote{#1}}%
+%
+% Auxiliary stuff. (Formats footnote-references nicely with comma, in case multiple are set in succession)
+\newcommand\nextToken\relax%
+\newcommand\tokenIsFootnoteRef{%
+	\ifx\footnoteref\nextToken%
+		\textsuperscript{,}%
+	\else\ifx\repeatfootnote\nextToken%
+		\textsuperscript{,}%
+	\else\ifx\savefootnote\nextToken%
+		\textsuperscript{,}%
+	\else\ifx\footnote\nextToken%
+		\textsuperscript{,}%
+	\fi\fi\fi\fi%
+}%
+\newcommand\ifMultipleFootnote{\futurelet\nextToken\tokenIsFootnoteRef}%
+%/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+%				Footnotes done
+%------------------------------------------------------------------------
+%________________________________________________________________________
+%
+%
+%
+%
+%
+%
+% Makro für Kreis um Text
+\newcommand\circlearound[1]{\tikz[baseline]\node[draw,shape=circle,anchor=base,inner sep=0.3ex]{#1};}%
+\newcommand\lipsaround[1]{\tikz[baseline]\node[draw,shape=ellipse,anchor=base,inner sep=0.3ex]{#1};}%
+%
+\newcommand\lipsaroundCol[3]{\tikz[baseline]\node[draw=#2,fill=#3,shape=ellipse,anchor=base,inner sep=0.3ex]{#1};}%
+% fill oder draw = none für farblos
+%
+\newcommand\rectdotaround[2]{\tikz[baseline]\node[draw=#1,thick, loosely dotted,shape=rectangle,anchor=base,inner sep=0.5ex]{#2};}%
+%
+%
+%
+%
+%Some Symbols. (Using package 'amssymb', 'pifont')
+\newcommand{\checksign}{\ding{51}}%
+\newcommand{\crosssign}{\ding{55}}%
+%
+%
+%
+\newcommand{\HRule}{\rule{\linewidth}{0.5mm}}%
+%
+%
+%
+%
+%
+% Requires Packages:
+%  pict2e, fp, xparse, tikz, mathtools, cals, amssymb
+%================================================
+% Some More Symbols
+%=================================
+% \newcommand{\compoundarrow}{\rule[0.5ex]{0.6ex}{0.6ex}\scriptsize\raise2pt\hbox{$\!{\blacktriangleright}$}}%
+\newcommand{\compoundarrow}{\tikz{%
+\def\compoundarrowDimXOne{1ex}%
+\def\compoundarrowDimXTwo{1.4ex}%
+\def\compoundarrowDimYOne{0.6ex}%
+\def\compoundarrowDimYTwo{1.2ex}%
+\path[fill,line join=miter,rounded corners=0](0,0)--++(\compoundarrowDimXOne,0)--++(0,-\compoundarrowDimYOne)--++(\compoundarrowDimXTwo,\compoundarrowDimYTwo)--++(-\compoundarrowDimXTwo,\compoundarrowDimYTwo)--++(0,-\compoundarrowDimYOne)--++(-\compoundarrowDimXOne,0)--cycle;%
+}}%
+\newcommand{\oblongdash}{\tikz{%
+% \def\oblongdashSideY{0.7ex}%
+% \def\oblongdashSideX{2*\oblongdashSideY}%
+\def\oblongdashSideX{0.5em}%
+\def\oblongdashSideY{0.3*\oblongdashSideX}%
+\path[fill,draw=none,line join=round,rounded corners=0.4*\oblongdashSideY](0,0)--++(\oblongdashSideX,0)--++(0,\oblongdashSideY)--++(-\oblongdashSideX,0)--cycle;%
+}}%
+\newcommand{\trianglerightcurvedback}{\tikz{%
+\def\tricurvedbHypo{1.2ex}%
+\def\tricurvedbH{1.2*\tricurvedbHypo}%
+\path[fill,draw=none,line join=miter,rounded corners=0](0,0)--++(\tricurvedbH,0.5*\tricurvedbHypo)--++(-\tricurvedbH,0.5*\tricurvedbHypo)%
+	..controls%
+		(0.4*\tricurvedbH,0.5*\tricurvedbHypo)%
+		and%
+		(0.4*\tricurvedbH,0.5*\tricurvedbHypo)%
+	..%
+	%to[out=-40,in=40]%
+cycle;%
+}}%
+%
+%
+\newcommand{\tikzarrow}{\tikz{\usetikzlibrary{shapes.arrows}\node[single arrow,scale=0.2,inner sep=2ex,fill]at(0,0){};}}%
+%
+\makeatletter%
+%ToDo: A filling of the path is still missing for the \blackpointright. Currently it's identical to \pointright
+\DeclareRobustCommand{\blackpointright}{%
+	\mathrel{\mathpalette\blackpoint@right\relax}%
+}%
+\newcommand{\blackpoint@right}[2]{%
+	\vcenter{\hbox{\blackpoint@@right{#1}}}%
+}%
+\newcommand{\blackpoint@@right}[1]{%
+	\sbox\z@{$\m@th#1\blacktriangleright$}%
+	\setlength{\unitlength}{\ht\z@}%
+	\setlength{\dimen@}{\wd\z@}%
+	\linethickness{%
+		\ifx#1\displaystyle 0.09\unitlength%
+		\else\ifx#1\textstyle 0.09\unitlength%
+		\else\ifx#1\scriptstyle 0.11\unitlength%
+		\else 0.13\unitlength\fi\fi\fi%
+	}%
+	\edef\blackpoint@wd{\fpeval{2*(\dimen@/\unitlength)}}%
+	\begin{picture}(\blackpoint@wd,1)%
+	\roundjoin%
+	\polyline(0,0.5)(0,0)(\blackpoint@wd,0.5)(0,1)(0,0.2)\closepath\fillpath%
+	\end{picture}%
+}%
+%
+\DeclareRobustCommand{\pointright}{%
+	\mathrel{\mathpalette\point@right\relax}%
+}%
+\newcommand{\point@right}[2]{%
+	\vcenter{\hbox{\point@@right{#1}{\triangleright}}}%
+}%
+\newcommand{\point@@right}[2]{%
+	\sbox\z@{$\m@th#1\triangleright$}%
+	\setlength{\unitlength}{\ht\z@}%
+	\setlength{\dimen@}{\wd\z@}%
+	\linethickness{%
+		\ifx#1\displaystyle 0.09\unitlength%
+		\else\ifx#1\textstyle 0.09\unitlength%
+		\else\ifx#1\scriptstyle 0.11\unitlength%
+		\else 0.13\unitlength\fi\fi\fi%
+	}%
+	\edef\point@wd{\fpeval{2*(\dimen@/\unitlength)}}%
+	\begin{picture}(\point@wd,1)%
+	\roundjoin%
+	\polyline(0,0.5)(0,0)(\point@wd,0.5)(0,1)(0,0.2)%
+	\end{picture}%
+}%
+\makeatother%
+%USAGE:
+% $A\pointright B \triangleright C$
+% $\pointright\triangleright$
+% $\scriptstyle\pointright\triangleright$
+% $\scriptscriptstyle\pointright\triangleright$
+%
+%=================================
+% Some More Symbols END
+%================================================
+%
+%
+%
+%
+%================================================
+% Presets for Usage as Itemization Label
+%=================================
+% USAGE: \begin{itemize}[labpragA]   or   \item[\labpragAsym]
+%   (Standing for: Label-Prägnanz-# (EN: Conciseness)
+%   (The \labprag#sym can be used for single items as they do only define the Symbol itself
+%   (The \'abprag#' are defined to be readily usable for a whole itemization environment (i.e. comprise also a fitting left-margin)
+%      (The latter one is a defined Key for enumitem.sty. These are set inside the file "2includes/packages/itemEnum.tex")
+\newcommand{\labpragAsym}{\raisebox{.5\height}{\textbf{\scriptsize$\rightarrow$}}}%
+\newcommand{\labpragBsym}{\raisebox{.5\height}{\textbf{$\scriptstyle\Rightarrow$}}}%
+\newcommand{\labpragCsym}{\raisebox{.5\height}{\scalebox{0.7}{$\pointright$}}}%
+\newcommand{\labpragDsym}{\raisebox{.4\height}{\scalebox{0.7}{$\blacktriangleright$}}}%
+\newcommand{\labpragEsym}{\raisebox{.1\height}{\scalebox{0.6}{\compoundarrow}}}%
+%=================================
+% Label-Presets END
+%================================================
+%
+%
+%
+%
+%================================================
+% Some Label Symbols
+%  (Some use dingbats, which requires LuaLaTeX or the 'pifonts' package
+%    (These are also moldet into enumitemKeys in "2includes/packages/itemEnum.tex")
+%    (Usage of these then: Simply omit the 'sym' part and the '\'
+%=================================
+\newcommand{\labItDefaultSymA}{\textbullet}%
+\newcommand{\labItDefaultSymB}{\textbf{--}}%
+\newcommand{\labItDefaultSymC}{$\mathrm{\ast}$}%
+\newcommand{\labItDefaultSymD}{\textperiodcentered}%
+%
+\newcommand{\labDKsymBullet}{\textbullet}%
+\newcommand{\labDKsymGeviert}{\textbf{--}}%
+\newcommand{\labDKsymAst}{$\mathrm{\ast}$}%
+\newcommand{\labDKsymDot}{\textperiodcentered}%
+\newcommand{\labDKsymOblong}{\raiseC{\oblongdash}}%
+\newcommand{\labDKsymPointright}{\raiseC{\scalebox{0.7}{$\pointright$}}}%
+\newcommand{\labDKsymTriangle}{\raisebox{0.3\height}{\scalebox{0.9}{$\triangleright$}}}%
+\newcommand{\labDKsymTriangleBl}{\raiseC{\scalebox{0.7}{$\blacktriangleright$}}}%
+\newcommand{\labDKsymRTriCurvedB}{\raiseC{\scalebox{1}{$\trianglerightcurvedback$}}}%
+\newcommand{\labDKsymLozenge}{\raiseC{\scalebox{0.65}{$\mathrm{\lozenge}$}}}%
+\newcommand{\labDKsymLozengeBl}{\raiseC{\scalebox{0.65}{$\mathrm{\blacklozenge}$}}}%
+\newcommand{\labDKsymSquare}{\raiseC{\scalebox{0.55}{$\mathrm{\square}$}}}%
+\newcommand{\labDKsymSquareBl}{\raiseC{\scalebox{0.55}{$\mathrm{\blacksquare}$}}}%
+\newcommand{\labDKsymDiamondSplit}{\raiseC{\scalebox{0.7}{\ding{118}}}}%
+\newcommand{\labDKsymCrossA}{\raiseC{\scalebox{0.7}{\ding{103}}}}%
+\newcommand{\labDKsymCrossB}{\raiseC{\scalebox{0.7}{\ding{104}}}}%
+\newcommand{\labDKsymCrossC}{\raiseC{\scalebox{0.7}{\ding{105}}}}%
+\newcommand{\labDKsymCrossD}{\raiseC{\scalebox{0.7}{\ding{106}}}}%
+\newcommand{\labDKsymCrossE}{\raiseC{\scalebox{0.7}{\ding{107}}}}%
+%-------------------------------------------
+% Setting labels (includes margin adjustment
+%    (As this requires package-dependent commands, see the corresponding inclusion file: "2includes/packages/itemEnum.tex")
+%=================================
+% Label Symbols END
+%================================================
+%
+%
+%
+%
+%
+%
+% Nice for use with e.g. Tables / Legends.
+%     Look into the Folder 'organization/templates' for a Table Example inclusive Legend
+\definecolor{geilesrot}{rgb}{ .753,  0,  0}%
+\definecolor{angenehmesorange}{rgb}{ 1,  .753,  0}%
+\definecolor{superduftesgruen}{rgb}{ 0,  .69,  .314}%
+\definecolor{woDieSonneNieHinscheintSchwarz}{rgb}{ 0,  0,  0}%
+%----------------------------------------------------------------
+	\newcommand{\legcrossstraight}{\textcolor{geilesrot}{$\times$}}%
+\newcommand{\legcross}{\textbf{\huge\legcrossstraight}}%
+	\newcommand{\legbulletstraight}{\textcolor{angenehmesorange}{$\bullet$}}%
+\newcommand{\legbullet}{\textbf{\huge\legbulletstraight}}%
+	\newcommand{\legcheckstraight}{\textcolor{superduftesgruen}{$\checkmark$}}%
+\newcommand{\legcheck}{\textbf{\huge\legcheckstraight}}%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%________________________________________________________________________
+%------------------------------------------------------------------------
+%			Verschiedene Definitionen wie Schriftzeichen
+%/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+\newcommand{\mytildeA}{\mbox{\raise.17ex\hbox{$\scriptstyle\mathtt{\sim}$}}\relax}%
+\newcommand{\mytildeB}{\textasciitilde}%
+\newcommand{\mytildeC}{$\sim$}%
+\newcommand{\mytildeD}{$\mathord{\sim}$}%
+\newcommand{\mytildeE}{\~{}}%
+\newcommand{\mytildeF}{\texttildelow}%
+\newcommand{\mytildeG}{\raisebox{-.8ex}{\textasciitilde}}%
+\newcommand{\mytilde}{\mytildeA}%
+\newcommand{\myequalhat}{\mathrel{\widehat{=}}}%
+\newcommand{\myequalhatA}{\mathrel{\stackon[1.5pt]{=}{\stretchto{\scalerel*[\widthof{=}]{\wedge}{\rule{1ex}{3ex}}}{0.5ex}}}}% Would require \usepackage{scalerel,stackengine,amsmath}
+%
+% NOTE on "Hypenation in Compund-Words (i.e. wie explicit dash '-' in-between). Something like: "Compund-Word"
+%   You may know, when you create a compound-word, hyphenation is deactivated for the parts of the compound-word and a line-break can only occur on the dash.
+%   However, the package "babel.sty" provides some special "shorthands" to force a different behavior, but only in some languages, like german.
+%   Howeverever, compiling with LuaLaTeX, one is better of to not use babel, but polyglossia instead.
+%   Howevereverever, polyglossia supports the option "babelshorthands". Pass this to the package and the same shorthands as known from babel are available, and that with every language.
+% - So much for the explanation, tl;dr:
+%   - With pdfLaTeX, usepackage{babel} and then use the macro below
+%   - With LuaLaTex, \usepackage[babelshorthands]{polyglossia} and simply use "=  instead of a plain -
+% -> Then, still an ordinary dash is printend and in additoin, hyphenations on other positions in compound-words, other than the dash are still possible.
+% - - - - - - -
+% Creates an ordinary text-dash ('-'), but with leaving hyphenation active for the joined words
+%  (For this, 'ngerman' has to be defined (possibly unproblematically among others) by babel.sty)
+\newcommand{\hyphdash}{\foreignlanguage{ngerman}{"=}}% Variant for Babel
+%
+% For Guillemets/Chevron to use with every Font (Some Fonts don't define a sign for them)
+\newcommand{\DKguillemetL}{\xspace{\fontfamily{ptm}\selectfont »}}%
+\newcommand{\DKguillemetR}{{\fontfamily{ptm}\selectfont «}\xspace}%
+%/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+%							Definitionen fertig
+%------------------------------------------------------------------------
+%________________________________________________________________________
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%________________________________________________________________________
+%------------------------------------------------------------------------
+%					Part (II)
+%/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+%
+%
+%
+%
+% Initialisierungen wie Counter, Theorem, Variablen, Konstanten..
+%
+\newcommand{\stdleftbarwidth}{0.15em}%
+%
+\theoremstyle{break}%
+\theoremheaderfont{\bfseries}%
+\theorembodyfont{\normalfont}%
+\theoremseparator{}%
+\theorempreskip{0ex}%
+\theorempostskip{0ex}%
+\theoremindent0.5em%
+%
+%That is not quite working well, hence, instead an own solution below
+%	\newtheorem{InciRem}{\protect\InciRemname}[section]%
+%	\newcommand{\InciRemname}{}%Initialization
+%	\addto\captionsenglish{%
+%		\renewcommand{\InciRemname}{Incidential Remark}%
+%	}%
+%	\addto\captionsngerman{%
+%		\renewcommand{\InciRemname}{Einschub}%
+%	}%
+\ifdef{\DenKrLayoutLanguage}{%
+	\expandafter\ifstrequal\expandafter{\DenKrLayoutLanguage}{english}{%
+		\newtheorem{InciRem}{Incidential Remark}[section]%
+	}{%
+	\expandafter\ifstrequal\expandafter{\DenKrLayoutLanguage}{ngerman}{%
+		\newtheorem{InciRem}{Einschub}[section]%
+	}{%
+	\expandafter\ifstrequal\expandafter{\DenKrLayoutLanguage}{german}{%
+		\newtheorem{InciRem}{Einschub}[section]%
+	}{%
+		\newtheorem{InciRem}{Incidential Remark}[section]%
+	}%
+	}%
+	}%
+}{%
+	\newtheorem{InciRem}{Incidential Remark}[section]%
+}%
+%
+%
+%
+%
+%
+%________________________________________________________________________
+%------------------------------------------------------------------------
+%     A manual Counter. Just to have an arbitrary counter at hand
+%/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+\newcounter{manualCounter}%
+\setcounter{manualCounter}{0}%
+\newcommand{\manCountReset}{\setcounter{manualCounter}{0}}%
+\DeclareDocumentCommand{\manCount}{o}{% Only 1 possible Argument (optional), which is a label for referencing
+	\refstepcounter{manualCounter}%
+	\IfNoValueTF{#1}{}{%
+		\label{#1}%
+	}%
+	\arabic{manualCounter}%
+}%
+%------------------------------------------------------------------------
+%________________________________________________________________________
+%
+%
+%
+%
+%________________________________________________________________________
+%------------------------------------------------------------------------
+%			Sonder-Formatierungen (Randnotiz, Trenn-Markierung)
+%/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+%
+% Own redefinition of leftbar environment
+% Einfach ums schöner zu machen
+\newenvironment{myleftbar}[2]%[1=0.5pt,2=5pt]%
+{%
+	% \setlength{\tempheight}{\topsep}%
+	% \setlength{\topsep}{0ex}%
+	\vspace*{-0.95\topsep}%
+	\def\FrameCommand{\hspace{#2} \vrule width #1 \hspace{0.0em}}%
+	\MakeFramed{\advance\hsize-\width\FrameRestore}%
+	\vspace*{0.5ex}%
+}%
+{%
+	\endMakeFramed%
+	\vspace*{-\topsep}%
+	% \setlength{\topsep}{\tempheight}% Doesn't work
+}%
+%
+%
+%
+%
+%
+\DeclareDocumentCommand{\sidenote}{%
+m O{Sidenote} O{0pt}%
+}{%
+\vfuzz=3pt%
+\vspace{#3}%
+\begin{myleftbar}{\stdleftbarwidth}{0.5em}%
+\begin{InciRem}[#2]%
+#1%
+\end{InciRem}%
+\end{myleftbar}%
+\vspace{#3}%
+}%
+% USAGE: \sidenote{<Text-Inhalt>}[<Label>][<Whitespace-Before-and-After>]
+%    e.g.: \sidenote{Eine Beispiel Notiz}%[Just some (optional) Example][0.5\baselineskip]
+%
+%
+% sidenote Same-Page
+\DeclareDocumentCommand{\sidenoteSP}{%
+m O{Sidenote} O{0pt}%
+}{%
+\vfuzz=3pt%
+\vspace{#3}%
+\begin{samepage}%
+\begin{myleftbar}{\stdleftbarwidth}{0.25em}%
+\begin{InciRem}[#2]%
+#1%
+\end{InciRem}%
+\end{myleftbar}%
+\end{samepage}%
+\vspace{#3}%
+}%
+%
+%
+%<><><><><><><><><><><><><>
+% A Textbox - with Frame and Background - for highlighting Text
+% % % % % % % % % % % % % %
+\colorlet{DenKrColor_HighlightTextbox_Frame}{DenKrKomaColor_ChapterHeading!70!black}%
+\colorlet{DenKrColor_HighlightTextbox_BG}{DenKrKomaColor_ChapterHeading_2!25}%
+% 1: Text as Content
+% 2: Color of Frame/Border
+% 3: Color of Background
+\DeclareDocumentCommand{\highlightTextbox}{m O{DenKrColor_HighlightTextbox_Frame} O{DenKrColor_HighlightTextbox_BG}}{%
+	%\ifx&#3&
+	%	3:empty%
+	%\else NonEmpty
+	%\fi%
+	\begin{tcolorbox}[boxrule=0.7pt,colframe=#2,colback=#3% top/bottom/left/rightrule
+		,arc=7pt,outer arc=4pt,%arc is angular%
+		,left skip=0.5em,right skip=0.7em,before skip=1.0ex,after skip=1.7ex%
+		,left=0.2em,right=0.5em,top=0.5ex,bottom=0.5ex% \topskip
+		,shadow={1mm}{-1mm}{0mm}{fill=#2!50!black,opacity=0.2}%
+		% ,fuzzy shadow={1.5mm}{-1.5mm}{0mm}{0.1mm}{fill=#2!50!black,opacity=0.1}%
+	]%
+	#1%
+	\end{tcolorbox}%
+}%
+%
+% - Basically a poor, not recommended Version of the above
+% draw a frame around given text
+\DeclareDocumentCommand{\framedTextbox}{m O{DenKrColor_HighlightTextbox_Frame}}{%
+	\par\noindent\fbox{%
+		\parbox{\dimexpr\linewidth-2\fboxsep-2\fboxrule}{#1}%
+	}%
+}%
+%
+%
+%
+\newcommand{\trennstern}{%
+\vspace{\baselineskip}\hrule%
+{\noindent\hspace{2em}*\hfill*\hfill*\hspace{2em}}%
+\hrule\vspace{\baselineskip}%
+}%
+%
+%/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+%							Sonder-Formatierungen END
+%------------------------------------------------------------------------
+%________________________________________________________________________
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%WorkingStateDivider
+\newcommand{\wdiv}{\vspace{0.5\baselineskip}\npi\hspace*{\fill}====================================================\hspace*{\fill}\nl\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\hfill\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\nl}%
+%
+%
+%
+%
+%
+%
+%=================================
+%  Section Heading & Glossaries
+%   -> You can't just use a \gls{} Command in the Heading of a Chapter, Section, etc.
+%      This would cause a Warning about "Token not allowed [...]" (because of adding hyperlink (an unsupported special character) to the bookmarks)
+%      Instead using \texorpdfstring{}{} specifies different strings to be placed in the actual document or as bookmark
+%      Combining this with alterantive \gls cmds like \glsentrytext{} instead of \glstext{} works around this problem
+%   -> So, for making this process easier: Use the following Macro as opposed hacking something yourself.
+%   -> Or, if you prefer, right below this Comment-Block, you have a "Boilerplate". Use this instead of a simple \gls[...]{} (adjust 'text', 'desc', 'plural', etc. as required)
+%================================================
+% \texorpdfstring{\glstext{#2}}{\glsentrytext{#2}}
+\makeatletter%
+\newcommand{\glstextHead}[1]{%
+	\expandafter\texorpdfstring{\expandafter\glsentryshort{#1}}{\expandafter\glsentryshort{#1}}% glsentryshort, glsentrytext
+}%
+\newcommand{\glsdescHead}[1]{%
+	\expandafter\texorpdfstring{\expandafter\glsentrylong{#1}}{\expandafter\glsentrylong{#1}}% glsentrylong, glsentrydesc
+}%
+\newcommand{\glstextplHead}[1]{%
+	\expandafter\texorpdfstring{\expandafter\glsentryshortpl{#1}}{\expandafter\glsentryshortpl{#1}}% glsentryshortpl, glsentryplural
+}%
+\newcommand{\glsdescplHead}[1]{%
+	\expandafter\texorpdfstring{\expandafter\glsentrylongpl{#1}}{\expandafter\glsentrylongpl{#1}}% glsentrylongpl, glsentrydescplural
+}%
+\makeatother%
+%
+%=================================
+%  More Glossaries-Cmds
+%================================================
+% Printing an "Indefinite Article" (Unbestimmter Artikel)
+%    For printing an Article before a \gls{} matching is expansion (c.f.: "a Software Definition"  vs.  "an SD")
+\newcommand{\glsInArticle}[1]{%
+	\ifglsused{#1}{an}{a}%
+}%
+\providecommand{\glsdescpl}{}%
+\renewcommand{\glsdescpl}[1]{\glslink{#1}{\glsentrylongpl{#1}}}%
+%
+%
+%
+%
+%
+%
+%
+%=================================
+% An environment for typesetting "Spoilers"
+%    Put something inside such an environment and it won't be shown in the digital Document.
+%    But it will have a clickable Button before it to reveal the Content
+% NOTE: Requires \usepackage{ocgx2}, which may be outcommented by default in this Boilerplate
+%      (requires 'ocgx' / 'ocgx2')
+%================================================
+%	Button at Start of Env
+\newcounter{spoiler}%
+\newenvironment{spoiler}%
+{\noindent\stepcounter{spoiler}%
+\begin{minipage}{\textwidth-1ex}%
+\switchocg{spoiler\arabic{spoiler}}{\raisebox{0.4ex}{\fbox{\tiny Spoiler!}}}%
+\begin{ocg}{Spoiler \arabic{spoiler}}{spoiler\arabic{spoiler}}{0}%
+%\footnotesize%
+}%
+%---------------------------------------------
+{\par\end{ocg}%
+\end{minipage}}%
+%---------------------------------------------
+%================================================
+%
+%
+%
+%
+%=================================
+% The romaji Spoiler-Environment
+%      requires package 'ocgx' / 'ocgx2'
+%================================================
+%	Button at Start of Env
+\newcounter{romaji}%
+\newenvironment{romaji}%
+{\stepcounter{romaji}%
+\begin{minipage}{\textwidth-1ex}%
+\switchocg{romaji\arabic{romaji}}{\fbox{\tiny ローマ字}}\begin{ocg}{Romaji \arabic{romaji}}{romaji\arabic{romaji}}{0}%
+\footnotesize}%
+%---------------------------------------------
+{\par\end{ocg}%
+\end{minipage}}%
+%================================================
+%	Button at End of Env
+% 		\newcounter{romaji}%
+% 		\newenvironment{romaji}%
+% 		{\stepcounter{romaji}%
+% 		\begin{minipage}{\textwidth-1ex}%
+% 		\begin{ocg}{Romaji \arabic{romaji}}{romaji\arabic{romaji}}{0}%
+% 		\footnotesize}%
+% 		%---------------------------------------------
+% 		{\end{ocg}\switchocg{romaji\arabic{romaji}}{\fbox{\tiny ローマ字}}%
+% 		\end{minipage}}%
+%================================================
+\newcommand{\ropre}{\par\vspace{0.2\baselineskip}\noindent}% Romaji-Pre
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%________________________________________________________________________
+%------------------------------------------------------------------------
+%			Japanische Schrift
+%/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+\makeatletter%
+\newcommand{\jap}[1]{\begin{CJK}{UTF8}{min}#1\end{CJK}}%
+\makeatother%
+%/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+%							Japanisch fertig
+%------------------------------------------------------------------------
+%________________________________________________________________________
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+%
+% Optionen für fontseries und fontshape:
+% Series, any combination of weight and width is [in theory] possible:
+% weight                    width
+% Ultra Light       ul      Ultra Condensed     uc
+% Extra Light       el      Extra Condensed     ec
+% Light             l       Condensed            c
+% Semi Light        sl      Semi Condensed      sc
+% Medium (normal)   m
+% Semi Bold         sb      Semi Expanded       sx
+% Bold              b       Expanded             x
+% Extra Bold        eb      Extra Expanded      ex
+% Ultra Bold        ub      Ultra Expanded      ux
+% %
+% Shape:
+% upright (normal)   n
+% italic             it
+% slanted/oblique    sl
+% small caps         sc
+% upright italic     ui
+% outline            ol
+%
+%Inline English
+%Zum anders formatieren von nicht übersetzten, englischen Begriffen
+\newcommand*{\ien}[1]{%
+	#1%
+% 	{\small\fontfamily{phv}\fontseries{m}\fontshape{n}\selectfont#1}%
+}%
+%
+%Inline Code
+%Zum eigens formatieren von kleinen Code-Fetzen
+\newcommand*{\ico}[1]{%
+	\texttt{#1}%
+}%
+%
+%
+%
+%
+% Kommando-Zeilen Syntax
+% The one with the 'b' suffix is for brackets only. It does not format anything,
+% but add the brackets. Its something like for "inner-use". You can use it in
+% wrapped makros for example.
+\newcommand*{\regexcmd}[2]{% Regular Expression Command Line
+	\IfSubStr{#1}{id}{%
+		\texttthyph{\textcolor{ColorRegExCmdID}{<#2>}}%
+	}{\IfSubStr{#1}{auswahl}{%
+		\texttthyph{\textcolor{ColorRegExCmdSelect}{[#2]}}%
+	}{\IfSubStr{#1}{mehrfach}{%
+		\texttthyph{\textcolor{ColorRegExCmdMultiSelect}{\{#2\}}}%
+	}{\IfSubStr{#1}{option}{%
+		\texttthyph{-\textcolor{ColorRegExCmdOption}{$\|$#2$\|$}}%
+	}{%
+	}}}}%
+}%
+\newcommand*{\regexcmdb}[2]{% Regular Expression Command Line
+	\IfSubStr{#1}{id}{%
+		<#2>%
+	}{\IfSubStr{#1}{auswahl}{%
+		[#2]%
+	}{\IfSubStr{#1}{mehrfach}{%
+		\{#2\}%
+	}{\IfSubStr{#1}{option}{%
+		-$\|$#2$\|$%
+	}{%
+	}}}}%
+}%
+%
+%
+%
+%
+%
+\definecolor{marginparcolor}{RGB}{31,73,125}%
+% Neuer MarginPar, für Schriftgröße
+\newcommand*{\Marginpar}{}% Anweisung "reservieren"
+% Das "Standard-Kommando" in neuem Kommando mit großem 'M' retten:
+\let\Marginpar\marginpar% \MarginPar ist jetzt dasselbe wie \marginpar
+\renewcommand*{\marginpar}[2][]{{% ein optionales und ein normales Argument
+\expandafter\renewcommand*{\glstextformat}[1]{\color{marginparcolor}##1}%
+	\ifstr{#1}{}{%
+		\Marginpar{\footnotesize\raggedright \textcolor{marginparcolor}{#2}}%
+	}{%
+	\Marginpar[{\footnotesize\raggedright \textcolor{marginparcolor}{#1}}]%
+		{\footnotesize\raggedright \textcolor{marginparcolor}{#2}}%
+	}%
+}}% Double Braces to create a scope for the redefinition of glstextformat
+%
+%
+%
+%
+%
+%________________________________________________________________________
+%------------------------------------------------------------------------
+%							Makros für Cleveref
+%/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+%Get Type of \ref with help of cleveref
+\def\currlabtype{}% Variable reservieren, um im ChapRef Makro den Typ zu speichern
+%/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+%							Cleveref fertig
+%------------------------------------------------------------------------
+%________________________________________________________________________
+%
+%
+%
+%
+%
+%
+%
+% INFO:
+% To print a value (length, printlength)
+% \the\value
+% e.g.: \the\textwidth
+% e.g.: \the\linewidth
+% e.g.: \the\columnwidth
+%
+%
+%
+%
+%
+%
+%________________________________________________________________________
+%------------------------------------------------------------------------
+%			Tikz Macros
+%/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+%
+\newcommand{\tikzpicturescale}{1.0}%
+\newcommand{\tikzpicturescaleboxfactor}{1.0}%
+%
+% Variable für die Breite/Höhe von eingebundenen Bildern
+% Verwendet im folgenden Makro
+\newlength{\tikzwidth}%
+\newlength{\tikzheight}%
+\newlength{\textheightscaled}%
+\newlength{\textwidthactual}%
+\newcommand{\tikzHeightFactorArgument}{1}%
+\newcommand{\tikzWidthFactorArgument}{1}%
+\newlength{\tikzAimedHeight}%
+\newlength{\tikzAimedWidth}%
+\newlength{\captionHeight}%
+\newcommand{\tikzFloatPositioning}{!ht}%
+% \textheightscaled=0.96\textheight%
+% Makro für die Tikz Abbildungen
+% Arg#1 (Optional): Includestandalone-Mode
+% Arg#2: Pic-Name (Location: \tikzFilesPath//NAME.tex) % This Macro can be defined somewhere, by you. In my Template it is found inside the Preamble right by the inclusion of the tikz-Package, together with \includestandalonedefaultmode
+% Arg#3 (Optional): Alternative Directory to take the picture from. This macro "actually" only takes the Picture-Name and tries to take it from the directory "\tikzFilesPath" aka set to "\DenKrTikzRootDir". Passing a value as this optional Argument, overrides the directory. (Pass without trailing '\')
+% Arg#4: Bildbeschriftung
+% Arg#5 (Optional): Alternatives Caption (TableOfContents usw.)
+% Arg#6: Number of Lines des Caption
+% Arg#7 (Optional): Liste mit folgendem Inhalt. Parameter zu Skalierung und Positionierung
+%			#1: Faktor der Seitenhöhe, der nicht überschritten werden soll
+%			#2: Faktor der Seitenbreite, der nicht überschritten werden soll
+%			#3: Positionierungsmodus. Bsp.: !ht, !htpb, H
+%	  Beispiel für ein Listen-Format: [1,1,!htp]
+% Arg#8: Label für referencing
+% Arg#9 (Optional): Rotations-Winkel für das Bild
+%% Möglichkeiten für den includestandalone-mode: tex, buildnew
+%% The Default Macro: See Definition in Header (should be buildnew)
+%% Use the optinal Argument with "tex", to make the tikz-Pics inline and hence
+%% compiled every Runtime, without pre-rendered picture. buildnew creates
+%% pre-rendered Pictures and includes them like standard-png; only rendered, if
+%% tex-file is newer than the picture
+\DeclareDocumentCommand{\tikzabb}{%
+O{\includestandalonedefaultmode} m O{\tikzFilesPath} m o m >{\SplitList{,}}O{1,1,!ht} m O{0}%
+}{%
+\def\efigure{\begin{figure}}%
+\def\efigureend{\end{figure}}%
+\SplitListScalePos#7\relax%
+%\textheightscaled=\textheight-\parskip-\abovecaptionskip-\belowcaptionskip-\baselineskip%
+\textheightscaled=\dimexpr\textheight-#6\baselineskip-\parskip-\abovecaptionskip-\belowcaptionskip\relax%
+\textwidthactual=\dimexpr\linewidth\relax%
+\ifthenelse{#9=90}{%
+	\tikzAimedHeight=\tikzWidthFactorArgument\textwidthactual%
+	\tikzAimedWidth=\tikzHeightFactorArgument\textheightscaled%
+}{%
+	\ifthenelse{#9=-90}{%
+		\tikzAimedHeight=\tikzWidthFactorArgument\textwidthactual%
+		\tikzAimedWidth=\tikzHeightFactorArgument\textheightscaled%
+	}{%
+		\tikzAimedHeight=\tikzHeightFactorArgument\textheightscaled%
+		\tikzAimedWidth=\tikzWidthFactorArgument\textwidthactual%
+	}%
+}%
+\settowidth{\tikzwidth}{\includestandalone{#3/#2}}%
+\settoheight{\tikzheight}{\includestandalone{#3/#2}}%
+\tikzwidth=\tikzpicturescaleboxfactor\tikzwidth%
+\tikzheight=\tikzpicturescaleboxfactor\tikzheight%
+\ifthenelse{\tikzAimedHeight<\tikzheight}{%
+	\tikzheight=\tikzAimedHeight%
+	\settowidth{\tikzwidth}{\includestandalone[height=\tikzheight]{#3/#2}}%
+	\ifthenelse{\tikzAimedWidth<\tikzwidth}{%
+		\tikzwidth=\tikzAimedWidth%
+		\expandafter\efigure\expandafter[\tikzFloatPositioning]%
+			\centering%
+% 	 		\fbox{%
+			\includestandalone[width=\tikzwidth,angle=#9,mode=#1]{#3/#2}%
+% 	 		}%
+			\IfValueTF{#5}{%
+				\caption[#5]{#4}%
+			}{%
+				\caption{#4}%
+			}%
+			\label{#8}%
+		\efigureend%
+	}{%
+		\expandafter\efigure\expandafter[\tikzFloatPositioning]%
+			\centering%
+% 	 		\fbox{%
+			\includestandalone[height=\tikzheight,angle=#9,mode=#1]{#3/#2}%
+% 	 		}%
+			\IfValueTF{#5}{%
+				\caption[#5]{#4}%
+			}{%
+				\caption{#4}%
+			}%
+			\label{#8}%
+		\efigureend%
+	}%
+}{%
+	\ifthenelse{\tikzAimedWidth<\tikzwidth}{\tikzwidth=\tikzAimedWidth}{}%
+	\expandafter\efigure\expandafter[\tikzFloatPositioning]%
+		\centering%
+% 		\fbox{%
+		\includestandalone[width=\tikzwidth,mode=#1]{#3/#2}%
+% 		}%
+		\IfValueTF{#5}{%
+			\caption[#5]{#4}%
+		}{%
+			\caption{#4}%
+		}%
+		\label{#8}%
+	\efigureend%
+}%
+}%
+%
+\newcommand{\SplitListScalePos}[3]{%
+	\renewcommand{\tikzHeightFactorArgument}{#1}%
+	\renewcommand{\tikzWidthFactorArgument}{#2}%
+	\renewcommand{\tikzFloatPositioning}{#3}%
+}%
+%
+% Nice Makro, which allows to check if a node with certain name exists.
+% Gives you an If-Then-Else Operator for use like this:
+% \ifnodedefined{Node-name without brackets}{Wenn existent, dann das}{else}
+\makeatletter%
+\long\def\ifnodedefined#1#2#3{%
+	\@ifundefined{pgf@sh@ns@#1}{#3}{#2}}%
+%
+\newcommand\aeundefinenode[1]{%%
+	\expandafter\ifx\csname pgf@sh@ns@#1\endcsname\relax%
+	\else%
+		\typeout{===>Undefining node "#1"}%
+		\global\expandafter\let\csname pgf@sh@ns@#1\endcsname\relax%
+	\fi%
+}%
+%Another to undefine nodes, that they are gone in successive pics
+\newcommand\aeundefinethesenodes[1]{%
+	\foreach \myn  in {#1}%
+	{%
+		\expandafter\aeundefinenode\expandafter{\myn}%
+	}%
+}%
+\makeatother%
+%
+%________________________________________________________________________
+%------------------------------------------------------------------------
+%			Tikz END
+%/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+%
+%
+%
+%
+%
+%
+%
+\newenvironment{scope}{}{}%
+%
+%
+%
+%
+%
+%
+%
+%==========================================
+%##########################################
+%    Schriftgrößen
+%==========================================
+% \tiny
+% \scriptsize
+% \footnotesize
+% \small
+% \normalsize
+% \large
+% \Large
+% \LARGE
+% \huge
+% \Huge
+%##########################################
+%==========================================

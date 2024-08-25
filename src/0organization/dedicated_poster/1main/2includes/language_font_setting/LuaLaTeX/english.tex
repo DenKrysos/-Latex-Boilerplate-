@@ -1,0 +1,36 @@
+%
+\newcommand{\DenKrLanguageStringCmd}{english}
+%________________________________________________________________________
+%------------------------------------------------------------------------
+%					Basic Language depending Packages
+%/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+% \usepackage[english,german,ngerman]{babel}%
+\usepackage[babelshorthands]{polyglossia}%
+\setmainlanguage[variant=british]{english}% Synonym: \setdefaultlanguage
+\setotherlanguage[spelling=new]{german}%
+%\selectlanguage{japanese}%
+% - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+% == Note ==  With csquotes.sty, use
+%     \textquote{}, to automatically print correct quotation marks, depending on the set language by polyglossia (or babel)
+%     \enquote{}, for 'nested' quotations
+%\usepackage[autostyle=true,german=quotes]{csquotes}% Deutsche Anführungszeichen, german=quotes, guillemets, swiss
+\usepackage[autostyle=true,style=english]{csquotes}%
+% - - - - - - - - - - - - - -
+% == Info, »ALT-Codes« == Some specific quotation signs for hardcoding, using UTF-8 encoding. How-To-Input, if you like.
+%    ALT(left) + [Sequence on NumPad]  (On Windows) (Using ASCII Decimal Index)
+%      "  -    34  (Same as SHIFT + 2, Quotation Mark)
+%      »  -   175  (Guillemets, Chevrons. German: Open. Swiss,French: Close)
+%      «  -   174  (Guillemets, Chevrons. German: Close. Swiss,French: Open)
+%      ›  -  0155
+%      ‹  -  0139
+%      „  -  0132  (low curly doublequote)
+%      “  -  0147  (curly double open quote)
+%      ”  -  0148  (curly double close quote)
+%      ‘  -  0145  (curly single open quote)
+%      ’  -  0146  (curly single close quote)
+%      ‚  -  0130  (curly single quote)
+% - - - - - - - - - - - - - -
+%/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+%							END Basic Language
+%------------------------------------------------------------------------
+%________________________________________________________________________

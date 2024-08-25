@@ -1,0 +1,171 @@
+% !TEX root = 1main.tex
+%%###########################################################%%
+%%        vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv        %%
+%%-----------------------------------------------------------%%
+%  Author of Boilerplate / Template / LaTeX-Document Skeleton:
+%      - Dennis Krummacker
+%  Created:
+%      2016
+%  Last Update:
+%      2024-08
+%  Latest Compiler Tool-Chain to be compatible (recommended to run with):
+%      TeXLive-2024
+%  Compiler to use: (Change in .latexmkrc & 2ProjectSetup.tex)
+%      LuaLaTeX  - For elaborate-Genre/Subdir
+%                - Also viable for 'dedicated'
+%      pdfLaTeX  - For dedicated-Genre/Subdir
+%  Recommended Arguments:
+%      -synctex=1 -interaction=nonstopmode --shell-escape
+%%------------------------------------------------------------%%
+%%        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^        %%
+%%============================================================%%
+%
+%
+%
+%==================================================================================
+% ----  Cmd-Line Arguments
+% ----    Yes, ehem, I created something that behaves like Cmd-Line Arguments...
+% ----    You may safely ignore this. It shouldn't interfer with cases, where they are not provided.
+%----------------------------------------------------------------------------------
+% TeX booleans start out as false.
+\newif\ifMyScreenOutput%
+% What follows uses LaTeX3 syntax.
+\ExplSyntaxOn%
+% LaTeX3 bools start out as false too.
+\bool_new:N \g_DenKrCmdLineArgs_screenOutput_bool%
+% Our LaTeX3 error message(s) for the option list parser (l10n-ready)
+\msg_new:nnnn {DenKrCmdLineArgs} {unknown-choice-for-option}%
+  {%
+    Invalid~value~for~option~\exp_not:n {'#1'}:~\exp_not:n {'#3'}~%
+    (valid~choices~are~\exp_not:n {#2})%
+  }%
+  {You~may~optionally~put~a~more~verbose~message~here.}%
+% Option definitions for our pseudo-package 'DenKrCmdLineArgs' (this document). See l3keys in interface3.pdf as found at [1].
+%   [1] https://ctan.org/pkg/l3kernel
+\keys_define:nn {DenKrCmdLineArgs}%
+  {%
+    % First accepted key: 'outputType'. It takes an optional value among a fixed, limited number of choices, as defined next.
+    outputType .choice:,%
+    outputType / paper .code:n = {     % The first such value is 'paper'.
+      \bool_gset_false:N \g_DenKrCmdLineArgs_screenOutput_bool},%
+    outputType / screen .code:n = {    % The second one is 'screen'.
+      \bool_gset_true:N \g_DenKrCmdLineArgs_screenOutput_bool},%
+    outputType .initial:n = {paper}, % Default is 'paper'
+    outputType / unknown .code:n = {   % Run this when passed an invalid value.
+      \msg_error:nnxxx {DenKrCmdLineArgs} {unknown-choice-for-option}%
+        {outputType}                 % name of the choice key
+        {'paper'~and~'screen'}       % valid choices
+        {\exp_not:n {#1}}            % invalid choice given
+    },%
+    % Second accepted key: 'srcSubDir'. Whether the Project's source is put into a sub-directory.
+    srcSubDir .tl_set:N = \l_DenKrCmdLineArgs_srcSubDir_tl,%
+    srcSubDir .initial:n = {}, % the default is empty
+    % Used when the key is passed with no value ('fullScreen' as opposed to 'fullScreen=something'
+    srcSubDir .default:n = {}%
+  }%
+% The option values may be set from the command line by means of the \DenKrCmdLineArgs macro, which may be defined this way before \input{}ing this file. For the precise option syntax, see l3keys in interface3.pdf[1].
+%   \newcommand{\MyDocParams}{
+%       outputType=screen,
+%       srcSubDir="src"
+%   }
+% Since we already set defaults above with \keys_define:nn, no need to set any here. But Provide it, so that no error is thrown in absence.
+\providecommand{\DenKrCmdLineArgs}{}%
+% This is where keys are set from the point of view of l3keys, and the action associated with each option set is carried out.
+% In order to obtain the option list, we expand once ('o') the second argument of \keys_set:no, namely the \DenKrCmdLineArgs token.
+\keys_set:no {DenKrCmdLineArgs} {\DenKrCmdLineArgs}%
+% Finally, convert the LaTeX3 booleans to \ifFooBar TeX conditionals. This is more or less needed, because control sequences such as \g_DenKrCmdLineArgs_screenOutput_bool will be difficult to enter in the main part of the document without using \ExplSyntaxOn ... \ExplSyntaxOff every time, which would be quite ugly.
+% Of course, instead of the TeX conditionals, one could use booleans from the 'ifthen' or 'etoolbox' packages.
+\bool_if:NT \g_DenKrCmdLineArgs_screenOutput_bool%
+  {\MyScreenOutputtrue}%
+\tl_set_eq:NN \DenKrNestedSrcDirArg \l_DenKrCmdLineArgs_srcSubDir_tl%
+%
+\ExplSyntaxOff%
+\providecommand{\DenKrNestedSrcDirArg}{default}%
+\typeout{»DenKr:  Compiling from nested Src-Dir (got per Arg):}%
+\typeout{- "\DenKrNestedSrcDirArg"}%
+%
+%
+%
+%==================================================================================
+% ----  Custom-Generated-File Reading
+% ----    With my latexmkrc for local compilation, a Custom-File is generated during Compilation and put to the tmp-dir.
+%----------------------------------------------------------------------------------
+% A Macro for this is defined in "0organization/1main/2includes/setup/tex_primitive_cmd.exe", but this is not yet included here.
+%   Nothing like that is currently required here.
+%
+%
+%
+%
+%
+% When wrapping the entire Project into Sub-Directory, either set a latexmkrc file to pass this as Argument.
+%   Or directly set \DenKrNestedSrcDir directly below this Comment
+%==================================================================================
+% ----  Setup
+%----------------------------------------------------------------------------------
+\providecommand{\DenKr}{}% Primarily used for checking whether it is executed within a "DenKr" Environment (standalone, ...)
+\newcommand{\DenKrSetupFilesSubDirPrefix}{}% {./}  \DenKrNestedSrcDir
+\newcommand{\DenKrSubDirPrefix}{\DenKrSetupFilesSubDirPrefix}%
+%
+\newcommand{\DenKrProjectSetupFILE}{2ProjectSetup}%
+\input{"\DenKrSetupFilesSubDirPrefix\DenKrProjectSetupFILE".tex}%
+%
+%
+%
+%
+%
+%==================================================================================
+% ----  Inclusions
+%----------------------------------------------------------------------------------
+\input{"\DenKrLayoutMainRootDir/preamble".tex}%
+\input{"\DenKrAllMainRootDirPATH/makros".tex}%
+\input{"\DenKrAllMainRootDirPATH/makros_typografie".tex}%
+\input{"\DenKrAllMainRootDirPATH/3settings/settings_basic".tex}%
+\input{"\DenKrLayoutMainRootDir/settings_perDoc".tex}%
+%
+%   \input{"\DenKrLayoutBaseRootDir/standalone_constituent/macro_exclusionMux".tex}% -->
+\newcommand{\onlyinsubfile}[1]{}%
+\newcommand{\notinsubfile}[1]{#1}%
+\newcommand{\onlyinmainfile}[1]{\notinsubfile{#1}}%
+%
+%
+%
+%
+%
+%______________________________________________________________
+%\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\......
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%#############################################################################%%
+\begin{document}%%#############################################################%%
+%%#############################################################################%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%////////////////////////////////////////////////////////////////////´´´´´´
+%''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+%
+\input{"\DenKrLayoutRootDir/10_TitlePage_&_init".tex}%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%#############################################################################%%
+%VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV%
+%
+%
+%
+\newcommand{\DenKrDispositionFILE}{3Disposition}%
+\DenKrITEequal{\DenKrDocGenre}{elaborate}{
+	\input{"\DenKrSetupFilesSubDirPrefix\DenKrDispositionFILE_book".tex}%
+}{\DenKrITEequal{\DenKrDocGenre}{dedicated_poster}{
+	\input{"\DenKrSetupFilesSubDirPrefix\DenKrDispositionFILE_article".tex}%
+}{}}%
+%
+%
+%
+%
+% Use a Postamble-File specifically for Layout, if such individual exists, otherwise use common one for all.
+\newcommand{\DenKrPostambleGeneralFILE}{\DenKrLayoutMainRootDir/postamble}%
+\newcommand{\DenKrPostambleLayoutSpecificFILE}{\DenKrLayoutRootDir/postamble}%
+\IfFileExists{\DenKrPostambleLayoutSpecificFILE}{\input{"\DenKrPostambleLayoutSpecificFILE".tex}}{\input{"\DenKrPostambleGeneralFILE".tex}}
+%
+\end{document}%
+%================================================================
+%      FIN
+%----------------------------------------------------------------
+%================================================================

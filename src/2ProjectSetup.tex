@@ -1,0 +1,232 @@
+% !TEX root = 1main.tex
+%==================================================================================
+% ----  Project-Settings
+%----------------------------------------------------------------------------------
+%
+%===============================%
+%==   Valid 'Layout' Values   ==%
+%-------------------------------%
+%  (These "Document-Genre" are just optional Information on how they are technically classified in this Boilerplate. You do not *have to* care about it. Just select the *Layout* to serve your needs.)
+%<><><><><><><><><><><><><><><><><><><><><>
+%<> <>  Document-Genre: elaborate    <><><>
+%<-><-><-><-><-><-><-><-><-><-><-><-><-><->
+%		For sophisticated and nice looking Documents, where you have all the control on how it looks and how it is structured.
+%			I.e. the Layout is not prescribed by the Publisher, Conference, Journal, etc.
+%		Provides for both 'Book-Level' Documents and 'Article-Level'
+%------------------------------------------
+% - scrbook % Optimized "book" for Using KOMA-Script.
+% - scrbook_print % Pretty much the same as "scrbook" but optimized for a print-Version in that it uses a different Page-Geometry and perhaps font-size
+%  %  %  %  %
+% - scrartcl % The KOMA variant for "Article". For smaller, more concise documents. Has no Chapter. E.g. for "scientific Papers". But in this project optimized for using KOMA-Script
+%
+%
+%<><><><><><><><><><><><><><><><><><><><><>
+%<> <>  Document-Genre: dedicated    <><><>
+%<-><-><-><-><-><-><-><-><-><-><-><-><-><->
+%		Specialized for a certain purpose, respectively dedicated to a specific submission target
+%			(like scientific research papers to a publisher)
+%		Mostly 'Articles'
+%------------------------------------------
+% - scrarticle % Optimized "article" for Using KOMA-Script. NOT DONE YET
+% - article % Just the basic LaTeX Class
+% - article_mobilkomm % Used by: Osnabrück Mobilkomm-Tagung. A slightly modified 'article'-class
+% - IEEEtran % Most IEEE Conferences
+% - ieeeconf % A slight variation of IEEEtran. Used by some IEEE Conferences
+% - acmart % Used by most ACM Conferences
+% - preprint % Used to compile a preprint (i.e. no Final-Version or Working-State. Uses the article-class and includes a Submission-Copyright-Notice and the word 'preprint')
+% - postprint % Used to compile a particularly special kind of preprint. For the very final version of the paper, not only after submission and not only after Review-Phase but after final acceptance, ready for print. So it is pretty much the Final-Version without being really THE printed one and in another Layout (Uses the article-class and includes a Copyright-Notice (different from the preprint one))
+% - MDPI % NOT included, because the class for that either alters drastically rapidly or is slightly different for each Journal. Also, for submission they want the source but don't like complex Project Structuresfff, but everything within one File.
+%  %  %  %  %
+% - tikz_standalone % Sort of a special layout type. Used for Tikz-Pictures compiled in standalone-mode
+%  %  %  %  %
+% - tikzposter
+% - fancytikzposter % Not implemented yet, because tikzposter is truly great (when you know tikz yourself ;oP)
+% - beamerposter % Not implemented yet, because tikzposter is truly great (when you know tikz yourself ;oP)
+% - betterposter % Not implemented yet, because tikzposter is truly great (when you know tikz yourself ;oP)
+%
+%
+%<><><><><><><><><><><><><><><><><><><><><>
+%<> <>  Document-Genre: internal/special <>
+%<-><-><-><-><-><-><-><-><-><-><-><-><-><->
+% In that sense special, that these aren't really intended to act as true document, but a snippet inside a Project
+% - tikz_standalone % Used for Tikz-Pictures compiled in standalone-mode
+% - standalone_constituent % Compiles part of the Project as intermediate result and includes it
+%
+%
+%<><><><><><><><><><><><><><><><><><><><><>
+%<> <>  Setting the Values           <><><>
+%<-><-><-><-><-><-><-><-><-><-><-><-><-><->
+\newcommand{\DenKrLayout}{scrbook}%
+\newcommand{\DenKrLayoutLanguage}{english}% en_ger, english, ngerman
+\newcommand{\DenKrLayoutUseHyperref}{1}% 0: false aka NOT use Hyperref  |  1: true aka USE Hyperref
+% Only for 'dedicated'
+\newcommand{\DenKrBlindReview}{0}% 0: NO Blind-Review, i.e. keep Authors in  |  1: Don't print Authors
+%
+% _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+% --  Some Stuff to help during working state
+% Enables you this infamous comments that helps gratuitously while concurrent working / reviewing among several Co-Authors.
+% Have a look into the File  {"\DenKrSupplyRootDir/DenKr_comments".tex}  to adjust Author-&-Macro-Names to the needs of your project
+% During writing, set the following to '1' to have the Comment-Macros be printed.
+% After finishing the work, you can just set it to '0' to make every Comment-Output disappear.
+% Additional Feature: The Macro \disablewr{}. Its Argument is eaten away / vanishes / has no effect when \DenKrCommentsUsage is set to '0'
+\newcommand{\DenKrCommentsUsage}{1}% 1: Enabled  |  0: Disabled, Comment-Macros don't do anything
+%----------------------------------------------------------------------------------
+% - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+%==================================================================================
+%
+%
+%
+%
+%==================================================================================
+% ----  USAGE Notes
+%----------------------------------------------------------------------------------
+% !!! ATTENTION !!! %
+%  ・ Concerning 'dedicated' Doc-Genres:
+%    For the "Author-List", I implemented an automating Mechanism, which takes care of formatting it and automatically adjusts to several Layout.
+%    - This currently only covers the Layouts, frequently used by me (IEEE, std article, preprint, postprint, ...)
+%    - For some others, they are at least covered, so that the Author-List specification is seperated from the organizational stuff. There, you must use the 'legacy' author specification (Directory in '1supply')
+%    - For everything else, well... good luck.
+%
+%
+%
+%
+%
+%
+%==================================================================================
+% ----  Project-Setup
+% ----     (In most cases, you shouldn't be required to touch anything below)
+%----------------------------------------------------------------------------------
+\providecommand{\DenKr}{}% Primarily used for checking whether it is executed within a "DenKr" Environment (standalone, ...)
+%
+%Consider setting bevor \input{}ing this file: (Setting with any Directory)
+%      \newcommand{\DenKrSubDirPrefix}{./}%
+\providecommand{\DenKrSubDirPrefix}{}%
+%----------------------------------------------
+%==============================================
+\newcommand{\DenKrOrgaRootDirPATH}{0organization}%
+\newcommand{\DenKrOrgaMainSub}{1main}%
+\newcommand{\DenKrLayoutBaseSub}{2layout}%
+\newcommand{\DenKrDocGenreAllSUB}{1all}%
+\newcommand{\DenKrDocGenreInternalSUB}{2internal}%
+% % % % % % %
+\newcommand{\DenKrOrgaDirPATH}{\DenKrOrgaRootDirPATH/\DenKrDocGenre}%
+\newcommand{\DenKrLayoutMainRootDirPATH}{\DenKrOrgaDirPATH/\DenKrOrgaMainSub}%
+\newcommand{\DenKrLayoutBaseRootDirPATH}{\DenKrOrgaDirPATH/\DenKrLayoutBaseSub}%
+\newcommand{\DenKrLayoutRootDirPATH}{\DenKrLayoutBaseRootDirPATH/\DenKrLayout}%
+\newcommand{\DenKrAllMainRootDirPATH}{\DenKrOrgaRootDirPATH/\DenKrDocGenreAllSUB/\DenKrOrgaMainSub}%
+\newcommand{\DenKrInternalLayoutRootDirPATH}{\DenKrOrgaRootDirPATH/\DenKrDocGenreInternalSUB/\DenKrLayoutBaseSub}%
+% % % % % % %
+\newcommand{\DenKrSupplyRootDirPATH}{1supply}%
+\newcommand{\DenKrContentRootDirPATH}{9chapter}%
+\newcommand{\DenKrTablesRootDirPATH}{5tables}%
+\newcommand{\DenKrListingsRootDirPATH}{6listings}%
+\newcommand{\DenKrTikzRootDirPATH}{7Tikz}%
+\newcommand{\DenKrGraphicsRootDirPATH}{8graphics}%
+\newcommand{\DenKrAlgorithmRootDirPATH}{\DenKrListingsRootDirPATH}%
+\newcommand{\DenKrLiteratureDirPATH}{\DenKrSupplyRootDirPATH}%
+\newcommand{\DenKrLayoutSupplyAuthorDirPATH}{\DenKrSupplyRootDirPATH/legacy/authors/2layout}% For Legacy/Fallback Reasons: For Paper-Classes by Publishers, which aren't yet handled by my Auto-Mechanic, using the author_affiliation.tex File
+%----------------------------------------------
+% - - - - - - - - - - - - - - - - - - - - - - -
+%----------------------------------------------
+\newcommand{\DenKrOrgaRootDir}{\DenKrSubDirPrefix\DenKrOrgaRootDirPATH}%
+\newcommand{\DenKrOrgaDir}{\DenKrSubDirPrefix\DenKrOrgaDirPATH}%
+\newcommand{\DenKrLayoutMainRootDir}{\DenKrSubDirPrefix\DenKrLayoutMainRootDirPATH}%
+\newcommand{\DenKrLayoutBaseRootDir}{\DenKrSubDirPrefix\DenKrLayoutBaseRootDirPATH}%
+\newcommand{\DenKrLayoutRootDir}{\DenKrSubDirPrefix\DenKrLayoutRootDirPATH}%
+\newcommand{\DenKrAllMainRootDir}{\DenKrSubDirPrefix\DenKrAllMainRootDirPATH}%
+\newcommand{\DenKrInternalLayoutRootDir}{\DenKrSubDirPrefix\DenKrInternalLayoutRootDirPATH}%
+\newcommand{\DenKrSupplyRootDir}{\DenKrSubDirPrefix\DenKrSupplyRootDirPATH}%
+\newcommand{\DenKrContentRootDir}{\DenKrSubDirPrefix\DenKrContentRootDirPATH}%
+\newcommand{\DenKrTablesRootDir}{\DenKrSubDirPrefix\DenKrTablesRootDirPATH}%
+\newcommand{\DenKrListingsRootDir}{\DenKrSubDirPrefix\DenKrListingsRootDirPATH}%
+\newcommand{\DenKrTikzRootDir}{\DenKrSubDirPrefix\DenKrTikzRootDirPATH}%
+\newcommand{\DenKrGraphicsRootDir}{\DenKrSubDirPrefix\DenKrGraphicsRootDirPATH}%
+\newcommand{\DenKrAlgorithmRootDir}{\DenKrSubDirPrefix\DenKrAlgorithmRootDirPATH}%
+\newcommand{\DenKrLiteratureDir}{\DenKrSubDirPrefix\DenKrLiteratureDirPATH}%
+\newcommand{\DenKrLayoutSupplyAuthorDir}{\DenKrSubDirPrefix\DenKrLayoutSupplyAuthorDirPATH}%
+%----------------------------------------------
+%----------------------------------------------
+\newcommand{\DenKrSegmentationSubDirPATH}{\DenKrContentRootDirPATH/0segmentation}%
+\newcommand{\DenKrSegmentationSubDir}{\DenKrSubDirPrefix\DenKrSegmentationSubDirPATH}%
+%----------------------------------------------
+%----------------------------------------------
+\newcommand{\DenKrTikzArtDir}{\DenKrTikzRootDir/2collection}%
+%=========================================================================
+% ----  Project-Setup (Some little additional for further Structuring)
+%-------------------------------------------------------------------------
+\newcommand{\DenKrLayoutIncludeBiographies}{1}% 1: Print the Biographies after Literature-References  |  0: Don't print Biographies
+%
+%
+%
+%==================================================================================
+% ----  More on LaTeX
+%----------------------------------------------------------------------------------
+\def\DenKrCompilerVALLua{LuaLaTeX}%
+\def\DenKrCompilerVALPdf{pdfLaTeX}%
+\newcommand{\DenKrCompiler}{LuaLaTeX}% LuaLaTeX, pdfLaTeX
+%
+% - Just saying: Activating Japanese-Fonts (or any CJK) introduces some hickups: Increase compilation/loading time. Also: It patches the "listings.sty" package and while doing so introduces a minor bug (as of 2023-12): They forgot a line-end percentage, which adds an additional space before each \lstinline.
+\newcommand{\DenKrJPFont}{0}% 1: Also make Japanese Fonts available  |  0: Don't setup Japanese Fonts
+%
+% correct bad hyphenation here
+\hyphenation{%
+	op-ti-cal
+	net-works
+	semi-con-duc-tor
+	time-stamp
+}%
+%
+%
+%
+%
+%==================================================================================
+% ----  Self-Setting Values
+%----------------------------------------------------------------------------------
+\providecommand{\DenKrDocGenre}{}%
+% - elaborate (aka KOMA) - recommended for 'Books', or sophisticated 'Articles'
+% - dedicated - mostly 'Articles' specialized for a certain purpose or dedicated to a specific submission target (like scientific research papers to a publisher)
+% - poster - Well, for Posters
+%		- dedicated_poster - dedicated & poster currently go under one and the same DocGenre 'dedicated_poster', because they share a lot of Code
+% - internal - tikz_standalone, standalone_constituent
+\newcommand{\setDocGenreIf}[3]{
+	\edef\argI{\DenKrLayout}%
+	\def\argII{#2}%
+	\ifx\argI\argII%
+		\renewcommand{\DenKrDocGenre}{#1}%
+	\else%
+		#3%
+	\fi%
+}%
+\setDocGenreIf{elaborate}{scrbook}{%
+\setDocGenreIf{elaborate}{scrbook_print}{%
+\setDocGenreIf{elaborate}{scrartcl}{%
+% Dedicated Purpose Stuff (e.g. scientific Paper)
+\setDocGenreIf{dedicated_poster}{preprint}{%
+\setDocGenreIf{dedicated_poster}{postprint}{%
+\setDocGenreIf{dedicated_poster}{IEEEtran}{%
+\setDocGenreIf{dedicated_poster}{article}{%
+\setDocGenreIf{dedicated_poster}{article_mobilkomm}{%
+\setDocGenreIf{dedicated_poster}{ieeeconf}{%
+\setDocGenreIf{dedicated_poster}{acmart}{%
+\setDocGenreIf{dedicated_poster}{MDPI}{%
+% Poster
+\setDocGenreIf{dedicated_poster}{tikzposter}{%
+\setDocGenreIf{dedicated_poster}{fancytikzposter}{%
+\setDocGenreIf{dedicated_poster}{beamerposter}{%
+\setDocGenreIf{dedicated_poster}{betterposter}{%
+%
+\setDocGenreIf{internal}{tikz_standalone}{%
+\setDocGenreIf{internal}{standalone_constituent}{%
+}}}}}}}}}}}}}}}}}%
+%
+%
+%
+%
+%
+%
+%==================================================================================
+% ----  Some 'further Definitions' that shouldn't be required to touch.
+%----------------------------------------------------------------------------------
+\newcommand{\DenKrLayoutCommonDirPATH}{1common}%
+% - - - - - - - - - - - - - - - - - - - -
+\newcommand{\DenKrLayoutCommonDir}{\DenKrSubDirPrefix\DenKrLayoutBaseRootDirPATH/\DenKrLayoutCommonDirPATH}%

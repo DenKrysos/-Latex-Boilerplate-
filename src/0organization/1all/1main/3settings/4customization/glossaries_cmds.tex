@@ -1,0 +1,60 @@
+%________________________________________________________________________
+%------------------------------------------------------------------------
+%						Dual Entrys
+%/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+% New Makro, to easily create a DualEntry for simultaneous definition of Acronym \& Glossary Entry, with reference
+% -- Version 1 (less powerful. If possible, use Version 2):
+% \newcommand*{\newdualentry}[5][]{%
+% 	\newglossaryentry{gls-#2}{name={#4},text={#3\glsadd{#2}},%
+% 		description={#5},#1%
+% 	}%
+% 	\newacronym{#2}{#3\glsadd{gls-#2}}{#4}%
+% }%
+% -- Version 2:
+% (based on package xparse)
+\DeclareDocumentCommand{\newdualentry}{ O{} O{} m m m m }{%
+	\newglossaryentry{gls-#3}{%
+        name={#5},%\glsadd{#3}
+		text={#5},%
+		description={#6},%
+        crossRef={#3},%
+        #1}%
+	\newacronym[crossRef={gls-#3},#2]%
+        {#3}%
+        {#4}%\glsadd{gls-#3}
+        {#5}%
+}%
+% Usage Syntax:
+% \newdualentry[glossary options][acronym options]{label}{abbrv}{long}{description}
+% and for the references:
+% Refer to acronym with \gls{label} and the glossary with \gls{gls-label}
+%  -  -  -  -  -  -  -
+% Example:
+%        \newdualentry%
+%        [%
+%            deutsch={Programmierschnittstelle},%
+%            parent={},%
+%            untertitel={}%
+%        ]%Options für Glossary
+%        [%
+%            plural=APIs,%
+%            longplural=Programmierschnittstellen%
+%        ]%Options für Acronym
+%        {api}%label
+%        {API}%abbreviation
+%        {Application Programming Interface}%long form
+%        {%//%
+%            Eine \textit{Schnittstelle zur Anwendungsprogrammierung} [...]]%
+%        }%description
+%        \glsunset{api}%
+% Blank Boilerplate:
+%\newdualentry%
+%[]% Options für Glossary
+%[]% Options für Acronym
+%{lbl}% label
+%{abbr}% abbreviation
+%{longf}% long form
+%{desc}% description
+%________________________________________________________________________
+%						Dual Entry Definitions
+%VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV

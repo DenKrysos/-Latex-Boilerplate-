@@ -1,0 +1,182 @@
+%________________________________________________________________________
+%------------------------------------------------------------------------
+%			Improved Sectioning Commands
+%/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+%
+%________________________________________________________________________
+%           Actually independent of KOMA, but also enhances features from there. E.g. is the Chapter-Label-Tracking required for the Hyperlinks in the Headmark
+%========================================================================
+%
+\ifChapterExists%
+\def\DenKrCurChap{chapnt:ToC}%
+\newcounter{runningChapterTrack}%
+\setcounter{runningChapterTrack}{0}%
+\newcommand{\DenKrSetChapter}{%
+	\let\chapterDefault=\chapter%
+	\let\chapter=\chapterDenKr%
+}%
+\makeatletter%
+\NewDocumentCommand{\chapterDenKr}{%
+	s% Whether or not "Star-Cmd", i.e. \chapter vs \chapter*
+	o% The optional Argument for the not stared Version. This serves various purposes, depending on whether * or not:
+		% Non-Star Version:
+		%   As usual: Alternative Title for ToC, Headmark, Bookmark
+		% Star-Version (*):
+		%   # Not provided at all, i.e. NO [] at all, e.g. \chapter*{Title}
+		%       - behaves like the usual \chapter/section cmd: Chapter is not put to ToC, Headmark, Bookmark
+		%   # Provide, but empty, i.e. set [] with nothing within, e.g. \chapter*[]{Title}
+		%       - behaves like the non-stared Version, except that no Number is put to the Chapter. So it adds the Chapter to ToC, etc and uses the mandatory Title for that.
+		%   # Provide and fill, i.e. set [] with something within, e.g. \chapter*[AlternativeTitle]{Title}
+		%       - Exactly like with the non-stared Cmd, except without Number. The AlternativeTitle is put to ToC, etc..
+	m% The actual argument, i.e. Title of Chapter/Section
+}{% \chapter*[<opt>]{<man>}
+	\def\@currentlabel{}% Make sure, that the (numeric) Label is reset in all occasions
+	\IfBooleanTF{#1}{%
+		% Stared: \chapter*
+		\IfValueTF{#2}{%
+			% Whether or not optional Argument supplied: \chapter*[..]{...}
+			\ifx\empty#2\empty%
+				% The optional argument was set and is empty
+				\def\@AltTitle{#3}%
+			\else%
+				% The optional argument was set to some value
+				\def\@AltTitle{#2}%
+			\fi%
+			\chapterDefault*{#3}%
+			% \addcontentsline{toc}{chapter}{\protect\numberline{}\@AltTitle}% Add Title to ToC
+			\addcontentsline{toc}{chapter}{\@AltTitle}% Add Title to ToC
+			\addtocontents{lof}{\protect\addvspace{10\p@}}% Space between chapters in LoF
+			\addtocontents{lot}{\protect\addvspace{10\p@}}% Space between chapters in LoT
+			\addtocontents{loa}{\protect\addvspace{10\p@}}% Space between chapters in LoA
+			\markboth{\@AltTitle}{\@AltTitle}% Set marks based on optional argument
+			\addtocounter{chapter}{1}%
+		}{%
+			% \chapter*{...}
+			\chapterDefault*{#3}%
+		}%
+	}{%
+		% No-Star: \chapter
+		\IfValueTF{#2}{%
+			% Optional: \chapter[..]{...}
+			\chapterDefault[#2]{#3}%
+		}{%
+			% No-Optional: \chapter{...}
+			\chapterDefault{#3}%
+		}%
+	}%
+	\def\@currentlabelname{#3}% A patch to have it work properly with \nameref (in edge-cases like using the Stared-Cmd after \backmatter)
+	\label{chapTrack:\the\value{runningChapterTrack}}%
+	\edef\DenKrCurChap{chapTrack:\the\value{runningChapterTrack}}%
+	\edef\DenKrCurSec{chapTrack:\the\value{runningChapterTrack}}%
+	\stepcounter{runningChapterTrack}%
+}%
+\makeatother%
+\DenKrSetChapter%
+\fi%
+%
+%
+\def\DenKrCurSec{chapnt:ToC}%
+\newcounter{runningSectionTrack}%
+\setcounter{runningSectionTrack}{0}%
+\newcommand{\DenKrSetSection}{%
+	\let\sectionDefault=\section%
+	\let\section=\sectionDenKr%
+}%
+\makeatletter%
+\NewDocumentCommand{\sectionDenKr}{s o m}{% \chapter*[<opt>]{<man>}
+	\def\@currentlabel{}%
+	\IfBooleanTF{#1}{%
+		% Stared: \chapter*
+		\IfValueTF{#2}{%
+			% Whether or not optional Argument supplied: \chapter*[..]{...}
+			\ifx\empty#2\empty%
+				% The optional argument was set and is empty
+				\def\@AltTitle{#3}%
+			\else%
+				% The optional argument was set to some value
+				\def\@AltTitle{#2}%
+			\fi%
+			\sectionDefault*{#3}%
+			% \addcontentsline{toc}{section}{\protect\numberline{}\@AltTitle}% Add regular title to ToC
+			\addcontentsline{toc}{section}{\@AltTitle}% Add regular title to ToC
+			\markright{\@AltTitle}% Set marks based on optional argument
+			\addtocounter{section}{1}%
+		}{%
+			% \chapter*{...}
+			\sectionDefault*{#3}%
+		}%
+	}{%
+		% No-Star: \chapter
+		\IfValueTF{#2}{%
+			% Optional: \chapter[..]{...}
+			\sectionDefault[#2]{#3}%
+		}{%
+			% No-Optional: \chapter{...}
+			\sectionDefault{#3}%
+		}%
+	}%
+	\def\@currentlabelname{#3}%
+	\label{secTrack:\the\value{runningSectionTrack}}%
+	\edef\DenKrCurSec{secTrack:\the\value{runningSectionTrack}}%
+	\stepcounter{runningSectionTrack}%
+}%
+\makeatother%
+\DenKrSetSection%
+%
+%
+\def\DenKrCurSubSec{}%
+\newcounter{runningSubSectionTrack}%
+\setcounter{runningSubSectionTrack}{0}%
+\newcommand{\DenKrSetSubsection}{%
+	\let\subsectionDefault=\subsection%
+	\let\subsection=\subsectionDenKr%
+}%
+\makeatletter%
+\NewDocumentCommand{\subsectionDenKr}{s o m}{% \chapter*[<opt>]{<man>}
+	\def\@currentlabel{}%
+	\IfBooleanTF{#1}{%
+		% Stared: \chapter*
+		\IfValueTF{#2}{%
+			% Whether or not optional Argument supplied: \chapter*[..]{...}
+			\ifx\empty#2\empty%
+				% The optional argument was set and is empty
+				\def\@AltTitle{#3}%
+			\else%
+				% The optional argument was set to some value
+				\def\@AltTitle{#2}%
+			\fi%
+			\subsectionDefault*{#3}%
+			% \addcontentsline{toc}{section}{\protect\numberline{}\@AltTitle}% Add regular title to ToC
+			\addcontentsline{toc}{subsection}{\@AltTitle}% Add regular title to ToC
+			%\markright{\@AltTitle}% Set marks based on optional argument
+			\addtocounter{subsection}{1}%
+		}{%
+			% \chapter*{...}
+			\subsectionDefault*{#3}%
+		}%
+	}{%
+		% No-Star: \chapter
+		\IfValueTF{#2}{%
+			% Optional: \chapter[..]{...}
+			\subsectionDefault[#2]{#3}%
+		}{%
+			% No-Optional: \chapter{...}
+			\subsectionDefault{#3}%
+		}%
+	}%
+	\def\@currentlabelname{#3}%
+	\label{subsecTrack:\the\value{runningSubSectionTrack}}%
+	\edef\DenKrCurSubSec{subsecTrack:\the\value{runningSubSectionTrack}}%
+	\stepcounter{runningSubSectionTrack}%
+}%
+\makeatother%
+\DenKrSetSubsection%
+%
+%
+%
+%
+%
+%Bkp, simple approach
+% \newcommand{\@DenKrSectionStar}[2][]{\sectionDefault*{#2}}%
+% \newcommand{\@DenKrSectionNostar}[2][]{\sectionDefault[#1]{#2}}%
+% \renewcommand{\section}{\@ifstar{\@DenKrSectionStar}{\@DenKrSectionNostar}}%

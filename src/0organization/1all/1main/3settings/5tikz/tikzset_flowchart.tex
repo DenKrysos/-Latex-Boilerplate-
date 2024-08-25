@@ -1,0 +1,354 @@
+%%###########################################################%%
+%%        vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv        %%
+%%-----------------------------------------------------------%%
+%  - Author: Dennis Krummacker
+%%------------------------------------------------------------%%
+%%        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^        %%
+%%============================================================%%
+%
+%
+%
+\definecolor{muxpurple}{RGB}{210,140,210}%
+\definecolor{entryred}{RGB}{255,50,50}%
+\definecolor{exitgreen}{RGB}{70,200,80}%
+\definecolor{slightblue}{RGB}{230,230,255}%
+%
+\tikzstyle{startstop}=[%
+	inner sep=\inndist,%
+	rectangle,%
+	rounded corners,%
+	minimum width=3cm,%
+	minimum height=1cm,%
+	text centered,%
+	align=center,%
+	draw=black,%
+	fill=red!30%
+]%
+\tikzstyle{io}=[%
+	trapezium,%
+	trapezium left angle=70,%
+	trapezium right angle=110,%
+	minimum width=2cm,%
+	minimum height=1cm,%
+	inner ysep=\inndist,%
+	inner xsep=0.15*\inndist,%
+	text centered,%
+	align=center,%
+	draw=black,%
+	fill=blue!30%
+]%
+\tikzstyle{interthread}=[%
+	trapezium,%
+	trapezium left angle=-70,%
+	trapezium right angle=-110,%
+	minimum width=2cm,%
+	minimum height=1cm,%
+	inner ysep=\inndist,%
+	inner xsep=0.15*\inndist,%
+	text centered,%
+	align=center,%
+	draw=black,%
+	fill=cyan!30!white!90!black%
+]%
+\tikzstyle{processsplitl}=[%
+	minimum width=3cm,%
+	%minimum height=1cm,%
+	align=left,%
+	inner sep=0.5*\inndist,%
+	draw=black,%
+	rectangle split,%
+	rectangle split parts=#1,%
+	rectangle split part fill={orange!30,orange!30},%
+    rectangle split every empty part={},% delete existing height, depth and width
+	rectangle split empty part height=0.1ex,%
+	rectangle split empty part depth=0ex,%
+	rectangle split part align=left,%either: top, center, base, bottom, left, right
+%			You could do something like this, to do differing aligns for multiple parts:
+%				rectangle split part align={center, left, left, left},%
+% 	shade,%
+% 	shading=axis,%
+% 	top color=white,%
+% 	bottom color=processblue,%
+% 	shading angle=45,%
+]%
+\tikzstyle{processsplit}=[%
+	processsplitl=#1,%
+	rectangle split part align=center,%
+	text centered,%
+	align=center,%
+]%
+\tikzstyle{process}=[%
+	rectangle,%
+	minimum width=2cm,%
+	minimum height=1cm,%
+	text centered,%
+	align=center,%
+	draw=black,%
+	fill=orange!30%
+]%
+\tikzstyle{decision}=[%
+	diamond,%
+	aspect=3,%
+	minimum width=3cm,%
+	minimum height=1cm,%
+	text centered,%
+	align=center,%
+	draw=black,%
+	fill=green!30%
+]%
+\tikzstyle{decision2}=[%
+	decision,%
+	diamondcut,%
+	aspect=1,%
+	minimum width=0cm,%
+	minimum height=0cm,%
+	minimum size=0cm,%
+	inner sep=0.25ex,%
+]%
+\tikzstyle{mux}=[%
+	trapezium,%
+	trapezium left angle=110,%
+	trapezium right angle=110,%
+	minimum width=3cm,%
+	minimum height=1cm,%
+	inner sep=\inndist,%
+% 	inner sep=0pt,%
+	text centered,%
+	align=center,%
+	draw=black,%
+	fill=muxpurple%
+]%
+\newcommand{\muxwidth}[1]{#1*3cm+2*0.36cm}%
+\tikzstyle{mux2}=[%
+	trapezium,%
+	trapezium left angle=-70,%
+	trapezium right angle=110,%
+	trapezium stretches=true,%
+	trapezium stretches body=true,%
+	minimum size=0.0cm,%
+	minimum width=#1*3cm+#1*\pgflinewidth+0.6cm,%
+	minimum height=1.0cm,%
+	inner sep=\inndist,%
+% 	inner xsep=0.0cm,%
+% 	outer sep=0.0cm,%
+% 	text height=1.0cm,%
+% 	text width=6.0cm,%
+	text centered,%
+	align=center,%
+	draw=black,%
+	fill=muxpurple%
+]%
+\tikzstyle{muxwahl}=[%
+	regular polygon,%
+	regular polygon sides=3,%
+	shape border rotate=180,%
+	yscale=0.35,%
+	minimum width=3.5cm,%
+	minimum height=0.1cm,%
+	inner sep=0.0cm,%
+	text centered,%
+	align=center,%
+	draw=black,%
+	fill=muxpurple%
+]%
+\tikzstyle{muxwahl2}=[%
+	trapezium,%
+	trapezium left angle=-45,%
+	trapezium right angle=-45,%
+	minimum width=3cm,%
+% 	text width=3cm,%
+	minimum height=1cm,%
+	inner sep=\inndist,%
+% 	inner sep=0pt,%
+	text centered,%
+	align=center,%
+	draw=black,%
+	fill=muxpurple%
+]%
+\tikzstyle{note}=[%
+	rectangle,%
+	minimum width=2cm,%
+	minimum height=1cm,%
+	text centered,%
+	align=center,%
+	draw=black,%
+	dashed,%
+	rounded corners,%
+]%
+\tikzstyle{cleartext}=[%
+	solid,%
+	align=center,%
+	inner sep=0pt,%
+	minimum width=0pt,%
+	minimum height=0pt,%
+]%
+%
+%
+%-----------------------------------------------------------
+% For Finite State Machines (FSM)
+%-----------------------------------------------------------
+%========-------------------------------------------========
+%========		First some specials					========
+%========-------------------------------------------========
+% They are for "`nice"' double border nodes
+\tikzset{doubleA/.style = {matrix of nodes,%
+    draw, inner sep=1mm,%
+    nodes = {rectangle, draw, inner sep=.3333em}}}%
+%
+\tikzset{doubleB/.style = {circle, draw, %
+    append after command={%
+        \pgfextra{\node[fit=(\tikzlastnode),%
+        	circle,%
+        	draw,%
+        	minimum size=0pt,%
+        	minimum height=0pt,%
+        	minimum width=0pt,%
+        	inner sep=0pt]%
+        	(\tikzlastnode-out){};%
+        }%
+    }%
+    }}%
+% Example for use of doubleA and doubleB:
+%	Google Drive\Bibliothek\Latex\tikz\Beispiele,Templates,usw\doubleAdoubleB-Bsp.tex
+% ========-------------------------------------------========
+\tikzstyle{fsmstart2}=[%
+	circle,%
+	draw=black,%
+	line width=1.5pt,%
+	double=white,%
+	double distance=0.5ex,%
+	inner sep=1ex,%
+	text centered,%
+	align=center,%
+]%
+% Alternative. Gives both the Anchors on the outer and the inner border
+\tikzstyle{fsmstart}=[%
+	doubleB,%
+	inner sep=1.0ex,%
+]%
+\tikzstyle{fsmfinish}=[%
+	circle,%
+	draw=black,%
+	inner sep=1.5ex,%
+]%
+\tikzstyle{fsmstate}=[%
+	draw,%
+	shape=ellipse,%
+	anchor=base,%
+	inner sep=1.0ex,%
+	text centered,%
+	align=center,%
+]%
+%========-------------------------------------------========
+%========		UML State Machine					========
+%========-------------------------------------------========
+% Usage:
+% - - - - - - -
+%        \node(S1)%
+%            [UMLSM_state]%
+%            {node
+%            \nodepart{two} a};%
+%        \node(S2)%
+%            [UMLSM_state,anchor=north west]%
+%            at($(S1.north east)+(\nodedist,0)$)
+%            {node 2};%
+%        \path[UMLSM_arrow](S1.east)--(S2.west);%
+% - - - - - - -
+\tikzstyle{UMLSM_start}=[%
+    circle,draw=black,fill=black,%
+    inner sep=0pt,minimum size=1.25ex,%
+]%
+\tikzstyle{UMLSM_state}=[%
+    minimum width=6em,%
+    %minimum height=1cm,%
+    inner ysep=0.5*\inndist,%
+    inner xsep=1.0*\inndist,%
+    draw=black,%
+    align=left,% To enable linebreak
+    rounded corners=1.5ex,%
+    rectangle split,%
+    rectangle split parts=2,%
+    rectangle split part fill={gray!40,white},%
+    rectangle split every empty part={},% delete existing height, depth and width
+    rectangle split empty part height=1.75ex,%
+    rectangle split empty part depth=0ex,%
+    rectangle split part align={center,left},%either: top, center, base, bottom, left, right
+]%
+\tikzstyle{UMLSM_arrow}=[%
+    draw,%
+    solid,%
+    thick,%
+    line join=round,%
+    rounded corners=1.3ex,%
+    >=latex,% latex, stealth
+    ->,%
+]%
+%
+%
+%
+%-----------------------------------------------------------
+% Generic Data-Flowing
+%-----------------------------------------------------------
+%========-------------------------------------------========
+%========		Definitions					========
+%========-------------------------------------------========
+\let\procwidth\undefined%
+\newlength\procwidth%
+\settowidth{\procwidth}{\textbf{Forwarding Path}}%
+\setlength\procwidth{\procwidth+\inndist+\inndist+1em}%
+\setlength\procwidth{6em}%
+%
+\let\procheight\undefined%
+\newlength\procheight%
+%
+\setlength\procheight{1.75\baselineskip}%
+%
+\newcommand\roundcorneramount{1.25ex}%
+%========-------------------------------------------========
+%========		Shapes					========
+%========-------------------------------------------========
+\tikzstyle{process}=[%
+	rectangle,%
+	rounded corners=\roundcorneramount,%
+	minimum width=\procwidth,%
+	minimum height=\procheight,%
+	text centered,%
+	align=center,%
+	inner sep=0pt,%\inndist,
+	draw=black%
+	%fill=gray!30%
+]%
+\tikzstyle{threadinvisible}=[%
+	rectangle,%
+	rounded corners=\roundcorneramount,%
+	minimum width=3cm,%
+	minimum height=1cm,%
+	text centered,%
+	align=center,%
+% 	draw=black,%
+% 	fill=red!30%
+]%
+%========-------------------------------------------========
+%========		Text For Arrows					========
+%========-------------------------------------------========
+\tikzstyle{input}=[%
+	%inner sep=0pt,%\inndist,%
+	inner xsep=0.5ex,%
+	inner ysep=0.2ex,%
+    anchor=south east,%
+    %font=\small,%
+    scale=0.85,%
+	text centered,%
+	align=center%
+]%
+\tikzstyle{output}=[%
+    input,%
+    anchor=south west%
+]%
+\tikzstyle{stream}=[%
+    input,%
+    anchor=south,%
+    pos=.5,%midway,%
+    above,%
+    sloped,%
+]%

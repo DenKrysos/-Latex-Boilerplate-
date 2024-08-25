@@ -1,0 +1,62 @@
+\ProvidesFile{custom-numeric.bbx}%[2015-02-08 v. biblatex bibliography style]
+%
+% Just a small adjust, to get REPORT equivalent formatted...
+%
+% =========================== Redefined drivers ==============================
+% for article, book, booklet, inbook, incollection,
+% inproceedings, manual, phdthesis entry types
+% ============================================================================
+%
+\RequireBibliographyStyle{numeric}
+%
+\DeclareBibliographyDriver{report}{%
+  \usebibmacro{bibindex}%
+  \usebibmacro{begentry}%
+  \usebibmacro{author/editor+others/translator+others}%
+  \addperiod%
+  \setunit{\labelnamepunct}\newblock%
+  \usebibmacro{maintitle+title}%
+  \addperiod%
+  \newunit%
+  \printlist{language}%
+  \newunit\newblock%
+  \usebibmacro{byauthor}%
+  \newunit\newblock%
+  \usebibmacro{byeditor+others}%
+  \newunit\newblock%
+  \printfield{edition}%
+  \newunit%
+  \iffieldundef{maintitle}%
+    {\printfield{volume}%
+     \printfield{part}}%
+    {}%
+  \newunit%
+  \printfield{volumes}%
+  \newunit\newblock%
+  \usebibmacro{series+number}%
+  \newunit\newblock%
+  \printfield{note}%
+  \newunit\newblock%
+  \usebibmacro{publisher+location+date}%
+  \addperiod%
+  \newunit\newblock%
+  \usebibmacro{chapter+pages}%
+  \newunit%
+  \printfield{pagetotal}%
+  \newunit\newblock%
+  \iftoggle{bbx:isbn}%
+    {\printfield{isbn}}%
+    {}%
+  \newunit\newblock%
+  \usebibmacro{doi+eprint+url}%
+  \newunit\newblock%
+  \usebibmacro{addendum+pubstate}%
+  \newunit\newblock%
+  \usebibmacro{pageref}%
+  \usebibmacro{finentry}}%
+%
+%
+% =========================== Redefined macroses ==============================
+%
+%
+\endinput%

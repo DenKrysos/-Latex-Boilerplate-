@@ -1,0 +1,88 @@
+%________________________________________________________________________
+%------------------------------------------------------------------------
+%               File Split Notice
+%/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+%   More inside "./0organization/1main/" in the File "settings_perDoc.tex"
+%       (Unique to every single Project)
+%/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+%------------------------------------------------------------------------
+%________________________________________________________________________
+%
+%
+%
+%
+%
+%________________________________________________________________________
+%------------------------------------------------------------------------
+%						Definitionen allgemeiner Farben
+%/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+\definecolor{citegreen}{RGB}{0,180,0}%
+\definecolor{todonotecol}{RGB}{250,0,0}%
+%
+\definecolor{textFlowEmphColor}{RGB}{20,20,180}%
+\definecolor{textFlowHighEmphColor}{RGB}{80,0,180}%
+%
+\definecolor{optionalargscolor}{RGB}{255,125,25}%
+\definecolor{ColorRegExCmdID}{RGB}{25,0,255}%
+\definecolor{ColorRegExCmdSelect}{RGB}{255,125,25}%
+\definecolor{ColorRegExCmdMultiSelect}{RGB}{30,150,0}%
+\definecolor{ColorRegExCmdOption}{RGB}{100,100,100}%
+%/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+%							Farben fertig
+%------------------------------------------------------------------------
+%________________________________________________________________________
+%
+%
+%
+%
+%
+%________________________________________________________________________
+%------------------------------------------------------------------------
+%						Redefinition of \texttt
+%				to allow a proper hyphenation (Silbentrennung)
+% other breakpoint symbols can be added, for example, below I also make [ a breakpoint:
+%/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+%\let\stdtexttt\texttt
+% \newcommand{\newtexttt}[1]{%
+%   \begingroup
+%   \ttfamily
+%   \begingroup\lccode`~=`/\lowercase{\endgroup\def~}{/\discretionary{}{}{}}%
+%   \begingroup\lccode`~=`[\lowercase{\endgroup\def~}{[\discretionary{}{}{}}%
+%   \begingroup\lccode`~=`.\lowercase{\endgroup\def~}{.\discretionary{}{}{}}%
+%   \catcode`/=\active\catcode`[=\active\catcode`.=\active
+%   \scantokens{#1\noexpand}%
+%   \endgroup
+% }
+% Oh noes, better way: Look at the Schriftart Segment in the Header
+%/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+%						Redef fertig
+%------------------------------------------------------------------------
+%________________________________________________________________________
+%
+%
+%
+%
+%
+%________________________________________________________________________
+%------------------------------------------------------------------------
+            % Initialisierungen wie Counter, Theorem, Variablen, Konstanten..
+%/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+%\theoremstyle{break}
+%\theoremheaderfont{\bfseries}
+%\theorembodyfont{\normalfont}
+%\theoremseparator{}
+%\theorempreskip{0ex}
+%\theorempostskip{0ex}
+%\theoremindent0.5em
+%/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+%						This done
+%------------------------------------------------------------------------
+%________________________________________________________________________
+%
+%
+%
+%
+%
+%
+\input{"\DenKrAllMainRootDirPATH/3settings/listings_listings".tex}%
+% \input{"\DenKrAllMainRootDirPATH/3settings/listings_minted".tex}%

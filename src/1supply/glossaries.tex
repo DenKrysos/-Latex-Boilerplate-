@@ -1,0 +1,534 @@
+%________________________________________________________________________
+%------------------------------------------------------------------------
+%       Package Extensions are performed in files
+%  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+%           "0organization/1main/3settings/4customization/glossaries_keys.tex"
+%           "0organization/1main/3settings/4customization/glossaries_cmds.tex"
+%       This supplies an additional Glossary-Entry-Creation Makro for simultaneously filling in an Acronym and corresponding Glossary-Entry, being referenced. (Usage see later below)
+%       Also additional "Custom Keys" are defined to extend Entries with more values
+%           The Custom Keys are
+%               deutsch, englisch, untertitel, alternativ, url, longpltwo
+%/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+%------------------------------------------------------------------------
+%________________________________________________________________________
+%
+%
+%
+%
+%
+%________________________________________________________________________
+%------------------------------------------------------------------------
+%				Central Terms of this Document (aka Thesis, Paper, Letter, ...)
+%/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+% \newacronym{Key}{Abbreviation}{WrittenOut}%
+% \glsunset{Key}%
+% % % % % % % % % % % % % % %
+% \newglossaryentry{denkrsuite}{%
+% 	name={DenKr\_Suite},%
+% 	description={A collective term for all elements of the software solution provided by this Thesis.},%
+% }%
+% % % % % % % % % % % % % % %
+% \newdualentry%
+% []% Options für Glossary
+% []% Options für Acronym
+% {archd}% label
+% {ArchDaemon}% abbreviation
+% {Architecture-Daemon}% long form
+% {Part of the \gls{denkrsuite}. \textit{\gls{integhierarchl}~4} of the \gls{integhierarch} from the \gls{denkrnuc}.}% description
+%________________________________________________________________________
+%					Term Definitions
+%VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
+
+%^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+%/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+%					Central Terms done
+%------------------------------------------------------------------------
+%________________________________________________________________________
+%
+%
+%------------------------------------------------------------------------
+%				Former Documents
+%     (I like to put Terms from former Documents to the bottom of this File)
+%     (But yeah, doesn't make a difference. Do as you please.)
+%========================================================================
+%
+%
+%
+%
+%
+%
+%________________________________________________________________________
+%------------------------------------------------------------------------
+%						Glossar
+%  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+% Example:
+%        \newglossaryentry{trunking}{%
+%        	name={Trunking},%
+%        	text={Trunking},%
+%        	textDE={Bündelung},%
+%        	subtitle={Datenübertragung},%
+%        	longAlt={Link Aggregation},%
+%        	description={\label{gls:trunking}%
+%                In der Nachrichtentechnik und Informatik bezeichnet >>Trunking<< [...]%
+%           },%
+%        }
+%/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+%VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
+\newglossaryentry{eventfd}{%
+	name={EventFD},%
+	description={Short for Event-File-Descriptor. Essentially just an identifier for sending and receiving events. Usually used for triggering events between entities or any kind of synchronization.}%
+}%
+%^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+%/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+%						Glossar fertig
+%------------------------------------------------------------------------
+%________________________________________________________________________
+%
+%
+%
+%
+%
+%________________________________________________________________________
+%------------------------------------------------------------------------
+%						Akronyme (Abkürzungen)
+%                       -- (More Universal) --
+%  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+% Example:
+%        \newacronym{sdning}{SDN}{Software-Defined Networking}%
+%        \newacronym[plural=SDNs,%
+%            firstplural=Software-defined Networks (SDNs),%
+%            longplural=Software-defined Networks,%
+%            prefixfirst={a\ },%
+%            prefix={an\ }%
+%        ]{sdnet}{SDN}{Software-defined Network}%
+%        \glsunset{sdn}%
+%        \newacronym[see={[Glossar:]{gls-endTE}}]{endTEde}{ETE}{Ende-zu-Ende}%Don't create such an acronym entry explicitly if you use the supplied dualentry-cmd below
+%        \newacronym[englisch=Virtual Machine,%
+%        	plural=VMs,%
+%        	firstplural=Virtuelle Maschinen (VMs),%
+%        	longplural=Virtuelle Maschinen]%
+%        {vm}{VM}{Virtuelle Maschine}%
+%/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+%VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
+%
+%--------------------------------------------------------
+% = = = General Terms
+%________________________________________________________
+\newacronym{qos}{QoS}{Quality-of-Service}%
+\glsunset{qos}%
+\newacronym{utc}{UTC}{Coordinated Universal Time}%
+\newacronym[plural=KPIs,%
+	firstplural=Key Performance Indicators (KPIs),%
+	longplural=Key Performance Indicators]%
+	{kpi}{KPI}{Key Performance Indicator}%
+\newacronym{poc}{PoC}{Proof-of-Concept}%
+\newacronym{wip}{WiP}{Work in Progress}%
+\newacronym{utf}{UTF}{Unicode Transformation Format}%
+\newacronym{pov}{PoV}{Point-of-View}%
+%--------------------------------------------------------
+% = = = Specific for: Research (i.e. no one in the practical, operating, real word out there uses such stuff)
+%________________________________________________________
+\newacronym{rand}{R\&D}{Research \& Development}%
+\newacronym{softdr}{SDR}{Software Defined Radio}%
+\newacronym{sota}{SotA}{State-of-the-Art}%
+%--------------------------------------------------------
+% = = = Specific for: IT, Basic Technology
+%  - - - Virtualization, Softwarization, Cloud
+%________________________________________________________
+\newacronym{inft}{IT}{Information Technology}%
+\newacronym[longplural={Information and Communications Technologies}]{ict}{ICT}{Information and Communications Technology}%
+\newacronym{fsm}{FSM}{Finite-State Machine}%
+\newacronym{fsa}{FSA}{Finite-State Automaton}%
+\newacronym{fst}{FST}{Finite-State Transducer}% Mealy and Moore Machines fall under this
+\newacronym{umlsm}{UMLSM}{UML State Machine}%
+\newacronym{uml}{UML}{Unified Modeling Language}%
+\newacronym[longplural={Distributed Ledger Technologies}]{dlt}{DLT}{Distributed Ledger Technology}%
+\newacronym{gps}{GPS}{Global Positioning System}%
+\newacronym{trl}{TRL}{Technology Readiness Level}%
+\newacronym{opsys}{OS}{Operating System}%
+\newacronym{digt}{DT}{Digital Twin}%
+\newacronym{virtm}{VM}{Virtual Machine}%
+\newacronym{vreal}{VR}{Virtual Reality}%
+\newacronym{areal}{AR}{Augmented Reality}%
+\newacronym{dma}{DMA}{Direct Memory Access}%
+\newacronym{mmap}{MMap}{Memory Mapping}%
+\newacronym{mmio}{MMIO}{Memory Mapped I/O}%
+\newacronym{regla}{RegLAc}{Register-Level Access}% Kind of a Synonym to [...] Programming
+\newacronym{reglp}{RegLPr}{Register-Level Programming}% Kind of a Synonym to [...] Access
+\newacronym{regtl}{RTL}{Register-Transfer Level}% Not to be confused with the upper two
+\newacronym{ipc}{IPC}{Inter-Process Communication}%
+\newacronym{ttl}{TTL}{Time-to-Live}%
+\newacronym{mlang}{MLang}{Markup Language}% (Saying 'MLang' instead of 'ML' because the latter by now became too popular for 'Machine Learning'
+%--------------------------------------------------------
+% = = = Specific for: Software, Design, Architecture, Paradigm, Development, DevOps, CI/CD
+%________________________________________________________
+\newacronym{sdlc}{SDLC}{Systems Development Life Cycle}%
+\newacronym{devops}{DevOps}{Software Development \& IT Operations}%
+\newacronym{cicd}{CI/CD}{Continuous Integration \& Continuous Delivery/Deployment/Delivery}%
+\newacronym{qaqc}{QA/QC}{Quality Assurance \& Quality Control}%
+\newacronym{api}{API}{Application Programming Interface}%
+\newacronym{posix}{POSIX}{Portable Operating System Interface}%
+\newacronym{hci}{HCI}{Human Computer Interaction}%
+\newacronym{hmi}{HMI}{Human-Machine Interface}%
+\newacronym{uri}{URI}{Uniform Resource Identifier}%
+\newacronym{netfunc}{NF}{Network Function}%
+\newacronym{nfv}{NFV}{Network Function Virtualization}%
+\newacronym{vnf}{VNF}{Virtual Network Function}%
+\newacronym{typlv}{TLV}{Type-Length-Value}%
+\newacronym{kvp}{KVP}{Key-Value-Pair}%
+\newacronym{loc}{LoC}{Lines of Code}%
+\newacronym{mutex}{MutEx}{Mutual Exclusion}%
+\newacronym{shobj}{SO}{Shared-Object}%
+\newacronym[%
+    longplural={Dynamic Link Libraries},%
+]{dll}{DLL}{Dynamic Link Library}%
+\newacronym{oop}{OoP}{Out-of-Process}% (execution)
+\newacronym{shmem}{ShMem}{Shared-Memory}%
+\newacronym{cli}{CLI}{Command Line Interface}%
+\newacronym{gui}{GUI}{Graphical User Interface}%
+\newacronym{uint}{UI}{User Interface}%
+\newacronym{jscr}{JS}{JavaScript}%
+\newacronym{pid}{PID}{Process Identifier}%
+%--------------------------------------------------------
+% = = = Specific for: Network Communication, Distributed Systems
+%________________________________________________________
+\newacronym{msg}{msg}{message}%
+\newacronym{pkt}{pkt}{packet}%
+\newacronym{pkg}{pkg}{package}%
+\newacronym{osi}{OSI}{Open Systems Interconnection}%
+\newacronym{url}{URL}{Uniform Resource Locator}%
+\newacronym{nic}{NIC}{Network Interface Card}%
+\newacronym{rest}{REST}{Representational State Transfer}%
+\newacronym{ftp}{FTP}{File Transfer Protocol}%
+\newacronym{http}{HTTP}{Hypertext Transfer Protocol}%
+\newacronym{https}{HTTPS}{Hypertext Transfer Protocol Secure}%
+\newacronym{rpc}{RPC}{Remote Procedure Call}%
+\newacronym{lldp}{LLDP}{Link Layer Discovery Protocol}%
+\newacronym{arp}{ARP}{Address Resolution Protocol}%
+\newacronym{ndp}{NDP}{Neighbor Discovery Protocol}%
+\newacronym{snmp}{SNMP}{Simple Network Management Protocol}%
+\newacronym{nsh}{NSH}{Network Service Header}%
+\newacronym{sdn}{SDN}{Software-defined Networking}%
+%\glsunset{sdn}%
+\newacronym[plural=SDNs,%
+    firstplural=Software-defined Networks (SDNs),%
+    longplural=Software-defined Networks,%
+    prefixfirst={a\ },%
+    prefix={an\ }%
+]{sdnet}{SDN}{Software-defined Network}%
+\newacronym{ip}{IP}{Internet Protocol}%
+\glsunset{ip}%
+\newacronym{tcp}{TCP}{Transmission Control Protocol}%
+\newacronym{udp}{UDP}{User Datagram Protocol}%
+\newacronym{mtu}{MTU}{Maximum Transmission Unit}%
+\newacronym{pdu}{PDU}{Protocol Data Unit}%
+\newacronym{dns}{DNS}{Domain Name System}%
+\newacronym{ntp}{NTP}{Network Time Protocol}%
+\newacronym{ptp}{PTP}{Precision Time Protocol}%
+\newacronym{p2p}{P2P}{Point-to-Point}%Point-to-Point means a direct communication. I.e. just a link between the two points in question
+\newacronym{e2e}{E2E}{End-to-End}%End-to-End means that there is something in between (a switch, router, gateway or even another PC that relays the communication), but the communication process that is talked about happens between the two remote endpoints on the two sides of the chain.
+\newacronym{peer2p}{Peer2P}{Peer-to-Peer}% Peer-to-Peer is just a different concept from a totally different level. It means a network in which the participants can act as both Server and Client, e.g. for sharing files
+\newacronym{m2m}{M2M}{Machine-to-Machine}%
+\newacronym{rbs}{RBS}{Reference Broadcast Time Synchronization}%
+\newacronym{rbis}{RBIS}{Reference Broadcast Infrastructure Synchronization}%
+\newacronym{mdns}{mDNS}{Multicast DNS}%
+\newacronym{dnssd}{DNS-SD}{DNS Service Discovery}%
+\newacronym{servoa}{SOA}{Service-Oriented Architecture}%
+\newacronym{rtt}{RTT}{Round-Trip Time}%
+\newacronym{csp}{CSP}{Communication Service Provider}%
+\newacronym{mmtc}{MMTC}{Massive Machine Type Communication}%
+\newacronym{arq}{ARQ}{Automatic Repeat Request}%
+\newacronym{ppm}{PPM}{Parallel Process Migration}%
+\newacronym{checkres}{C/R}{Checkpoint/Restore}%
+\newacronym{pubsub}{Pub/Sub}{Publish-Subscribe}%
+\newacronym{crc}{CRC}{Cyclic Redundancy Check}%
+\newglossaryentry{opfl}{%
+	name={OpenFlow},%
+	description={%
+    A communication protocol that allows to configure the control plane of compatible switches and routers to define the behavior of the forwarding plane, i.e. how the forwarding device treats packages.
+    Via that, it enables network controllers to determine the path of packets through a network of switches.
+    It is closely related to the concept of \glstext{sdn}.
+    }%
+}%
+\newacronym{coma}{CoMa}{Context-Management}%
+\newacronym{comas}{CoMaS}{Context-Management System}%
+\newacronym{itu}{ITU}{International Telecommunication Union}%
+\newacronym{lan}{LAN}{Local Area Network}%
+\newacronym{wlan}{WLAN}{Wireless LAN}%
+%--------------------------------------------------------
+% = = = Security
+%________________________________________________________
+\newacronym{denos}{DoS}{Denial-of-Service}%
+\newacronym{ddenos}{DDoS}{Distributed-Denial-of-Service}%
+%--------------------------------------------------------
+% = = = Specific for: Wireless Communication, Radio
+%________________________________________________________
+\newacronym{snr}{SNR}{Signal to Noise Ratio}%
+\newacronym{acp}{AP}{Access-Point}%
+\newacronym{urllc}{URLLC}{Ultra Reliable Low Latency Communication}%
+\newacronym{bnetza}{BNetzA}{Bundesnetzagentur}%
+\newacronym{rat}{RAT}{Radio Access Technology}%
+\newacronym{rssi}{RSSI}{Received Signal Strength Indicator}%
+%--------------------------------------------------------
+% = = = Specific for: Mobile Communications, 5G, 6G
+%________________________________________________________
+\newacronym{bey5g}{B5G}{Beyond 5G}%
+\newacronym{5gsba}{SBA}{5G Service Based Architecture}%
+\newacronym{sba}{SBA}{Service Based Architecture}%
+\newacronym{mano}{MANO}{Management \& Orchestration}%
+\newacronym{acnet}{RAN}{Access Network}%
+\newacronym{ran}{RAN}{Radio Access Network}%
+\newacronym{cran}{C-RAN}{Centralized - Radio Access Network}%
+\newacronym{oran}{O-RAN}{Open - Radio Access Network}%
+\newacronym{sbi}{SBI}{Service Based Interface}%
+\newacronym{jcas}{JC\&S}{Joint Communication and Sensing}%
+\newacronym{rrm}{RRM}{Radio Resource Management}%
+\newacronym{uequ}{UE}{User Equipment}%
+\newacronym{gmlc}{GMLC}{Gateway Mobile Location Center}%
+\newacronym{embb}{eMBB}{enhanced Mobile Broad-band}%
+\newacronym{mnoper}{MNO}{Mobile Network Operator}%
+\newacronym{coretc}{CtC}{Core-to-Core}%
+\newacronym{gnodb}{gNB}{5G gNodeB Basestation}%
+\newacronym{3gpp}{3GPP}{3rd Generation Partnership Project}%
+\newacronym{uwb}{UWB}{Ultra Wideband}%
+\newacronym{newr}{NR}{New Radio}%
+\newacronym{runuit}{RU}{Radio Unit}%
+\newacronym{cunit}{CU}{Centralized Unit}%
+\newacronym{dunit}{DU}{Distributed Unit}%
+\newacronym{cpl}{CP}{Control Plane}%
+\newacronym{upl}{UP}{User Plane}%
+\newacronym{mec}{MEC}{Multi-Access Edge Computing}% formerly mobile edge computing
+%  -  - Core Functions
+\newacronym{ngap}{NGAP}{Next Generation Application Protocol}%
+\newacronym{amf}{AMF}{Access and Mobility Management Function}%
+\newacronym{lmf}{LMF}{Localization Management Function}%
+\newacronym{nef}{NEF}{Network Exposure Function}%
+\newacronym{nrf}{NRF}{Network Repository Function}%
+\newacronym{scp}{SCP}{Service Communication Proxy}%
+%--------------------------------------------------------
+% = = = Specific for: Industry, Industrial Communication, Industry 4.0
+%________________________________________________________
+\newacronym{i40}{I4.0}{Industry 4.0}%
+\newacronym{cps}{CPS}{Cyber-Physical System}%
+\newacronym{plc}{PLC}{Programmable Logic Controller}%
+\newacronym{vpc}{VPC}{Virtual Process Controller}%
+\newacronym{tsn}{TSN}{Time-Sensitive Networking}%
+\newacronym{cnc}{CNC}{Central Network Controller}%
+\newacronym{cuc}{CUC}{Central User Configuration}%
+\newacronym{tsncnc}{TSN CNC}{TSN Central Network Controller}%
+\newacronym{tssdn}{TSSDN}{Time-Sensitive Software-Defined Networking}%
+\newacronym{cpci}{CPCI}{Central Process Control Instance}%
+\newacronym{optech}{OT}{Operation Technology}%
+%--------------------------------------------------------
+% = = = Specific for: Automation, Robotic, Logistics
+%________________________________________________________
+\newacronym{iot}{IoT}{Internet of Things}%
+\newacronym{iiot}{IIoT}{Industrial Internet of Things}%
+\newacronym{agv}{AGV}{Automated Guided Vehicle}%
+\newacronym{amr}{AMR}{Autonomous Mobile Robot}%
+\newacronym{uav}{UAV}{Unmanned Aerial Vehicle}%
+\newacronym{erp}{ERP}{Enterprise Resource Planning}%
+\newacronym{ips}{IPS}{Indoor Positioning System}%
+\newacronym{vmc}{VMC}{Vehicle Motion Control}%
+\newacronym{imu}{IMU}{Inertial Measurement Unit}%
+\newacronym{ros}{ROS}{Robot Operating System}%
+\newacronym{opc}{OPC}{Open Platform Communication}%
+\newacronym{opcua}{OPC UA}{Open Platform Communication Unified Architecture}%
+\newacronym{mqtt}{MQTT}{Message Queue Telemetry Transport}%
+\newacronym{etl}{ETL}{Extract, Transfer, Load}%
+\newacronym{dds}{DDS}{Data Distribution Service}%
+% = = = Localization
+\newacronym{dgps}{DGPS}{Differential Global Positioning System}%
+\newacronym{ecef}{ECEF}{Earth-centered, Earth-fixed}%
+\newacronym{gnss}{GNSS}{Global Navigation Satellite System}%
+%--------------------------------------------------------
+% = = = Specific for: Artificial Intelligence (AI), Künstliche Intelligenz (KI)
+%________________________________________________________
+\newacronym{arti}{AI}{Artificial Intelligence}%
+\newacronym{mlearn}{ML}{Machine Learning}%
+\newacronym{svm}{SVM}{Support Vector Machine}%
+%--------------------------------------------------------
+% = = = Specific for: Business, Economies, Authorities, Administration
+%________________________________________________________
+\newacronym{sla}{SLA}{Service Level Agreement}%
+\newacronym{b2b}{B2B}{Business-To-Business}%
+\newacronym{b2c}{B2C}{Business-To-Consumer}%
+\newacronym{pmse}{PMSE}{Programme Making and Special Events}%
+\newacronym{ppdr}{PPDR}{Public Protection and Disaster Relief}%
+\newacronym[
+    textAlt={SMB},%
+    longAlt={small or medium-sized business},%
+    %textDE={KMU},%
+    %longDE={kleines oder mittelständiges Unternehmen}%
+]{sme}{SME}{small or medium-sized enterprise}%
+\newacronym[%
+    textEN={SME},%
+    longEN={small or medium-sized enterprise}%
+]{kmu}{KMU}{kleines oder mittelständiges Unternehmen}%
+\newacronym{capex}{CAPEX}{Capital Expenditure}% Investitionsausgaben
+\newacronym{opex}{OPEX}{Operational Expenditure}% Betriebskosten 
+%^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+%/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+%						Akronyme fertig
+%------------------------------------------------------------------------
+%________________________________________________________________________
+%
+%
+%
+%
+%
+%
+%________________________________________________________________________
+%------------------------------------------------------------------------
+%						Dual Entrys
+%/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+% Usage Syntax:
+% \newdualentry[glossary options][acronym options]{label}{abbrv}{long}{description}
+% and for the references:
+% Refer to acronym with \gls{label} and the glossary with \gls{gls-label}
+%  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+% Example:
+%        \newdualentry%
+%        [%
+%            textDE={Programmierschnittstelle},%
+%            parent={},%
+%            subtitle={}%
+%        ]%Options für Glossary
+%        [%
+%            plural=APIs,%
+%            longplural=Programmierschnittstellen%
+%        ]%Options für Acronym
+%        {api}%label
+%        {API}%abbreviation
+%        {Application Programming Interface}%long form
+%        {%//%
+%            Eine \textit{Schnittstelle zur Anwendungsprogrammierung} [...]]%
+%        }%description
+%        \glsunset{api}%
+% Blank Boilerplate:
+%\newdualentry%
+%[]% Options für Glossary
+%[]% Options für Acronym
+%{lbl}% label
+%{abbr}% abbreviation
+%{longf}% long form
+%{desc}% description
+%________________________________________________________________________
+%						Dual Entry Definitions
+%VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
+
+%^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+%/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+%						Dual Entrys fertig
+%-------------------------------------------------------------------------
+%_________________________________________________________________________
+%
+%
+%
+%
+%
+%
+%________________________________________________________________________
+%------------------------------------------------------------------------
+%						Symbols
+%  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+%   Nothing too special. Just to treat 'Symbols' separately. Like mathematical notation, physics, chemistry, Greek Letters and such.
+%   Just do as with Glossary-Entries (\newglossaryentry), and specify the Type 'symbol'.
+%  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+% Example:
+%        \newglossaryentry{sigma}{%
+%            type=symbol,%
+%            name={$\sigma$},%
+%            sort={sigma},%
+%            description={Surface tension}%
+%        }%
+%        \newglossaryentry{molmass}{%
+%            type=symbol,%
+%            name={$M_w$},%
+%            sort={Mw},%
+%            description={Molar mass}%
+%        }%
+%/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+%VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
+\newglossaryentry{sigma}{%
+    type=symbol,%
+    name={$\sigma$},%
+    sort={sigma},%
+    description={Surface tension}%
+}%
+\newglossaryentry{molmass}{%
+    type=symbol,%
+    name={$M_w$},%
+    sort={Mw},%
+    description={Molar mass}%
+}%
+%^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+%/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+%						Symbols fertig
+%-------------------------------------------------------------------------
+%_________________________________________________________________________
+%
+%
+%
+%
+%
+%________________________________________________________________________
+%------------------------------------------------------------------------
+%				Former Documents
+%/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+%VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
+\newacronym{appr}{AR}{Application Relation}%
+\newacronym{comr}{CR}{Communication Relation}%
+\newacronym{indeco}{InDeCo}{Interconnection Detachment \& Convergence}%ArchDaemon-Tool: Interconnection
+\newacronym{comad}{CoMaD}{Context-Management Dock}%ArchDaemon-Tool: Context-Management (Module)
+\newacronym{peac}{PeAc}{Permission \& Access}%ArchDaemon-Tool: Permission & Access
+\newacronym{dynploy}{DynPloy}{Dynamic Deployment}%ArchDaemon-Tool: Dynamic Deployment
+\newacronym{remcon}{RemCon}{Remote Configuration}%ArchDaemon-Tool: Device \& Service Remote Configuration
+\newacronym{coagd}{CAD}{Collective Aggregator Discovery}%DenKrement-Tool: Automatic Self-Organizing Network Device Discovery  (Operates sparsam, kollaborativ)  ("Capacity-aware/Economical, Collaborative Network Device Discovery")
+\newacronym{archdaemon}{ArchDaemon}{Architecture-Daemon}
+\newacronym{ctrllog}{ACL}{Aggregated Control Logic}
+\newacronym{adagent}{ADAg}{ArchDaemon-Agent}
+\newacronym{adaloc}{ADAl}{ArchDaemon-Allocator}%Commissioner, Allocator, Controller, Hub, Pivot
+\newacronym{inserv}{InServ}{Inserted-Service}% Inserted/Infrastrucure Service  |  service, item, component,
+\newacronym{infrserv}{InfrServ}{Infrastructure-Service}% unit, member, extension, addition, attachment, additive
+\newacronym{atserv}{AtServ}{Atop-Service}%
+\newacronym{orcus}{OrCuS}{Organic Customization System}% Culmination, Cumulation
+\newacronym{ore}{ORE}{Organic Runtime Environment}%
+\newacronym{relag}{Agent}{Agent}%
+\newacronym{relorc}{Orc}{Orchestrator}%
+\newacronym{slaag}{SLAAg}{Service Level Agreement Agent}%
+\newacronym{cmdc}{CMDC}{Centralized Mission and Driving Control}%
+\newacronym{dcmod}{DCMod}{Data Collection Module}%
+\newacronym{posmod}{PosMod}{Positioning Module}%
+\newacronym{mts}{MTS}{Map Transformation Stage}%
+\newacronym{sensmod}{SensMod}{Sensing Module}%
+\newacronym{sidr}{SIDR}{Sensor ID Resolver}%
+\newacronym{camod}{CAMod}{Carrier Aggregation Module}%
+\newacronym{muxs}{MuxS}{Multiplexer Stage}%
+\newacronym[plural=CSEs,%
+	firstplural=Carrier State Estimators (CSEs),%
+	longplural=Carrier State Estimators]%
+	{cse}{CSE}{Carrier State Estimator}%
+\newacronym{ca}{CA}{Carrier Aggregator}%
+\newacronym[plural=IAs,%
+	firstplural=Information Anchors (IAs),%
+	longplural=Information Anchors]%
+	{ia}{IA}{Information Anchor}%
+\newacronym{dbmod}{DBMod}{Data Base Module}%
+\newacronym{bui}{BUI}{Base User Interface}%
+\newacronym{bman}{BMan}{Base Manager}%
+\newacronym[plural=DSs,%
+	firstplural=Data Suppliers (DSs),%
+	longplural=Data Suppliers]%
+	{ds}{DS}{Data Supplier}%
+\newacronym[plural=GWs,%
+	firstplural=Gateways (GWs),%
+	longplural=Gateways]%
+	{gw}{GW}{Gateway}%
+\newacronym{auditf}{TTF}{Trust \& Traceability Function}%
+\newacronym{specal}{SASF}{Spectrum Allocation \& Sharing Function}%
+%^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+%/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+%				Formder Documents Done
+%-------------------------------------------------------------------------
+%_________________________________________________________________________

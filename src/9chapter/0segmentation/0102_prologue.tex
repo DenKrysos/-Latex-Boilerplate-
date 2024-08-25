@@ -1,0 +1,65 @@
+% !TEX root = ../../1main.tex
+%
+\section{Usage Manual}
+
+This document is optimized for both, being printed as well as digital reading.
+It follows typographic guidelines and is appropriately typeset for being printed.
+Nonetheless is it equipped with feature, beneficial in digital form:
+
+\begin{itemize}
+\item
+    The \textit{Page-Number} on the Bottom is a clickable Hyperlink jumping back to the \hyperref[chap:ToC]{Table-of-Contents}.
+\item
+    The \textit{Headmark}, showing the current Chapter on even (left) pages, respectively the current Section of odd (right) pages is a clickable Hyperlink to the beginning of this Chapter/Section.
+\item
+    \hyperref[chap:Glossary]{\gerguiquote{\nameref*{chap:Glossary}}}
+    \begin{itemize}
+    \item
+        \textit{Abbreviations}/\textit{Acronyms} in the text are clickable Hyperlinks to the corresponding entry in the \hyperref[sec:Acronyms]{\gerguiquote{\nameref*{sec:Acronyms}}} register in the \nameref{part:appendix}.
+    \item
+        Defined \textit{Terms} are clickable Hyperlinks to the corresponding entry in the \hyperref[sec:Glossaries]{\gerguiquote{\nameref*{sec:Glossaries}}} register in the \nameref{part:appendix}.
+    \item
+        Used mathematical/scientific \textit{Symbols} (greek letters, \ldots) are clickable Hyperlinks to the corresponding explaining entry in the \hyperref[sec:Symbols]{\gerguiquote{\nameref*{sec:Symbols}}} register in the \nameref{part:appendix}.
+    \item
+        They may contain cross-referencing Hyperlinks.
+    \end{itemize}
+\item
+    Register of \hyperref[chap:literature]{\gerguiquote{Bibliography / Literature}}:
+    \hyperref[chap:literature]{\gerguiquote{\nameref*{chap:literature}}}
+    \begin{itemize}
+    \item
+        \textit{Literature} References are clickable Hyperlinks leading to the corresponding entry in the \hyperref[chap:literature]{\gerguiquote{Bibliography}} in the \nameref{part:appendix}.
+    \item
+        \textit{Literature} References are on \textit{first} citation marked with an Asterisk ($\rightarrow$ [$x$]$^\ast$) and printed as a footnote on this page as \enquote{Title | Authors [max 3] | Year}. (If typeset with the correct command of mine.)
+        \begin{itemize}
+        \item
+            This of course additionally to the reference being added an entry to a proper \textit{Literature} Register in the Document's back matter.
+        \end{itemize}
+    \item
+        There may be multiple Literature Registers, like \textit{primary}, \textit{secondary}, a distinct \textit{Technical Specifications} section, etc. To be decided per Document.
+    % \item
+    %     There are multiple Literature Registers:
+    %     \begin{itemize}
+    %         \item Titled \hyperref[chap:literature]{\gerguiquote{\nameref*{chap:literature}}} for the \textit{primary} literature.
+    %         \item A distinct Regsiter for \hyperref[chap:literature_techspec]{\gerguiquote{\nameref*{chap:literature_techspec}}}.
+    %         \item And utilized or otherwise referenced tools or products in \hyperref[chap:literature_tools]{\gerguiquote{\nameref*{chap:literature_tools}}}.
+    %     \end{itemize}
+    \end{itemize}
+\item
+    \textit{References} of Elements from within the document (Section, Figure, etc.) are clickable Hyperlinks to this Element.
+\item
+    On some occasions may be \textit{explicit Hyperlinks} inserted for assisting navigation through the document:
+    \begin{itemize}
+    \item
+        Temporarily in the Footer of a page.
+    \item
+        Ancillary content registers or single reference links throughout the document.
+    \end{itemize}
+\end{itemize}
+
+\npi%
+\textbf{Sidenote}:
+\begin{itemize}
+\item
+    With most modern pdf-readers, one can smoothly follow a Hyperlink -- e.g. to the Glossary for looking up an acronym -- and use the \enquote{\texttt{Back} feature} (e.g. Mouse Button~4) to comfortably jump back to where the document was scrolled prior to clicking the link -- even across multiple steps.
+\end{itemize}
