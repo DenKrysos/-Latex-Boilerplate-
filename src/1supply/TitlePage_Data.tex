@@ -206,6 +206,9 @@ and accepted for publication.
 %		"Standard"-Title-Page Daten
 %			(Just setting them up also)
 %/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
-\title{\DenKrTPtitle}%
-\author{\DenKrTPauthorFirst \DenKrTPauthorLast}%
-\date{\copyright \DenKrTPdate}%
+% Only in case, we work with an 'elaborate' Document, because there, the Values are not set otherwise.
+\DenKrITEequal{\DenKrDocGenre}{elaborate}{%
+	\title{\DenKrTPtitle}%
+	\author{\DenKrTPauthorFirst \DenKrTPauthorLast}%
+	\date{\copyright \DenKrTPdate}%
+}{}%
