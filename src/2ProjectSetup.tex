@@ -154,16 +154,22 @@
 %=========================================================================
 % ----  Project-Setup (Some little additional for further Structuring)
 %-------------------------------------------------------------------------
-\newcommand{\DenKrLayoutIncludeBiographies}{1}% 1: Print the Biographies after Literature-References  |  0: Don't print Biographies
+\newcommand{\DenKrLayoutIncludeBiographies}{0}% 1: Print the Biographies after Literature-References  |  0: Don't print Biographies
 %
 %
 %
 %==================================================================================
 % ----  More on LaTeX
 %----------------------------------------------------------------------------------
+% Set to the Compiler that is used:  LuaLaTeX, pdfLaTeX
 \def\DenKrCompilerVALLua{LuaLaTeX}%
 \def\DenKrCompilerVALPdf{pdfLaTeX}%
-\newcommand{\DenKrCompiler}{LuaLaTeX}% LuaLaTeX, pdfLaTeX
+\newcommand{\defCompilerLua}{\xdef\DenKrCompiler{\DenKrCompilerVALLua}}%
+\newcommand{\defCompilerPdf}{\xdef\DenKrCompiler{\DenKrCompilerVALPdf}}%
+%
+\defCompilerLua%
+% \defCompilerPdf%
+%
 %
 % - Just saying: Activating Japanese-Fonts (or any CJK) introduces some hickups: Increase compilation/loading time. Also: It patches the "listings.sty" package and while doing so introduces a minor bug (as of 2023-12): They forgot a line-end percentage, which adds an additional space before each \lstinline.
 \newcommand{\DenKrJPFont}{0}% 1: Also make Japanese Fonts available  |  0: Don't setup Japanese Fonts
@@ -188,23 +194,32 @@
 % - poster - Well, for Posters
 %		- dedicated_poster - dedicated & poster currently go under one and the same DocGenre 'dedicated_poster', because they share a lot of Code
 % - internal - tikz_standalone, standalone_constituent
-\newcommand{\setDocGenreIf}[3]{
+\DeclareDocumentCommand{\setDocGenreIf}{mmom}{% The optional is for additional Cmds to be executed for that Layout
 	\edef\argI{\DenKrLayout}%
 	\def\argII{#2}%
 	\ifx\argI\argII%
 		\renewcommand{\DenKrDocGenre}{#1}%
+		\IfValueT{#3}{#3}%
 	\else%
-		#3%
+		#4%
 	\fi%
 }%
 \setDocGenreIf{elaborate}{scrbook}{%
 \setDocGenreIf{elaborate}{scrbook_print}{%
 \setDocGenreIf{elaborate}{scrartcl}{%
 % Dedicated Purpose Stuff (e.g. scientific Paper)
-\setDocGenreIf{dedicated_poster}{preprint}{%
-\setDocGenreIf{dedicated_poster}{postprint}{%
-\setDocGenreIf{dedicated_poster}{IEEEtran}{%
-\setDocGenreIf{dedicated_poster}{article}{%
+\setDocGenreIf{dedicated_poster}{preprint}%
+	[\defCompilerPdf]%
+{%
+\setDocGenreIf{dedicated_poster}{postprint}%
+	[\defCompilerPdf]%
+{%
+\setDocGenreIf{dedicated_poster}{IEEEtran}%
+	[\defCompilerPdf]%
+{%
+\setDocGenreIf{dedicated_poster}{article}%
+	[\defCompilerPdf]%
+{%
 \setDocGenreIf{dedicated_poster}{article_mobilkomm}{%
 \setDocGenreIf{dedicated_poster}{ieeeconf}{%
 \setDocGenreIf{dedicated_poster}{acmart}{%

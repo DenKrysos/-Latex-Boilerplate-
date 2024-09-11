@@ -1,22 +1,5 @@
 %
-% \DeclareLanguageMapping{ngerman}{ngerman-apa}% Just omit that. Isn't necessary anymore with "biblatex-apa (style=apa,)" for years now
-% \DeclareLanguageMapping{english}{english-apa}%
-%-------------------------------------------------
-%
 % \setlength\bibhang{1em}%
-% - - - - - -
-\newcommand{\addBibIfExists}[1]{\IfFileExists{#1}{\addbibresource{#1}}{}}%
-%
-\addBibIfExists{\DenKrLiteratureDir/literature.bib}%
-\addBibIfExists{\DenKrLiteratureDir/literature_full.bib}%
-\addBibIfExists{\DenKrLiteratureDir/literature_own.bib}%
-\addBibIfExists{\DenKrLiteratureDir/literature_misc.bib}%
-\addBibIfExists{\DenKrLiteratureDir/literature_thirdParty.bib}%
-% \addBibIfExists{\DenKrLiteratureDir/literature_secondary.bib}%
-% \addBibIfExists{\DenKrLiteratureDir/literature_figures.bib}%
-% \addBibIfExists{\DenKrLiteratureDir/literature_tables.bib}%
-% \addBibIfExists{\DenKrLiteratureDir/literature_querries.bib}%
-% - - - - - -
 %
 % % % %
 % Note: This "\chapter*[]{Chapname}" only works with including my "typografie_redefine.tex", as this redefines \chapter with an own implementation. Otherwise, you may want to use my "\chapnt{}[]" from "typografie_cmd.tex".
