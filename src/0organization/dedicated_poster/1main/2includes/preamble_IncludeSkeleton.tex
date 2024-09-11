@@ -73,11 +73,11 @@
 %________________________________________________________________________
 \expandafter\ifstrequal\expandafter{\DenKrLayout}{acmart}{}{%
 \expandafter\ifstrequal\expandafter{\DenKrLayout}{tikzposter}{}{%
-	\DenKrITEequal{\DenKrCompiler}{\DenKrCompilerVALLua}{%
+	\DoIfLuaPdfXe{%
 		\input{"\DenKrAllMainRootDirPATH/2includes/packages/microtype_LuaLaTeX".tex}%
-	}{\DenKrITEequal{\DenKrCompiler}{\DenKrCompilerVALPdf}{%
+	}{%
 		\input{"\DenKrAllMainRootDirPATH/2includes/packages/microtype_pdfLaTeX".tex}%
-	}{}}%
+	}{}%
 }}%
 %
 \input{"\DenKrAllMainRootDirPATH/2includes/packages/compilation_1_veryBasic".tex}%
@@ -189,6 +189,7 @@
 %/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
 %				Remainder of Packages
 %________________________________________________________________________
+\input{"\DenKrAllMainRootDirPATH/2includes/packages/compilation_8_CommonRemain".tex}%
 \input{"\DenKrLayoutMainRootDir/2includes/packages/compilation_9_remainder".tex}%
 %________________________________________________________________________
 %				END Remainder

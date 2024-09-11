@@ -9,7 +9,10 @@
 {\usepackage{scrextend}}%
 {}%
 \makeatother%
-%\usepackage{multicol}% Multicol defines a multicols environment which typesets text in multiple columns
+%
+\DoIfLuaPdfXe{%
+	\usepackage{emoji}%
+}{}{}%
 %/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
 %					
 %------------------------------------------------------------------------
@@ -31,6 +34,3 @@
 %
 %
 %\usepackage{expl3}%
-%\usepackage{tcolorbox}%
-% \usepackage{bigfoot}%
-%

@@ -161,16 +161,6 @@
 %==================================================================================
 % ----  More on LaTeX
 %----------------------------------------------------------------------------------
-% Set to the Compiler that is used:  LuaLaTeX, pdfLaTeX
-\def\DenKrCompilerVALLua{LuaLaTeX}%
-\def\DenKrCompilerVALPdf{pdfLaTeX}%
-\newcommand{\defCompilerLua}{\xdef\DenKrCompiler{\DenKrCompilerVALLua}}%
-\newcommand{\defCompilerPdf}{\xdef\DenKrCompiler{\DenKrCompilerVALPdf}}%
-%
-\defCompilerLua%
-% \defCompilerPdf%
-%
-%
 % - Just saying: Activating Japanese-Fonts (or any CJK) introduces some hickups: Increase compilation/loading time. Also: It patches the "listings.sty" package and while doing so introduces a minor bug (as of 2023-12): They forgot a line-end percentage, which adds an additional space before each \lstinline.
 \newcommand{\DenKrJPFont}{0}% 1: Also make Japanese Fonts available  |  0: Don't setup Japanese Fonts
 %
@@ -208,18 +198,10 @@
 \setDocGenreIf{elaborate}{scrbook_print}{%
 \setDocGenreIf{elaborate}{scrartcl}{%
 % Dedicated Purpose Stuff (e.g. scientific Paper)
-\setDocGenreIf{dedicated_poster}{preprint}%
-	[\defCompilerPdf]%
-{%
-\setDocGenreIf{dedicated_poster}{postprint}%
-	[\defCompilerPdf]%
-{%
-\setDocGenreIf{dedicated_poster}{IEEEtran}%
-	[\defCompilerPdf]%
-{%
-\setDocGenreIf{dedicated_poster}{article}%
-	[\defCompilerPdf]%
-{%
+\setDocGenreIf{dedicated_poster}{preprint}{%
+\setDocGenreIf{dedicated_poster}{postprint}{%
+\setDocGenreIf{dedicated_poster}{IEEEtran}{%
+\setDocGenreIf{dedicated_poster}{article}{%
 \setDocGenreIf{dedicated_poster}{article_mobilkomm}{%
 \setDocGenreIf{dedicated_poster}{ieeeconf}{%
 \setDocGenreIf{dedicated_poster}{acmart}{%

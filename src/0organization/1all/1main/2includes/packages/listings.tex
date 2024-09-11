@@ -8,7 +8,7 @@
 \usepackage{listings}%
 %
 % Obviously not required with already "utf8 based engines" (which, for example LuLaTex is)
-\expandafter\ifstrequal\expandafter{\DenKrCompiler}{pdfLaTeX}{%
+\DoIfLuaPdfXe{}{%
     \usepackage{listingsutf8}%
 }{}%
 % %\usepackage{minted}%braucht externes Programm

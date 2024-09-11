@@ -88,11 +88,11 @@
 %				Some 'Specials', one might want/like
 %________________________________________________________________________
 %  Argh, fuck that shit. Hhhh, be careful with Microtype (at least with LuaLaTeX and big Book-Level Documents and sophisticated stuff, like non-latin languages). I think, I got fixed for the most part, but (with luatex-ja), it might keep raising Warnings and causing all kinds of Missbehavior.
-\DenKrITEequal{\DenKrCompiler}{\DenKrCompilerVALLua}{%
+\DoIfLuaPdfXe{%
 	\input{"\DenKrAllMainRootDirPATH/2includes/packages/microtype_LuaLaTeX".tex}%
-}{\DenKrITEequal{\DenKrCompiler}{\DenKrCompilerVALPdf}{%
+}{%
 	\input{"\DenKrAllMainRootDirPATH/2includes/packages/microtype_pdfLaTeX".tex}%
-}{}}%
+}{}%
 %
 \input{"\DenKrAllMainRootDirPATH/2includes/packages/compilation_1_veryBasic".tex}%
 \input{"\DenKrAllMainRootDirPATH/2includes/packages/itemEnum".tex}%
@@ -235,6 +235,7 @@
 %/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
 %				Remainder of Packages
 %________________________________________________________________________
+\input{"\DenKrAllMainRootDirPATH/2includes/packages/compilation_8_CommonRemain".tex}%
 \input{"\DenKrLayoutMainRootDir/2includes/packages/compilation_9_remainder".tex}%
 %________________________________________________________________________
 %				END Remainder

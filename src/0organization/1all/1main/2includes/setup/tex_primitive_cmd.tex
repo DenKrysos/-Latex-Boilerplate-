@@ -8,18 +8,18 @@
 %         \destroyCollectVar{someCollection}{Var1}
 \makeatletter%
 \newcommand{\setCollectVar}[3]{%
-    \expandafter\def\csname #1@#2\endcsname{#3}%
+	\expandafter\def\csname #1@#2\endcsname{#3}%
 }%
 \newcommand{\getCollectVar}[2]{%
-    \@ifundefined{#1@#2}{%
-        % Handle the case where the variable is not defined
-        \PackageError{DenKr-Variable-Collection}{#1@#2 is not defined}{}%
-    }{%
-        \csname #1@#2\endcsname%
-    }%
+	\@ifundefined{#1@#2}{%
+		% Handle the case where the variable is not defined
+		\PackageError{DenKr-Variable-Collection}{#1@#2 is not defined}{}%
+	}{%
+		\csname #1@#2\endcsname%
+	}%
 }%
 \newcommand{\destroyCollectVar}[2]{%
-    \expandafter\let\csname #1@#2\endcsname\relax%
+	\expandafter\let\csname #1@#2\endcsname\relax%
 }%
 \makeatother%
 %------------------------------------------------------------------------
@@ -36,24 +36,24 @@
 %  3 - If equal (then do this)
 %  4 - else (do this)
 \newcommand{\DenKrCmp}[4]{%
-    \expandafter\ifstrequal\expandafter{#1}{#2}{%
-        #3%
-    }{%
-        #4%
-    }%
+	\expandafter\ifstrequal\expandafter{#1}{#2}{%
+		#3%
+	}{%
+		#4%
+	}%
 }%
 %  Ah, well, I know, "ifstrequal" isn't really a tex-primitive... But I always include 'etoolbox' very early on, as one of the first things anyway.
 %________________________________________________________________________
 %========================================================================
 % An actually more tex-primitive Solution:
 \newcommand{\DenKrITEequal}[4]{%
-    \edef\argI{#1}%
-    \edef\argII{#2}%
-    \ifx\argI\argII%
-        #3%
-    \else%
-        #4%
-    \fi%
+	\edef\argI{#1}%
+	\edef\argII{#2}%
+	\ifx\argI\argII%
+		#3%
+	\else%
+		#4%
+	\fi%
 }%
 %------------------------------------------------------------------------
 %========================================================================
@@ -80,19 +80,93 @@
 %========================================================================
 % A Macro for reading a File's Content to a Macro.
 \newcommand{\ReadFileToMacro}[2]{%
-  \providecommand{#1}{}%
-  \IfFileExists{#2}{%
-    \endlinechar=-1\relax%
-    \newread\file%
-    \openin\file=#2%
-    \read\file to\DenKrNestedSrcDirTmpfile%
-    \closein\file%
-    \edef\DenKrNestedSrcDirTmpfile{\DenKrNestedSrcDirTmpfile}%
-    \endlinechar=13\relax%
-  }{}%
+	\providecommand{#1}{}%
+	\IfFileExists{#2}{%
+		\endlinechar=-1\relax%
+		\newread\file%
+		\openin\file=#2%
+		\read\file to\DenKrNestedSrcDirTmpfile%
+		\closein\file%
+		\edef\DenKrNestedSrcDirTmpfile{\DenKrNestedSrcDirTmpfile}%
+		\endlinechar=13\relax%
+	}{}%
 }%
 % USAGE:
 %    \newcommand{\CustomTempFile}{../tmp/DenKrNestedSrcDir.tex}%
 %    \ReadFileToMacro{\DenKrNestedSrcDirTmpfile}{\CustomTempFile}%
+%------------------------------------------------------------------------
+%========================================================================
+%
+%
+%
+%________________________________________________________________________
+%========================================================================
+% Detecting the running TeX Engine
+\makeatletter%
+\newif\if@luatex\@luatexfalse%
+\newif\if@pdftex\@pdftexfalse%
+\newif\if@xetex\@xetexfalse%
+\newif\if@ptex\@ptexfalse%
+\newif\if@uptex\@uptexfalse%
+\ExplSyntaxOn%
+	\sys_if_engine_luatex:T{\@luatextrue}%
+	\sys_if_engine_pdftex:T{\@pdftextrue}%
+	\sys_if_engine_xetex:T{\@xetextrue}%
+	\sys_if_engine_ptex:T{\@ptextrue}%
+	\sys_if_engine_uptex:T{\@uptextrue}%
+\ExplSyntaxOff%
+\if@luatex%
+	\typeout{»DenKr: TeX Engine in Use: LuaTeX}%
+\else\if@pdftex%
+	\typeout{»DenKr: TeX Engine in Use: pdfTeX}%
+\else\if@xetex%
+	\typeout{»DenKr: TeX Engine in Use: XeTeX}%
+\else\if@ptex%
+	\typeout{»DenKr: TeX Engine in Use: pTeX}%
+\else\if@uptex%
+	\typeout{»DenKr: TeX Engine in Use: upTeX}%
+\fi\fi\fi\fi\fi%
+% More similar stuff
+\ifx\numexpr\undefined\else\typeout{»DenKr: eTex is activated}\fi%
+\ifx\mubyte\undefined\else\typeout{»DenKr: encTeX is activated}\fi%
+\newif\ifpdftex\newif\ifxetex\newif\ifluatex%
+%\ifx\directlua\undefined\else\luatextrue\typeout{»DenKr: TeX Engine in Use: LuaTeX}\fi%
+%\ifx\pdftexversion\undefined\else\pdftextrue\typeout{»DenKr: TeX Engine in Use: pdfTeX}\fi%
+%\ifx\XeTeXrevision\undefined\else\xetextrue\typeout{»DenKr: TeX Engine in Use: XeTeX}\fi%
+%\ifluatex\else\chardef\outputmode=0\fi%
+%\ifpdftex\let\outputmode=\pdfoutput\fi%
+%\ifxetex\chardef\outputmode=1\fi%
+%\ifnum\outputmode>0 PDF is created\else DVI is created\fi%
+%
+%
+% Set a 'String-Value' to the Compiler that is used:  LuaLaTeX, pdfLaTeX, XeLaTeX
+\def\DenKrCompilerVALLua{LuaLaTeX}%
+\def\DenKrCompilerVALPdf{pdfLaTeX}%
+\def\DenKrCompilerVALXe{XeLaTeX}%
+\newcommand{\defCompilerLua}{\xdef\DenKrCompiler{\DenKrCompilerVALLua}}%
+\newcommand{\defCompilerPdf}{\xdef\DenKrCompiler{\DenKrCompilerVALPdf}}%
+\newcommand{\defCompilerXe}{\xdef\DenKrCompiler{\DenKrCompilerVALXe}}%
+%
+% A Macro that executed Code depending on the TeX Engine in use.
+%   I checks for the above created If
+\newcommand{\DoIfLuaPdfXe}[3]{%
+	%\ifthenelse{\boolean{@luatex} \OR \boolean{@xetex}}{}{}
+	\if@luatex%
+		#1%
+	\else\if@pdftex%
+		#2%
+	\else\if@xetex%
+		#3%
+	\fi\fi\fi%
+}%
+\makeatother%
+%
+\DoIfLuaPdfXe{%
+	\defCompilerLua%
+}{%
+	\defCompilerPdf%
+}{%
+	\defCompilerXe%
+}%
 %------------------------------------------------------------------------
 %========================================================================
