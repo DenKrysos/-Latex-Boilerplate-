@@ -99,38 +99,73 @@
 %---------------------------------------------------------
 \newcommand{\DenKrInputKOMAFile}[1]{\input{"\DenKrLayoutMainRootDir/2includes/packages/KOMA/#1".tex}}%
 % - - - - - - - -
-% --  Array-alike Storage for Status-Tracking of Layers
-\newcounter{DenKrKOMALayerTrackNum}%
-\setcounter{DenKrKOMALayerTrackNum}{0}%
-\newcommand\DenKrKOMALayerTrackAdd[2]{% Pagestyle, Layer-Name
-  \csdef{DenKrKOMALayerTrackPGS\theDenKrKOMALayerTrackNum}{#1}%
-  \csdef{DenKrKOMALayerTrackLNAM\theDenKrKOMALayerTrackNum}{#2}%
-  \stepcounter{DenKrKOMALayerTrackNum}%
+% --  Array-alike Storage for Status-Tracking of Layers (Separate for Header and Footer)
+% -- Header
+\newcounter{DenKrKOMALayerTrackHeadNum}%
+\setcounter{DenKrKOMALayerTrackHeadNum}{0}%
+\newcommand\DenKrKOMALayerTrackHeadAdd[2]{% Pagestyle, Layer-Name
+  \csdef{DenKrKOMALayerTrackHeadPGS\theDenKrKOMALayerTrackHeadNum}{#1}%
+  \csdef{DenKrKOMALayerTrackHeadLNAM\theDenKrKOMALayerTrackHeadNum}{#2}%
+  \stepcounter{DenKrKOMALayerTrackHeadNum}%
 }%
-\newcommand\getDenKrKOMALayerTrackPGS[1]{%
-  \csuse{DenKrKOMALayerTrackPGS#1}%
+\newcommand\getDenKrKOMALayerTrackHeadPGS[1]{%
+  \csuse{DenKrKOMALayerTrackHeadPGS#1}%
 }%
-\newcommand\getDenKrKOMALayerTrackLNAM[1]{%
-  \csuse{DenKrKOMALayerTrackLNAM#1}%
+\newcommand\getDenKrKOMALayerTrackHeadLNAM[1]{%
+  \csuse{DenKrKOMALayerTrackHeadLNAM#1}%
 }%
-\newcommand\loopDenKrKOMALayerTrack[1]{% Cmd to Call in Loop
+\newcommand\loopDenKrKOMALayerTrackHead[1]{% Cmd to Call in Loop
     \setcounter{loopi}{0}%
-    \loop\ifnum\value{loopi}<\value{DenKrKOMALayerTrackNum}%
+    \loop\ifnum\value{loopi}<\value{DenKrKOMALayerTrackHeadNum}%
         \csname#1\endcsname{\theloopi}%
         \stepcounter{loopi}%
     \repeat%
 }%
-\newcommand\DenKrKOMALayerTrackRemLayer[1]{% Index of tracked Layer in Storage
-    \edef\DenKrKOMALayerTrackArgPGS{\getDenKrKOMALayerTrackPGS{#1}}%
-    \edef\DenKrKOMALayerTrackArgLNAM{\getDenKrKOMALayerTrackLNAM{#1}}%
+\newcommand\DenKrKOMALayerTrackHeadRemLayer[1]{% Index of tracked Layer in Storage
+    \edef\DenKrKOMALayerTrackHeadArgPGS{\getDenKrKOMALayerTrackHeadPGS{#1}}%
+    \edef\DenKrKOMALayerTrackHeadArgLNAM{\getDenKrKOMALayerTrackHeadLNAM{#1}}%
     \typeout{»DenKr:  Abrufen:}%
-    \typeout{- "\DenKrKOMALayerTrackArgPGS"}%
-    \typeout{- "\DenKrKOMALayerTrackArgLNAM"}%
-    \RemoveLayersFromPageStyle{\DenKrKOMALayerTrackArgPGS}{\DenKrKOMALayerTrackArgLNAM}%
+    \typeout{- "\DenKrKOMALayerTrackHeadArgPGS"}%
+    \typeout{- "\DenKrKOMALayerTrackHeadArgLNAM"}%
+    \RemoveLayersFromPageStyle{\DenKrKOMALayerTrackHeadArgPGS}{\DenKrKOMALayerTrackHeadArgLNAM}%
 }%
-\newcommand\DenKrKOMALayerTrackClear{%
-    \loopDenKrKOMALayerTrack{DenKrKOMALayerTrackRemLayer}%
-    \setcounter{DenKrKOMALayerTrackNum}{0}%
+\newcommand\DenKrKOMALayerTrackHeadClear{%
+    \loopDenKrKOMALayerTrackHead{DenKrKOMALayerTrackHeadRemLayer}%
+    \setcounter{DenKrKOMALayerTrackHeadNum}{0}%
+}%
+% - - - - - - - -
+% -- Same for Footer
+\newcounter{DenKrKOMALayerTrackFootNum}%
+\setcounter{DenKrKOMALayerTrackFootNum}{0}%
+\newcommand\DenKrKOMALayerTrackFootAdd[2]{% Pagestyle, Layer-Name
+  \csdef{DenKrKOMALayerTrackFootPGS\theDenKrKOMALayerTrackFootNum}{#1}%
+  \csdef{DenKrKOMALayerTrackFootLNAM\theDenKrKOMALayerTrackFootNum}{#2}%
+  \stepcounter{DenKrKOMALayerTrackFootNum}%
+}%
+\newcommand\getDenKrKOMALayerTrackFootPGS[1]{%
+  \csuse{DenKrKOMALayerTrackFootPGS#1}%
+}%
+\newcommand\getDenKrKOMALayerTrackFootLNAM[1]{%
+  \csuse{DenKrKOMALayerTrackFootLNAM#1}%
+}%
+\newcommand\loopDenKrKOMALayerTrackFoot[1]{% Cmd to Call in Loop
+    \setcounter{loopi}{0}%
+    \loop\ifnum\value{loopi}<\value{DenKrKOMALayerTrackFootNum}%
+        \csname#1\endcsname{\theloopi}%
+        \stepcounter{loopi}%
+    \repeat%
+}%
+\newcommand\DenKrKOMALayerTrackFootRemLayer[1]{% Index of tracked Layer in Storage
+    \edef\DenKrKOMALayerTrackFootArgPGS{\getDenKrKOMALayerTrackFootPGS{#1}}%
+    \edef\DenKrKOMALayerTrackFootArgLNAM{\getDenKrKOMALayerTrackFootLNAM{#1}}%
+    \typeout{»DenKr:  Abrufen:}%
+    \typeout{- "\DenKrKOMALayerTrackFootArgPGS"}%
+    \typeout{- "\DenKrKOMALayerTrackFootArgLNAM"}%
+    \RemoveLayersFromPageStyle{\DenKrKOMALayerTrackFootArgPGS}{\DenKrKOMALayerTrackFootArgLNAM}%
+}%
+\newcommand\DenKrKOMALayerTrackFootClear{%
+    \loopDenKrKOMALayerTrackFoot{DenKrKOMALayerTrackFootRemLayer}%
+    \setcounter{DenKrKOMALayerTrackFootNum}{0}%
 }%
 %
 %
@@ -300,29 +335,61 @@
 %========================================================================
 %         Design of the Header & Footer
 %========================================================================
+% Clearing all Header & Footer fields
+% Remove the Page-Number from the Pagestyle-Pair  [plain.scrheadings]{scrheadings}
+% NOTE: In one-sided printing, only right-hand pages exist, and LATEX designates these as odd pages regardless of their page number.
+% Info: \cofoot[]{} Clears the central pagenumber of one-sided
+\lofoot[]{}\rofoot[]{}\cofoot[]{}%
+\lefoot[]{}\refoot[]{}\cefoot[]{}%
+\lohead[]{}\rohead[]{}\cohead[]{}%
+\lehead[]{}\rehead[]{}\cehead[]{}%
+\chead[]{}\cfoot[]{}%
+% \clearpairofpagestyles%
+%####################################
+%       Setting (Background) Colors used in some Designs (for Header & Footer)
+%____________________________________
+% \colorlet{HeaderFooterBase}{DenKrKomaColor_ChapterHeading!70!DenKrKomaColor_ChapterHeading_2}%
+% \colorlet{HeaderBG}{DenKrKomaColor_ChapterHeading!10!white}%
+% \colorlet{HeaderBG2}{HeaderFooterBase!25!white}%
+% \colorlet{FooterBG}{DenKrKomaColor_ChapterHeading!15!white}%
+\colorlet{HeaderFooterBase}{DenKrKomaColor_ChapterHeading!80!DenKrKomaColor_ChapterHeading_2}%
+\colorlet{HeaderBG}{DenKrKomaColor_ChapterHeading!6!white}%
+\colorlet{HeaderBG2}{HeaderFooterBase!18!white}%
+\colorlet{FooterBG}{DenKrKomaColor_ChapterHeading!15!white}%
+%------------------------------------------------------------------------
 % = Select Custom Header/Footer Designs
-%	> Available Header/Footer Design-Files:
-%		design_HeadFoot_1
+%	> Available »Header« Design-Files:
+%		design_Head_1
+%			% Slightly varied Color of Number in Headmark
+%		design_Head_2
+%			% Head Embellishing: Gradient Cylinder
+%		design_Head_3
+%			% Head Embellishing: Gradient Cylinder with Curly Edge and Slopes to the Side
+%		design_Head_4
+% - - - - - - - -
+%	> Available »Footer« Design-Files:
+%		design_Foot_1
 %			% PageNumber: One Vertical Line; Straight BG Color; Sloped BG Color
-%		design_HeadFoot_2
-%		design_HeadFoot_2_1
-%		design_HeadFoot_2_2
+%		design_Foot_2
+%		design_Foot_2_1
+%		design_Foot_2_2
 %			% PageNumber: Two Vertical Lines (sameLength); Straight BG Color; Sloped BG Color
-%		design_HeadFoot_3
-%		design_HeadFoot_3_1
-%		design_HeadFoot_3_2
+%		design_Foot_3
+%		design_Foot_3_1
+%		design_Foot_3_2
 %			% PageNumber: Two Vertical Lines (InnerShorter); Straight BG Color; Sloped BG Color
-%		design_HeadFoot_4
-%		design_HeadFoot_4_1
-%		design_HeadFoot_4_2
+%		design_Foot_4
+%		design_Foot_4_1
+%		design_Foot_4_2
 % % % % % % % % % % % % % % %
 %-- This is active unless/if no "\frontmatter, \mainmatter" Cmd is invoked
-\DenKrInputKOMAFile{design_HeadFoot_1}%
+\DenKrInputKOMAFile{design_Head_1}%
+\DenKrInputKOMAFile{design_Foot_1}%
 %---- The following can be simply commented-out or removed, if no switch shall occur
 %-- Employed in \frontmatter
-%\renewcommand{\DenKrKOMAHookFormatHeadFootFrontmatter}{\DenKrInputKOMAFile{design_HeadFoot_2}}%
+%\renewcommand{\DenKrKOMAHookFormatHeadFootFrontmatter}{\DenKrInputKOMAFile{design_Head_2}\DenKrInputKOMAFile{design_Foot_2}}%
 %-- Employed in \mainmatter
-%\renewcommand{\DenKrKOMAHookFormatHeadFootMainmatter}{\DenKrInputKOMAFile{design_HeadFoot_4}}%
+%\renewcommand{\DenKrKOMAHookFormatHeadFootMainmatter}{\DenKrInputKOMAFile{design_Head_3}\DenKrInputKOMAFile{design_Foot_4_2}}%
 %________________________________________________________________________
 %           Header/Footer DONE
 %------------------------------------------------------------------------

@@ -7,10 +7,7 @@
 \renewcommand\sectionmarkformat{{\usekomafont{marknumber}\thesection} }%
 \renewcommand\subsectionmarkformat{\subsectionmarkformatOriginal}%
 % - - - - - - -
-% Remove headmark from the Pagestyle-Pair
-\lehead[]{}%
-\rohead[]{}%
-\chead[]{}%
+%
 %Define Layer for new Headmark Style
 % Also apply a Hyper-Link to the corresponding Chapter/Section to the Headmark
 \DeclareLayer[%
@@ -61,4 +58,4 @@
 ]{headmark.both}%
 \AddLayersToPageStyle{scrheadings}{headmark.both}%
 % % % % %
-\DenKrKOMALayerTrackAdd{scrheadings}{headmark.odd,headmark.even}%
+\DenKrKOMALayerTrackHeadAdd{scrheadings}{headmark.odd,headmark.even}%

@@ -1,0 +1,28 @@
+%________________________________________________________________________
+%       Clean-Up
+%========================================================================
+% First Clear what might have been set by prior Design Inclusions
+\DenKrKOMALayerTrackFootClear%
+%
+%
+% This one 'only' adds a Background and then simply includes the same Building-Blocks for the actual Pagenumber as "Foot_4"
+%
+%________________________________________________________________________
+%       Settings
+%========================================================================
+%\setlength{\footskip}{\dimexpr\headsep+\ht\strutbox\relax}%
+%\setlength{\footskip}{1.65cm}%
+%
+%
+%________________________________________________________________________
+%       Footer BG
+%========================================================================
+\DenKrInputKOMAFile{BuildingBlocks/footerBG_slopeOut_1}%
+%
+%
+%
+%
+%________________________________________________________________________
+%       Page-Number
+%========================================================================
+\DenKrInputKOMAFile{BuildingBlocks/pagenumber_rule_Double_InnerShorter}%

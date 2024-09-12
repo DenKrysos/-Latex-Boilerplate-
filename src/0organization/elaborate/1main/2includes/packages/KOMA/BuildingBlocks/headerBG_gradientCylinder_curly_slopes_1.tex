@@ -1,0 +1,67 @@
+% A Custom Shading for the Header-Background (Remark that the Colors are defined in REVERSE Order. The Shading fills from Bottom to Top, i.e. 0bp is at the Bottom, 50bp is at the Top)
+\pgfdeclareverticalshading{headerBGShadingSloped}{100bp}{%
+	color(0bp)=(white);%
+	color(16bp)=(HeaderBG);%
+	color(31bp)=(HeaderBG2);%
+	color(36bp)=(HeaderBG!70!HeaderBG2);%
+	color(50bp)=(HeaderBG)%
+}%
+% - - - - - - - - - - - -
+% The actual Layer for the Header
+\DeclareLayer[%
+	background,%
+	mode=picture,%
+	oddpage,%
+	head,%
+	contents={%
+		\put(0,-\LenToUnit{\layerheight}){\tikzmark{headLBAnchor}}%
+		\begin{tikzpicture}[overlay,remember picture]%
+		\coordinate(headBgTL)at(current page.north west);%
+		\coordinate(headBgTR)at(current page.north east);%
+		\path let\p1=(pic cs:headLBAnchor),\p2=($(\p1)+(0,10pt)$)in coordinate(headBgBL)at(headBgTL|-\p2);% Increase by a share of \headsep ?
+		\coordinate(headBgBR)at(headBgBL-|headBgTR);%
+		\coordinate(headBgSlopeOuter)at($(headBgBR)+(0,-0.03\paperheight)$);%
+		\coordinate(headBgSlopeOuter2)at(headBgBR-|current page text area.east);%
+		\coordinate(headBgSlopeInner)at($(headBgBL)!.6!(headBgTL)$);%
+		\coordinate(headBgSlopeInner2)at(headBgBL-|current page text area.west);%
+		\coordinate(headBgCurveC2)at($(headBgBR)!.6!(headBgBL)$);%
+		\coordinate(headBgCurveC)at($(headBgSlopeOuter2)!.5!(headBgCurveC2)+(0,1.5ex)$);%
+		\path[draw=none,line width=0pt,shading=headerBGShadingSloped]
+		% \path[draw=none,line width=0pt,fill=blue!30!white]%
+			(headBgTL)--(headBgTR)%
+			--(headBgSlopeOuter)to[out=100,in=0](headBgSlopeOuter2)%
+			%to[out=180,in=0](headBgCurveC)to[out=180,in=0](headBgCurveC2)%
+			--(headBgSlopeInner2)to[out=180,in=280](headBgSlopeInner)%
+		--cycle;%
+		\end{tikzpicture}%
+	}%
+]{headBG.odd}%
+%
+\DeclareLayer[%
+	background,%
+	mode=picture,%
+	evenpage,%
+	head,%
+	contents={%
+		\put(0,-\LenToUnit{\layerheight}){\tikzmark{headLBAnchor}}%
+		\begin{tikzpicture}[overlay,remember picture]%
+		\coordinate(headBgTL)at(current page.north west);%
+		\coordinate(headBgTR)at(current page.north east);%
+		\path let\p1=(pic cs:headLBAnchor),\p2=($(\p1)+(0,10pt)$)in coordinate(headBgBL)at(headBgTL|-\p2);% Increase by a share of \headsep ?
+		\coordinate(headBgBR)at(headBgBL-|headBgTR);%
+		\coordinate(headBgSlopeOuter)at($(headBgBL)+(0,-0.03\paperheight)$);%
+		\coordinate(headBgSlopeOuter2)at(headBgBR-|current page text area.west);%
+		\coordinate(headBgSlopeInner)at($(headBgBR)!.6!(headBgTR)$);%
+		\coordinate(headBgSlopeInner2)at(headBgBL-|current page text area.east);%
+		\path[draw=none,line width=0pt,shading=headerBGShadingSloped]
+			(headBgTR)--(headBgTL)%
+			--(headBgSlopeOuter)to[out=80,in=180](headBgSlopeOuter2)%
+			--(headBgSlopeInner2)to[out=0,in=260](headBgSlopeInner)%
+		--cycle;%
+		\end{tikzpicture}%
+	}%
+]{headBG.even}%
+%
+\AddLayersToPageStyle{scrheadings}{headBG.odd,headBG.even}%
+% % % % %
+\DenKrKOMALayerTrackHeadAdd{scrheadings}{headBG.odd,headBG.even}%
