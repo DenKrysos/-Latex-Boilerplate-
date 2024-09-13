@@ -6,17 +6,42 @@
 % - Commands for switching to Bera Font
 \makeatletter
 \newcommand\BeraSerifsefamily{%
-  \def\fve@Scale{0.88}% scales the font down
-  \fontfamily{fve}\selectfont% selects the Bera font
+	\def\fve@Scale{0.88}% scales the font down
+	\fontfamily{fve}\selectfont% selects the Bera font
 }
 \newcommand\BeraMonottfamily{%
-  \def\fvm@Scale{0.84}%
-  \fontfamily{fvm}\selectfont%
+	\def\fvm@Scale{0.84}%
+	\fontfamily{fvm}\selectfont%
 }
 \newcommand\BeraSanssffamily{%
-  \def\fvs@Scale{0.85}%
-  \fontfamily{fvs}\selectfont%
+	\def\fvs@Scale{0.85}%
+	\fontfamily{fvs}\selectfont%
 }
 \makeatother
-%
 % NOTE: That is currently not in use
+%
+%
+% Define some special Signs
+% - Lesser Equal with the the bottom being straight, i.e. not slanted
+% - Greater Equal with the the bottom being straight, i.e. not slanted
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% % % % libertinust1math.sty
+\DeclareFontEncoding{LS2}{}{\noaccents@}%
+\DeclareFontSubstitution{LS2}{libertinust1mathsym}{m}{n}%
+\DeclareSymbolFont{libertinmath}{LS2}{libertinust1mathsym}{m}{n}%
+% \DeclareSymbolFont{AMSb}{U}{msb}{m}{n}
+\DeclareMathSymbol{\leqstraight}{3}{libertinmath}{"77}%
+\DeclareMathSymbol{\geqstraight}{3}{libertinmath}{"78}%
+% \DeclareMathSymbol{=}{\mathrel}{operators}{`=}
+% - - - - - - - - - - - -
+% % % Alternative (worse)
+% \DeclareFontFamily{U}{matha}{\hyphenchar\font45}%
+% \DeclareFontShape{U}{matha}{m}{n}{%
+% 	<5> <6> <7> <8> <9> <10> gen * matha%
+% 	<10.95> matha10 <12> <14.4> <17.28> <20.74> <24.88> matha12%
+% }{}%
+% \DeclareSymbolFont{matha}{U}{matha}{m}{n}%
+% \DeclareFontSubstitution{U}{matha}{m}{n}%
+% \DeclareMathSymbol{\leqstraight}{3}{matha}{"A8}%
+% \DeclareMathSymbol{\geqstraight}{3}{matha}{"A9}%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

@@ -9,10 +9,14 @@
 %   - Package-Loading actually not really required, when setting fonts, like below
 \usepackage{lmodern}% Lädt Latin Modern Font und setzt als mainfont für fontspec. Verbessert außerdem einige Font-Restrictions
 % \usepackage{libertine}%
+% \usepackage{libertinust1math}%
 % \usepackage{inconsolata}%
 % - Font for Math
 \usepackage[T1,small,euler-digits]{eulervm}%
-% \usepackage{libertinust1math}%
+% Lesser and Greater Equal are by default slanted with eulervm. Overwrite back to a straight variant (enabled by "1all/[...]/language_font_setting/1common/font.tex")
+\let\leq\leqstraight%
+\let\geq\geqstraight%
+%
 % - Load Font-handling Package
 \usepackage{fontspec}%
 \newcommand{\DenKrFontEngine}{fontspec}%
