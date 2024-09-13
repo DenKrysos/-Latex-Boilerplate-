@@ -1,0 +1,124 @@
+%========================================================================
+%       Set-Up of some things
+% - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+% A Custom Shading for the Header-Background (Remark that the Colors are defined in REVERSE Order. The Shading fills from Bottom to Top, i.e. 0bp is at the Bottom, 50bp is at the Top)
+\pgfdeclareverticalshading{headerBGShadingSloped}{100bp}{%
+	color(0bp)=(HeaderBG2!70!white);%
+	color(14bp)=(HeaderBG);%
+	color(30bp)=(HeaderBG2);%
+	color(34bp)=(HeaderBG!70!HeaderBG2);%
+	color(50bp)=(HeaderBG)%
+}%
+%========================================================================
+%       Setting up some Macros for later use
+% - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+\DeclareDocumentCommand{\ShadePathFrame}{%
+	% Define the Coordinates to use before accordingly
+	%  footShadeCorner_F[x]: A Fixed-Point
+	%  footShadeCorner_M[x]: A Moving-Point
+	O{10}% 1: Number of Shading Steps
+	m% the actual path to draw
+}{%
+	\tikzmath{%
+		\opacstep=1/(#1+1);%
+		\scalestep=1/#1;%
+		\scalecur=1;%
+	}%
+	\foreach\i in {0,...,#1}{%
+		\tikzmath{%
+			\smoothen=1/(sqrt(\i+1));%
+			\opacCur=(\i+1)*\opacstep*\smoothen;%
+			\scalecur=\i*\scalestep;%
+		}%
+		\path[draw=none,line width=0pt,shading=headerBGShadingSloped,opacity=\opacCur]%
+		% \path[draw=none,fill=FooterBG,line width=0pt,fill=blue!30!white,opacity=\opacCur]%
+			let\p1=($(headShadeL1Mov)!\scalecur!(headShadeL1Fix)$),\p2=($(headShadeL2Mov)!\scalecur!(headShadeL2Fix)$),\p3=($(headShadeR1Mov)!\scalecur!(headShadeR1Fix)$),\p4=($(headShadeR2Mov)!\scalecur!(headShadeR2Fix)$)in%
+			#2--cycle;%
+	}%
+	\let\scalestep\undefined\let\opacstep\undefined\let\scalecur\undefined\let\smoothen\undefined\let\opacCur\undefined%
+}%
+%
+%
+%
+%
+%========================================================================
+%       Layer Declaration & Assignment
+% - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+\DeclareLayer[%
+	background,%
+	mode=picture,%
+	oddpage,%
+	head,%
+	contents={%
+		\put(0,-\LenToUnit{\layerheight}){\tikzmark{headLBAnchor}}%
+		\begin{tikzpicture}[overlay,remember picture]%
+		\coordinate(headBgTL)at(current page.north west);%
+		\coordinate(headBgTR)at(current page.north east);%
+		\path let\p1=(pic cs:headLBAnchor),\p2=($(\p1)+(0,10pt)$)in coordinate(headBgBL)at(headBgTL|-\p2);% Increase by a share of \headsep ?
+		\coordinate(headBgBR)at(headBgBL-|headBgTR);%
+		\coordinate(headBgSlopeOuter)at($(headBgBR)+(0,-0.03\paperheight)$);%
+		\coordinate(headBgSlopeOuter2)at(headBgBR-|current page text area.east);%
+		\coordinate(headBgSlopeInner)at($(headBgBL)!.6!(headBgTL)$);%
+		\coordinate(headBgSlopeInner2)at(headBgBL-|current page text area.west);%
+		\path let\n1={2ex},\n2={-0.5ex}in%
+			coordinate(headShadeL1Fix)at($(headBgSlopeInner)+(0,\n1)$)%
+			coordinate(headShadeL1Mov)at($(headBgSlopeInner)+(0,\n2)$)%
+			coordinate(headShadeL2Fix)at($(headBgSlopeInner2)+(0,\n1)$)%
+			coordinate(headShadeL2Mov)at($(headBgSlopeInner2)+(0,\n2)$)%
+			coordinate(headShadeR1Fix)at($(headBgSlopeOuter2)+(0,\n1)$)%
+			coordinate(headShadeR1Mov)at($(headBgSlopeOuter2)+(0,\n2)$)%
+			coordinate(headShadeR2Fix)at($(headBgSlopeOuter)+(0,\n1)$)%
+			coordinate(headShadeR2Mov)at($(headBgSlopeOuter)+(0,\n2)$)%
+		;%
+		\ShadePathFrame{%
+			(headBgTL)--(headBgTR)%
+			--(\p4)to[out=100,in=0](\p3)%
+			--(\p2)to[out=180,in=280](\p1)%
+		}%
+		\end{tikzpicture}%
+	}%
+]{headBG.odd}%
+%
+\DeclareLayer[%
+	background,%
+	mode=picture,%
+	evenpage,%
+	head,%
+	contents={%
+		\put(0,-\LenToUnit{\layerheight}){\tikzmark{headLBAnchor}}%
+		\begin{tikzpicture}[overlay,remember picture]%
+		\coordinate(headBgTL)at(current page.north west);%
+		\coordinate(headBgTR)at(current page.north east);%
+		\path let\p1=(pic cs:headLBAnchor),\p2=($(\p1)+(0,10pt)$)in coordinate(headBgBL)at(headBgTL|-\p2);% Increase by a share of \headsep ?
+		\coordinate(headBgBR)at(headBgBL-|headBgTR);%
+		\coordinate(headBgSlopeOuter)at($(headBgBL)+(0,-0.03\paperheight)$);%
+		\coordinate(headBgSlopeOuter2)at(headBgBR-|current page text area.west);%
+		\coordinate(headBgSlopeInner)at($(headBgBR)!.6!(headBgTR)$);%
+		\coordinate(headBgSlopeInner2)at(headBgBL-|current page text area.east);%
+		\path let\n1={2ex},\n2={-0.5ex}in%
+			coordinate(headShadeL1Fix)at($(headBgSlopeOuter)+(0,\n1)$)%
+			coordinate(headShadeL1Mov)at($(headBgSlopeOuter)+(0,\n2)$)%
+			coordinate(headShadeL2Fix)at($(headBgSlopeOuter2)+(0,\n1)$)%
+			coordinate(headShadeL2Mov)at($(headBgSlopeOuter2)+(0,\n2)$)%
+			coordinate(headShadeR1Fix)at($(headBgSlopeInner2)+(0,\n1)$)%
+			coordinate(headShadeR1Mov)at($(headBgSlopeInner2)+(0,\n2)$)%
+			coordinate(headShadeR2Fix)at($(headBgSlopeInner)+(0,\n1)$)%
+			coordinate(headShadeR2Mov)at($(headBgSlopeInner)+(0,\n2)$)%
+		;%
+		\ShadePathFrame{%
+			(headBgTR)--(headBgTL)%
+			--(\p1)to[out=80,in=180](\p2)%
+			--(\p3)to[out=0,in=260](\p4)%
+		}%
+		% \path[draw=none,line width=0pt,shading=headerBGShadingSloped]
+		% 	()--()%
+		% 	--(headBgSlopeOuter)to[out=80,in=180](headBgSlopeOuter2)%
+		% 	--(headBgSlopeInner2)to[out=0,in=260](headBgSlopeInner)%
+		% --cycle;%
+		\end{tikzpicture}%
+	}%
+]{headBG.even}%
+%
+\AddLayersToPageStyle{scrheadings}{headBG.odd,headBG.even}%
+% % % % %
+\DenKrKOMALayerTrackHeadAdd{scrheadings}{headBG.odd,headBG.even}%
