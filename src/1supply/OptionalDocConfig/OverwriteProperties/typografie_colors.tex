@@ -1,5 +1,58 @@
 %________________________________________________________________________
-% DEV-NOTE to myself (DenKr):
-%   Don't use this exact file
-%   For Boilerplates, etc, copy or link to the other File in "./0organization/1main/3settings/"
+% For Defining the Colors that are used for Typesetting the Page (Chapter-Heading, Header, Footer, etc.)
+% USAGE:
+% - This File parallel to "typografie_colors_setup.tex", inside the "Organization-Directory" (0organization/1main/3settings/)
+%     - Mandatory
+%     - Sets default Preferences
+%     - Just don't touch, leave it be
+%
+% OPTIONAL, for OVERWRITING
+% - This File in the "Supply" Directory (./1supply/OptionalDocConfig/OverwriteProperties/)
+%    (The File & its Entries are completely optional. It just overwrites the default Settings)
+%    (You may safely delete this File or single Defines, in case you are happy with the default Colors)
 %========================================================================
+%
+%-----------------------------
+% Colors concering the Page-Layout (with KOMA-Classes)
+\definecolor{DenKrKomaColor_HeadLine}{RGB}{40,60,150}%
+\definecolor{DenKrKomaColor_FootLine}{named}{DenKrKomaColor_HeadLine}%
+\definecolor{DenKrKomaColor_PageNumber}{RGB}{0,60,150}%
+%
+\definecolor{DenKrKomaColor_PartHeading}{named}{DenKrKomaColor_Violet_1}%
+\definecolor{DenKrKomaColor_ChapterHeading}{named}{DenKrKomaColor_Purple_1}% DenKrKomaColor_Purple_3
+\definecolor{DenKrKomaColor_SectionHeading}{named}{DenKrKomaColor_ChapterHeading}%
+\definecolor{DenKrKomaColor_SubSectionHeading}{named}{DenKrKomaColor_Violet_4}% DenKrKomaColor_Purple_4
+\definecolor{DenKrKomaColor_SubSubSectionHeading}{named}{DenKrKomaColor_Blue_1}%
+\definecolor{DenKrKomaColor_ParagraphHeading}{named}{DenKrKomaColor_Blue_2}%
+\definecolor{DenKrKomaColor_SubParagraphHeading}{named}{DenKrKomaColor_Blue_3}%
+%-----------------------------
+% For elaborate Designs. Mostly 'optional'. Only in use with certain Designs
+\definecolor{DenKrKomaColor_ChapterHeading_2}{named}{DenKrKomaColor_Cyan_1}%
+%
+%-----------------------------
+% Colors concering further Typografie-Objects
+% - - Some general Colors for Formatting, Highlighting and such
+\definecolor{DenKrColor_Highlight_GrayDark}{RGB}{79,79,79}%
+\definecolor{DenKrColor_Highlight_Gray}{RGB}{121,121,121}%
+\definecolor{DenKrColor_Highlight_GrayLight}{RGB}{162,162,162}%
+\definecolor{DenKrColor_Highlight_Blue}{RGB}{50,70,190}%
+\definecolor{DenKrColor_Highlight_Green}{RGB}{50,160,60}%
+\definecolor{DenKrColor_Highlight_Red}{RGB}{230,80,60}%
+\definecolor{DenKrColor_Highlight_Cyan}{named}{DenKrKomaColor_Cyan_2}%
+\definecolor{DenKrColor_Highlight_Yellow}{RGB}{210,200,0}%
+\definecolor{DenKrColor_Highlight_Orange}{RGB}{220,115,20}%
+% - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+\definecolor{DenKrColor_Highlight_Violet}{RGB}{145,20,145}%
+\definecolor{DenKrColor_Highlight_Emerald}{named}{DenKrKomaColor_Emerald_1}%
+\definecolor{DenKrColor_Highlight_Sapphire}{named}{DenKrKomaColor_Sapphire_1_3}%
+\definecolor{DenKrColor_Highlight_Lapis}{named}{DenKrKomaColor_Lapis_1}%
+\definecolor{DenKrColor_Highlight_Ruby}{named}{DenKrKomaColor_Ruby_1_4}%
+\definecolor{DenKrColor_Highlight_Amethyst}{named}{DenKrKomaColor_Amethyst_2_5}%
+\definecolor{DenKrColor_Highlight_Amber}{named}{DenKrKomaColor_Amber_1_4}%
+\definecolor{DenKrColor_Highlight_Carnelian}{named}{DenKrKomaColor_Amber_1_3}%
+\definecolor{DenKrColor_Highlight_Topaz}{named}{DenKrKomaColor_Topaz_1_3}%
+\definecolor{DenKrColor_Highlight_Citrine}{named}{DenKrKomaColor_Citrine_1_2}%
+% - - Color for the Label of Description-Lists from enumitem.sty
+%  - - E.g. DenKrKomaColor_SubSectionHeading, DenKrColor_Default, black
+\definecolor{DenKrColor_DescriptionLabel}{named}{DenKrKomaColor_Purple_4}%
+\definecolor{DenKrColor_LabeledParagraph}{named}{DenKrKomaColor_Purple_4}%

@@ -3,6 +3,5 @@
     afterskip=-0.4em%
 ]{subparagraph}%
 \makeatletter\@ifundefined{DenKrSetSubpargraph}{}{\DenKrSetSubpargraph}\makeatother% Workaround to reset to my macro after RedeclareSectionCommand
-\AddtoDoHook{heading/endgroup/subparagraph}{\DenKrKomaHeadingSubParagraphAttach}%
-\newcommand*{\DenKrKomaHeadingSubParagraphAttach}[1]{{\normalfont\hspace{0.5em}\textcolor{DenKrKomaColor_SubSectionHeading}{\textbf{-}}}}%
+\renewcommand*{\DenKrKomaHeadingSubParagraphAttach}[1]{{\normalfont\hspace{0.5em}\textcolor{DenKrKomaColor_SubSectionHeading}{\textbf{-}}}}%
 \setkomafont{subparagraph}{\normalsize\itshape\color{DenKrKomaColor_SubParagraphHeading}}%

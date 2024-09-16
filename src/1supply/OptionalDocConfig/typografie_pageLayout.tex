@@ -1,0 +1,81 @@
+%%*________________________________________________________________________
+%%*			Setting Page-Layout Components
+%%* - - - - - - - - - - - - - - - - - - - - - - -
+%%*  (This File is OPTIONAL)
+%%*========================================================================
+%%* The parameters determining the Layout of a Page (Header, Footer, Page-Number, Structuring-Level-Headings) can be set various ways.
+%%* It is actually defined in the "Base"-File "[...]/2includes/packages/typografie_koma.tex".
+%%*   -> Thus, you can just set the Hooks there.
+%%*   -> Configuration there is used, if this File here is not existent (or does not contain single Cmds)
+%%*  If this (optional) File here is existent in contains certain instructions,
+%%*   -> those overwrite the "Default-Configuration" from the Base-File.
+%%* USAGE:
+%%*  - The above mentioned "Base-File" tells you, which values are available.
+%%* % % % % % % % % % % % % % %
+%%*
+%%*________________________________________________________________________
+%%*         Design of the Header & Footer
+%%*========================================================================
+%%*-- This is active throughtout the entire Document, unless/if no "\frontmatter, \mainmatter, \backmatter" Cmd is invoked
+\DenKrInputKOMAFile{design_Head_1}%
+\DenKrInputKOMAFile{design_Foot_1}%
+%%*---- The following can be simply commented-out or removed, if no switch shall occur. If used, the respective setting(s) apply in the corresponding area, i.e. after "\front/main/backmatter".
+%%*-- Employed in \frontmatter
+\renewcommand{\DenKrKOMAHookFormatHeadFootFrontmatter}{\DenKrInputKOMAFile{design_Head_2}\DenKrInputKOMAFile{design_Foot_2}}%
+%%*-- Employed in \mainmatter
+\renewcommand{\DenKrKOMAHookFormatHeadFootMainmatter}{\DenKrInputKOMAFile{design_Head_5}\DenKrInputKOMAFile{design_Foot_4_2}}%
+%%*-- Employed in \backmatter (usually not done distinctly)
+% \renewcommand{\DenKrKOMAHookFormatHeadFootBackmatter}{\DenKrInputKOMAFile{design_Head_3}\DenKrInputKOMAFile{design_Foot_4_2}}%
+%%*
+%%*
+%%*________________________________________________________________________
+%%*         Structuring-Level. Chapter, Section, etc. Heading Format Definition.
+%%*========================================================================
+%%* These here apply, as long as not overwritten. Overwriting means:
+%%*  - Pasting such a Cmd somewhere later in the Document (making it effecting from there onwards)
+%%*  - Issuing \frontmatter, \mainmatter, \appendix, \backmatter somewhere in the Document
+%%*    - AND enabling the corresponding "\appto" below AND putting one or more of the \DenKrInputKOMAFile{} in
+\ifChapterExists%
+	\DenKrInputKOMAFile{design_part_3}%
+	\DenKrInputKOMAFile{design_chapter_4_3_2_3_1}%
+\else%
+	\DenKrInputKOMAFile{design_part_noPageBreak_1}%
+\fi%
+\DenKrInputKOMAFile{design_section_8}%
+\DenKrInputKOMAFile{design_subsection_2}%
+\DenKrInputKOMAFile{design_subsubsection_3}%
+\DenKrInputKOMAFile{design_paragraph_2}%
+\DenKrInputKOMAFile{design_subparagraph_3}%
+%%* - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+%%* Influences exactly and exclusively the Appearance of the ToC's Chapter Heading
+\renewcommand{\DenKrKOMAHookToCGroup}{\DenKrInputKOMAFile{design_chapter_2}}%
+%%* = = = = = = = = = = = = = = = = = = = = = = = = = = = =
+%%*
+%%*
+%%* = = = = = = = = = = = = = = = = = = = = = = = = = = = =
+%%* These apply after using "\frontmatter"
+% \appto\DenKrKOMAHookFrontmatter{%
+% }%
+%%* = = = = = = = = = = = = = = = = = = = = = = = = = = = =
+%%* These apply after using "\mainmatter"
+% \appto\DenKrKOMAHookMainmatter{%
+% }%
+%%* = = = = = = = = = = = = = = = = = = = = = = = = = = = =
+%%* These apply after using "\appendix"
+\appto\DenKrKOMAHookAppendix{%
+	\ifChapterExists%
+		\DenKrInputKOMAFile{design_part_7}%
+	\else%
+		\DenKrInputKOMAFile{design_part_noPageBreak_2}%
+	\fi%
+	\DenKrInputKOMAFile{design_section_9}%
+}%
+%%* = = = = = = = = = = = = = = = = = = = = = = = = = = = =
+%%* These apply after using "\backmatter"
+\appto\DenKrKOMAHookBackmatter{%
+	\ifChapterExists%
+		\DenKrInputKOMAFile{design_chapter_4_3_2_2_1}%
+	\else%
+		%\DenKrInputKOMAFile{design_section_5}%
+	\fi%
+}%

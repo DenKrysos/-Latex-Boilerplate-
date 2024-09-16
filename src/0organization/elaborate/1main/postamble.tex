@@ -12,14 +12,6 @@
 %           Glossar \& eigentlicher Anhang
 %================================================================
 \appendix%
-\ifChapterExists%
-  \input{"\DenKrLayoutMainRootDir/2includes/packages/KOMA/design_part_2".tex}%
-  %\input{"\DenKrLayoutMainRootDir/2includes/packages/KOMA/design_chapter_2".tex}%
-  \input{"\DenKrLayoutMainRootDir/2includes/packages/KOMA/design_section_5".tex}%
-\else%
-  \input{"\DenKrLayoutMainRootDir/2includes/packages/KOMA/design_part_noPageBreak_2".tex}%
-  \input{"\DenKrLayoutMainRootDir/2includes/packages/KOMA/design_section_5".tex}%
-\fi%
 %
 \makeatletter\headingOpenTempRight%
 \part{Appendix}%
@@ -41,7 +33,7 @@
 %
 %
 \ifChapterExists%
-\backmatter%
+	\backmatter%
 \fi%
 %================================================================
 %      Glossary
@@ -89,25 +81,25 @@
 %
 % Table of Contents is found in TitlePage_&_init
 \begingroup%
-  \ifChapterExists%
-  \renewcommand*{\chapterpagestyle}{plain}%
-  \fi%
-  \pagestyle{plain}%
-  \headingOpenTempAny%
-%  \tableofcontents%
-%  \thispagestyle{empty}%
-%  \clearpage%
-%  \listoffigures%
-  \listoffiguresDenKr%
-  \clearpage%
-%  \listoftables%
-  \listoftablesDenKr%
-  \clearpage%
-  \listoflistingsDenKr%
-  \clearpage%
-  \listofalgorithmsDenKr%
-  \headingOpenTempRestore%
-  \cleardoublepage%
+	\ifChapterExists%
+	\renewcommand*{\chapterpagestyle}{plain}%
+	\fi%
+	\pagestyle{plain}%
+	\headingOpenTempAny%
+	%\tableofcontents%
+	%\thispagestyle{empty}%
+	%\clearpage%
+	%\listoffigures%
+	\listoffiguresDenKr%
+	\clearpage%
+	%\listoftables%
+	\listoftablesDenKr%
+	\clearpage%
+	\listoflistingsDenKr%
+	\clearpage%
+	\listofalgorithmsDenKr%
+	\headingOpenTempRestore%
+	\cleardoublepage%
 \endgroup%
 %
 %
@@ -126,7 +118,7 @@
 %\chapter{References}
 %##=========================================================######
 %#################################################################
-% \input{./literaturverzeichnis.tex}
+%\input{./literaturverzeichnis.tex}
 %\nocite{*}
 %
 %\printbibliography%
@@ -138,29 +130,29 @@
 	heading=literature,%
 	keyword=primary_literature,%
 ]%
-% \printbibliography[%
-% 	env=bibliographyDenKrEnv,%
-% 	heading=literature_techspec,%
-% 	keyword=techspec_literature,%
-% ]%
-% \printbibliography[%
-% 	heading=literature_secondary,%
-% 	keyword=secondary_literature,%
-% ]%
-% \printbibliography[%
-% 	heading=literature_figures,%
-% 	keyword=figure_literature,%
-% ]%
-% \printbibliography[%
-% 	heading=literature_tables,%
-% 	keyword=table_literature,%
-% ]%
+%\printbibliography[%
+%	env=bibliographyDenKrEnv,%
+%	heading=literature_techspec,%
+%	keyword=techspec_literature,%
+%]%
+%\printbibliography[%
+%	heading=literature_secondary,%
+%	keyword=secondary_literature,%
+%]%
+%\printbibliography[%
+%	heading=literature_figures,%
+%	keyword=figure_literature,%
+%]%
+%\printbibliography[%
+%	heading=literature_tables,%
+%	keyword=table_literature,%
+%]%
 \headingOpenTempRestore%
 \endgroup%
-% \printbibliography[notkeyword=figure]
-% \thispagestyle{empty}
-% \printbibliography[title={Abbildungs-Quellen},keyword=figure]
-% \thispagestyle{empty}
+%\printbibliography[notkeyword=figure]
+%\thispagestyle{empty}
+%\printbibliography[title={Abbildungs-Quellen},keyword=figure]
+%\thispagestyle{empty}
 %
 %
 %
@@ -172,7 +164,7 @@
 %##=========================================================######
 %#################################################################
 \expandafter\ifstrequal\expandafter{\DenKrLayoutIncludeBiographies}{0}{}{%
-\input{"\DenKrSegmentationSubDir/0701_biographies".tex}%
+	\input{"\DenKrSegmentationSubDir/0701_biographies".tex}%
 }%
 %
 %
@@ -187,8 +179,8 @@
 %##=========================================================######
 %#################################################################
 \disablewr{%
-\DenKrHeadingTopLvlCmd{Draft-State}%
-%\TempDisplayPreparation%
-\DisplayDenKrCommandsLegend%
+	\DenKrHeadingTopLvlCmd{Draft-State}%
+	%\TempDisplayPreparation%
+	\DisplayDenKrCommandsLegend%
 }%
 %
