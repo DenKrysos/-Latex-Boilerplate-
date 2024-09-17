@@ -1,12 +1,14 @@
+#include<stdlib.h>
 void* ¢\lstfuncdeclplain{some_function}¢(void* args, int argc){
-	if(var->entry){
+	if(¢\lstCcollection{var}¢->entry){
 		char* some_point = NULL;
+		char[] str = "String";
 		int len = ¢\lstCfunc{make_something}¢($some_point);
 		struct timespec tim;
 		tim->tv_nsec=200;
-		struct some_struct struc;
-		struc->member=2;
-		while(current != var->iterator){
+		struct some_struct ¢\lstCcollection{struc}¢;
+		¢\lstCcollection{struc}¢->¢\lstCmember{member}¢=2;
+		while(current != ¢\lstCcollection{var}¢->iterator){
 			//Some Comment
 		}
 		free(some_point);

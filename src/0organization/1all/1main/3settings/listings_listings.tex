@@ -13,12 +13,20 @@
 \definecolor{eclipse_1_comment}{rgb}{0.12,0.38,0.18}%adjusted, in Eclipse: {0.25, 0.42, 0.30 } = #3F6A4D
 % \definecolor{eclipse_keyword1}{RGB}{128, 0, 40}%Red. Old, formerly used
 %\definecolor{eclipse_keyword2}{RGB}{155,40,128}%Violet. Old, formerly used
-\definecolor{eclipse_keyword_1_purple}{RGB}{128, 0, 40}%Reddish Purple
+\definecolor{eclipse_keyword_1_purple}{RGB}{128,0,40}%Reddish Purple
 \definecolor{eclipse_keyword_1_violet}{RGB}{100,40,128}%Violet
 \definecolor{eclipse_keyword_1_green}{RGB}{0,120,10}%Green
 \definecolor{eclipse_keyword_1_blue}{RGB}{0,0,192}%Blue
 \definecolor{eclipse_keyword_1_purple}{RGB}{155,40,128}%Purple
 \definecolor{eclipse_1_string}{rgb}{0.06, 0.10, 0.98}% #101AF9
+% - - - - - - - - - -
+\definecolor{vscode_keyword_1_blueLight}{RGB}{86,156,214}%Ice Blue (white-ish)  (VSCode Structure Entity and Members)
+\definecolor{vscode_keyword_1_yellow}{RGB}{245,198,18}%Bright Yellow  (VSCode Curly Brackets)
+\definecolor{vscode_keyword_1_yellowMild}{RGB}{219,219,138}%A dull Yellow  (VSCode Library-Funcs)
+\definecolor{stackoverflow_keyword_orange}{RGB}{183,83,1}%Brownish Orange
+\definecolor{stackoverflow_keyword_orangeOverflow}{RGB}{244,128,36}%Orange from StackOverflow Logo
+% - - - - - - - - - -
+\definecolor{code_keyword_blueIce}{RGB}{56,143,215}%
 % - - - - - - - - - -
 % Coming from Java-Script alike
 % - - - - - - - - - -
@@ -138,6 +146,8 @@
 \definecolor{lstCol_C_violet}{named}{eclipse_keyword_1_violet}%
 \definecolor{lstCol_C_green}{named}{eclipse_keyword_1_green}%
 \definecolor{lstCol_C_blue}{named}{eclipse_keyword_1_blue}%
+\definecolor{lstCol_C_collection}{named}{code_keyword_blueIce}%
+\definecolor{lstCol_C_func}{named}{stackoverflow_keyword_orange}%
 \definecolor{lstCol_C_foreign1}{named}{eclipse_keyword_2_red}%
 \definecolor{lstCol_C_foreign2}{named}{eclipse_keyword_2_blue}%
 \definecolor{lstCol_C_object}{named}{eclipse_keyword_2_blue}%
@@ -162,6 +172,7 @@
         pcap_breakloop,pcap_close,
         endl,
         append,push,pop,remove,delete,destroy,
+        dlsym,dlopen,dlclose,dlerror,
     },%
     morekeywords=[4]{%Typedefed, Names of Struct, Enum, ...
         int8_t,uint8_t,int16_t,uint16_t,int32_t,uint32_t,int64_t,uint64_t,int128_t,uint128_t,
@@ -205,9 +216,9 @@
     %
     keywordstyle=[1]\color{lstCol_C_purple}\bfseries,%Basic Keywords. If, return, while, void, int, ...
     keywordstyle=[2]\color{lstCol_C_violet}\bfseries,%Predefined Library-Functions
-    keywordstyle=[3]\color{lstCol_C_purple},%Function-Calls
+    keywordstyle=[3]\color{lstCol_C_func},%Function-Calls (No default 'morekeywords', but specific to individual Listing)
     keywordstyle=[4]\color{lstCol_C_green},%Typedefed, Names of Struct, Enum, ...
-    keywordstyle=[5]\color{lstCol_C_blue},%Collection-Members
+    keywordstyle=[5]\color{lstCol_C_collection},%Collection-Members, Struct-Instances
     keywordstyle=[7]\color{lstCol_C_purple},%Special Keywords. Like Basic, but not bold.
     keywordstyle=[8]\color{lstCol_C_violet},%Special Keywords. Like Library-Funcs, but not bold.
     keywordstyle=[11]\color{lstCol_C_foreign1}\bfseries,%Set one of Syntax from foreign languages for Pseudo-Code
@@ -462,10 +473,12 @@
 %- - For Code in "C" formatted like Eclipse
 \newcommand{\lstCbasic}[1]{{\color{lstCol_C_purple}\bfseries\escapeus{#1}}}%Basic Keywords. If, return, while, int, void
 \newcommand{\lstCfunclib}[1]{{\color{lstCol_C_violet}\bfseries\escapeus{#1}}}%Function from a predefined Library
-\newcommand{\lstCfuncdecl}[1]{{\color{lstCol_C_purple}\bfseries\escapeus{#1}}}%Formats like predefined Library-Functions (but with slightly divergent Color). Might also look good on Function-Declaration
-\newcommand{\lstCfunc}[1]{{\color{lstCol_C_purple}\escapeus{#1}}}%Any Function-Call of a self-declared Function
+\newcommand{\lstCfuncdecl}[1]{{\color{lstCol_C_func}\bfseries\escapeus{#1}}}%Formats like predefined Library-Functions (but with slightly divergent Color). Might also look good on Function-Declaration
+\newcommand{\lstCfunc}[1]{{\color{lstCol_C_func}\escapeus{#1}}}%Any Function-Call of a self-declared Function
 \newcommand{\lstCtype}[1]{{\color{lstCol_C_green}\escapeus{#1}}}%For self-defined types, struct, enum
-\newcommand{\lstCmember}[1]{{\color{lstCol_C_blue}\escapeus{#1}}}%Collection-Members, like struct
+\newcommand{\lstCmember}[1]{{\color{lstCol_C_collection}\escapeus{#1}}}%Collection-Members, like struct
+\let\lstCcollection\lstCmember%Collections, Struct Instances, ...
+\let\lstCstructVar\lstCmember%
 \newcommand{\lstCbasicalike}[1]{{\color{lstCol_C_purple}\escapeus{#1}}}%Special-Keywords. Like Basic, but not bold.
 \newcommand{\lstClibalike}[1]{{\color{lstCol_C_violet}\escapeus{#1}}}%Special-Keywords. Like Basic, but not bold.
 \newcommand{\lstCcomment}[1]{{\color{eclipse_1_comment}\itshape\escapeus{#1}}}%Like a Comment, without the need to add the Comment-Symbols
