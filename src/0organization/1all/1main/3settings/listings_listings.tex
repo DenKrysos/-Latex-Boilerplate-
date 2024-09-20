@@ -54,6 +54,80 @@
 }%
 \makeatother%
 %-----------
+%
+%<> <> <> <> <> <> <> <> <> <> <> <>
+%  Frame, Border & Background
+%    - Deactivate any kind of Drawing Frame/Border or filling background by listings itself.
+%    - I create my own solution for this and 'attach' it to the listings environment.
+%    - Reason: The thing by listings itself seems re-occuringly buggy. Every few Versions, the Background does not comply to rounded corners.
+%>< >< >< >< >< >< >< >< >< >< >< ><
+\makeatletter%
+	\newcommand{\DenKrLst@colorprovide}[3]{%
+		\@ifundefined{\string\color@#2}{#3}{\colorlet{#1}{#2}}%
+	}%
+	\DenKrLst@colorprovide{DenKrLst_BoxAccent}{DenKrKomaColor_ChapterHeading}{\DenKrLst@colorprovide{DenKrLst_BoxAccent}{DenKrKomaColor_SectionHeading}{\DenKrLst@colorprovide{DenKrLst_BoxAccent}{DenKrKomaColor_Violet_3}{\DenKrLst@colorprovide{DenKrLst_BoxAccent}{blue}{}}}}
+\definecolor{DenKrLst_Frame_Base_1}{RGB}{207,207,207}%
+\definecolor{DenKrLst_Frame_Base_2}{RGB}{197,197,197}%
+\definecolor{DenKrLst_BG_Base_1}{RGB}{247,247,247}%
+\definecolor{DenKrLst_BG_Base_2}{RGB}{247,247,246}%
+\colorlet{DenKrLst_Frame}{DenKrLst_Frame_Base_1!90!DenKrLst_BoxAccent}%
+\colorlet{DenKrLst_BG}{DenKrLst_BG_Base_2}%
+\newcommand{\DenKrLstBeginBox}{%
+	\begin{tcolorbox}[boxrule=0.6pt,colframe=DenKrLst_Frame,colback=DenKrLst_BG% top/bottom/left/rightrule
+		,breakable%
+		,arc=6pt,outer arc=4pt,arc is angular%
+		,left skip=-0.35em,right skip=-0.35em,before skip=0.7ex,after skip=1.0ex%
+		,left=0.05em,right=0pt,top=0.0ex,bottom=0ex%
+		%,shadow={0mm}{0mm}{-0.5mm}{fill=DenKrLst_Frame!50!DenKrLst_BoxAccent!80!black,opacity=0.2}%
+		%,shadow={1mm}{-1mm}{0mm}{fill=DenKrLst_Frame!50!DenKrLst_BoxAccent!80!black,opacity=0.2}%
+		%,fuzzy shadow={1.5mm}{-1.5mm}{0mm}{0.1mm}{fill=DenKrLst_Frame!50!DenKrLst_BoxAccent!50!black,opacity=0.1}%
+	]%
+	\vspace{-5pt}%
+}%
+\newcommand{\DenKrLstEndBox}{%
+	\vspace{-6pt}%
+	\end{tcolorbox}%
+}%
+%
+\def\DenKrLst@ifempty#1{\def\temparg{#1}\ifx\temparg\empty}%
+% New caption command for listings
+\newcommand{\DenKrLstCaption}[2][]{%
+	\DenKrLst@ifempty{#1}%
+		\caption{#2}%
+	\else%
+		\caption[#1]{#2}%
+	\fi%
+}%
+\newenvironment{DenKrLstInputEnv}%
+{}{}%
+%
+\DeclareDocumentCommand{\DenKrLstInput}{omoo}{%
+	\begin{DenKrLstInputEnv}%
+	\IfValueT{#3}{\captionsetup{type=lstlisting,hypcapspace=0.25\baselineskip}}%
+	\DenKrLstBeginBox%
+	\lstinputlisting[#1,frame=none,framesep=0pt,rulesep=0pt,framerule=0pt,framexleftmargin=0pt,framexrightmargin=0pt,framextopmargin=0pt,framexbottommargin=0pt,backgroundcolor={},nolol=true,caption={}]{#2}%
+	\DenKrLstEndBox%
+	\IfValueT{#3}{\DenKrLstCaption{#3}}%
+	\IfValueT{#4}{\label{#4}}%
+	\end{DenKrLstInputEnv}%
+}
+%
+\lstnewenvironment{DenKrLst}[1][]%
+{%
+    \DenKrLst@ifempty{#1}%
+	\else%
+		\lstset{#1}%
+	\fi%
+	\lstset{frame=none,framesep=0pt,rulesep=0pt,framerule=0pt,framexleftmargin=0pt,framexrightmargin=0pt,framextopmargin=0pt,framexbottommargin=0pt,backgroundcolor={}}%
+	%\DenKrLstBeginBox%
+}{%
+	%\end{tcolorbox}%
+}%
+\BeforeBeginEnvironment{DenKrLst}{\DenKrLstBeginBox\vspace{-2pt}}%
+\AfterEndEnvironment{DenKrLst}{\DenKrLstEndBox}%
+\makeatother%
+%============================================
+%
 \definecolor{lstbg}{RGB}{230,230,230}%
 \lstset{language=C,texcl=true}%
 % Basic lstset (visual settings)
@@ -71,19 +145,18 @@
 % lstset for Look like Eclipse
 \lstset{%
 	rulecolor=\color{ipython_frame},%
-	frame=single,%shadowbox, single
-	captionpos=b,%
+	backgroundcolor=\color{ipython_bg},% ipython_bg, lstbg
 	frameround={t}{t}{t}{t},%
 	framexleftmargin=3mm,% 3mm
+	frame=single,%shadowbox, single
 	xleftmargin=3mm,% 3mm
 	%xrightmargin=0.3em,
+	%captionpos=b,%
 	numbers=left,% left, none
 	numberstyle=\tiny\color{halfgray},%
 	%numberstyle=\tiny,
 	columns=fixed,% fixed, flexible, fullflexible, space-flexible. Character Spacing and Alignment
 	%
-	%backgroundcolor=\color{lstbg},
-	backgroundcolor=\color{ipython_bg},%
 	%basicstyle=\scriptsize,% Instead of that, I defined a style and load this below
 	style=denkrFontStyle,%
 	%
@@ -153,20 +226,45 @@
 \definecolor{lstCol_C_foreign2}{named}{eclipse_keyword_2_blue}%
 \definecolor{lstCol_C_object}{named}{eclipse_keyword_2_blue}%
 \definecolor{lstCol_C_moreKey}{named}{eclipse_keyword_2_violet}%
+%
+\def\lstCFontString{\color{eclipse_1_string}}%
+\def\lstCFontComment{\color{eclipse_1_comment}\itshape}%
+\def\lstCFontBasic{\color{lstCol_C_purple}\bfseries}%
+\def\lstCFontBasicAlike{\color{lstCol_C_purple}}%
+\def\lstCFontPredefLib{\color{lstCol_C_violet}\bfseries}%
+\def\lstCFontPredefLibAlike{\color{lstCol_C_violet}}%
+\def\lstCFontFuncCall{\color{lstCol_C_func}}%
+\def\lstCFontType{\color{lstCol_C_green}}%
+\def\lstCFontCollection{\color{lstCol_C_collection}}%
+\def\lstCFontSpecialBasic{\color{lstCol_C_purple}}%
+\def\lstCFontSpecialLib{\color{lstCol_C_violet}}%
+\def\lstCFontForeignA{\color{lstCol_C_foreign1}\bfseries}%
+\def\lstCFontForeignB{\color{lstCol_C_foreign2}\bfseries}%
+\def\lstCFontObject{\color{lstCol_C_object}}%
+\def\lstCFontMoreKey{\color{lstCol_C_moreKey}}%
+\def\lstCFontHighRed{\color{red}\bfseries}%
+\def\lstCFontFuncDeclPlain{\bfseries}%
+\def\lstCFontFuncDecl{\color{lstCol_C_func}\bfseries}%
+%
 \lstdefinelanguage{DenKr-C}%
 {%
 	language=C,%
+	%frame=none,%shadowbox, single
 	morecomment=[l]{//},%
 	morekeywords=[1]{%Basic Keywords. If, return, while, ...
-		static,
-		const,
-		register,
-		inline,
-		strlen,
+		%include,
+		%if,else,switch,case,default,break,continue,for,while,do,void,
+		%int,char,struct,enum,union,float,long,short,double,signed,unsigned,
+		%return,extern,goto,auto,typedef,
+		%static,const,register,volatile,
+		%sizeof,
+		then,inline,strlen,%These are not covered by the basic definition of C in listings.sty
 	},%
 	morekeywords=[2]{%Predefined Library-Functions
-		main,malloc,free,
+		main,
+		malloc,free,%These are not covered by the basic definition of C in listings.sty
 		recv,send,recvfrom,sendto,
+		memcpy,memset,
 		sem_init,sem_wait,sem_post,sem_getvalue,sem_destroy,
 		raise,signal,
 		pthread_create,pthread_join,pthread_detach,pthread_cancel,pthread_setcancelstate,
@@ -211,29 +309,36 @@
 		fail, failure,
 		this,
 	},%
+	morekeywords=[20]{%Strings, Inclusions
+		<stdio.h>,<stdlib.h>,
+		<sys/types.h>,<sys/socket.h>,
+		<dlfcnh.h>
+	},%
 	morekeywords=[99]{%
 		critical section
 	},%
 	%
-	keywordstyle=[1]\color{lstCol_C_purple}\bfseries,%Basic Keywords. If, return, while, void, int, ...
-	keywordstyle=[2]\color{lstCol_C_violet}\bfseries,%Predefined Library-Functions
-	keywordstyle=[3]\color{lstCol_C_func},%Function-Calls (No default 'morekeywords', but specific to individual Listing)
-	keywordstyle=[4]\color{lstCol_C_green},%Typedefed, Names of Struct, Enum, ...
-	keywordstyle=[5]\color{lstCol_C_collection},%Collection-Members, Struct-Instances
-	keywordstyle=[7]\color{lstCol_C_purple},%Special Keywords. Like Basic, but not bold.
-	keywordstyle=[8]\color{lstCol_C_violet},%Special Keywords. Like Library-Funcs, but not bold.
-	keywordstyle=[11]\color{lstCol_C_foreign1}\bfseries,%Set one of Syntax from foreign languages for Pseudo-Code
-	keywordstyle=[12]\color{lstCol_C_foreign2}\bfseries,%Set two for Pseudo-Code
-	keywordstyle=[13]\color{lstCol_C_object},%Object-related
-	keywordstyle=[14]\color{lstCol_C_moreKey},%Yet More Special Words
-	keywordstyle=[99]\color{red}\bfseries,%Highlighting in Red (Pseudo-Code)
-	morestring=[s]{<}{>},%
-	stringstyle=\color{eclipse_1_string},%
-	commentstyle=\color{eclipse_1_comment}\itshape,%
+	keywordstyle=[1]\lstCFontBasic,%Basic Keywords. If, return, while, void, int, ...
+	keywordstyle=[2]\lstCFontPredefLib,%Predefined Library-Functions
+	keywordstyle=[3]\lstCFontFuncCall,%Function-Calls (No default 'morekeywords', but specific to individual Listing)
+	keywordstyle=[4]\lstCFontType,%Typedefed, Names of Struct, Enum, ...
+	keywordstyle=[5]\lstCFontCollection,%Collection-Members, Struct-Instances
+	keywordstyle=[7]\lstCFontSpecialBasic,%Special Keywords. Like Basic, but not bold.
+	keywordstyle=[8]\lstCFontSpecialLib,%Special Keywords. Like Library-Funcs, but not bold.
+	keywordstyle=[11]\lstCFontForeignA,%Set one of Syntax from foreign languages for Pseudo-Code
+	keywordstyle=[12]\lstCFontForeignB,%Set two for Pseudo-Code
+	keywordstyle=[13]\lstCFontObject,%Object-related
+	keywordstyle=[14]\lstCFontMoreKey,%Yet More Special Words
+	keywordstyle=[20]\lstCFontString,%Strings, Inclusions
+	keywordstyle=[99]\lstCFontHighRed,%Highlighting in Red (Pseudo-Code)
+	%morestring=[s]{<}{>},% Not working well
+	stringstyle=\lstCFontString,%
+	commentstyle=\lstCFontComment,%
 }%
 \lstdefinelanguage{C_var_old}%
 {%
 	language=C,%
+	%frame=none,%shadowbox, single
 	morecomment=[l]{//},%
 	morekeywords={%
 		strlen,
@@ -279,6 +384,7 @@
 %Additional languages with keywords
 \lstdefinelanguage{semaphore}%
 {%
+	%frame=none,%shadowbox, single
 	morekeywords={%
 		type,
 		record,
@@ -386,15 +492,15 @@
 	showspaces=false,%
 	showstringspaces=false,%
 	%
-	rulecolor=\color{ipython_frame},%
-	frame=single,%
-	frameround={t}{t}{t}{t},%
-	framexleftmargin=6mm,%
+	%rulecolor=\color{ipython_frame},%
+	%frame=single,%
+	%frameround={t}{t}{t}{t},%
+	%backgroundcolor=\color{ipython_bg},%
+	%framexleftmargin=6mm,%
+	%
 	numbers=left,%
 	numberstyle=\tiny\color{halfgray},%
 	%
-	%
-	backgroundcolor=\color{ipython_bg},%
 	%   extendedchars=true,
 	basicstyle=\scriptsize,%
 	keywordstyle=\color{ipython_green}\ttfamily,%
@@ -444,19 +550,22 @@
 	showstringspaces=false,%
 	tabsize=2,%
 	%
-	rulecolor=\color{ipython_frame},%
-	frame=single,%
-	frameround={t}{t}{t}{t},%
-	framexleftmargin=3mm,%
+	%rulecolor=\color{ipython_frame},%
+	%frame=single,%
+	%frameround={t}{t}{t}{t},%
+	%backgroundcolor=\color{ipython_bg},%
+	%framexleftmargin=3mm,%
+	%
 	xleftmargin=3mm,%
 	numbers=left,%
 	numberstyle=\tiny\color{halfgray},%
-	%
-	backgroundcolor=\color{ipython_bg},%
 	basicstyle=\scriptsize,%
 }%
 %
 %
+% USAGE:
+%  Don't use this. I suggest rather to look into [...]/1all/[...]/'makros.tex' and use
+%     -> \terminalTextbox{}
 \makeatletter%
 \lstdefinestyle{denkrFontStyle_Terminal}{%
 	basicstyle=%
@@ -473,16 +582,17 @@
 \definecolor{lstCol_Terminal_user}{RGB}{152,235,61}% Green
 \lstdefinelanguage{DenKr-Terminal}%
 {%
-	rulecolor=\color{ipython_frame},%
-	frame=single,%shadowbox, single
-	frameround={t}{t}{t}{t},%
-	backgroundcolor=\color{black},%
+	%rulecolor=\color{ipython_frame},%
+	%frame=single,%shadowbox, single
+	%frameround={t}{t}{t}{t},%
+	%framexleftmargin=-2mm,%
+	%framexrightmargin=-0.5em,%
+	%backgroundcolor=\color{black},%
+	%
 	numbers=none,%
 	numbersep=0pt,%
-	framexleftmargin=-2mm,%
 	xleftmargin=0mm,%
 	xrightmargin=0.5em,%
-	framexrightmargin=-0.5em,%
 	style=denkrFontStyle_Terminal,%
 	morecomment=[s]{>}{:},%
 	morekeywords=[1]{%Basic Keywords. If, return, while, ...
@@ -524,55 +634,95 @@
 %
 %________________________________________________________________________
 %------------------------------------------------------------------------
+%			Fundamental Macros
+%/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+\makeatletter
+\newdimen\DenKrLst@baselength\setlength{\DenKrLst@baselength}{0.44em}% 0.6em, 0.48em, 0.44em
+\newdimen\DenKrLst@boxlength%
+%
+\def\DenKrLst@EscapeChar#1{%
+	%\IfStrEq{_}{\tempa}{\_}{\tempa}%
+	\expandafter\detokenize\expandafter{#1}%
+}%
+\def\DenKrLst@SplitChar#1#2{%
+    \StrSplit{#2}{#1}\tempa\tempb%
+	\DenKrLst@EscapeChar{\tempa}%
+    \let\tempa\empty%
+    \unless\ifx\tempb\empty\def\tempa{\hss\DenKrLst@SplitChar{#1}{\tempb}}\fi%
+    \tempa%
+}%
+%
+\newcommand{\DenKrLst@textstretched}[1]{%
+	\StrLen{#1}[\tmpval]%
+	\setlength{\DenKrLst@boxlength}{\tmpval\DenKrLst@baselength}%
+	\hbox to \DenKrLst@boxlength{\DenKrLst@SplitChar{1}{#1}}%
+}%
+%
+\newcommand{\DenKrLstBreakoutText}[1]{%
+	\DenKrLst@textstretched{#1}%
+}
+\makeatother%
+%/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+%							Fundamental Done
+%------------------------------------------------------------------------
+%________________________________________________________________________
+%
+%
+%
+%
+%
+%________________________________________________________________________
+%------------------------------------------------------------------------
 %			Some commands for custom Formatting inside a listing
 %/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
 %- - For Code in "C" formatted like Eclipse
-\newcommand{\lsthighl}[1]{{\color{red}\bfseries\escapeus{#1}}}%Highlighting in red (e.g. for Pseudo-Code)
-\newcommand{\lstfuncdeclplain}[1]{{\bfseries\escapeus{#1}}}%Formats only Bold. Might also be viable for Function-Declaration
+\newcommand{\lsthighl}[1]{{\lstCFontHighRed\DenKrLstBreakoutText{#1}}}%Highlighting in red (e.g. for Pseudo-Code)
+\newcommand{\lstfuncdeclplain}[1]{{\lstCFontFuncDeclPlain\DenKrLstBreakoutText{#1}}}%Formats only Bold. Might also be viable for Function-Declaration
 %------------------------------------------
 %- - For Code in "C" formatted like Eclipse
-\newcommand{\lstCbasic}[1]{{\color{lstCol_C_purple}\bfseries\escapeus{#1}}}%Basic Keywords. If, return, while, int, void
-\newcommand{\lstCfunclib}[1]{{\color{lstCol_C_violet}\bfseries\escapeus{#1}}}%Function from a predefined Library
-\newcommand{\lstCfuncdecl}[1]{{\color{lstCol_C_func}\bfseries\escapeus{#1}}}%Formats like predefined Library-Functions (but with slightly divergent Color). Might also look good on Function-Declaration
-\newcommand{\lstCfunc}[1]{{\color{lstCol_C_func}\escapeus{#1}}}%Any Function-Call of a self-declared Function
-\newcommand{\lstCtype}[1]{{\color{lstCol_C_green}\escapeus{#1}}}%For self-defined types, struct, enum
-\newcommand{\lstCmember}[1]{{\color{lstCol_C_collection}\escapeus{#1}}}%Collection-Members, like struct
+\newcommand{\lstCbasic}[1]{{\lstCFontBasic\DenKrLstBreakoutText{#1}}}%Basic Keywords. If, return, while, int, void
+\newcommand{\lstCfunclib}[1]{{\lstCFontPredefLib\DenKrLstBreakoutText{#1}}}%Function from a predefined Library
+\newcommand{\lstCfuncdecl}[1]{{\lstCFontFuncDecl\DenKrLstBreakoutText{#1}}}%Formats like predefined Library-Functions (but with slightly divergent Color). Might also look good on Function-Declaration
+\newcommand{\lstCfunc}[1]{{\lstCFontFuncCall\DenKrLstBreakoutText{#1}}}%Any Function-Call of a self-declared Function
+\newcommand{\lstCtype}[1]{{\lstCFontType\DenKrLstBreakoutText{#1}}}%For self-defined types, struct, enum
+\newcommand{\lstCmember}[1]{{\lstCFontCollection\DenKrLstBreakoutText{#1}}}%Collection-Members, like struct
 \let\lstCcollection\lstCmember%Collections, Struct Instances, ...
 \let\lstCstructVar\lstCmember%
-\newcommand{\lstCbasicalike}[1]{{\color{lstCol_C_purple}\escapeus{#1}}}%Special-Keywords. Like Basic, but not bold.
-\newcommand{\lstClibalike}[1]{{\color{lstCol_C_violet}\escapeus{#1}}}%Special-Keywords. Like Basic, but not bold.
-\newcommand{\lstCcomment}[1]{{\color{eclipse_1_comment}\itshape\escapeus{#1}}}%Like a Comment, without the need to add the Comment-Symbols
-\newcommand{\lstCstring}[1]{{\color{eclipse_1_string}\escapeus{#1}}}%
+\newcommand{\lstCbasicalike}[1]{{\lstCFontBasicAlike\DenKrLstBreakoutText{#1}}}%Special-Keywords. Like Basic, but not bold.
+\newcommand{\lstClibalike}[1]{{\lstCFontPredefLibAlike\DenKrLstBreakoutText{#1}}}%Special-Keywords. Like Basic, but not bold.
+\newcommand{\lstCcomment}[1]{{\lstCFontComment\DenKrLstBreakoutText{#1}}}%Like a Comment, without the need to add the Comment-Symbols
+\newcommand{\lstCstring}[1]{{\lstCFontString\DenKrLstBreakoutText{#1}}}%
 % - - For some additional "Pseudo-Code" part within a C-alike Listing:
-\newcommand{\lstCforeignA}[1]{{\color{lstCol_C_foreign1}\bfseries\escapeus{#1}}}%like each
-\newcommand{\lstCforeignB}[1]{{\color{lstCol_C_foreign2}\bfseries\escapeus{#1}}}% like of, in, let, def
-\newcommand{\lstCobject}[1]{{\color{lstCol_C_object}\escapeus{#1}}}%Object-related, like Class, Object
-\newcommand{\lstCspecial}[1]{{\color{lstCol_C_moreKey}\escapeus{#1}}}%Some more Special Words, like true, false, this
+\newcommand{\lstCforeignA}[1]{{\lstCFontForeignA\DenKrLstBreakoutText{#1}}}%like each
+\newcommand{\lstCforeignB}[1]{{\lstCFontForeignB\DenKrLstBreakoutText{#1}}}% like of, in, let, def
+\newcommand{\lstCobject}[1]{{\lstCFontObject\DenKrLstBreakoutText{#1}}}%Object-related, like Class, Object
+\newcommand{\lstCspecial}[1]{{\lstCFontMoreKey\DenKrLstBreakoutText{#1}}}%Some more Special Words, like true, false, this
 % - - Some Symbols
+%Not required within Listings actually, when using the \DenKrLstBreakoutText{}
 \newcommand{\lstCCommentSlash}{/\ /\ }%Formats a "Double-Slash aka Line-Comment" (//) like Listings would do. I.e. in the main-Font, but monospaced
 %------------------------------------------
 %- - For Code in "Python" formatted like Eclipse
 %   ToDo
-\newcommand{\lstPYbasic}[1]{{\color{red}\bfseries\escapeus{#1}}}%Basic Keywords. If, return, while, int, void
-\newcommand{\lstPYfunclib}[1]{{\color{red}\bfseries\escapeus{#1}}}%Function from a predefined Library
-\newcommand{\lstPYfuncdecl}[1]{{\color{red}\bfseries\escapeus{#1}}}%Formats like predefined Library-Functions. Might also look good on Function-Declaration
-\newcommand{\lstPYfunc}[1]{{\color{red}\escapeus{#1}}}%Any Function-Call of a self-declared Function
-\newcommand{\lstPYtype}[1]{{\color{red}\escapeus{#1}}}%For self-defined types, struct, enum
-\newcommand{\lstPYmember}[1]{{\color{red}\escapeus{#1}}}%Collection-Members, like struct
-\newcommand{\lstPYbasicalike}[1]{{\color{red}\escapeus{#1}}}%Special-Keywords. Like Basic, but not bold.
-\newcommand{\lstPYlibalike}[1]{{\color{red}\escapeus{#1}}}%Special-Keywords. Like Basic, but not bold.
-\newcommand{\lsPYCcomment}[1]{{\color{red}\itshape\escapeus{#1}}}%Like a Comment, without the need to add the Comment-Symbols
+\newcommand{\lstPYbasic}[1]{{\color{red}\bfseries\DenKrLstBreakoutText{#1}}}%Basic Keywords. If, return, while, int, void
+\newcommand{\lstPYfunclib}[1]{{\color{red}\bfseries\DenKrLstBreakoutText{#1}}}%Function from a predefined Library
+\newcommand{\lstPYfuncdecl}[1]{{\color{red}\bfseries\DenKrLstBreakoutText{#1}}}%Formats like predefined Library-Functions. Might also look good on Function-Declaration
+\newcommand{\lstPYfunc}[1]{{\color{red}\DenKrLstBreakoutText{#1}}}%Any Function-Call of a self-declared Function
+\newcommand{\lstPYtype}[1]{{\color{red}\DenKrLstBreakoutText{#1}}}%For self-defined types, struct, enum
+\newcommand{\lstPYmember}[1]{{\color{red}\DenKrLstBreakoutText{#1}}}%Collection-Members, like struct
+\newcommand{\lstPYbasicalike}[1]{{\color{red}\DenKrLstBreakoutText{#1}}}%Special-Keywords. Like Basic, but not bold.
+\newcommand{\lstPYlibalike}[1]{{\color{red}\DenKrLstBreakoutText{#1}}}%Special-Keywords. Like Basic, but not bold.
+\newcommand{\lsPYCcomment}[1]{{\color{red}\itshape\DenKrLstBreakoutText{#1}}}%Like a Comment, without the need to add the Comment-Symbols
 %------------------------------------------
 %- - For Code in "JavaScript" formatted like Eclipse
-\newcommand{\lstJSbasic}[1]{{\color{lstCol_JS_blue}\bfseries\escapeus{#1}}}%Basic Keywords. If, return, while, int, void
-\newcommand{\lstJSfunclib}[1]{{\color{lstCol_JS_purple}\bfseries\escapeus{#1}}}%Function from a predefined Library
-\newcommand{\lstJSfuncdecl}[1]{{\color{lstCol_JS_function}\bfseries\escapeus{#1}}}%Formats like predefined Library-Functions. Might also look good on Function-Declaration
-\newcommand{\lstJSfunc}[1]{{\color{lstCol_JS_function}\escapeus{#1}}}%Any Function-Call of a self-declared Function
-\newcommand{\lstJStype}[1]{{\color{lstCol_JS_blue2}\escapeus{#1}}}%Types, Objects and related
-\newcommand{\lstJSkey}[1]{{\color{lstCol_JS_red}\escapeus{#1}}}%Like specific Keywords. each, constructor, ...
-\newcommand{\lstJSbasicalike}[1]{{\color{lstCol_JS_blue}\escapeus{#1}}}%Special-Keywords. Like Basic, but not bold.
-\newcommand{\lstJSlibalike}[1]{{\color{lstCol_JS_violet}\escapeus{#1}}}%Special-Keywords. Like Basic, but not bold.
-\newcommand{\lstJScomment}[1]{{\color{eclipse_1_comment}\ttfamily\escapeus{#1}}}%Like a Comment, without the need to add the Comment-Symbols
+\newcommand{\lstJSbasic}[1]{{\color{lstCol_JS_blue}\bfseries\DenKrLstBreakoutText{#1}}}%Basic Keywords. If, return, while, int, void
+\newcommand{\lstJSfunclib}[1]{{\color{lstCol_JS_purple}\bfseries\DenKrLstBreakoutText{#1}}}%Function from a predefined Library
+\newcommand{\lstJSfuncdecl}[1]{{\color{lstCol_JS_function}\bfseries\DenKrLstBreakoutText{#1}}}%Formats like predefined Library-Functions. Might also look good on Function-Declaration
+\newcommand{\lstJSfunc}[1]{{\color{lstCol_JS_function}\DenKrLstBreakoutText{#1}}}%Any Function-Call of a self-declared Function
+\newcommand{\lstJStype}[1]{{\color{lstCol_JS_blue2}\DenKrLstBreakoutText{#1}}}%Types, Objects and related
+\newcommand{\lstJSkey}[1]{{\color{lstCol_JS_red}\DenKrLstBreakoutText{#1}}}%Like specific Keywords. each, constructor, ...
+\newcommand{\lstJSbasicalike}[1]{{\color{lstCol_JS_blue}\DenKrLstBreakoutText{#1}}}%Special-Keywords. Like Basic, but not bold.
+\newcommand{\lstJSlibalike}[1]{{\color{lstCol_JS_violet}\DenKrLstBreakoutText{#1}}}%Special-Keywords. Like Basic, but not bold.
+\newcommand{\lstJScomment}[1]{{\color{eclipse_1_comment}\ttfamily\DenKrLstBreakoutText{#1}}}%Like a Comment, without the need to add the Comment-Symbols
 %/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
 %			Cmds Done
 %------------------------------------------------------------------------

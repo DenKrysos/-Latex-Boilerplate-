@@ -1,4 +1,4 @@
-#include<stdlib.h>
+#include¢\lstCstring{<stdlib.h>}¢
 void* ¢\lstfuncdeclplain{some_function}¢(void* args, int argc){
 	if(¢\lstCcollection{var}¢->entry){
 		char* some_point = NULL;

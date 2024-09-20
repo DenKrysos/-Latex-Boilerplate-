@@ -52,26 +52,37 @@ y = \int_0^x\cos(x)\,\mathrm{d}{x} = \frac{e^{\I x} - e^{-\I x}}{2\I} | 01234567
 
 
 
-\np
-%
-\lstinputlisting[
-    frame=single,
-    label=lst:waitingChain,
-    caption={Example-Listing (for Programming-Language \textit{C})},
-    captionpos=b,
-    language=DenKr-C,
-    morekeywords={[4]{%Typedefed, Names of Struct, Enum, ...
-        some_struct
-    }},
-    morekeywords={[5]{%Collection-Members, Struct-Instances
-        tim,
-        entry,
-        member,
-        iterator
-    }}
-]
-{\DenKrListingsRootDir/example_lst_C.c}
-%
+\npi
+Listing in separate File:
+\DenKrLstInput[
+	language=DenKr-C,
+	morekeywords={[4]{%Typedefed, Names of Struct, Enum, ...
+		some_struct
+	}},
+	morekeywords={[5]{%Collection-Members, Struct-Instances
+		tim,
+		entry,
+		member,
+		iterator
+	}}
+]{\DenKrListingsRootDir/example_lst_C.c}
+[Example-Listing (for Programming-Language \textit{C})]
+[lst:exmplLabel]
+
+
+\npi
+Listing in Environment, directly in Code:
+\begin{DenKrLst}[language=DenKr-C]
+if(1){
+	strlen("Str");
+}
+\end{DenKrLst}
+
+\npi
+An Inline-Listing:
+\lstinline[language=DenKr-C,breaklines=true,morekeywords={[4]{msghandle}}]$struct msghandle$
+
+
 
 
 
@@ -86,9 +97,9 @@ Consider using my Macros:\nl
 
 \begin{figure*}[!htpb]
 \centering
-    \includegraphics[width=0.2\linewidth]{{"\DenKrGraphicsRootDir/example_AGV"}.pdf}
-    \caption{A Caption with long enough text to cause a line wrap, for the goal of testing whether the setting puts a hanging indent, which separates the text from the Figure Label.}%
-    \label{fig:testFig}
+	\includegraphics[width=0.2\linewidth]{{"\DenKrGraphicsRootDir/example_AGV"}.pdf}
+	\caption{A Caption with long enough text to cause a line wrap, for the goal of testing whether the setting puts a hanging indent, which separates the text from the Figure Label.}%
+	\label{fig:testFig}
 \end{figure*}
 
 
@@ -97,21 +108,21 @@ Consider using my Macros:\nl
 
 \begin{itemize}
 \item%
-    Example Itemization
+	Example Itemization
 \end{itemize}
 \begin{enumerate}
 \item%
-    Example Enumeration
+	Example Enumeration
 \end{enumerate}
 \begin{description}
 \item[Description Item Label]%
-    An Example Description List, with a longer Parapgraph. Just some random Text without any sense, but with sufficient length to cause a line-break, so that the indentation is properly showing influence.
+	An Example Description List, with a longer Parapgraph. Just some random Text without any sense, but with sufficient length to cause a line-break, so that the indentation is properly showing influence.
 \end{description}
 \begin{enuminlrom}
 \item%
-    Example Inline Roman Enumeration
+	Example Inline Roman Enumeration
 \item%
-    Item 2.
+	Item 2.
 \end{enuminlrom}
 
 
@@ -130,11 +141,11 @@ With some arbitrary Text.
 
 % \section{\textbackslash gls{} in Heading: \glstextHead{dll}, \glsdescHead{dll}, \glstextplHead{dll}, \glsdescplHead{dll}. And some more words, to make it multi-line to check the configured section-format}
 \section{\textbackslash gls\{\} in Heading:
-    \texorpdfstring{\glstextHead{dll}}{DLL},
-    \texorpdfstring{\glsdescHead{dll}}{DLL},
-    \texorpdfstring{\glstextplHead{dll}}{DLLs},
-    \texorpdfstring{\glsdescplHead{dll}}{DLLs}.
-    And some more words, to make it multi-line to check the configured section-format
+	\texorpdfstring{\glstextHead{dll}}{DLL},
+	\texorpdfstring{\glsdescHead{dll}}{DLL},
+	\texorpdfstring{\glstextplHead{dll}}{DLLs},
+	\texorpdfstring{\glsdescplHead{dll}}{DLLs}.
+	And some more words, to make it multi-line to check the configured section-format
 }
 
 Just some text.
@@ -209,8 +220,8 @@ SmallCaps:&\textsc{日本語行無}&\textsc{いきます}&\textsc{チョット}\
 % Mono-SC:&\textsc{\texttt{日本語行無}}&\textsc{\texttt{いきます}}&\textsc{\texttt{チョット}}\\%
 \end{tabular}%
 }{%
-    \section{Japanese Font}
-    Not activated per default, but Boilerplate is ready for it. You can activate \textbackslash DenKrJPFont in \enquote{./2ProjectSetup.tex} to enable them.
+	\section{Japanese Font}
+	Not activated per default, but Boilerplate is ready for it. You can activate \textbackslash DenKrJPFont in \enquote{./2ProjectSetup.tex} to enable them.
 }}{}%
 
 
@@ -228,62 +239,62 @@ Imported Standalone Snippet: -->
 \section{Text with Outline / Contour}
 Two different Packages and by that Methods are supplied here:
 \begin{itemize}
-    \item contour: Prints the actual text as normal and surrounds it with the Contour.
-    \item pdfrender: Prints the outline as the actual text and fills this inside with a different Color.
+	\item contour: Prints the actual text as normal and surrounds it with the Contour.
+	\item pdfrender: Prints the outline as the actual text and fills this inside with a different Color.
 \end{itemize}
 
 \begin{itemize}[labpragA]
-    \item contour grows bigger to the outside and makes the Outline sleeked (when growing too big)
-    \item pdfrender keeps the outline sharp and well defined, but may let the inside look wonky
+	\item contour grows bigger to the outside and makes the Outline sleeked (when growing too big)
+	\item pdfrender keeps the outline sharp and well defined, but may let the inside look wonky
 \end{itemize}
 
 \begin{itemize}[labpragB]
-    \item Methods to be ideally employed depends on the use-case
+	\item Methods to be ideally employed depends on the use-case
 \end{itemize}
 
 \subsection{Package \enquote{pdfrender}}
 {%
-    \Huge%
-    \definecolor{CharFillColor}{rgb}{1,.8,.8}%
-    \colorlet{CharFillColor}{orange}%
-    \sffamily%
-    \textcolor{violet}{%
-    \textpdfrender{%
-        TextRenderingMode=FillStroke,
-        LineWidth=\DenKrOutlineWidth,
-        FillColor=CharFillColor,
-        MiterLimit=1,
-    }{Text with Outline/Contour}}\nl%
-    \textcolor{violet}{%
-    \textpdfrender{%
-        TextRenderingMode=FillStroke,
-        LineWidth=0.06em,
-        FillColor=CharFillColor,
-        MiterLimit=1,
-    }{Text with Outline/Contour}}%
+	\Huge%
+	\definecolor{CharFillColor}{rgb}{1,.8,.8}%
+	\colorlet{CharFillColor}{orange}%
+	\sffamily%
+	\textcolor{violet}{%
+	\textpdfrender{%
+		TextRenderingMode=FillStroke,
+		LineWidth=\DenKrOutlineWidth,
+		FillColor=CharFillColor,
+		MiterLimit=1,
+	}{Text with Outline/Contour}}\nl%
+	\textcolor{violet}{%
+	\textpdfrender{%
+		TextRenderingMode=FillStroke,
+		LineWidth=0.06em,
+		FillColor=CharFillColor,
+		MiterLimit=1,
+	}{Text with Outline/Contour}}%
 }%
 
 \subsection{Package \enquote{contour}}
 {%
-    \LARGE%
-    \contourlength{\DenKrOutlineWidth}% The Default-Value here
-    \contour{violet}{\textcolor{orange}{Text with Outline/Contour}}\nl%
-    {%
-        \contourlength{0.2em}%
-        \contour{violet}{\textcolor{orange}{Text with Outline/Contour}}\nl%
-        \contour{violet}{\textcolor{orange}{Text with Outline/Contour}}\nl%
-    }%
-    \contour{violet}{\textcolor{orange}{Text with Outline/Contour}}\nl%
+	\LARGE%
+	\contourlength{\DenKrOutlineWidth}% The Default-Value here
+	\contour{violet}{\textcolor{orange}{Text with Outline/Contour}}\nl%
+	{%
+		\contourlength{0.2em}%
+		\contour{violet}{\textcolor{orange}{Text with Outline/Contour}}\nl%
+		\contour{violet}{\textcolor{orange}{Text with Outline/Contour}}\nl%
+	}%
+	\contour{violet}{\textcolor{orange}{Text with Outline/Contour}}\nl%
 }%
 
 
 \np
 %
 \begin{figure}[!htpb]
-    \centering
+	\centering
 	\includestandalone[mode=\includestandalonedefaultmode]{\tikzFilesPath/tikztest}% width=\columnwidth
-    \caption{Tikz-Picture Caption. Some Example Standalone-Tikz-Pic (Another Example is below outcommented). Examples for Standalone-TikZ Picture Files can be found in \enquote{0organization/1main/8templates/tikz/7Tikz}.}
-    \label{fig:tikz_test}
+	\caption{Tikz-Picture Caption. Some Example Standalone-Tikz-Pic (Another Example is below outcommented). Examples for Standalone-TikZ Picture Files can be found in \enquote{0organization/1main/8templates/tikz/7Tikz}.}
+	\label{fig:tikz_test}
 \end{figure}
 %
 %
@@ -297,7 +308,7 @@ Two different Packages and by that Methods are supplied here:
 % {fig:tikz_test2}%
 %
 %
-
+ 
 
 
 \setcounter{\DenKrHeadingTopLvl}{9}
