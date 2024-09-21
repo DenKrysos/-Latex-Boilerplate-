@@ -122,6 +122,20 @@
 {\glslongpltwo}%Use analog \glstext
 {\Glslongpltwo}%Use analog \Glstext
 {\GLSlongpltwo}%Use analog \GLStext%
+%------------------------------------------------------------------------
+%------------------------------------------------------------------------
+% For "Mathematical" SYMBOLS, i.e. where the 'name' is defined in Math-Mode, so that they also can be used in Math-Mode
+%  - You define the 'name' so that it works in normal text mode. E.g. name={$\sigma$}
+%  - You put the same value - but without Math-Mode - in symraw. E.g. symraw={\sigma}
+% -> In normal text, you continue just like ordinary, e.g. using \gls{sigmaKey}
+% -> Inside a math environment, you use a symraw-cmd, e.g. $\glssymraw{sigmaKey}$
+\glsaddkey*{symraw}%Key Name
+{}%Default Value
+{\glsentrysymraw}%Use analog \glsentrytext
+{\Glsentrysymraw}%Use analog \Glsentrytext
+{\glssymraw}%Use analog \glstext
+{\Glssymraw}%Use analog \Glstext
+{\GLSsymraw}%Use analog \GLStext%
 %/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
 %					Custom Key Definitions END
 %------------------------------------------------------------------------

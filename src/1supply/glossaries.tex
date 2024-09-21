@@ -62,21 +62,21 @@
 %						Glossar
 %  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
 % Example:
-%        \newglossaryentry{trunking}{%
-%        	name={Trunking},%
-%        	text={Trunking},%
-%        	textDE={Bündelung},%
-%        	subtitle={Datenübertragung},%
-%        	longAlt={Link Aggregation},%
-%        	description={\label{gls:trunking}%
-%                In der Nachrichtentechnik und Informatik bezeichnet >>Trunking<< [...]%
-%           },%
-%        }
+%		\newglossaryentry{trunking}{%
+%			name={Trunking},%
+%			text={Trunking},%
+%			textDE={Bündelung},%
+%			subtitle={Datenübertragung},%
+%			longAlt={Link Aggregation},%
+%			description={\label{gls:trunking}%
+%				In der Nachrichtentechnik und Informatik bezeichnet >>Trunking<< [...]%
+%		   },%
+%		}
 %/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
 %VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
 \newglossaryentry{daem}{%
-    name={Daemon},%
-    description={In general, a Daemon is a computer program running as background process on a multitasking operating system. Such a process is running invisibly for the user and without direct interaction with the user.}%
+	name={Daemon},%
+	description={In general, a Daemon is a computer program running as background process on a multitasking operating system. Such a process is running invisibly for the user and without direct interaction with the user.}%
 }%
 \newglossaryentry{eventfd}{%
 	name={EventFD},%
@@ -98,20 +98,20 @@
 %                       -- (More Universal) --
 %  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
 % Example:
-%        \newacronym{sdning}{SDN}{Software-Defined Networking}%
-%        \newacronym[plural=SDNs,%
-%            firstplural=Software-defined Networks (SDNs),%
-%            longplural=Software-defined Networks,%
-%            prefixfirst={a\ },%
-%            prefix={an\ }%
-%        ]{sdnet}{SDN}{Software-defined Network}%
-%        \glsunset{sdn}%
-%        \newacronym[see={[Glossar:]{gls-endTE}}]{endTEde}{ETE}{Ende-zu-Ende}%Don't create such an acronym entry explicitly if you use the supplied dualentry-cmd below
-%        \newacronym[englisch=Virtual Machine,%
-%        	plural=VMs,%
-%        	firstplural=Virtuelle Maschinen (VMs),%
-%        	longplural=Virtuelle Maschinen]%
-%        {vm}{VM}{Virtuelle Maschine}%
+%		\newacronym{sdning}{SDN}{Software-Defined Networking}%
+%		\newacronym[plural=SDNs,%
+%			firstplural=Software-defined Networks (SDNs),%
+%			longplural=Software-defined Networks,%
+%			prefixfirst={a\ },%
+%			prefix={an\ }%
+%		]{sdnet}{SDN}{Software-defined Network}%
+%		\glsunset{sdn}%
+%		\newacronym[see={[Glossar:]{gls-endTE}}]{endTEde}{ETE}{Ende-zu-Ende}%Don't create such an acronym entry explicitly if you use the supplied dualentry-cmd below
+%		\newacronym[englisch=Virtual Machine,%
+%			plural=VMs,%
+%			firstplural=Virtuelle Maschinen (VMs),%
+%			longplural=Virtuelle Maschinen]%
+%		{vm}{VM}{Virtuelle Maschine}%
 %/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
 %VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
 %
@@ -135,6 +135,12 @@
 \newacronym{rand}{R\&D}{Research \& Development}%
 \newacronym{softdr}{SDR}{Software Defined Radio}%
 \newacronym{sota}{SotA}{State-of-the-Art}%
+%--------------------------------------------------------
+% = = = Specific for: Hardware
+%  - - - PC, CPU, Circuit
+%________________________________________________________
+\newacronym{ipcyc}{IPC}{Instructions per Cycle}%
+\newacronym{ipsec}{IPS}{Instructions per Second}%
 %--------------------------------------------------------
 % = = = Specific for: IT, Basic Technology
 %  - - - Virtualization, Softwarization, Cloud
@@ -188,7 +194,7 @@
 \newacronym{mutex}{MutEx}{Mutual Exclusion}%
 \newacronym{shobj}{SO}{Shared-Object}%
 \newacronym[%
-    longplural={Dynamic Link Libraries},%
+	longplural={Dynamic Link Libraries},%
 ]{dll}{DLL}{Dynamic Link Library}%
 \newacronym{oop}{OoP}{Out-of-Process}% (execution)
 \newacronym{shmem}{ShMem}{Shared-Memory}%
@@ -218,10 +224,10 @@
 \newacronym{sdn}{SDN}{Software-defined Networking}%
 %\glsunset{sdn}%
 \newacronym[plural=SDNs,%
-    firstplural=Software-defined Networks (SDNs),%
-    longplural=Software-defined Networks,%
-    prefixfirst={a\ },%
-    prefix={an\ }%
+	firstplural=Software-defined Networks (SDNs),%
+	longplural=Software-defined Networks,%
+	prefixfirst={a\ },%
+	prefix={an\ }%
 ]{sdnet}{SDN}{Software-defined Network}%
 \newacronym{ip}{IP}{Internet Protocol}%
 \glsunset{ip}%
@@ -253,10 +259,10 @@
 \newglossaryentry{opfl}{%
 	name={OpenFlow},%
 	description={%
-    A communication protocol that allows to configure the control plane of compatible switches and routers to define the behavior of the forwarding plane, i.e. how the forwarding device treats packages.
-    Via that, it enables network controllers to determine the path of packets through a network of switches.
-    It is closely related to the concept of \glstext{sdn}.
-    }%
+	A communication protocol that allows to configure the control plane of compatible switches and routers to define the behavior of the forwarding plane, i.e. how the forwarding device treats packages.
+	Via that, it enables network controllers to determine the path of packets through a network of switches.
+	It is closely related to the concept of \glstext{sdn}.
+	}%
 }%
 \newacronym{coma}{CoMa}{Context-Management}%
 \newacronym{comas}{CoMaS}{Context-Management System}%
@@ -364,14 +370,14 @@
 \newacronym{pmse}{PMSE}{Programme Making and Special Events}%
 \newacronym{ppdr}{PPDR}{Public Protection and Disaster Relief}%
 \newacronym[
-    textAlt={SMB},%
-    longAlt={small or medium-sized business},%
-    %textDE={KMU},%
-    %longDE={kleines oder mittelständiges Unternehmen}%
+	textAlt={SMB},%
+	longAlt={small or medium-sized business},%
+	%textDE={KMU},%
+	%longDE={kleines oder mittelständiges Unternehmen}%
 ]{sme}{SME}{small or medium-sized enterprise}%
 \newacronym[%
-    textEN={SME},%
-    longEN={small or medium-sized enterprise}%
+	textEN={SME},%
+	longEN={small or medium-sized enterprise}%
 ]{kmu}{KMU}{kleines oder mittelständiges Unternehmen}%
 \newacronym{capex}{CAPEX}{Capital Expenditure}% Investitionsausgaben
 \newacronym{opex}{OPEX}{Operational Expenditure}% Betriebskosten 
@@ -396,23 +402,23 @@
 % Refer to acronym with \gls{label} and the glossary with \gls{gls-label}
 %  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
 % Example:
-%        \newdualentry%
-%        [%
-%            textDE={Programmierschnittstelle},%
-%            parent={},%
-%            subtitle={}%
-%        ]%Options für Glossary
-%        [%
-%            plural=APIs,%
-%            longplural=Programmierschnittstellen%
-%        ]%Options für Acronym
-%        {api}%label
-%        {API}%abbreviation
-%        {Application Programming Interface}%long form
-%        {%//%
-%            Eine \textit{Schnittstelle zur Anwendungsprogrammierung} [...]]%
-%        }%description
-%        \glsunset{api}%
+%		\newdualentry%
+%		[%
+%			textDE={Programmierschnittstelle},%
+%			parent={},%
+%			subtitle={}%
+%		]%Options für Glossary
+%		[%
+%			plural=APIs,%
+%			longplural=Programmierschnittstellen%
+%		]%Options für Acronym
+%		{api}%label
+%		{API}%abbreviation
+%		{Application Programming Interface}%long form
+%		{%//%
+%			Eine \textit{Schnittstelle zur Anwendungsprogrammierung} [...]]%
+%		}%description
+%		\glsunset{api}%
 % Blank Boilerplate:
 %\newdualentry%
 %[]% Options für Glossary
@@ -444,31 +450,35 @@
 %   Just do as with Glossary-Entries (\newglossaryentry), and specify the Type 'symbol'.
 %  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
 % Example:
-%        \newglossaryentry{sigma}{%
-%            type=symbol,%
-%            name={$\sigma$},%
-%            sort={sigma},%
-%            description={Surface tension}%
-%        }%
-%        \newglossaryentry{molmass}{%
-%            type=symbol,%
-%            name={$M_w$},%
-%            sort={Mw},%
-%            description={Molar mass}%
-%        }%
+%		\newglossaryentry{sigma}{%
+%			type=symbol,%
+%			name={$\sigma$},%
+%			symraw={\sigma},%
+%			sort={sigma},%
+%			description={Surface tension}%
+%		}%
+%		\newglossaryentry{molmass}{%
+%			type=symbol,%
+%			name={$M_w$},%
+%			symraw={M_w},%
+%			sort={Mw},%
+%			description={Molar mass}%
+%		}%
 %/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
 %VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
 \newglossaryentry{sigma}{%
-    type=symbol,%
-    name={$\sigma$},%
-    sort={sigma},%
-    description={Surface tension}%
+	type=symbol,%
+	name={$\sigma$},%
+	symraw={\sigma},%
+	sort={sigma},%
+	description={Surface tension}%
 }%
 \newglossaryentry{molmass}{%
-    type=symbol,%
-    name={$M_w$},%
-    sort={Mw},%
-    description={Molar mass}%
+	type=symbol,%
+	name={$M_w$},%
+	symraw={M_w},%
+	sort={Mw},%
+	description={Molar mass}%
 }%
 %^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 %/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\

@@ -27,7 +27,9 @@
 \definecolor{stackoverflow_keyword_orangeOverflow}{RGB}{244,128,36}%Orange from StackOverflow Logo
 % - - - - - - - - - -
 \definecolor{code_keyword_blueIce}{RGB}{56,143,215}%
+\definecolor{code_keyword_blueRed}{RGB}{113,86,208}%
 \definecolor{code_keyword_orange}{RGB}{214,108,26}%
+\definecolor{code_keyword_yellow}{RGB}{179,179,128}%
 % - - - - - - - - - -
 % Coming from Java-Script alike
 % - - - - - - - - - -
@@ -123,7 +125,7 @@
 }{%
 	%\end{tcolorbox}%
 }%
-\BeforeBeginEnvironment{DenKrLst}{\DenKrLstBeginBox\vspace{-2pt}}%
+\BeforeBeginEnvironment{DenKrLst}{\DenKrLstBeginBox\vspace{-1pt}}%
 \AfterEndEnvironment{DenKrLst}{\DenKrLstEndBox}%
 \makeatother%
 %============================================
@@ -220,8 +222,9 @@
 \definecolor{lstCol_C_violet}{named}{eclipse_keyword_1_violet}%
 \definecolor{lstCol_C_green}{named}{eclipse_keyword_1_green}%
 \definecolor{lstCol_C_blue}{named}{eclipse_keyword_1_blue}%
-\definecolor{lstCol_C_collection}{named}{code_keyword_blueIce}%
+\definecolor{lstCol_C_collection}{named}{code_keyword_blueRed}%
 \definecolor{lstCol_C_func}{named}{code_keyword_orange}%
+\definecolor{lstCol_C_var}{named}{code_keyword_blueIce}%
 \definecolor{lstCol_C_foreign1}{named}{eclipse_keyword_2_red}%
 \definecolor{lstCol_C_foreign2}{named}{eclipse_keyword_2_blue}%
 \definecolor{lstCol_C_object}{named}{eclipse_keyword_2_blue}%
@@ -234,6 +237,7 @@
 \def\lstCFontPredefLib{\color{lstCol_C_violet}\bfseries}%
 \def\lstCFontPredefLibAlike{\color{lstCol_C_violet}}%
 \def\lstCFontFuncCall{\color{lstCol_C_func}}%
+\def\lstCFontVar{\color{lstCol_C_var}}%
 \def\lstCFontType{\color{lstCol_C_green}}%
 \def\lstCFontCollection{\color{lstCol_C_collection}}%
 \def\lstCFontSpecialBasic{\color{lstCol_C_purple}}%
@@ -263,8 +267,10 @@
 	morekeywords=[2]{%Predefined Library-Functions
 		main,
 		malloc,free,%These are not covered by the basic definition of C in listings.sty
-		recv,send,recvfrom,sendto,
+		recv,send,sendmsg,recvfrom,sendto,recvmsg,
+		read,write,
 		memcpy,memset,
+		sleep,nanosleep,clock_gettime,
 		sem_init,sem_wait,sem_post,sem_getvalue,sem_destroy,
 		raise,signal,
 		pthread_create,pthread_join,pthread_detach,pthread_cancel,pthread_setcancelstate,
@@ -286,6 +292,8 @@
 	morekeywords=[5]{%Collection-Members
 		tm_sec,tm_min,tm_hour,tm_day,tm_mon,tm_year,tv_sec,tv_nsec,
 		sin_port,sin_addr,sin6_port,sin6_addr,sa_data,
+	},%
+	morekeywords=[6]{%User-defined Variables
 	},%
 	morekeywords=[7]{%Special Keywords
 		NULL, null, Null
@@ -322,7 +330,8 @@
 	keywordstyle=[2]\lstCFontPredefLib,%Predefined Library-Functions
 	keywordstyle=[3]\lstCFontFuncCall,%Function-Calls (No default 'morekeywords', but specific to individual Listing)
 	keywordstyle=[4]\lstCFontType,%Typedefed, Names of Struct, Enum, ...
-	keywordstyle=[5]\lstCFontCollection,%Collection-Members, Struct-Instances
+	keywordstyle=[5]\lstCFontCollection,%Collection-Members, (Struct-Instances rather as "Variables")
+	keywordstyle=[6]\lstCFontVar,%User-defined Variables (Cannot be really automated as they are unique to an individual program. But with this is a keyword-style defined, which can be used to identify all variables at the inclusion once, instead of each occurrence within the listing.)
 	keywordstyle=[7]\lstCFontSpecialBasic,%Special Keywords. Like Basic, but not bold.
 	keywordstyle=[8]\lstCFontSpecialLib,%Special Keywords. Like Library-Funcs, but not bold.
 	keywordstyle=[11]\lstCFontForeignA,%Set one of Syntax from foreign languages for Pseudo-Code
@@ -655,7 +664,7 @@
 \newcommand{\DenKrLst@textstretched}[1]{%
 	\StrLen{#1}[\tmpval]%
 	\setlength{\DenKrLst@boxlength}{\tmpval\DenKrLst@baselength}%
-	\hbox to \DenKrLst@boxlength{\DenKrLst@SplitChar{1}{#1}}%
+	\hbox to \DenKrLst@boxlength{\hss\DenKrLst@SplitChar{1}{#1}\hss}%
 }%
 %
 \newcommand{\DenKrLstBreakoutText}[1]{%
@@ -684,10 +693,11 @@
 \newcommand{\lstCfunclib}[1]{{\lstCFontPredefLib\DenKrLstBreakoutText{#1}}}%Function from a predefined Library
 \newcommand{\lstCfuncdecl}[1]{{\lstCFontFuncDecl\DenKrLstBreakoutText{#1}}}%Formats like predefined Library-Functions (but with slightly divergent Color). Might also look good on Function-Declaration
 \newcommand{\lstCfunc}[1]{{\lstCFontFuncCall\DenKrLstBreakoutText{#1}}}%Any Function-Call of a self-declared Function
+\newcommand{\lstCvar}[1]{{\lstCFontVar\DenKrLstBreakoutText{#1}}}%User-defined Variables. (Cannot be automated as they are unique to an individual program)
 \newcommand{\lstCtype}[1]{{\lstCFontType\DenKrLstBreakoutText{#1}}}%For self-defined types, struct, enum
-\newcommand{\lstCmember}[1]{{\lstCFontCollection\DenKrLstBreakoutText{#1}}}%Collection-Members, like struct
-\let\lstCcollection\lstCmember%Collections, Struct Instances, ...
-\let\lstCstructVar\lstCmember%
+\newcommand{\lstCmember}[1]{{\lstCFontCollection\DenKrLstBreakoutText{#1}}}%Collection-Members, like inside struct
+\let\lstCcollection\lstCmember%Collections, ...
+\let\lstCstructVar\lstCvar% Struct Instances rather like "Variables"
 \newcommand{\lstCbasicalike}[1]{{\lstCFontBasicAlike\DenKrLstBreakoutText{#1}}}%Special-Keywords. Like Basic, but not bold.
 \newcommand{\lstClibalike}[1]{{\lstCFontPredefLibAlike\DenKrLstBreakoutText{#1}}}%Special-Keywords. Like Basic, but not bold.
 \newcommand{\lstCcomment}[1]{{\lstCFontComment\DenKrLstBreakoutText{#1}}}%Like a Comment, without the need to add the Comment-Symbols
