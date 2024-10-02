@@ -1,20 +1,20 @@
 \setkomafont{section}{\sffamily\bfseries\Large\color{DenKrKomaColor_SectionHeading}}%
 \makeatletter%
-    % \renewcommand\@seccntformat[1]{%
-    %     \makebox[0pt][l]{\rule[-\dimexpr\fboxsep+2pt\relax]{\columnwidth}{1.5pt}}%
-    %     \colorbox{DenKrKomaColor_SectionHeading!50!blue}{%
-    %         \rule[-2pt]{0pt}{0pt}%
-    %         \color{white}\csname the#1\endcsname%
-    %     }%
-    %     \quad%
-    % }%
+	% \renewcommand\@seccntformat[1]{%
+	%	 \makebox[0pt][l]{\rule[-\dimexpr\fboxsep+2pt\relax]{\columnwidth}{1.5pt}}%
+	%	 \colorbox{DenKrKomaColor_SectionHeading!50!blue}{%
+	%		 \rule[-2pt]{0pt}{0pt}%
+	%		 \color{white}\csname the#1\endcsname%
+	%	 }%
+	%	 \quad%
+	% }%
 \renewcommand*{\DenKrKOMAHookFormatSection}[4]{%
-    \makebox[0pt][l]{\rule[-\dimexpr\fboxsep+2pt\relax]{\columnwidth}{1.5pt}}%
-    \colorbox{DenKrKomaColor_SectionHeading!50!blue}{%
-        \rule[-2pt]{0pt}{0pt}%
-        \color{white}\csname the#1\endcsname%
-    }%
-    \quad%
-    #4%
+	\makebox[0pt][l]{\rule[-\dimexpr\fboxsep+2pt\relax]{\columnwidth}{1.5pt}}%
+	\colorbox{DenKrKomaColor_SectionHeading!50!blue}{%
+		\rule[-2pt]{0pt}{0pt}%
+		\color{white}\csname the#1\endcsname%
+	}%
+	\quad%
+	#4%
 }%
 \makeatother%

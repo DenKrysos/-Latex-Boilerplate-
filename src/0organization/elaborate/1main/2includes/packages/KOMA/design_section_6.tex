@@ -1,15 +1,15 @@
 \setkomafont{section}{\sffamily\bfseries\Large\color{DenKrKomaColor_SectionHeading}}%
 \renewcommand*{\sectionformat}{%
-    \tikz[baseline]{%
-        \node[draw=none,shape=rectangle,anchor=base,inner sep=0.6ex](num){\thesection};%
-        %\path[draw,line width=0.15ex](num.south west)--(num.north west)--(num.north east);%
-        \path[draw,line width=0.15ex](num.south west)--($(num.north west)+(130:0.3ex)$)--(num.north east);%
-        %\path[draw,line width=0.15ex]($(num.south west)+(225:0.3ex)$)--(num.north west)--($(num.north east)+(45:0.3ex)$);%
-        %\path[draw,line width=0.15ex](num.north west)--($(num.south west)+(130:0.3ex)$)--(num.south east);%
-        %\path[draw,line width=0.15ex]($(num.north west)+(225:0.3ex)$)--(num.south west)--($(num.south east)+(45:0.3ex)$);%
-    }%
-    %\fboxrule=1.5pt\fcolorbox{.}{white!0}{\color{DenKrKomaColor_SectionHeading}\thesection}%
-    \;\rule[.7ex]{10pt}{1pt}\;%
+	\tikz[baseline]{%
+		\node[draw=none,shape=rectangle,anchor=base,inner sep=0.6ex](num){\thesection};%
+		%\path[draw,line width=0.15ex](num.south west)--(num.north west)--(num.north east);%
+		\path[draw,line width=0.15ex](num.south west)--($(num.north west)+(130:0.3ex)$)--(num.north east);%
+		%\path[draw,line width=0.15ex]($(num.south west)+(225:0.3ex)$)--(num.north west)--($(num.north east)+(45:0.3ex)$);%
+		%\path[draw,line width=0.15ex](num.north west)--($(num.south west)+(130:0.3ex)$)--(num.south east);%
+		%\path[draw,line width=0.15ex]($(num.north west)+(225:0.3ex)$)--(num.south west)--($(num.south east)+(45:0.3ex)$);%
+	}%
+	%\fboxrule=1.5pt\fcolorbox{.}{white!0}{\color{DenKrKomaColor_SectionHeading}\thesection}%
+	\;\rule[.7ex]{10pt}{1pt}\;%
 }%
 %
 \renewcommand*\DenKrKOMAHookFormatSection\DenKrKOMAHookFormatSectionOriginal%

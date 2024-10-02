@@ -266,6 +266,24 @@
 %  i.e. spread it (Diff-between-MaxCols-&-ThisRow) times across all \multicolumn-Cells of a Row, or simply, add it (MultirowArgument - 1) to the p{}
 %  As the involved Values may change, due to configurations, better use the below Macro (which sets the Length to use), right befor the Table
 \providecommand{\setTableCellSepWidth}{}\renewcommand{\setTableCellSepWidth}{\let\tableCellSepWidth\relax\newlength{\tableCellSepWidth}\setlength{\tableCellSepWidth}{\arrayrulewidth+2\tabcolsep}}
+%-------------------------------
+%  ToDo: That's not working reliably. Can't do a \stepcounter in a Cell that involved in a \multirow or \multicolumn
+\newcounter{DenKrRowColAlternating}%
+\newcommand{\DenKrRowColAlternatingInit}[2]{%
+	\setcounter{DenKrRowColAlternating}{0}%
+	\def\DenKrRowColAlternatingColA{#1}%
+	\def\DenKrRowColAlternatingColB{#2}%
+}%
+\newcommand{\DenKrRowColAlternate}{%
+	\stepcounter{DenKrRowColAlternating}%
+	\ifodd\value{DenKrRowColAlternating}%
+		\rowcolor{\DenKrRowColAlternatingColA}%
+	\else%
+		\rowcolor{\DenKrRowColAlternatingColB}%
+	\fi%
+}%
+\DenKrRowColAlternatingInit{cell_accentuated}{cell_bright}%
+%-------------------------------
 %
 %
 %

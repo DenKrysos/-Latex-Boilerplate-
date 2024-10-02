@@ -8,39 +8,39 @@
 
 \makeatletter%
 \NewDocumentCommand{\measuremultilinewidth}{%
-    O{\linewidth}% For deciding whether \textwidth or \linewidth (may be useful in multicolumn documents) shall be used to limit the width.
-    m
+	O{\linewidth}% For deciding whether \textwidth or \linewidth (may be useful in multicolumn documents) shall be used to limit the width.
+	m
 }{%
-    \sbox0{\begin{minipage}{\linewidth}#1\end{minipage}}% both, \linewidth or \textwidth, might make sense, depending on the use-case
-    \newlength{\maxwidth}%
-    \setlength{\maxwidth}{0pt}%
-    \def\processtext##1{\settowidth{\@tempdima}{##1}\ifdim\@tempdima>\maxwidth\global\@tempdima=\@tempdima\fi}%
-    \foreachline{\processtext}{\usebox0}% Not working
-    \setlength{\tmpwidth}{\@tempdima}%
+	\sbox0{\begin{minipage}{\linewidth}#1\end{minipage}}% both, \linewidth or \textwidth, might make sense, depending on the use-case
+	\newlength{\maxwidth}%
+	\setlength{\maxwidth}{0pt}%
+	\def\processtext##1{\settowidth{\@tempdima}{##1}\ifdim\@tempdima>\maxwidth\global\@tempdima=\@tempdima\fi}%
+	\foreachline{\processtext}{\usebox0}% Not working
+	\setlength{\tmpwidth}{\@tempdima}%
 }%
 \makeatother%
 
 \setkomafont{part}{\sffamily\bfseries\huge\color{DenKrKomaColor_PartHeading}}%
 \renewcommand*{\partformat}{%
-    {\usekomafont{part}\partname~\thepart}%
+	{\usekomafont{part}\partname~\thepart}%
 }%
 %
 \makeatletter%
 \renewcommand*\DenKrKOMAHookFormatPartWithPrefix[3]{%
-    \measuremultilinewidth{asdf}%
-    % \settowidth{\tmpwidth}{as\\a}%
-    % \settowidth{\tmpwidth}{#3}%
-    \begin{center}%
-        \begin{tikzpicture}[remember picture,baseline=(num.base)]%
-            \ifstrempty{#2}{%
-                \node[draw=none,shape=rectangle,anchor=base,inner sep=0ex](num){};%
-            }{%
-                \node[draw=none,shape=rectangle,anchor=base,inner sep=0ex](num){\partformat};%
-            }%
-            \node[draw=red,shape=rectangle,anchor=west,line width=0pt,inner sep=0pt,align=center](name)at($(num.east)+(0,0)$)
-            {\parbox{\tmpwidth}{a}};
-            %{\centering #3};%
-        \end{tikzpicture}%
-    \end{center}%
+	\measuremultilinewidth{asdf}%
+	% \settowidth{\tmpwidth}{as\\a}%
+	% \settowidth{\tmpwidth}{#3}%
+	\begin{center}%
+		\begin{tikzpicture}[remember picture,baseline=(num.base)]%
+			\ifstrempty{#2}{%
+				\node[draw=none,shape=rectangle,anchor=base,inner sep=0ex](num){};%
+			}{%
+				\node[draw=none,shape=rectangle,anchor=base,inner sep=0ex](num){\partformat};%
+			}%
+			\node[draw=red,shape=rectangle,anchor=west,line width=0pt,inner sep=0pt,align=center](name)at($(num.east)+(0,0)$)
+			{\parbox{\tmpwidth}{a}};
+			%{\centering #3};%
+		\end{tikzpicture}%
+	\end{center}%
 }%
 \makeatother%

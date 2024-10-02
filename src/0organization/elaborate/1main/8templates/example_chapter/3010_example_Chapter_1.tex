@@ -64,7 +64,10 @@ Listing in separate File:
 		entry,
 		member,
 		iterator
-	}}
+	}},
+	morekeywords={[6]{%Variables
+		current
+	}},
 ]{\DenKrListingsRootDir/example_lst_C.c}
 [Example-Listing (for Programming-Language \textit{C})]
 [lst:exmplLabel]
@@ -184,12 +187,26 @@ $\rightarrow$ Just saying, the \textbackslash glsdescpl\{\} cmd, used here, is n
 \glsentrytext{eventfd}, \glsentryplural{eventfd}, (Careful with the \enquote{descs} on glossary-entries \emoji{winking-face}. Outcommented here:)%\glsentrydesc{eventfd}, \glsentrydescplural{eventfd}.
 
 \npi
-\glsfmtshort{dll}, \glsfmtlong{dll}, \glsfmtshortpl{dll}, \glsfmtlongpl{dll},\nl
-\glsfmttext{dll}, \glsfmtname{dll}.
+The \enquote{\bfseries\textbackslash glsfmt[\ldots]} Cmds. Use these in \textbf{Headings}, \textbf{Captions} and such.
 \nl
-\glsfmtshort{eventfd}, \glsfmtlong{eventfd}, \glsfmtshortpl{eventfd}, \glsfmtlongpl{eventfd},\nl
-\glsfmttext{eventfd}, \glsfmtname{eventfd}.\nl
-\ \ \ (As you see above, the fmtshort/long are not available for Glossary-Entries, but for Acronyms. So, in essence, just use \textbackslash glsfmttext\{\} for basically everything, except when you need the long-form of an Acronym.)
+\begin{itemize}
+	\item Acronym:
+		\begin{itemize}
+			\item \glsfmtshort{dll}, \glsfmtlong{dll} | \glsfmtshortpl{dll}, \glsfmtlongpl{dll},
+			\item \glsfmttext{dll}, \glsfmtname{dll} | \glsfmtplural{dll}.
+			\item \glsfmtfirst{dll} | \glsfmtfirstpl{dll}
+		\end{itemize}
+	\item Glossary-Entry:
+		\begin{itemize}
+			\item \glsfmtshort{eventfd}, \glsfmtlong{eventfd} | \glsfmtshortpl{eventfd}, \glsfmtlongpl{eventfd},
+			\item \glsfmttext{eventfd}, \glsfmtname{eventfd} | \glsfmtplural{eventfd}.
+			\item \glsfmtfirst{eventfd} | \glsfmtfirstpl{eventfd}
+		\end{itemize}
+\end{itemize}
+\begin{itemize}[labpragA]
+	\item (As you see above, the fmtshort/long are not available for Glossary-Entries, but for Acronyms. So, in essence, just use \textbackslash glsfmttext\{\} for basically everything, except when you need the long-form of an Acronym.)
+\end{itemize}
+
 
 
 

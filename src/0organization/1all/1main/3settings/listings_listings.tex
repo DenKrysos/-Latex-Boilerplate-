@@ -269,6 +269,7 @@
 		malloc,free,%These are not covered by the basic definition of C in listings.sty
 		recv,send,sendmsg,recvfrom,sendto,recvmsg,
 		read,write,
+		open,close,
 		memcpy,memset,
 		sleep,nanosleep,clock_gettime,
 		sem_init,sem_wait,sem_post,sem_getvalue,sem_destroy,
@@ -278,6 +279,10 @@
 		endl,
 		append,push,pop,remove,delete,destroy,
 		dlsym,dlopen,dlclose,dlerror,
+		socket,bind,listen,accept,connect,
+		getpeername,getsockname,getsockopt,setsockopt,socketpair,getaddrinfo,gethostbyaddr,getnameinfo,ipv6,
+		inet_pton,inet_ntop,
+		htons,ntohs,htonl,ntohl,
 	},%
 	morekeywords=[4]{%Typedefed, Names of Struct, Enum, ...
 		int8_t,uint8_t,int16_t,uint16_t,int32_t,uint32_t,int64_t,uint64_t,int128_t,uint128_t,
@@ -287,11 +292,14 @@
 		timespec,timeval,
 		string,
 		sockaddr_storage,sockaddr_in,sockaddr_in6,sockaddr,in_addr,in_addr_t,in6_addr,in6_addr_t,
-		socklen_t,in_port_t,
+		socklen_t,in_port_t,sa_family_t,
+		sockaddr_un,
 	},%
 	morekeywords=[5]{%Collection-Members
 		tm_sec,tm_min,tm_hour,tm_day,tm_mon,tm_year,tv_sec,tv_nsec,
-		sin_port,sin_addr,sin6_port,sin6_addr,sa_data,
+		sin_family,sin_port,sin_addr,sin6_family,sin6_port,sin6_addr,sin6_flowinfo,sin6_scope_id,
+		sa_data,s_addr,s6_addr,
+		sun_family,sun_path,
 	},%
 	morekeywords=[6]{%User-defined Variables
 	},%

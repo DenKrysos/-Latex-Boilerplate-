@@ -1,7 +1,7 @@
 \setkomafont{section}{\sffamily\bfseries\Large\color{DenKrKomaColor_SectionHeading}}%
 \RedeclareSectionCommand[%
-    beforeskip=5.5ex,%
-    afterskip=2ex,%
+	beforeskip=5.5ex,%
+	afterskip=2ex,%
 ]{section}%
 \makeatletter\@ifundefined{DenKrSetSection}{}{\DenKrSetSection}\makeatother% Workaround to reset to my macro after RedeclareSectionCommand
 \renewcommand*{\sectionformat}{\usekomafont{section}\thesection}%
@@ -19,142 +19,142 @@
 \makeatletter%
 \newif\if@DeKrRight%
 \renewcommand*{\DenKrKOMAHookFormatSection}[4]{%
-    \def\bandIndentOut{0.7cm}%
-    \def\bandIndentIn{0.2cm}%
-    \begin{tikzpicture}[remember picture]%
-        \if@twoside% Twoside Document
-            \Ifthispageodd{%Right
-                \@DeKrRighttrue
-            }{%Left
-                \@DeKrRightfalse
-            }%
-        \else% Oneside Document: Treat every Page as 'right'
-            \@DeKrRighttrue
-        \fi%
-        %
-        \if@DeKrRight%Right
-            \def\secTitleIndent{\bandIndentIn}%
-        \else%
-            \def\secTitleIndent{0pt}%
-        \fi%
-        \begin{pgfonlayer}{foreground}%
-            \coordinate(section_anchor)at(0,0);%
-            \node[draw=none,line width=0pt,shape=rectangle,anchor=north west,inner sep=0pt,minimum height=\sectionMinHeight](section_title)at($(section_anchor)+(\secTitleIndent,0)$){%
-                \parbox[b]{\dimexpr\textwidth-\bandIndentIn\relax}{%
-                    #3
-                    \scalebox{0.8}{\textcolor{DenKrKomaColor_ChapterHeading}{\DenKrKomaHeadingBarockCrossAChar}}
-                    #4%
-                }%
-            };%
-        \end{pgfonlayer}%
-        % Set some values/sizes
-        \path let\n1={0.8ex},\n2={5em}in%
-            coordinate(bgSepOut)at(\bandIndentOut,\n1)%
-            coordinate(bgSepIn)at(\bandIndentIn,\n1)%
-            coordinate(bgFadeLen)at(\n2,0.5*\n2)%X: Out, Y: In
-            ;%
-        % Update bounding-box and thus make the shift of the title node take effect. (Adding also the Y-component creates the appropriate size downwards)
-        \path[draw=none,line width=0pt]let\p1=(bgSepOut)in(section_anchor)--($(section_title.south west)-(0,0.5*\y1+0.1ex)$)--($(section_title.north west)+(0,1.3ex)$);%
-        % "Bake" the previous typeset pieces and "decouple" a new bounding box.
-        \useasboundingbox%
-            (current bounding box.north west)%
-            rectangle%
-            (current bounding box.south east);%
-        \begin{pgfonlayer}{background}%
-        \if@DeKrRight%Right
-            \path let\p1=(bgSepOut),\p2=(bgSepIn),\p3=(bgFadeLen)in%
-                coordinate(bgLT_T)at($(section_title.north west)+(0,\y2)$)%
-                coordinate(bgLT_L)at($(section_title.north west)+(-\x2,0)$)%
-                coordinate(bgLB_B)at($(section_title.south west)+(0,-\y2)$)%
-                coordinate(bgLB_L)at($(section_title.south west)+(-\x2,0)$)%
-                coordinate(bgRT)at($(section_title.north east)+(\x1,\y1)$)%
-                coordinate(bgRB)at($(section_title.south east)+(\x1,-\y1)$)%
-                coordinate(bgFadeLT)at($(bgLT_T)+(\y3,0)$)%
-                coordinate(bgFadeLB)at($(bgLB_B)+(\y3,0)$)%
-                coordinate(bgFadeRT)at($(bgRT)+(-\x3,0)$)%
-                coordinate(bgFadeRB)at($(bgRB)+(-\x3,0)$)%
-                coordinate(lappetR_T)at($(bgRB)-(\bandIndentOut-0.8ex,0)$)%
-                coordinate(lappetR_B)at($(lappetR_T)+(0,-2ex)$)%
-                coordinate(lappetL_B)at($(bgLT_T)+(3ex,0)$)%
-                coordinate(lappetL_T)at($(lappetL_B)+(-0.2ex,1.3ex)$)%
-                ;%
-            %
-            \path[draw=secTFrame,fill=secTBGDark,line width=0.1ex,line join=round](bgRB)to[out=260,in=70](lappetR_B)--(lappetR_T)--cycle;%
-            \path[draw=secTBGFakeEdge,line width=0.15ex](lappetR_T)--(lappetR_B)--++(0,-0.3ex)coordinate(lappetR_Bfadeout);%
-            %Why this first unconnected node here: Doesn't do anything for the path. But without it, some inverse-matrix fancy shenanigan shit fails to dimension too large. The coordinate extends the bounding box to the side, nothing else.
-            \path[draw=secTBGFakeEdge,line width=0.15ex,path fading=south]($(lappetR_Bfadeout)+(-0.1ex,0)$)(lappetR_Bfadeout)--++(0,-1.2ex);%
-            \path[shade,left color=white,right color=secTBG](bgRT)--(bgRB)--(bgFadeRB)--(bgFadeRT)--cycle;%
-            \path[shade,left color=white,right color=secTFrame,line cap=round,line join=round]%
-                let\n1={0.2ex}in%
-                ($(bgRT)+(0,0.1ex)$)--(current subpath start-|bgFadeRT)--++(0,-\n1)-|cycle%
-                ($(bgRB)+(0,-0.1ex)$)--(current subpath start-|bgFadeRB)--++(0,\n1)-|cycle%
-            ;%
-            \path[draw=secTFrame,line width=0.2ex,line cap=round,line join=round]%
-                (bgRT)--(bgRB);%
-            %
-            %
-            \path(bgLT_T)to[out=180,in=90]coordinate[pos=0.5](lappetL_S)(bgLT_L);%
-            \path[draw=secTFrame,fill=secTBGDark,line width=0.1ex,line join=round](lappetL_S)to[out=40,in=220](lappetL_T)to[out=290,in=90](lappetL_B)--cycle;%
-            \path[shade,left color=secTBG,right color=white]%
-                (bgLT_T)to[out=180,in=90](bgLT_L)--(bgLB_L)to[in=180,out=270](bgLB_B)%
-                --(bgFadeLB)--(bgFadeLT)--cycle;%
-            \path[shade,left color=secTFrame,right color=white,line cap=round,line join=round]%
-                let\n1={0.2ex}in%
-                ($(bgLT_T)+(0,0.1ex)$)--(current subpath start-|bgFadeLT)--++(0,-\n1)-|cycle%
-                ($(bgLB_B)+(0,-0.1ex)$)--(current subpath start-|bgFadeLB)--++(0,\n1)-|cycle%
-            ;%
-            \path[draw=secTFrame,line width=0.2ex,line cap=round,line join=round]%
-                (bgLT_T)to[out=180,in=90](bgLT_L)--(bgLB_L)to[in=180,out=270](bgLB_B)%
-                ;%
-        \else%Left
-            \path let\p1=(bgSepOut),\p2=(bgSepIn),\p3=(bgFadeLen)in%
-                coordinate(bgLT)at($(section_title.north west)+(-\x1,\y1)$)%
-                coordinate(bgLB)at($(section_title.south west)+(-\x1,-\y1)$)%
-                coordinate(bgRT_T)at($(section_title.north east)+(0,\y2)$)%
-                coordinate(bgRT_R)at($(section_title.north east)+(\x2,0)$)%
-                coordinate(bgRB_B)at($(section_title.south east)+(0,-\y2)$)%
-                coordinate(bgRB_R)at($(section_title.south east)+(\x2,0)$)%
-                coordinate(bgFadeLT)at($(bgLT)+(\x3,0)$)%
-                coordinate(bgFadeLB)at($(bgLB)+(\x3,0)$)%
-                coordinate(bgFadeRT)at($(bgRT_T)+(-\y3,0)$)%
-                coordinate(bgFadeRB)at($(bgRB_B)+(-\y3,0)$)%
-                coordinate(lappetL_T)at($(bgLB)+(\bandIndentOut-0.8ex,0)$)%
-                coordinate(lappetL_B)at($(lappetL_T)+(0,-2ex)$)%
-                coordinate(lappetR_B)at($(bgRT_T)+(-3ex,0)$)%
-                coordinate(lappetR_T)at($(lappetR_B)+(0.2ex,1.3ex)$)%
-                ;%
-            %
-            \path[draw=secTFrame,fill=secTBGDark,line width=0.1ex,line join=round](bgLB)to[out=280,in=110](lappetL_B)--(lappetL_T)--cycle;%
-            \path[draw=secTBGFakeEdge,line width=0.15ex](lappetL_T)--(lappetL_B)--++(0,-0.3ex)coordinate(lappetL_Bfadeout);%
-            %This first unconnected Node: See above
-            \path[draw=secTBGFakeEdge,line width=0.15ex,path fading=south]($(lappetL_Bfadeout)+(-0.1ex,0)$)(lappetL_Bfadeout)--++(0,-1.2ex);%
-            \path[shade,left color=secTBG,right color=white](bgLT)--(bgLB)--(bgFadeLB)--(bgFadeLT)--cycle;%
-            \path[shade,left color=secTFrame,right color=white,line cap=round,line join=round]%
-                let\n1={0.2ex}in%
-                ($(bgLT)+(0,0.1ex)$)--(current subpath start-|bgFadeLT)--++(0,-\n1)-|cycle%
-                ($(bgLB)+(0,-0.1ex)$)--(current subpath start-|bgFadeLB)--++(0,\n1)-|cycle%
-            ;%
-            \path[draw=secTFrame,line width=0.2ex,line cap=round,line join=round]%
-                (bgLT)--(bgLB);%
-            %
-            %
-            \path(bgRT_T)to[out=0,in=90]coordinate[pos=0.5](lappetR_S)(bgRT_R);%
-            \path[draw=secTFrame,fill=secTBGDark,line width=0.1ex,line join=round](lappetR_S)to[out=140,in=-40](lappetR_T)to[out=250,in=90](lappetR_B)--cycle;%
-            \path[shade,left color=white,right color=secTBG]%
-                (bgRT_T)to[out=0,in=90](bgRT_R)--(bgRB_R)to[in=0,out=270](bgRB_B)%
-                --(bgFadeRB)--(bgFadeRT)--cycle%
-                ;%
-            \path[shade,left color=white,right color=secTFrame,line cap=round,line join=round]%
-                let\n1={0.2ex}in%
-                ($(bgRT_T)+(0,0.1ex)$)--(current subpath start-|bgFadeRT)--++(0,-\n1)-|cycle%
-                ($(bgRB_B)+(0,-0.1ex)$)--(current subpath start-|bgFadeRB)--++(0,\n1)-|cycle%
-            ;%
-            \path[draw=secTFrame,line width=0.2ex,line cap=round,line join=round]%
-            (bgRT_T)to[out=0,in=90](bgRT_R)--(bgRB_R)to[in=0,out=270](bgRB_B)%
-                ;%
-        \fi%
-    \end{pgfonlayer}%
-    \end{tikzpicture}%
-    % \par%
+	\def\bandIndentOut{0.7cm}%
+	\def\bandIndentIn{0.2cm}%
+	\begin{tikzpicture}[remember picture]%
+		\if@twoside% Twoside Document
+			\Ifthispageodd{%Right
+				\@DeKrRighttrue
+			}{%Left
+				\@DeKrRightfalse
+			}%
+		\else% Oneside Document: Treat every Page as 'right'
+			\@DeKrRighttrue
+		\fi%
+		%
+		\if@DeKrRight%Right
+			\def\secTitleIndent{\bandIndentIn}%
+		\else%
+			\def\secTitleIndent{0pt}%
+		\fi%
+		\begin{pgfonlayer}{foreground}%
+			\coordinate(section_anchor)at(0,0);%
+			\node[draw=none,line width=0pt,shape=rectangle,anchor=north west,inner sep=0pt,minimum height=\sectionMinHeight](section_title)at($(section_anchor)+(\secTitleIndent,0)$){%
+				\parbox[b]{\dimexpr\textwidth-\bandIndentIn\relax}{%
+					#3
+					\scalebox{0.8}{\textcolor{DenKrKomaColor_ChapterHeading}{\DenKrKomaHeadingBarockCrossAChar}}
+					#4%
+				}%
+			};%
+		\end{pgfonlayer}%
+		% Set some values/sizes
+		\path let\n1={0.8ex},\n2={5em}in%
+			coordinate(bgSepOut)at(\bandIndentOut,\n1)%
+			coordinate(bgSepIn)at(\bandIndentIn,\n1)%
+			coordinate(bgFadeLen)at(\n2,0.5*\n2)%X: Out, Y: In
+			;%
+		% Update bounding-box and thus make the shift of the title node take effect. (Adding also the Y-component creates the appropriate size downwards)
+		\path[draw=none,line width=0pt]let\p1=(bgSepOut)in(section_anchor)--($(section_title.south west)-(0,0.5*\y1+0.1ex)$)--($(section_title.north west)+(0,1.3ex)$);%
+		% "Bake" the previous typeset pieces and "decouple" a new bounding box.
+		\useasboundingbox%
+			(current bounding box.north west)%
+			rectangle%
+			(current bounding box.south east);%
+		\begin{pgfonlayer}{background}%
+		\if@DeKrRight%Right
+			\path let\p1=(bgSepOut),\p2=(bgSepIn),\p3=(bgFadeLen)in%
+				coordinate(bgLT_T)at($(section_title.north west)+(0,\y2)$)%
+				coordinate(bgLT_L)at($(section_title.north west)+(-\x2,0)$)%
+				coordinate(bgLB_B)at($(section_title.south west)+(0,-\y2)$)%
+				coordinate(bgLB_L)at($(section_title.south west)+(-\x2,0)$)%
+				coordinate(bgRT)at($(section_title.north east)+(\x1,\y1)$)%
+				coordinate(bgRB)at($(section_title.south east)+(\x1,-\y1)$)%
+				coordinate(bgFadeLT)at($(bgLT_T)+(\y3,0)$)%
+				coordinate(bgFadeLB)at($(bgLB_B)+(\y3,0)$)%
+				coordinate(bgFadeRT)at($(bgRT)+(-\x3,0)$)%
+				coordinate(bgFadeRB)at($(bgRB)+(-\x3,0)$)%
+				coordinate(lappetR_T)at($(bgRB)-(\bandIndentOut-0.8ex,0)$)%
+				coordinate(lappetR_B)at($(lappetR_T)+(0,-2ex)$)%
+				coordinate(lappetL_B)at($(bgLT_T)+(3ex,0)$)%
+				coordinate(lappetL_T)at($(lappetL_B)+(-0.2ex,1.3ex)$)%
+				;%
+			%
+			\path[draw=secTFrame,fill=secTBGDark,line width=0.1ex,line join=round](bgRB)to[out=260,in=70](lappetR_B)--(lappetR_T)--cycle;%
+			\path[draw=secTBGFakeEdge,line width=0.15ex](lappetR_T)--(lappetR_B)--++(0,-0.3ex)coordinate(lappetR_Bfadeout);%
+			%Why this first unconnected node here: Doesn't do anything for the path. But without it, some inverse-matrix fancy shenanigan shit fails to dimension too large. The coordinate extends the bounding box to the side, nothing else.
+			\path[draw=secTBGFakeEdge,line width=0.15ex,path fading=south]($(lappetR_Bfadeout)+(-0.1ex,0)$)(lappetR_Bfadeout)--++(0,-1.2ex);%
+			\path[shade,left color=white,right color=secTBG](bgRT)--(bgRB)--(bgFadeRB)--(bgFadeRT)--cycle;%
+			\path[shade,left color=white,right color=secTFrame,line cap=round,line join=round]%
+				let\n1={0.2ex}in%
+				($(bgRT)+(0,0.1ex)$)--(current subpath start-|bgFadeRT)--++(0,-\n1)-|cycle%
+				($(bgRB)+(0,-0.1ex)$)--(current subpath start-|bgFadeRB)--++(0,\n1)-|cycle%
+			;%
+			\path[draw=secTFrame,line width=0.2ex,line cap=round,line join=round]%
+				(bgRT)--(bgRB);%
+			%
+			%
+			\path(bgLT_T)to[out=180,in=90]coordinate[pos=0.5](lappetL_S)(bgLT_L);%
+			\path[draw=secTFrame,fill=secTBGDark,line width=0.1ex,line join=round](lappetL_S)to[out=40,in=220](lappetL_T)to[out=290,in=90](lappetL_B)--cycle;%
+			\path[shade,left color=secTBG,right color=white]%
+				(bgLT_T)to[out=180,in=90](bgLT_L)--(bgLB_L)to[in=180,out=270](bgLB_B)%
+				--(bgFadeLB)--(bgFadeLT)--cycle;%
+			\path[shade,left color=secTFrame,right color=white,line cap=round,line join=round]%
+				let\n1={0.2ex}in%
+				($(bgLT_T)+(0,0.1ex)$)--(current subpath start-|bgFadeLT)--++(0,-\n1)-|cycle%
+				($(bgLB_B)+(0,-0.1ex)$)--(current subpath start-|bgFadeLB)--++(0,\n1)-|cycle%
+			;%
+			\path[draw=secTFrame,line width=0.2ex,line cap=round,line join=round]%
+				(bgLT_T)to[out=180,in=90](bgLT_L)--(bgLB_L)to[in=180,out=270](bgLB_B)%
+				;%
+		\else%Left
+			\path let\p1=(bgSepOut),\p2=(bgSepIn),\p3=(bgFadeLen)in%
+				coordinate(bgLT)at($(section_title.north west)+(-\x1,\y1)$)%
+				coordinate(bgLB)at($(section_title.south west)+(-\x1,-\y1)$)%
+				coordinate(bgRT_T)at($(section_title.north east)+(0,\y2)$)%
+				coordinate(bgRT_R)at($(section_title.north east)+(\x2,0)$)%
+				coordinate(bgRB_B)at($(section_title.south east)+(0,-\y2)$)%
+				coordinate(bgRB_R)at($(section_title.south east)+(\x2,0)$)%
+				coordinate(bgFadeLT)at($(bgLT)+(\x3,0)$)%
+				coordinate(bgFadeLB)at($(bgLB)+(\x3,0)$)%
+				coordinate(bgFadeRT)at($(bgRT_T)+(-\y3,0)$)%
+				coordinate(bgFadeRB)at($(bgRB_B)+(-\y3,0)$)%
+				coordinate(lappetL_T)at($(bgLB)+(\bandIndentOut-0.8ex,0)$)%
+				coordinate(lappetL_B)at($(lappetL_T)+(0,-2ex)$)%
+				coordinate(lappetR_B)at($(bgRT_T)+(-3ex,0)$)%
+				coordinate(lappetR_T)at($(lappetR_B)+(0.2ex,1.3ex)$)%
+				;%
+			%
+			\path[draw=secTFrame,fill=secTBGDark,line width=0.1ex,line join=round](bgLB)to[out=280,in=110](lappetL_B)--(lappetL_T)--cycle;%
+			\path[draw=secTBGFakeEdge,line width=0.15ex](lappetL_T)--(lappetL_B)--++(0,-0.3ex)coordinate(lappetL_Bfadeout);%
+			%This first unconnected Node: See above
+			\path[draw=secTBGFakeEdge,line width=0.15ex,path fading=south]($(lappetL_Bfadeout)+(-0.1ex,0)$)(lappetL_Bfadeout)--++(0,-1.2ex);%
+			\path[shade,left color=secTBG,right color=white](bgLT)--(bgLB)--(bgFadeLB)--(bgFadeLT)--cycle;%
+			\path[shade,left color=secTFrame,right color=white,line cap=round,line join=round]%
+				let\n1={0.2ex}in%
+				($(bgLT)+(0,0.1ex)$)--(current subpath start-|bgFadeLT)--++(0,-\n1)-|cycle%
+				($(bgLB)+(0,-0.1ex)$)--(current subpath start-|bgFadeLB)--++(0,\n1)-|cycle%
+			;%
+			\path[draw=secTFrame,line width=0.2ex,line cap=round,line join=round]%
+				(bgLT)--(bgLB);%
+			%
+			%
+			\path(bgRT_T)to[out=0,in=90]coordinate[pos=0.5](lappetR_S)(bgRT_R);%
+			\path[draw=secTFrame,fill=secTBGDark,line width=0.1ex,line join=round](lappetR_S)to[out=140,in=-40](lappetR_T)to[out=250,in=90](lappetR_B)--cycle;%
+			\path[shade,left color=white,right color=secTBG]%
+				(bgRT_T)to[out=0,in=90](bgRT_R)--(bgRB_R)to[in=0,out=270](bgRB_B)%
+				--(bgFadeRB)--(bgFadeRT)--cycle%
+				;%
+			\path[shade,left color=white,right color=secTFrame,line cap=round,line join=round]%
+				let\n1={0.2ex}in%
+				($(bgRT_T)+(0,0.1ex)$)--(current subpath start-|bgFadeRT)--++(0,-\n1)-|cycle%
+				($(bgRB_B)+(0,-0.1ex)$)--(current subpath start-|bgFadeRB)--++(0,\n1)-|cycle%
+			;%
+			\path[draw=secTFrame,line width=0.2ex,line cap=round,line join=round]%
+			(bgRT_T)to[out=0,in=90](bgRT_R)--(bgRB_R)to[in=0,out=270](bgRB_B)%
+				;%
+		\fi%
+	\end{pgfonlayer}%
+	\end{tikzpicture}%
+	% \par%
 }%
 \makeatother%

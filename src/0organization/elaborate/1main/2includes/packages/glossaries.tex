@@ -32,6 +32,8 @@
 % - - - - - - - - - - - -
 %   Indispensable with '-extra', to have any kind of true 'Gls-first' output
 \setabbreviationstyle[acronym]{short-long}%
+%------------------------
+%\glsdisablehyper% Disables Hyperlinks
 %/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
 %					glossaries fertig
 %------------------------------------------------------------------------
@@ -71,7 +73,6 @@
 \loadGlsIfExists{\DenKrSupplyRootDir/glossaries.tex}%
 \loadGlsIfExists{\DenKrSupplyRootDir/glossaries2.tex}%
 % - - - - - -
-%\glsdisablehyper% Disables Hyperlinks
 \renewcommand{\glossarysection}[2][]{}%Completely removes the section heading (re-defines the internally used command to just do nothing)
 % }%
 %/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\

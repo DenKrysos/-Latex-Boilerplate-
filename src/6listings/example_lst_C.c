@@ -1,5 +1,6 @@
 #include¢\lstCstring{<stdlib.h>}¢
-void* ¢\lstfuncdeclplain{some_function}¢(void* args, int argc){
+// Some comment
+void* ¢\lstfuncdeclplain{some_function}¢(void* args, int argc){// Another comment
 	if(¢\lstCvar{var}¢->entry){
 		char* some_point = NULL;
 		char[] str = "String";
