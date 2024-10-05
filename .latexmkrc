@@ -28,10 +28,10 @@
 #=====================================
 #=== In case the entire Project's Source-Files are wrapped into a Sub-Directory. (If not, declare empty: '')
 $SubSrcDir='src';
-#=== The main-File to passed to the Compiler
+#=== The main-File to be passed to the Compiler
 $MainSrcFile='1main';
-#=== How the resulting Doc shall be named
-$resultName='ResultTest';
+#=== How the resulting Doc shall be named (After succesfull compilation, the Post-File copies to root and names like this)
+$resultName='1compiled';
 # $resultName=$MainSrcFile;
 
 
@@ -379,7 +379,7 @@ my $pre_cmd="perl \"$pre_script_abs\" \"$script_absP\"";
 #=====================================
 my $post_script=".latexmk_post";
 my $post_script_abs=catfile($script_absP,$post_script);
-my $post_cmd="perl \"$post_script_abs\" \"$clean_dirs\"";
+my $post_cmd="perl \"$post_script_abs\" \"$clean_dirs\" \"$script_absP\" \"$out2_dir_base\" \"$MainSrcFile.pdf\" \"$resultName.pdf\"";
 #=== After of Compilation (depending on sucess, warning, error)
 $success_cmd=$post_cmd;
 $warning_cmd=$post_cmd;

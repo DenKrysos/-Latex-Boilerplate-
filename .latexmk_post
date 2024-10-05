@@ -8,6 +8,7 @@ use strict;
 use warnings;
 use File::Spec;
 use File::Find;
+use File::Copy;
 
 print "DenKr(latexmkrc): Post-Build Steps.\n";
 ######################################
@@ -20,6 +21,10 @@ foreach my $argnum (0 .. $#ARGV){
 }
 # Actually, we need only the first.
 my $clean_dirs=$ARGV[0];
+my $thisAbsPath=$ARGV[1];
+my $compiledFileSubDir=$ARGV[2];
+my $compiledFileName=$ARGV[3];
+my $finalTargetFileName=$ARGV[4];
 
 
 ######################################
@@ -29,6 +34,14 @@ sub rem_empty_dirs{
 	my ($root)=@_;
 	finddepth(sub{rmdir},$root);
 }
+sub cpy_final{
+	my ($rootPath,$srcSubDir,$srcFname,$dstFname)=@_;
+	my $src=File::Spec->catfile($rootPath,$srcSubDir);
+	$src=File::Spec->catfile($src,$srcFname);
+	my $dst=File::Spec->catfile($rootPath,$dstFname);
+	print "DenKr(latexmkrc): Copy compiled File\n   -\"$src\"\nto\n   -\"$dst\"";
+	copy($src, $dst) or die "File cannot be copied: $!";
+}
 
 
 ######################################
@@ -37,6 +50,7 @@ sub rem_empty_dirs{
 sub postBuildSteps{
 	print "DenKr(latexmkrc): Clean empty Sub-Directories from: $clean_dirs\n";
 	rem_empty_dirs($clean_dirs);
+	cpy_final($thisAbsPath,$compiledFileSubDir,$compiledFileName,$finalTargetFileName);
 }
 
 # Execute
