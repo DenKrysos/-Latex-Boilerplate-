@@ -36,7 +36,7 @@
 *.lol
 *.loa
 *.blg
-*.code-workspace
+# *.code-workspace
 /.0build/*
 /.1out_pre/*
 /.2out_final/*
