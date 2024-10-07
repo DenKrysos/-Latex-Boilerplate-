@@ -56,8 +56,35 @@
 %/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
 % To do it *automatically*, using "Cleverref"
 \newcommand{\entityref}[1]{\hyperref[#1]{\cref*{#1}}}%
-\newcommand{\eleref}[1]{\entityref{#1}}%
-\newcommand{\typeref}[1]{\entityref{#1}}%
+\ExplSyntaxOn%
+\tl_new:N \l_item_tl%
+\NewDocumentCommand{\listref}{m}{
+	\clist_set:Nn \l_tmpa_clist {#1}%
+	\clist_remove_duplicates:N \l_tmpa_clist%
+	\int_set:Nn \l_tmpa_int {\clist_count:N \l_tmpa_clist}%
+	\int_compare:nNnTF {\l_tmpa_int}>{0}{%
+		\clist_get:NN \l_tmpa_clist \l_item_tl%
+		\int_compare:nNnTF {\l_tmpa_int}={1}{\namecref{\l_item_tl}~}{%
+			\namecrefs{\l_item_tl}~%
+			\int_set:Nn \l_tmpb_int {1}%
+			\int_do_while:nn {\l_tmpb_int<\l_tmpa_int}{%
+				\clist_pop:NN \l_tmpa_clist \l_item_tl%
+				% \clist_map_inline:Nn \l_item_tl {##1,\ }%
+				\ref{\l_item_tl}%
+				\int_compare:nNnT {\l_tmpb_int}<{\int_eval:n {\l_tmpa_int-1}}{,\ }%
+				\int_incr:N \l_tmpb_int%
+			}%
+			\int_compare:nNnT {\l_tmpa_int}>{1}{\ \&\ }%
+		}%
+		\clist_pop:NN \l_tmpa_clist \l_item_tl%
+		\ref{\l_item_tl}%
+	}{\textbf{EMPTY-REF}}%
+}%
+\ExplSyntaxOff%
+% \newcommand{\eleref}[1]{\entityref{#1}}%
+% \newcommand{\typeref}[1]{\entityref{#1}}%
+\def\eleref{\listref}%
+\def\typeref{\listref}%
 % - - - - - - - - - - - - - - - -
 % Including the *Name/Title/Caption* of the Element
 \newcommand{\formatnamref}[1]{%
