@@ -23,34 +23,10 @@ Some special characters:
 \nl%
 \gerguiquote{Done with Macro}
 \nl%
-Example Acronym\nl
-\gls{fsa}
-
-\npi%
-Document-within References to check whether hyperref \& nameref work properly:\nl%
-\ref{sec:intro} (\nameref{sec:intro}). \ref{sec:RelWork}  (\nameref{sec:RelWork}). \ref{sec:Concl} (\nameref{sec:Concl})\nl%
-Consider using my Macros:\nl
-\eleref{fig:Pic} or \elenumnamref{tab:OI_app}
-
-\npi%
-\begin{itemize}
-\item%
-    Example Itemization
-\end{itemize}
-\begin{enumerate}
-\item%
-    Example Enumeration
-\end{enumerate}
-\begin{description}
-\item[Example Description List]%
-    Just some random Text without any sense, but with sufficient length to cause a line-break, so that the indentation is properly showing influence.
-\end{description}
-\begin{enuminlrom}
-\item%
-    Example Inline Roman Enumeration
-\item%
-    Item 2.
-\end{enuminlrom}
+Example Acronym, Glossary-Entry \& Symbol:\nl
+\gls{fsa}, \glsunset{api}\gls{api}\nl
+\gls{molmass}, \gls{sigma}\nl
+\gls{eventfd}
 
 \np
 \newcommand{\I}{\mathrm{i}}
@@ -61,16 +37,44 @@ y = \int_0^x\cos(x)\,\mathrm{d}{x} = \frac{e^{\I x} - e^{-\I x}}{2\I} | 01234567
 \end{equation}
 
 \npi%
+Document-within References to check whether hyperref \& nameref work properly:\nl%
+\ref{sec:intro} (\nameref{sec:intro}). \ref{sec:RelWork}  (\nameref{sec:RelWork}). \ref{sec:Concl} (\nameref{sec:Concl})\nl%
+Consider using my \textbf{Referencing-Macros}:\nl
+\eleref{fig:Pic}\nl
+\ \ or \elenumnamref{tab:OI_app}\nl
+\ \ or \eleref{fig:Pic,fig:tikz_test,fig:Pic}
+
+\npi%
+\begin{itemize}
+\item%
+	Example Itemization
+\end{itemize}
+\begin{enumerate}
+\item%
+	Example Enumeration
+\end{enumerate}
+\begin{description}
+\item[Example Description List]%
+	Just some random Text without any sense, but with sufficient length to cause a line-break, so that the indentation is properly showing influence.
+\end{description}
+\begin{enuminlrom}
+\item%
+	Example Inline Roman Enumeration
+\item%
+	Item 2.
+\end{enuminlrom}
+
+\npi%
 {%
-    \LARGE%
-    \contourlength{\DenKrOutlineWidth}% The Default-Value here
-    \contour{violet}{\textcolor{orange}{Text with Outline/Contour}}\nl%
-    {%
-        \contourlength{0.2em}%
-        \contour{violet}{\textcolor{orange}{Text with Outline/Contour}}\nl%
-        \contour{violet}{\textcolor{orange}{Text with Outline/Contour}}\nl%
-    }%
-    \contour{violet}{\textcolor{orange}{Text with Outline/Contour}}\nl%
+	\LARGE%
+	\contourlength{\DenKrOutlineWidth}% The Default-Value here
+	\contour{violet}{\textcolor{orange}{Text with Outline/Contour}}\nl%
+	{%
+		\contourlength{0.2em}%
+		\contour{violet}{\textcolor{orange}{Text with Outline/Contour}}\nl%
+		\contour{violet}{\textcolor{orange}{Text with Outline/Contour}}\nl%
+	}%
+	\contour{violet}{\textcolor{orange}{Text with Outline/Contour}}\nl%
 }%
 
 
@@ -78,10 +82,10 @@ y = \int_0^x\cos(x)\,\mathrm{d}{x} = \frac{e^{\I x} - e^{-\I x}}{2\I} | 01234567
 \nl%
 %
 \begin{figure}[!htpb]
-    \centering
+	\centering
 	\includestandalone[mode=\includestandalonedefaultmode]{\tikzFilesPath/tikztest}% width=\columnwidth
-    \caption{Tikz-Picture Caption. Some Example Standalone-Tikz-Pic. Examples for Standalone-TikZ Picture Files can be found in \enquote{0organization/1main/8templates/tikz/7Tikz}.}
-    \label{fig:tikz_test}
+	\caption{Tikz-Picture Caption. Some Example Standalone-Tikz-Pic. Examples for Standalone-TikZ Picture Files can be found in \enquote{0organization/1main/8templates/tikz/7Tikz}.}
+	\label{fig:tikz_test}
 \end{figure}
 %
 %
@@ -97,41 +101,59 @@ y = \int_0^x\cos(x)\,\mathrm{d}{x} = \frac{e^{\I x} - e^{-\I x}}{2\I} | 01234567
 %
 \begin{figure}%[!ht]
 \centering
-    \includegraphics[width=0.3\linewidth]{{"\DenKrGraphicsRootDir/example_AGV"}.pdf}%
+	\includegraphics[width=0.3\linewidth]{{"\DenKrGraphicsRootDir/example_AGV"}.pdf}%
 	\caption{Some another Pic}%
 	\label{fig:Pic}
 \end{figure}
+
+
+
+
+
+\npi
+Listing in separate File:
+\DenKrLstInput[
+	language=DenKr-C,
+	morekeywords={[4]{%Typedefed, Names of Struct, Enum, ...
+		some_struct
+	}},
+	morekeywords={[5]{%Collection-Members, Struct-Instances
+		tim,
+		entry,
+		member,
+		iterator
+	}},
+	morekeywords={[6]{%Variables
+		current
+	}},
+]{\DenKrListingsRootDir/example_lst_C.c}
+[Example-Listing (for Programming-Language \textit{C})]
+[lst:exmplLabel]
 %
 %
 \lstinputlisting[
-    frame=single,
-    label=lst:waitingChain,
-    caption={Example-Listing (for Programming-Language \textit{C})},
-    captionpos=b,
-    language=DenKr-C,
-    morekeywords={[4]{%Typedefed, Names of Struct, Enum, ...
-        some_struct
-    }},
-    morekeywords={[5]{%Collection-Members, Struct-Instances
-        tim,
-        entry,
-        member,
-        iterator
-    }}
-]
-{\DenKrListingsRootDir/example_lst_C.c}
-%
-%
-\lstinputlisting[
-    frame=single,
-    label=lst:cfgCalc,
-    caption={Example-Code-Listing (for Pseudo-Code)},
-    captionpos=b,
-    language=DenKr-JavaScript
+	frame=single,
+	label=lst:cfgCalc,
+	caption={Example-Code-Listing (for Pseudo-Code)},
+	captionpos=b,
+	language=DenKr-JavaScript
 ]
 {\DenKrListingsRootDir/example_lst.pseudo}
-%
+
+\npi
+Listing in Environment, directly in Code:
+\begin{DenKrLst}[language=DenKr-C]
+if(1){
+	strlen("Str");
+}
+\end{DenKrLst}
+
+\npi
+An Inline-Listing:
+\lstinline[language=DenKr-C,breaklines=true,morekeywords={[4]{msghandle}}]$struct msghandle$
+
+
+
 %
 \input{"\DenKrTablesRootDir/example_table".tex}%
-%
 %

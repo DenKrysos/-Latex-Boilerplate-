@@ -9,6 +9,9 @@
 %           % \usepackage{subfigure}% Just as Info: subfigure is dead. Use subfig.sty (which would be loaded above by the IEEE-template) or subcaption.sty instead.
 %           % \usepackage[caption=false,font=normalsize,labelfont=sf,textfont=sf]{subfig}
 \usepackage{caption}%
+\makeatletter%
+\@ifundefined{DenKrCaptionStyPrep}{}{\DenKrCaptionStyPrep}%
+\makeatother%
 \usepackage{subcaption}%You can pass options for subcaptions/subfigures here or alternatively, use the following command
 %
 % - - - Values for the font-options
@@ -37,16 +40,19 @@
 %/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
 %  Asterisk (*) after \captionsetup suppresses the "Unused \captionsetup[⟨type⟩]" Warning
 \captionsetup{%
-    singlelinecheck=true,% If caption fits into 1-Line, always centered.
-    format=plain,% plain, hang
-    indention=1.25em,%
-    justification=RaggedRight,% justified, centering, centerlast, centerfirst, raggedright, RaggedRight, raggedleft
+	singlelinecheck=true,% If caption fits into 1-Line, always centered.
+	format=plain,% plain, hang
+	indention=1.25em,%
+	justification=RaggedRight,% justified, centering, centerlast, centerfirst, raggedright, RaggedRight, raggedleft
+	font=footnotesize,%
+	labelfont=normalfont,%
+	textfont=normalfont%
 }%
-\captionsetup*[figure]{%
-    font=footnotesize,%
-    labelfont=normalfont,%
-    textfont=normalfont%
-}%
+% \captionsetup*[figure]{%
+% 	font=footnotesize,%
+% 	labelfont=normalfont,%
+% 	textfont=normalfont%
+% }%
 %\captionsetup[subfigure]{margin=0pt,font+=smaller,labelformat=parens,labelsep=space,skip=6pt,list=false,hypcap=false}%Default options for subfigures
 %\captionsetup{belowskip=0pt}% 12pt
 %\captionsetup{aboveskip=4pt}% 4pt

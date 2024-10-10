@@ -113,10 +113,12 @@
 % % Most of the times, links & bookmarks are not allowed for conference articles
 % % .pdf Bookmarks are created here by this
 \expandafter\ifstrequal\expandafter{\DenKrLayout}{IEEEtran}{%
-% Nothing to include for IEEEtran because subfig.sty is loaded as part of the provided Boilerplate for IEEEtran
-}{%
+	% Some would say: Nothing to include for IEEEtran because subfig.sty is loaded as part of the provided Boilerplate for IEEEtran
+	% I however go another way: Instead, I removed the subfig.sty from IEEEtran.
+	% And with this trick here, I create compatibility between caption.sty and IEEEtran
+	\usepackage{\DenKrAllMainRootDirPATH/2includes/patches/support_caption}%
+}{}%
 \input{"\DenKrAllMainRootDirPATH/2includes/packages/figure_subfigure_caption".tex}%
-}%
 %________________________________________________________________________
 %				END Subfigure, Subfig, Subcaption, Caption
 %/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\

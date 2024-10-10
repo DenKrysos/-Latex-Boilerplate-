@@ -116,7 +116,7 @@
 %
 \lstnewenvironment{DenKrLst}[1][]%
 {%
-    \DenKrLst@ifempty{#1}%
+	\DenKrLst@ifempty{#1}%
 	\else%
 		\lstset{#1}%
 	\fi%
@@ -170,11 +170,11 @@
 	keepspaces=true,%
 	showspaces=false,%
 	showstringspaces=false,%
-	keywordstyle=\color{eclipse_keyword_1_1}\bfseries,%
-	keywordstyle=[2]\color{eclipse_keyword_1_2}\bfseries,%
-	keywordstyle=[3]\color{eclipse_keyword_1_3}\bfseries,%
+	keywordstyle=\color{eclipse_keyword_1_purple}\bfseries,%
+	keywordstyle=[2]\color{eclipse_keyword_1_violet}\bfseries,%
+	keywordstyle=[3]\color{code_keyword_orange}\bfseries,%
 	keywordstyle=[9]\color{red}\bfseries,%
-	stringstyle=\color{eclipse_string},%
+	stringstyle=\color{eclipse_1_string},%
 	commentstyle=\color{eclipse_1_comment}\itshape,%
 	escapebegin={\lstsmallmath}, escapeend={\lstsmallmathend},%
 	escapechar=\¢,%
@@ -743,6 +743,97 @@
 \newcommand{\lstJScomment}[1]{{\color{eclipse_1_comment}\ttfamily\DenKrLstBreakoutText{#1}}}%Like a Comment, without the need to add the Comment-Symbols
 %/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
 %			Cmds Done
+%------------------------------------------------------------------------
+%________________________________________________________________________
+%
+%
+%
+%
+%________________________________________________________________________
+%------------------------------------------------------------------------
+%		Something similar (for typesetting in a colored Box)
+%         (like for e.g. some "Code-related" arbitrary Text, for example a Prompt-formulation for an AI)
+%/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+\NewDocumentEnvironment{DenKrLstPrompt}{omom}%
+{%
+	\captionsetup{type=lstlisting,hypcapspace=0.25\baselineskip}%
+	\begin{tcolorbox}[boxrule=0.6pt,colframe=DenKrLst_Frame,colback=DenKrLst_BG% top/bottom/left/rightrule
+		,breakable%
+		,arc=6pt,outer arc=4pt,arc is angular%
+		,left skip=-0.35em,right skip=-0.35em,before skip=0.7ex,after skip=1.0ex%
+		,left=0.2em,right=0.2em,top=0.5ex,bottom=0.5ex%
+		%,shadow={0mm}{0mm}{-0.5mm}{fill=DenKrLst_Frame!50!DenKrLst_BoxAccent!80!black,opacity=0.2}%
+		%,shadow={1mm}{-1mm}{0mm}{fill=DenKrLst_Frame!50!DenKrLst_BoxAccent!80!black,opacity=0.2}%
+		%,fuzzy shadow={1.5mm}{-1.5mm}{0mm}{0.1mm}{fill=DenKrLst_Frame!50!DenKrLst_BoxAccent!50!black,opacity=0.1}%
+	]%
+	\scriptsize\ttfamily%
+}{%
+	\end{tcolorbox}%
+	\DenKrLstCaption{#2}%
+	\label{#4}%
+}%
+\definecolor{DenKrLstPrompt_String}{named}{eclipse_1_string}%
+\definecolor{DenKrLstPrompt_Section}{named}{eclipse_keyword_1_green}%
+\definecolor{DenKrLstPrompt_SectionSub}{named}{eclipse_1_comment}%
+\newcommand{\DenKrLstPromptString}[1]{{\color{DenKrLstPrompt_String}#1}}%
+\newcommand{\DenKrLstPromptSection}[1]{{\color{DenKrLstPrompt_Section}\bfseries#1}}%
+\newcommand{\DenKrLstPromptSectionSub}[1]{{\color{DenKrLstPrompt_SectionSub}\itshape#1}}%
+%<> <> <> <> <> <> <> <> <> <> <> <>
+%  Usage-Example
+%>< >< >< >< >< >< >< >< >< >< >< ><
+% \begin{DenKrLstPrompt}{Model System Prompt}{lst:prompt}
+% 	\DenKrLstPromptString{You are an expert in generating Cypher queries for a Neo4j knowledge graph. Your task is to produce a precise 
+% 	Cypher query based solely on the provided knowledge graph description and the provided question. 
+% 	Output only the Cypher query; do not include any additional text, comments, or explanations.}
+% 	\par\vspace{\baselineskip}
+% 	\DenKrLstPromptSection{Knowledge Graph Description}:
+% 	\begin{itemize}[label=-]
+% 		\item \DenKrLstPromptSectionSub{Nodes}:
+% 			\begin{itemize}[label=-]
+% 				\item Broker: Middleware managing client connections and message publishing/receiving.
+% 				\item Client: Connects to a broker to send/receive messages, acting as a publisher or subscriber.
+% 				\item Topic: A string-represented channel for publishing and subscribing to messages.
+% 				\item Group: Allows clients to share messages published on a topic.
+% 			\end{itemize}
+% 	\end{itemize}
+% 	\par\vspace{\baselineskip}
+% 	\begin{itemize}[label=-]
+% 		\item \DenKrLstPromptSectionSub{Attributes}:
+% 			\begin{itemize}[label=-]
+% 				\item Broker: id, name, ip\_address, tcp\_port, ws\_port
+% 				\item Client: id, name, ip\_address, port
+% 				\item Topic: id, name, nbr\_publishers, nbr\_subscribers
+% 				\item Group: name, nbr\_member
+% 			\end{itemize}
+% 	\end{itemize}
+% 	\par\vspace{\baselineskip}
+% 	\begin{itemize}[label=-]
+% 		\item \DenKrLstPromptSectionSub{Relationships}:
+% 			\begin{itemize}[label=-]
+% 				\item IS\_CONNECTED\_TO: Strict unidirectional relationship from Client to Broker
+% 				\item IS\_SUBSCRIBER\_OF: Strict unidirectional relationship from Topic to Client
+% 				\item IS\_PUBLISHER\_OF: Strict unidirectional relationship from Topic to Client
+% 				\item IS\_PARENT\_OF: Strict unidirectional relationship from Topic to Topic
+% 				\item HAS\_GROUP: Strict unidirectional relationship from Topic to Group
+% 			\end{itemize}
+% 	\end{itemize}
+% 	\par\vspace{\baselineskip}
+% 	\DenKrLstPromptSection{Example}:
+% 	\begin{itemize}[label=-]
+% 		\item Question: How many clients are connected to the broker hosted at IP address 134.148.2.44?
+% 		\item Answer: MATCH (c:Client)-[:IS\_CONNECTED\_TO]->(b:Broker \{ip\_address: "134.148.2.44"\}) RETURN COUNT(c)
+% 	\end{itemize}
+% 	\par\vspace{\baselineskip}
+% 	\DenKrLstPromptSection{Hints}:
+% 	\begin{itemize}[label=-]
+% 		\item Ensure that the generated cypher query is strictly based on the nodes, attributes, and relationships described above!
+% 		\item Ensure the query relationships are directed correctly as described in the relationships above!
+% 	\end{itemize}
+% 	\par\vspace{\baselineskip}
+% 	\DenKrLstPromptString{Using the graph description above, generate the Cypher query for this question}:
+% \end{DenKrLstPrompt}
+%/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+%		Similar Done
 %------------------------------------------------------------------------
 %________________________________________________________________________
 %
