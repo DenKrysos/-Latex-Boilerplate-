@@ -11,6 +11,7 @@ use File::Spec;
 use File::Spec::Functions;
 use File::Find;
 use File::Basename;
+use File::Copy;
 
 
 ######################################
@@ -32,6 +33,21 @@ my $dir_parent=dirname($script_absP);
 my $dir_base=dirname($dir_parent);
 
 
+
+
+#####################################
+# An example for what one could also do:
+#  For compiling an Job-Application-Portfolio, I did set up an assemble of LaTeX Projects: 1 for the Cover Letter, 1 for the Curriculum Vitae, 1 for Merging everything. The latter one uses 'pdfpages.sty' and 'newpax.sty' (LuaLaTeX) and merges the CovLet, CV, academic degree certificates, other certificates etc. together into one pdf file.
+# Before it merges, it compiles the included Projects as a Pre-Step (the compileProject() stuff)
+#
+# An alternative approach would be the copyResource() way. You could also just gather all files together into on directory and give them well names to order them (prefix with numbers).
+# Via the copyResource() routine, this is done. It collects some files, copies them to a common directory and renames (retaining the file extension) while doing so, to achieve an ordered list.
+######################################
+#=====================================
+
+
+
+
 ######################################
 # Sub-Routines  ######################
 #=====================================
@@ -46,6 +62,22 @@ sub compileProject{
 	system("latexmk") == 0
 		or die "Failed to execute command: $!";
 }
+sub copyResource{
+	# Retrieve the arguments
+	my ($srcFullAbsPath,$dstPath,$dstFname)=@_;
+	my ($filename, $directories, $extension) = fileparse($srcFullAbsPath, qr/\.[^.]*/);
+	unless(-d $dstPath){
+		# make_path is a bit risky for my taste. Let's restrict the feature to create only one sub-dir and not a hierarchy
+		# make_path($dir) or die "Failed to create directories: $!";
+		mkdir $dstPath or die "Failed to create directory: $!";
+		print "Directory created successfully.\n";
+	}else{
+		# print "Directory already exists.\n";
+	}
+	my $dstFile=catfile($dstPath,$dstFname.$extension);
+	print "DenKr(latexmkrc): Copy Resource File\n   -\"$srcFullAbsPath\"\nto Components\n   -\"$dstFile\"\n";
+	copy($srcFullAbsPath, $dstFile) or die "File cannot be copied: $!";
+}
 
 
 
@@ -54,11 +86,54 @@ sub compileProject{
 # Project-Definition & Compilation  ##
 #=====================================
 # Define the Names and Directories of the Projects to Compile
-my $dir_CV_sub='1Lebenslauf';
-compileProject($dir_base,$dir_CV_sub);
+# my $dir_CV_sub='1Lebenslauf';
+# compileProject($dir_base,$dir_CV_sub);
 # - - - - - - -
-my $dir_CoverLetter_sub='2Anschreiben';
-compileProject($dir_parent,$dir_CoverLetter_sub);
+# my $dir_CoverLetter_sub='2Anschreiben';
+# compileProject($dir_parent,$dir_CoverLetter_sub);
+
+
+
+
+######################################
+# my $resource_srcProject_resultDir='.2out_final';
+# my $resource_src_resultFileName='1main.pdf';
+# my $dir_attachements='9Anhang';
+# my $resource_dst_dir=catfile($script_absP,'.8components');
+# my $resource_name_common='Dennis Krummacker, Bewerbung - ';
+# my $resource_src='';
+######################################
+# Copy Resources of Portfolio  ##
+#=====================================
+# sub copyAllResources{
+# 	$resource_src=catfile($dir_parent,$dir_CoverLetter_sub,$resource_srcProject_resultDir,$resource_src_resultFileName);
+# 	copyResource($resource_src,$resource_dst_dir,$resource_name_common.'1 Anschreiben');
+# 	#
+# 	$resource_src=catfile($dir_base,$dir_CV_sub,$resource_srcProject_resultDir,$resource_src_resultFileName);
+# 	copyResource($resource_src,$resource_dst_dir,$resource_name_common.'2 Lebenslauf');
+# 	#
+# 	$resource_src=catfile($dir_base,$dir_attachements,'Zeugnis4PhD','Dr.-Ing Zertifikat.pdf');
+# 	copyResource($resource_src,$resource_dst_dir,$resource_name_common.'3.1 Dr.-Certificate');
+# 	#
+# 	$resource_src=catfile($dir_base,$dir_attachements,'Zeugnis3Master','Master-Zeugnis - Zeugnis.pdf');
+# 	copyResource($resource_src,$resource_dst_dir,$resource_name_common.'3.2.1 Master-Zeugnis');
+# 	#
+# 	$resource_src=catfile($dir_base,$dir_attachements,'Zeugnis3Master','Master-Zeugnis - Diploma Supplement.pdf');
+# 	copyResource($resource_src,$resource_dst_dir,$resource_name_common.'3.2.2 Master-Diploma Supplement');
+# 	#
+# 	$resource_src=catfile($dir_base,$dir_attachements,'certificateAcademic','Sicherheitsbeauftragter Medizinprodukte.pdf');
+# 	copyResource($resource_src,$resource_dst_dir,$resource_name_common.'4 Sicherheitsbeauftragter Medizinprodukte');
+# 	#
+# 	$resource_src=catfile($dir_base,$dir_attachements,'certificate','Zertifikat - WebDeveloperBootcamp.pdf');
+# 	copyResource($resource_src,$resource_dst_dir,$resource_name_common.'5.1 Zertifikat - Web-Dev');
+# 	#
+# 	$resource_src=catfile($dir_base,$dir_attachements,'certificate','Zertifikat - WebDeveloperAdvancedBootcamp.pdf');
+# 	copyResource($resource_src,$resource_dst_dir,$resource_name_common.'5.2 Zertifikat - Web-Dev-Advanced');
+# 	#
+# 	$resource_src=catfile($dir_base,$dir_attachements,'certificate','Zertifikat - SQLBootcamp.pdf');
+# 	copyResource($resource_src,$resource_dst_dir,$resource_name_common.'5.3 Zertifikat - SQL');
+# }
+# copyAllResources();
 
 
 

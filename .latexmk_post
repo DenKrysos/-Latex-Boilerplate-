@@ -21,10 +21,12 @@ foreach my $argnum (0 .. $#ARGV){
 }
 # Actually, we need only the first.
 my $clean_dirs=$ARGV[0];
+#
 my $thisAbsPath=$ARGV[1];
 my $compiledFileSubDir=$ARGV[2];
 my $compiledFileName=$ARGV[3];
-my $finalTargetFileName=$ARGV[4];
+my $finalTargetFileSubDir=$ARGV[4];
+my $finalTargetFileName=$ARGV[5];
 
 
 ######################################
@@ -35,11 +37,20 @@ sub rem_empty_dirs{
 	finddepth(sub{rmdir},$root);
 }
 sub cpy_final{
-	my ($rootPath,$srcSubDir,$srcFname,$dstFname)=@_;
+	my ($rootPath,$srcSubDir,$srcFname,$dstSubDir,$dstFname)=@_;
 	my $src=File::Spec->catfile($rootPath,$srcSubDir);
 	$src=File::Spec->catfile($src,$srcFname);
-	my $dst=File::Spec->catfile($rootPath,$dstFname);
-	print "DenKr(latexmkrc): Copy compiled File\n   -\"$src\"\nto\n   -\"$dst\"";
+	my $dst=File::Spec->catfile($rootPath,$dstSubDir);
+	unless(-d $dst){
+		# make_path is a bit risky for my taste. Let's restrict the feature to create only one sub-dir and not a hierarchy
+		# make_path($dir) or die "Failed to create directories: $!";
+		mkdir $dst or die "Failed to create directory: $!";
+		print "Directory created successfully.\n";
+	}else{
+		# print "Directory already exists.\n";
+	}
+	$dst=File::Spec->catfile($dst,$dstFname);
+	print "DenKr(latexmkrc): Copy compiled File\n   -\"$src\"\nto\n   -\"$dst\"\n";
 	copy($src, $dst) or die "File cannot be copied: $!";
 }
 
@@ -50,7 +61,7 @@ sub cpy_final{
 sub postBuildSteps{
 	print "DenKr(latexmkrc): Clean empty Sub-Directories from: $clean_dirs\n";
 	rem_empty_dirs($clean_dirs);
-	cpy_final($thisAbsPath,$compiledFileSubDir,$compiledFileName,$finalTargetFileName);
+	cpy_final($thisAbsPath,$compiledFileSubDir,$compiledFileName,$finalTargetFileSubDir,$finalTargetFileName);
 }
 
 # Execute

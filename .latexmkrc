@@ -33,6 +33,9 @@ $MainSrcFile='1main';
 #=== How the resulting Doc shall be named (After succesfull compilation, the Post-File copies to root and names like this)
 $resultName='1compiled';
 # $resultName=$MainSrcFile;
+#=== Where the resulting Doc shall be stored (Leave empty-String for root-Dir, i.e. parallel to this file here)
+# $resultSubDir='.9compiled';
+$resultSubDir='';
 
 
 
@@ -379,7 +382,7 @@ my $pre_cmd="perl \"$pre_script_abs\" \"$script_absP\"";
 #=====================================
 my $post_script=".latexmk_post";
 my $post_script_abs=catfile($script_absP,$post_script);
-my $post_cmd="perl \"$post_script_abs\" \"$clean_dirs\" \"$script_absP\" \"$out2_dir_base\" \"$MainSrcFile.pdf\" \"$resultName.pdf\"";
+my $post_cmd="perl \"$post_script_abs\" \"$clean_dirs\" \"$script_absP\" \"$out2_dir_base\" \"$MainSrcFile.pdf\" \"$resultSubDir\" \"$resultName.pdf\"";
 #=== After of Compilation (depending on sucess, warning, error)
 $success_cmd=$post_cmd;
 $warning_cmd=$post_cmd;
