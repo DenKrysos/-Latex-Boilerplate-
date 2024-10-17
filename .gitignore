@@ -36,7 +36,12 @@
 *.lol
 *.loa
 *.blg
+*.pax
+*.newpax
 # *.code-workspace
 /.0build/*
 /.1out_pre/*
 /.2out_final/*
+*/.0build/*
+*/.1out_pre/*
+*/.2out_final/*

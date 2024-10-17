@@ -15,11 +15,13 @@
 {\huge\bfseries%
 \textcolor{TitlePage_Color_RankC}{#1}%
 }\par%
-\vspace*{2ex}%
-\noindent\textcolor{gray!20!TitlePage_TypoAccentColorOne}{\rule{0.6\textwidth}{0.3ex}}\par%
-\vspace*{2ex}%
-{\normalfont\Large%
-\textcolor{TitlePage_Color_RankA}{#2}%
+\ifthenelse{\equal{}{#2} \or \equal{ }{#2}}{}{%
+	\vspace*{2ex}%
+	\noindent\textcolor{gray!20!TitlePage_TypoAccentColorOne}{\rule{0.6\textwidth}{0.3ex}}\par%
+	\vspace*{2ex}%
+	{\normalfont\Large%
+	\textcolor{TitlePage_Color_RankA}{#2}%
+	}%
 }%
 \end{minipage}\par%
 \vspace*{3ex}%
@@ -60,14 +62,14 @@
 %
 %
 \DeclareDocumentCommand{\DenKrTPMiscInfo}{%
-    o% #1: (Optional) Vspace before
-    m% #2: Some arbitrary Text
+	o% #1: (Optional) Vspace before
+	m% #2: Some arbitrary Text
 }{%
-    \ifx\empty#2\empty%
-    \else%
-        \ifdefempty{#2}{}{%
-            \IfValueTF{#1}{\vspace{#1}}{}%
-            #2\par%
-        }%
-    \fi%
+	\ifx\empty#2\empty%
+	\else%
+		\ifdefempty{#2}{}{%
+			\IfValueTF{#1}{\vspace{#1}}{}%
+			#2\par%
+		}%
+	\fi%
 }%
