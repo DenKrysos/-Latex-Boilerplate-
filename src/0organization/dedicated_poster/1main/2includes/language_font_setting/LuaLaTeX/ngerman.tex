@@ -7,14 +7,18 @@
 % \usepackage[english,german,ngerman]{babel}%
 \usepackage[babelshorthands]{polyglossia}%
 \setmainlanguage[spelling=new]{german}% Synonym: \setdefaultlanguage
-\setotherlanguage[variant=british]{english}%
+\setotherlanguage[variant=american]{english}%
 %\selectlanguage{japanese}%
 % - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 % == Note ==  With csquotes.sty, use
 %     \textquote{}, to automatically print correct quotation marks, depending on the set language by polyglossia (or babel)
 %     \enquote{}, for 'nested' quotations
-\usepackage[autostyle=true,german=quotes]{csquotes}% Deutsche Anführungszeichen, german=quotes, guillemets, swiss
-% \usepackage[autostyle=true,style=english]{csquotes}%
+% - german=quotes% Deutsche Anführungszeichen, german=quotes, guillemets, swiss
+\PassOptionsToPackage{%
+	german=quotes,%
+	english=american,%
+	autostyle=true,%
+}{csquotes}%
 % - - - - - - - - - - - - - -
 % == Info, »ALT-Codes« == Some specific quotation signs for hardcoding, using UTF-8 encoding. How-To-Input, if you like.
 %    ALT(left) + [Sequence on NumPad]  (On Windows) (Using ASCII Decimal Index)

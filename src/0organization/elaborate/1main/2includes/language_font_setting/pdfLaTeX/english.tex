@@ -1,16 +1,25 @@
 \usepackage[german,ngerman,english]{babel}%
 \selectlanguage{english}%
 % \AtEndPreamble{%
-\usepackage[babel,style=english]{csquotes}%
+% \PassOptionsToPackage{%
+% 	babel,%
+% 	style=english%
+% }{csquotes}%
+\PassOptionsToPackage{%
+	babel,%
+	autostyle,%
+	german=quotes,%
+	english=american%
+}{csquotes}%
 % }%
 %
 %
 \addto{\captionsenglish}{%
-  \renewcommand*{\contentsname}{Content}%
-  \renewcommand*{\listfigurename}{Figures}%
-  \renewcommand*{\listtablename}{Tables}%
-  \renewcommand*{\figurename}{Figure}%
-  \renewcommand*{\tablename}{Table}%
+	\renewcommand*{\contentsname}{Content}%
+	\renewcommand*{\listfigurename}{Figures}%
+	\renewcommand*{\listtablename}{Tables}%
+	\renewcommand*{\figurename}{Figure}%
+	\renewcommand*{\tablename}{Table}%
 }%
 %
 \newcommand{\DenKrLanguageStringCmd}{english}%

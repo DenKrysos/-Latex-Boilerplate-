@@ -1,19 +1,25 @@
 \usepackage[english,german,ngerman]{babel}%
 \selectlanguage{ngerman}%
 % \AtEndPreamble{%
+% \PassOptionsToPackage{%
+% 	babel,%
+% 	style=ngerman%
+% }{csquotes}%
 \PassOptionsToPackage{%
-    babel,%
-    style=ngerman%
+	babel,%
+	autostyle,%
+	german=quotes,%
+	english=american%
 }{csquotes}%
 % }%
 %
 %
 \addto{\captionsngerman}{%
-  \renewcommand*{\contentsname}{Inhalt}%
-  \renewcommand*{\listfigurename}{Abbildungen}%
-  \renewcommand*{\listtablename}{Tabellen}%
-  \renewcommand*{\figurename}{Abbildung}%
-  \renewcommand*{\tablename}{Tabelle}%
+	\renewcommand*{\contentsname}{Inhalt}%
+	\renewcommand*{\listfigurename}{Abbildungen}%
+	\renewcommand*{\listtablename}{Tabellen}%
+	\renewcommand*{\figurename}{Abbildung}%
+	\renewcommand*{\tablename}{Tabelle}%
 }%
 %
 \newcommand{\DenKrLanguageStringCmd}{ngerman}%

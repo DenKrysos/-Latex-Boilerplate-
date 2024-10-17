@@ -8,16 +8,18 @@
 \usepackage{polyglossia}% [babelshorthands]
 %\AddToHook{begindocument/before}{\usebabelshorthands{german}}% Because loading order messes with activation of shorthands
 \usebabelshorthands{german}%
-\setmainlanguage[variant=british]{english}% Synonym: \setdefaultlanguage
+\setmainlanguage[variant=american]{english}% Synonym: \setdefaultlanguage
 \setotherlanguage[spelling=new]{german}%
 %\selectlanguage{japanese}%
 % - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+% Remark that "british" switches the double-single quotation style.
 % == Note ==  With csquotes.sty, use
 %     \textquote{}, to automatically print correct quotation marks, depending on the set language by polyglossia (or babel)
 %     \enquote{}, for 'nested' quotations
 \PassOptionsToPackage{%
-    autostyle=true,%
-    style=english%
+	german=quotes,%
+	autostyle=true,%
+	% style=english,%
 }{csquotes}%
 % - - - - - - - - - - - - - -
 % == Info, »ALT-Codes« == Some specific quotation signs for hardcoding, using UTF-8 encoding. How-To-Input, if you like.

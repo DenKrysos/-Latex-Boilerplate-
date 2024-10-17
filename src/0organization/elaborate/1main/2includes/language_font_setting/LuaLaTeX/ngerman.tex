@@ -9,7 +9,7 @@
 %\AddToHook{begindocument/before}{\usebabelshorthands{german}}% Because loading order messes with activation of shorthands
 \usebabelshorthands{german}%
 \setmainlanguage[spelling=new]{german}% Synonym: \setdefaultlanguage
-\setotherlanguage[variant=british]{english}%
+\setotherlanguage[variant=american]{english}%
 %\selectlanguage{japanese}%
 % - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 % == Note ==  With csquotes.sty, use
@@ -17,8 +17,9 @@
 %     \enquote{}, for 'nested' quotations
 % - german=quotes% Deutsche Anführungszeichen, german=quotes, guillemets, swiss
 \PassOptionsToPackage{%
-    autostyle=true,%
-    german=quotes%
+	german=quotes,%
+	english=american,%
+	autostyle=true,%
 }{csquotes}%
 % - - - - - - - - - - - - - -
 % == Info, »ALT-Codes« == Some specific quotation signs for hardcoding, using UTF-8 encoding. How-To-Input, if you like.
