@@ -61,7 +61,7 @@ sub cpy_final{
 sub postBuildSteps{
 	print "DenKr(latexmkrc): Clean empty Sub-Directories from: $clean_dirs\n";
 	rem_empty_dirs($clean_dirs);
-	cpy_final($thisAbsPath,$compiledFileSubDir,$compiledFileName,$finalTargetFileSubDir,$finalTargetFileName);
+	#cpy_final($thisAbsPath,$compiledFileSubDir,$compiledFileName,$finalTargetFileSubDir,$finalTargetFileName);
 }
 
 # Execute

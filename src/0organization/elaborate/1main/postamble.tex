@@ -148,6 +148,7 @@
 %	keyword=table_literature,%
 %]%
 \headingOpenTempRestore%
+\clearpage%
 \endgroup%
 %\printbibliography[notkeyword=figure]
 %\thispagestyle{empty}
@@ -166,6 +167,38 @@
 \expandafter\ifstrequal\expandafter{\DenKrLayoutIncludeBiographies}{0}{}{%
 	\input{"\DenKrSegmentationSubDir/0701_biographies".tex}%
 }%
+%
+%
+%
+%
+%#################################################################
+%##=========================================================######
+%##---------------------------------------------------------######
+% Curriculum Vitae
+%##=========================================================######
+%#################################################################
+% \cleardoublepage%
+% \begingroup%
+% \input{"\DenKrSegmentationSubDir/6002_CurriculumVitae".tex}%
+% \cleardoublepage%
+% \endgroup%
+%
+%
+%
+%
+%#################################################################
+%##=========================================================######
+%##---------------------------------------------------------######
+% Eidesstattliche Versicherung / Declaration of Authorship / Affidavit
+%##=========================================================######
+%#################################################################
+% \cleardoublepage%
+% \begingroup%
+% \renewcommand*{\chapterpagestyle}{empty}%
+% \pagestyle{empty}%
+% \input{"\DenKrSegmentationSubDir/6001_affidavit".tex}%
+% \cleardoublepage%
+% \endgroup%
 %
 %
 %
