@@ -2,25 +2,39 @@
 % #1: Title
 % #2: Subtitle
 \newcommand{\DenKrTPTitleAndSubtitle}[2]{%
+\providecommand{\DenKrTPFontTitle}{}%
+\providecommand{\DenKrTPFontSubTitle}{}%
 %\hrule width \hsize \kern 1mm \hrule width \hsize height 2pt
 %\textcolor{gray!70}{\HRule}\\%PartHeadingColor
 \begin{minipage}{\textwidth}%
 {\textcolor{gray!30!TitlePage_TypoAccentColorOne}{\hrule width \hsize height 0.2ex}\kern0mm}%
 {\textcolor{white!80!TitlePage_TypoAccentColorOne}{\hrule width \hsize height 0.1ex}\kern0mm}%
 {\textcolor{TitlePage_Color_RankA}{\hrule width \hsize height 0.4ex}\kern0mm}%
+%
+% % % % Example for Placing a Logo
+% \tikzmark{srcery_wand_anchor}%
+% \begin{tikzpicture}[remember picture,overlay]%
+% \usetikzlibrary{positioning}%
+% \usetikzlibrary{calc}%
+% 	\coordinate(srceryWandAnchor)at(pic cs:srcery_wand_anchor);%
+% 	%\coordinate(RT)at(current page text area.north east);%
+% 	\coordinate(srceryWand_LT)at(current page text area.north west);%
+% 	\node(magicWand)[inner sep=0pt,yshift=0\baselineskip,xshift=-1em,anchor=north west]at(srceryWand_LT|-srceryWandAnchor){\includestandalone[height=4.7\baselineskip]{\DenKrTikzRootDir/1typesetting/1icon/srcery_wand}};%
+% \end{tikzpicture}%
+%
 \end{minipage}\par%
 \vspace*{3ex}%
 \begin{minipage}{\textwidth}\centering%
 \setstretch{0}%
-{\huge\bfseries%
-\textcolor{TitlePage_Color_RankC}{#1}%
+{\huge\bfseries\color{TitlePage_Color_RankC}%
+\DenKrTPFontTitle#1%
 }\par%
 \ifthenelse{\equal{}{#2} \or \equal{ }{#2}}{}{%
 	\vspace*{2ex}%
 	\noindent\textcolor{gray!20!TitlePage_TypoAccentColorOne}{\rule{0.6\textwidth}{0.3ex}}\par%
 	\vspace*{2ex}%
-	{\normalfont\Large%
-	\textcolor{TitlePage_Color_RankA}{#2}%
+	{\normalfont\Large\color{TitlePage_Color_RankA}%
+	\DenKrTPFontSubTitle#2%
 	}%
 }%
 \end{minipage}\par%
