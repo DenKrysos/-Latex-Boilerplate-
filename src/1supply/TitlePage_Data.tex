@@ -15,7 +15,7 @@
 % Title (English)
 \newcommand{\DenKrTPtitle}{%
 \LaTeX \ Boilerplate%
-\\{\smaller\smaller\smaller (Choose Layout in \enquote*{2ProjectSetup}; perhaps check what this means regarding \enquote{Document-Genre})}
+\par{\smaller\smaller\smaller (Choose Layout in \enquote*{2ProjectSetup}; perhaps check what this means regarding \enquote{Document-Genre})\par}
 }%
 %
 % Sub-Title (English)   [Only used in 'elaborate' Document-Genre]
@@ -23,7 +23,7 @@
 %  Further Description of the Content, welcome to be extensive and spanning across multiple lines of text, nonetheless linguistically formulated as a substantive clause%
 \newcommand{\DenKrTPsubtitle}{%
 \textit{Book} supports big Documents with lots of pages. Additional structuring level \textquotedbl Chapter\textquotedbl\xspace available.
-\\\textit{Article} for more condensed documents, without \textbackslash chapter.
+\par\textit{Article} for more condensed documents, without \textbackslash chapter.
 }%
 %
 %
@@ -135,10 +135,17 @@
 %
 %<><><><><><><><><><><><><><><><><><><><><><><><><><><><><>
 % <> <>		Formatting of (Title-Page)
+% <> <>			(OPTIONAL, only taken into account, when defined)
 %<><><><><><><><><><><><><><><><><><><><><><><><><><><><><>
-%  (OPTIONAL, only taken into account, when defined)
-% \newcommand{\DenKrTPFontTitle}{\normalfont\normalsize\huge}%
-% \newcommand{\DenKrTPFontSubTitle}{\normalfont\normalsize\bfseries}%
+%  Two Variants (both simultaneously compatible):
+% - - - - - - - -
+% -- These ones are just prefixed before the Text (between default Setting and Text)
+% \newcommand{\DenKrTPFontTitle}{\fontsize{21}{1.2em}\selectfont}%
+% \newcommand{\DenKrTPFontSubTitle}{\fontseries{m}\fontshape{n}\selectfont\normalsize\bfseries}%
+% - - - - - - - -
+% -- These wrap the Text, i.e. take it as argument and paste it within itself. (Hence, if used, these always have to contain '#1')
+% \newcommand{\DenKrTPFontWrapTitle}[1]{\fontseries{m}\fontshape{n}\selectfont\DenKrContour[0.05ex]{DenKrKomaColor_SubSubSectionHeading!80!DenKrKomaColor_SectionHeading}{DenKrKomaColor_SectionHeading}{#1}}%
+% \newcommand{\DenKrTPFontWrapSubTitle}[1]{#1}%
 %
 %
 %

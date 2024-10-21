@@ -4,6 +4,8 @@
 \newcommand{\DenKrTPTitleAndSubtitle}[2]{%
 \providecommand{\DenKrTPFontTitle}{}%
 \providecommand{\DenKrTPFontSubTitle}{}%
+\providecommand{\DenKrTPFontWrapTitle}[1]{##1}%
+\providecommand{\DenKrTPFontWrapSubTitle}[1]{##1}%
 %\hrule width \hsize \kern 1mm \hrule width \hsize height 2pt
 %\textcolor{gray!70}{\HRule}\\%PartHeadingColor
 \begin{minipage}{\textwidth}%
@@ -25,17 +27,17 @@
 \end{minipage}\par%
 \vspace*{3ex}%
 \begin{minipage}{\textwidth}\centering%
-\setstretch{0}%
-{\huge\bfseries\color{TitlePage_Color_RankC}%
-\DenKrTPFontTitle#1%
-}\par%
+\linespread{0.9}%
+{\normalfont\sffamily\huge\fontseries{b}\selectfont\color{TitlePage_Color_RankC}%
+\DenKrTPFontTitle\DenKrTPFontWrapTitle{#1}%
+\par}%
 \ifthenelse{\equal{}{#2} \or \equal{ }{#2}}{}{%
-	\vspace*{2ex}%
+	\vspace*{1ex}%
 	\noindent\textcolor{gray!20!TitlePage_TypoAccentColorOne}{\rule{0.6\textwidth}{0.3ex}}\par%
 	\vspace*{2ex}%
-	{\normalfont\Large\color{TitlePage_Color_RankA}%
-	\DenKrTPFontSubTitle#2%
-	}%
+	{\normalfont\sffamily\Large\color{TitlePage_Color_RankA}%
+	\DenKrTPFontSubTitle\DenKrTPFontWrapSubTitle{#2}%
+	\par}%
 }%
 \end{minipage}\par%
 \vspace*{3ex}%

@@ -565,6 +565,24 @@ m O{Sidenote} O{0pt}%
 \hrule\vspace{\baselineskip}%
 }%
 %
+%
+%
+%<><><><><><><><><><><><><>
+% Contour with Line-Break
+%  (Makes a Contour/Outline around the words put as single tokens (by default, not linebreak would be possible at all))
+% % % % % % % % % % % % % %
+\ExplSyntaxOn%
+\DeclareDocumentCommand{\DenKrContour}{ommm}{% (Contour-Linewidth), Color-Contour, Color-Text, Text
+	\seq_set_split:Nne\l_tmpa_seq{ ~ }{#4}%
+	\seq_map_inline:Nn\l_tmpa_seq{%
+		\IfValueT{#1}{\bgroup\contourlength{#1}}%
+		\contour{#2}{\color{#3}##1}%
+		\IfValueT{#1}{\egroup}%
+		{ ~ }%
+	} \unskip%
+}%
+\ExplSyntaxOff%
+%
 %/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
 %							Sonder-Formatierungen END
 %------------------------------------------------------------------------
