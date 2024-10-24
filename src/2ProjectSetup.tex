@@ -56,11 +56,11 @@
 %<><><><><><><><><><><><><><><><><><><><><>
 %<> <>  Setting the Values           <><><>
 %<-><-><-><-><-><-><-><-><-><-><-><-><-><->
-\newcommand{\DenKrLayout}{scrbook}%
-\newcommand{\DenKrLayoutLanguage}{english}% en_ger, english, ngerman
-\newcommand{\DenKrLayoutUseHyperref}{1}% 0: false aka NOT use Hyperref  |  1: true aka USE Hyperref
+\providecommand{\DenKrLayout}{scrbook}%
+\providecommand{\DenKrLayoutLanguage}{english}% en_ger, english, ngerman
+\providecommand{\DenKrLayoutUseHyperref}{1}% 0: false aka NOT use Hyperref  |  1: true aka USE Hyperref
 % Only for 'dedicated'
-\newcommand{\DenKrBlindReview}{0}% 0: NO Blind-Review, i.e. keep Authors in  |  1: Don't print Authors
+\providecommand{\DenKrBlindReview}{0}% 0: NO Blind-Review, i.e. keep Authors in  |  1: Don't print Authors
 %
 % _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 % --  Some Stuff to help during working state
@@ -69,7 +69,7 @@
 % During writing, set the following to '1' to have the Comment-Macros be printed.
 % After finishing the work, you can just set it to '0' to make every Comment-Output disappear.
 % Additional Feature: The Macro \disablewr{}. Its Argument is eaten away / vanishes / has no effect when \DenKrCommentsUsage is set to '0'
-\newcommand{\DenKrCommentsUsage}{1}% 1: Enabled  |  0: Disabled, Comment-Macros don't do anything
+\providecommand{\DenKrCommentsUsage}{1}% 1: Enabled  |  0: Disabled, Comment-Macros don't do anything
 %----------------------------------------------------------------------------------
 % - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 %==================================================================================
@@ -116,14 +116,14 @@
 \newcommand{\DenKrAllMainRootDirPATH}{\DenKrOrgaRootDirPATH/\DenKrDocGenreAllSUB/\DenKrOrgaMainSub}%
 \newcommand{\DenKrInternalLayoutRootDirPATH}{\DenKrOrgaRootDirPATH/\DenKrDocGenreInternalSUB/\DenKrLayoutBaseSub}%
 % % % % % % %
-\newcommand{\DenKrSupplyRootDirPATH}{1supply}%
-\newcommand{\DenKrContentRootDirPATH}{9chapter}%
-\newcommand{\DenKrTablesRootDirPATH}{5tables}%
-\newcommand{\DenKrListingsRootDirPATH}{6listings}%
-\newcommand{\DenKrTikzRootDirPATH}{7Tikz}%
-\newcommand{\DenKrGraphicsRootDirPATH}{8graphics}%
-\newcommand{\DenKrAlgorithmRootDirPATH}{\DenKrListingsRootDirPATH}%
-\newcommand{\DenKrLiteratureDirPATH}{\DenKrSupplyRootDirPATH}%
+\providecommand{\DenKrSupplyRootDirPATH}{1supply}%
+\providecommand{\DenKrContentRootDirPATH}{9chapter}%
+\providecommand{\DenKrTablesRootDirPATH}{5tables}%
+\providecommand{\DenKrListingsRootDirPATH}{6listings}%
+\providecommand{\DenKrTikzRootDirPATH}{7Tikz}%
+\providecommand{\DenKrGraphicsRootDirPATH}{8graphics}%
+\providecommand{\DenKrAlgorithmRootDirPATH}{\DenKrListingsRootDirPATH}%
+\providecommand{\DenKrLiteratureDirPATH}{\DenKrSupplyRootDirPATH}%
 \newcommand{\DenKrLayoutSupplyAuthorDirPATH}{\DenKrSupplyRootDirPATH/legacy/authors/2layout}% For Legacy/Fallback Reasons: For Paper-Classes by Publishers, which aren't yet handled by my Auto-Mechanic, using the author_affiliation.tex File
 %----------------------------------------------
 % - - - - - - - - - - - - - - - - - - - - - - -
@@ -146,7 +146,7 @@
 \newcommand{\DenKrLayoutSupplyAuthorDir}{\DenKrSubDirPrefix\DenKrLayoutSupplyAuthorDirPATH}%
 %----------------------------------------------
 %----------------------------------------------
-\newcommand{\DenKrSegmentationSubDirPATH}{\DenKrContentRootDirPATH/0segmentation}%
+\providecommand{\DenKrSegmentationSubDirPATH}{\DenKrContentRootDirPATH/0segmentation}%
 \newcommand{\DenKrSegmentationSubDir}{\DenKrSubDirPrefix\DenKrSegmentationSubDirPATH}%
 %----------------------------------------------
 %----------------------------------------------
@@ -154,7 +154,7 @@
 %=========================================================================
 % ----  Project-Setup (Some little additional for further Structuring)
 %-------------------------------------------------------------------------
-\newcommand{\DenKrLayoutIncludeBiographies}{0}% 1: Print the Biographies after Literature-References  |  0: Don't print Biographies
+\providecommand{\DenKrLayoutIncludeBiographies}{0}% 1: Print the Biographies after Literature-References  |  0: Don't print Biographies
 %
 %
 %
@@ -162,7 +162,7 @@
 % ----  More on LaTeX
 %----------------------------------------------------------------------------------
 % - Just saying: Activating Japanese-Fonts (or any CJK) introduces some hickups: Increase compilation/loading time. Also: It patches the "listings.sty" package and while doing so introduces a minor bug (as of 2023-12): They forgot a line-end percentage, which adds an additional space before each \lstinline.
-\newcommand{\DenKrJPFont}{0}% 1: Also make Japanese Fonts available  |  0: Don't setup Japanese Fonts
+\providecommand{\DenKrJPFont}{0}% 1: Also make Japanese Fonts available  |  0: Don't setup Japanese Fonts
 %
 % correct bad hyphenation here
 \hyphenation{%
