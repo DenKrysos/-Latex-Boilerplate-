@@ -70,7 +70,7 @@
     ],
     "latex-workshop.latex.external.build.command": "latexmk",
     //The directory, where the Extension searches for created files
-    "latex-workshop.latex.outDir": "%DIR%/../.2out_final",
+    "latex-workshop.latex.outDir": "%WORKSPACE_FOLDER%\\.2out_final",// "%DIR%/../.2out_final"
     //Don't build PDF on saving a file (but instead on user trigger)
     "latex-workshop.latex.autoBuild.run": "never",
     "latex-workshop.latex.autoClean.run": "never",
@@ -87,6 +87,8 @@
     "latex-workshop.latex.rootFile.indicator": "\\begin{document}",
     "latex-workshop.view.pdf.viewer": "external",
     "latex-workshop.view.pdf.ref.viewer": "auto",
+    //
+    // Latex Workshop VARIABLES: https://github.com/james-yu/latex-workshop/wiki/compile
     //
     // USAGE: SumatraPDF stores the -inverse-search command in its settings. Hence, one does not have to include it in every call.
     // Likewise is the "View" Command kind-of redundant. Since the "Synctex" cmd also opens the viewer.
@@ -108,6 +110,8 @@
     //        "%PDF%"
     //    - Set it manually:
     //        "%WORKSPACE_FOLDER%\\ResultTest.pdf"
+    //        "%WORKSPACE_FOLDER%\\.2out_final\\1main.pdf"
+    //        "%OUTDIR%\\1main.pdf"
     //
     // External Viewer is opened with "Ctrl + Alt + v"
     "latex-workshop.view.pdf.external.viewer.command": "C:\\Program Files\\SumatraPDF\\SumatraPDF.exe",
@@ -119,6 +123,7 @@
         // "-inverse-search",
         // "\"C:\\Program Files\\Microsoft VS Code\\Code.exe\" \"C:\\Program Files\\Microsoft VS Code\\resources\\app\\out\\cli.js\" --ms-enable-electron-run-as-node -r -g \"%f:%l\"",
         "%PDF%"
+        //"%OUTDIR%\\1main.pdf"
     ],
     // Forward Search with External Viewer is done with "Ctrl + Alt + j"
     "latex-workshop.view.pdf.external.synctex.command": "C:\\Program Files\\SumatraPDF\\SumatraPDF.exe",
@@ -128,6 +133,7 @@
         "%TEX%",
         "%LINE%",
         "%PDF%"
+        //"%OUTDIR%\\1main.pdf"
     ],
     "latex-workshop.latex.clean.args": [
         "-c",

@@ -44,8 +44,9 @@ $resultSubDir='';
 #=====================================
 #=== Name of the resulting Output File (and aux files)  -  Adding %A appends the source file-name
 ##===   E.g. $jobname = '%A-result-lualatex';
+$jobname='1main';
 # $jobname=$resultName;
-$jobname=$MainSrcFile;
+# $jobname=$MainSrcFile;
 
 
 
@@ -382,7 +383,7 @@ my $pre_cmd="perl \"$pre_script_abs\" \"$script_absP\"";
 #=====================================
 my $post_script=".latexmk_post";
 my $post_script_abs=catfile($script_absP,$post_script);
-my $post_cmd="perl \"$post_script_abs\" \"$clean_dirs\" \"$script_absP\" \"$out2_dir_base\" \"$MainSrcFile.pdf\" \"$resultSubDir\" \"$resultName.pdf\"";
+my $post_cmd="perl \"$post_script_abs\" \"$clean_dirs\" \"$script_absP\" \"$out2_dir_base\" \"$jobname.pdf\" \"$resultSubDir\" \"$resultName.pdf\"";
 #=== After of Compilation (depending on sucess, warning, error)
 $success_cmd=$post_cmd;
 $warning_cmd=$post_cmd;
