@@ -50,8 +50,10 @@
 \input{"\DenKrAllMainRootDirPATH/3settings/4customization/glossaries_keys".tex}%
 %---------------------------------------
 % makeglossaries is well placed on that spot
+\DenKrITEequal{\DenKrGlossaryPrint}{0}{}{%
 \ifdef{\DenKrTikzStandaloneNotInclude}{}{%
 \makeglossaries%
+}%
 }%
 %/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
 %					glossaries fertig
