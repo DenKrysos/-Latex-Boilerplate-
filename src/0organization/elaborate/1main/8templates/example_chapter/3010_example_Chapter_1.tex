@@ -277,20 +277,20 @@ Two different Packages and by that Methods are supplied here:
 	\definecolor{CharFillColor}{rgb}{1,.8,.8}%
 	\colorlet{CharFillColor}{orange}%
 	\sffamily%
-	\textcolor{violet}{%
-	\textpdfrender{%
+	{\pdfrender{%
 		TextRenderingMode=FillStroke,
 		LineWidth=\DenKrOutlineWidth,
 		FillColor=CharFillColor,
+		StrokeColor=violet,
 		MiterLimit=1,
-	}{Text with Outline/Contour}}\nl%
-	\textcolor{violet}{%
-	\textpdfrender{%
+	}Text with Outline/Contour}\nl%
+	{\pdfrender{%
 		TextRenderingMode=FillStroke,
 		LineWidth=0.06em,
 		FillColor=CharFillColor,
+		StrokeColor=violet,
 		MiterLimit=1,
-	}{Text with Outline/Contour}}%
+	}Text with Outline/Contour}%
 }%
 
 \subsection{Package \enquote{contour}}
@@ -301,9 +301,7 @@ Two different Packages and by that Methods are supplied here:
 	{%
 		\contourlength{0.2em}%
 		\contour{violet}{\textcolor{orange}{Text with Outline/Contour}}\nl%
-		\contour{violet}{\textcolor{orange}{Text with Outline/Contour}}\nl%
 	}%
-	\contour{violet}{\textcolor{orange}{Text with Outline/Contour}}\nl%
 }%
 
 

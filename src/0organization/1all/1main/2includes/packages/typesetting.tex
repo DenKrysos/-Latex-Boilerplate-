@@ -41,51 +41,56 @@
 \newcommand{\DenKrOutlineWidth}{0.03em}%
 \providecommand{\DenKrCompiler}{pdfLaTeX}%
 \expandafter\ifstrequal\expandafter{\DenKrCompiler}{pdfLaTeX}{%
-    \usepackage[pdftex,outline]{contour}%
-    \contourlength{\DenKrOutlineWidth}% Thickness of the Outline. Default: 0.03em. Not expanded on Definition, but on Use.
-    \contournumber{25}% How many copies are created. Default: 16
-    %USAGE Example:
-    % {%
-    %     \LARGE%
-    %     \contour{violet}{\textcolor{orange}{Text with Outline/Contour}}\nl%
-    %     {%
-    %         \contourlength{0.2em}%
-    %         \contour{violet}{\textcolor{orange}{Text with Outline/Contour}}\nl%
-    %         \contour{violet}{\textcolor{orange}{Text with Outline/Contour}}\nl%
-    %     }%
-    %     \contour{violet}{\textcolor{orange}{Text with Outline/Contour}}\nl%
-    % }%
+	\usepackage[pdftex,outline]{contour}%
+	\contourlength{\DenKrOutlineWidth}% Thickness of the Outline. Default: 0.03em. Not expanded on Definition, but on Use.
+	\contournumber{25}% How many copies are created. Default: 16
+	%USAGE Example:
+	% {%
+	% 	\LARGE%
+	% 	\contour{violet}{\textcolor{orange}{Text with Outline/Contour}}\nl%
+	% 	{%
+	% 		\contourlength{0.2em}%
+	% 		\contour{violet}{\textcolor{orange}{Text with Outline/Contour}}\nl%
+	% 	}%
+	% }%
 }{\expandafter\ifstrequal\expandafter{\DenKrCompiler}{LuaLaTeX}{%
-    % Two different Packages and by that Methods are available:
-    %  "contour": Prints the actual text as normal and surrounds it with the Contour.
-    %  "pdfrender": Prints the outline as the actual text and fills this inside with a different Color.
-    % -> "contour" grows bigger to the outside and makes the Outline sleeked (when growing too big)
-    % -> "pdfrender" keeps the outline sharp and well defined, but may let the inside look wonky
-    % => Methods to be ideally employed depends on the use-case
-    %
-    %Same Packge as for pdfLaTeX.
-    \usepackage[outline]{contour}%
-    \contourlength{\DenKrOutlineWidth}%
-    \contournumber{25}%
-    %
-    % An alternative for LuaLaTeX. Works differently, but compiles more efficient.
-    \usepackage{pdfrender}%
-    %USAGE Example:
-    % - The logic is kind-of inverted here.
-    %   - What is set as the actual 'textcolor' is actually reflected as the Color of the Contour
-    %   - The \textpdfrender is "filling" this inside.
-    % \definecolor{CharFillColor}{rgb}{1,.8,.8}
-    % \colorlet{CharFillColor}{orange}
-    % \begin{document}
-    %     \sffamily
-    %     \textcolor{violet}{
-    %     \textpdfrender{
-    %     TextRenderingMode=FillStroke,
-    %     LineWidth=\DenKrOutlineWidth,
-    %     FillColor=CharFillColor,
-    %     MiterLimit=1,
-    %     }{Text with Outline/Contour}}
-    % \end{document}
+	% Two different Packages and by that Methods are available:
+	%  "contour": Prints the actual text as normal and surrounds it with the Contour.
+	%  "pdfrender": Prints the outline as the actual text and fills this inside with a different Color.
+	% -> "contour" grows bigger to the outside and makes the Outline sleeked (when growing too big)
+	% -> "pdfrender" keeps the outline sharp and well defined, but may let the inside look wonky
+	% => Methods to be ideally employed depends on the use-case
+	%
+	%Same Packge as for pdfLaTeX.
+	\usepackage[outline]{contour}%
+	\contourlength{\DenKrOutlineWidth}%
+	\contournumber{25}%
+	%
+	% An alternative for LuaLaTeX. Works differently, but compiles more efficient.
+	\usepackage{pdfrender}%
+	%USAGE Example:
+	% - The logic is kind-of inverted here.
+	%   - What is set as the actual 'textcolor' is actually reflected as the Color of the Contour
+	%   - The \textpdfrender is "filling" this inside.
+	% \definecolor{CharFillColor}{rgb}{1,.8,.8}
+	% \colorlet{CharFillColor}{orange}
+	% \begin{document}
+	% 	\sffamily
+	% 	{\pdfrender{%
+	% 		TextRenderingMode=FillStroke,
+	% 		LineWidth=\DenKrOutlineWidth,
+	% 		FillColor=CharFillColor,
+	% 		StrokeColor=violet,
+	% 		MiterLimit=1,
+	% 	}Text with Outline/Contour}\nl%
+	% 	{\pdfrender{%
+	% 		TextRenderingMode=FillStroke,
+	% 		LineWidth=0.06em,
+	% 		FillColor=CharFillColor,
+	% 		StrokeColor=violet,
+	% 		MiterLimit=1,
+	% 	}Text with Outline/Contour}%
+	% \end{document}
 }{%
 }}%
 % - - - - - - - - - - - - - -
@@ -100,15 +105,15 @@
 \usepackage[english,german,ngerman]{translator}%
 \usepackage{siunitx}%
 \sisetup{%
-    input-ignore={,},%
-    input-decimal-markers={.},%
-    %output-decimal-marker={.},%
-    %group-separator={,},%
-    group-minimum-digits=5,% Determines the number of digits after which the grouping starts to be applied. Default: 5
-    group-digits=all,%
-    fraction-function=\nicefrac,% \dfrac
-    range-phrase=-,%
-    range-units=single%
+	input-ignore={,},%
+	input-decimal-markers={.},%
+	%output-decimal-marker={.},%
+	%group-separator={,},%
+	group-minimum-digits=5,% Determines the number of digits after which the grouping starts to be applied. Default: 5
+	group-digits=all,%
+	fraction-function=\nicefrac,% \dfrac
+	range-phrase=-,%
+	range-units=single%
 }%
 \DeclareSIUnit{\calorie}{cal}%
 \DeclareSIUnit{\tablespoon}{\translate{tbsp}}%
@@ -122,9 +127,9 @@
 \addto\extrasenglish{\sisetup{locale=US,output-decimal-marker={.},group-separator={\groupSepEn},detect-all}}%
 % For some reason, group-separator does not work in the addto configuration, hence adding it again below
 \expandafter\ifstrequal\expandafter{\DenKrLanguageStringCmd}{ngerman}{%
-    \sisetup{locale=DE,group-separator={\groupSepGer}}%
+	\sisetup{locale=DE,group-separator={\groupSepGer}}%
 }{\expandafter\ifstrequal\expandafter{\DenKrLanguageStringCmd}{english}{%
-    \sisetup{locale=US,group-separator={\groupSepEn}}%
+	\sisetup{locale=US,group-separator={\groupSepEn}}%
 }{}}%
 %
 %  Example:
@@ -148,22 +153,22 @@
 %       \qty{\sim 3}{\gram}  instead of  \mytilde\qty{35}{\gram}
 %  - Bold Printing  ->(Use these commands to replace hard-coding {\bfseries\boldmath\qty[detect-weight=true,detect-all=true]{500}{\ml} Glas}
 \NewDocumentCommand{\qtybold}{omm}{%
-    {\bfseries\boldmath%
-    \IfNoValueTF{#1}{%
-        \qty[detect-weight=true,detect-all=true]{#2}{#3}%
-    }{%
-        \qty[detect-weight=true,detect-all=true,#1]{#2}{#3}%
-    }%
-    }%
+	{\bfseries\boldmath%
+	\IfNoValueTF{#1}{%
+		\qty[detect-weight=true,detect-all=true]{#2}{#3}%
+	}{%
+		\qty[detect-weight=true,detect-all=true,#1]{#2}{#3}%
+	}%
+	}%
 }%
 \NewDocumentCommand{\qtyrangebold}{ommm}{%
-    {\bfseries\boldmath%
-    \IfNoValueTF{#1}{%
-        \qtyrange[detect-weight=true,detect-all=true]{#2}{#3}{#4}%
-    }{%
-        \qtyrange[detect-weight=true,detect-all=true,#1]{#2}{#3}{#4}%
-    }%
-    }%
+	{\bfseries\boldmath%
+	\IfNoValueTF{#1}{%
+		\qtyrange[detect-weight=true,detect-all=true]{#2}{#3}{#4}%
+	}{%
+		\qtyrange[detect-weight=true,detect-all=true,#1]{#2}{#3}{#4}%
+	}%
+	}%
 }%
 %  - Group Digits (My default setting is to not start grouping right away after reaching the first 4. This directly groups with exceeding 3 digits)
 \newcommand{\SIgroupDig}{group-minimum-digits=3}%
@@ -175,67 +180,67 @@
 \ExplSyntaxOn
 % Hour-Minute-Second-Period (For pasting a Period of Time. Like \hmsP{10;20;30} -> "10:20:30 h" | \hmsP{;10;30}  ->  "20:30 min"
 \NewDocumentCommand\hmsP{o >{\SplitArgument{2}{;}}m}{%
-    \group_begin:%
-        \IfNoValueF{#1}{%
-            \keys_set:nn{siunitx}{#1}%
-        }%
-        \siunitx_hmsP_output:nnn #2%
-    \group_end:%
+	\group_begin:%
+		\IfNoValueF{#1}{%
+			\keys_set:nn{siunitx}{#1}%
+		}%
+		\siunitx_hmsP_output:nnn #2%
+	\group_end:%
 }%
 \cs_new_protected:Npn\siunitx_hmsP_output:nnn #1#2#3{%
-    \qty[parse-numbers=false]{\mbox{
-        \tl_if_blank:nF{#1}{\IfNoValueF{#1}{%
-            #1%
-            \tl_if_blank:nT{#2}{%
-                \tl_if_blank:nF{#3}{\IfNoValueF{#3}{:}}%
-            }\tl_if_blank:nF{#2}{\IfNoValueF{#2}{:}}%
-        }}%
-        \tl_if_blank:nF{#2}{\IfNoValueTF{#2}{%
-            \tl_if_blank:nF{#1}{\IfNoValueF{#1}{\tl_if_blank:nF{#3}{\IfNoValueF{#3}{0:}}}}%
-        }{%
-            #2%
-            \tl_if_blank:nF{#3}{\IfNoValueF{#3}{:}}%
-        }}\tl_if_blank:nT{#2}{%
-            \tl_if_blank:nF{#1}{\IfNoValueF{#1}{\tl_if_blank:nF{#3}{\IfNoValueF{#3}{0:}}}}%
-        }%
-        \tl_if_blank:nF{#3}{\IfNoValueF{#3}{%
-            #3%
-        }}%
-    }}{%
-        \tl_if_blank:nT{#1}{%
-            \tl_if_blank:nT{#2}{%
-                \tl_if_blank:nF{#3}{\IfNoValueF{#3}{\second}}%
-            }\tl_if_blank:nF{#2}{\IfNoValueF{#2}{\minute}}%
-        }\tl_if_blank:nF{#1}{\IfNoValueF{#1}{\hour}}%
-    }%
+	\qty[parse-numbers=false]{\mbox{
+		\tl_if_blank:nF{#1}{\IfNoValueF{#1}{%
+			#1%
+			\tl_if_blank:nT{#2}{%
+				\tl_if_blank:nF{#3}{\IfNoValueF{#3}{:}}%
+			}\tl_if_blank:nF{#2}{\IfNoValueF{#2}{:}}%
+		}}%
+		\tl_if_blank:nF{#2}{\IfNoValueTF{#2}{%
+			\tl_if_blank:nF{#1}{\IfNoValueF{#1}{\tl_if_blank:nF{#3}{\IfNoValueF{#3}{0:}}}}%
+		}{%
+			#2%
+			\tl_if_blank:nF{#3}{\IfNoValueF{#3}{:}}%
+		}}\tl_if_blank:nT{#2}{%
+			\tl_if_blank:nF{#1}{\IfNoValueF{#1}{\tl_if_blank:nF{#3}{\IfNoValueF{#3}{0:}}}}%
+		}%
+		\tl_if_blank:nF{#3}{\IfNoValueF{#3}{%
+			#3%
+		}}%
+	}}{%
+		\tl_if_blank:nT{#1}{%
+			\tl_if_blank:nT{#2}{%
+				\tl_if_blank:nF{#3}{\IfNoValueF{#3}{\second}}%
+			}\tl_if_blank:nF{#2}{\IfNoValueF{#2}{\minute}}%
+		}\tl_if_blank:nF{#1}{\IfNoValueF{#1}{\hour}}%
+	}%
 }%
 % Hour-Minute-Second-Clock (For pasting Time of Day / Clock Time. Like \hmsC{10;20;30} -> "10h 20 min 30s"
 \NewDocumentCommand\hmsC{o >{\SplitArgument{2}{;}}m}{%
-    \group_begin:%
-        \IfNoValueF{#1}{%
-            \keys_set:nn{siunitx}{#1}%
-        }%
-        \siunitx_hmsC_output:nnn #2%
-    \group_end:%
+	\group_begin:%
+		\IfNoValueF{#1}{%
+			\keys_set:nn{siunitx}{#1}%
+		}%
+		\siunitx_hmsC_output:nnn #2%
+	\group_end:%
 }%
 \cs_new_protected:Npn\siunitx_hmsC_output:nnn #1#2#3{%
-    \IfNoValueF{#1}{%
-        \tl_if_blank:nF{#1}{%
-            \qty{#1}{\hour}%
-            \IfNoValueF{#2}{~}%
-        }%
-    }%
-    \IfNoValueF{#2}{%
-        \tl_if_blank:nF{#2}{%
-            \qty{#2}{\minute}%
-            \IfNoValueF{#3}{~}%
-        }%
-    }%
-    \IfNoValueF{#3}{%
-        \tl_if_blank:nF{#3}{%
-            \qty{#3}{\second}%
-        }%
-    }%
+	\IfNoValueF{#1}{%
+		\tl_if_blank:nF{#1}{%
+			\qty{#1}{\hour}%
+			\IfNoValueF{#2}{~}%
+		}%
+	}%
+	\IfNoValueF{#2}{%
+		\tl_if_blank:nF{#2}{%
+			\qty{#2}{\minute}%
+			\IfNoValueF{#3}{~}%
+		}%
+	}%
+	\IfNoValueF{#3}{%
+		\tl_if_blank:nF{#3}{%
+			\qty{#3}{\second}%
+		}%
+	}%
 }%
 \ExplSyntaxOff
 % - - - - - - - - - - -
