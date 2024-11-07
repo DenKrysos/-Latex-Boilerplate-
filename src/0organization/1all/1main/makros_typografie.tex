@@ -12,8 +12,13 @@
 %
 %Requires: hyperref.sty, academicons.sty, xcolor.sty, svg.sty
 \definecolor{orcidlogocol}{HTML}{A6CE39}%
-\newcommand{\orcidIco}[1]{\href{https://orcid.org/#1}{\includesvg[height=1.5ex]{\DenKrLayoutMainRootDir/4aids/graphics/logo/orcid.logo.icon}}}%
-\newcommand{\orcidIcoText}[1]{\href{https://orcid.org/#1}{\includegraphics[height=1.5ex]{\DenKrLayoutMainRootDir/4aids/graphics/logo/orcid.logo.icon.eps} \hspace{1.5em} orcid.org/#1}}%
+% \newcommand{\orcidIco}[1]{\href{https://orcid.org/#1}{\includesvg[height=1.5ex]{\DenKrLayoutMainRootDir/4aids/graphics/logo/orcid.logo.icon}}}%
+% \newcommand{\orcidIcoText}[1]{\href{https://orcid.org/#1}{\includegraphics[height=1.5ex]{\DenKrLayoutMainRootDir/4aids/graphics/logo/orcid.logo.icon.eps} \hspace{1.5em} orcid.org/#1}}%
+% Using Fontawesom5
+\newcommand{\orcidLogo}{\raisebox{0.2ex}[0pt][0pt]{\resizebox{!}{1.4ex}{\textcolor{orcidlogocol}{\faIcon{orcid}}}}}%
+\newcommand{\orcidIco}[1]{\href{https://orcid.org/#1}{\orcidLogo}}%
+\newcommand{\orcidIcoText}[1]{\href{https://orcid.org/#1}{\orcidLogo \hspace{1.0em} orcid.org/#1}}%
+\newcommand{\orcidIcoURL}[1]{\href{https://orcid.org/#1}{\orcidLogo\hspace{0.35ex}https://orcid.org/#1}}% Space 1/4 of the logo-width
 %
 %
 %

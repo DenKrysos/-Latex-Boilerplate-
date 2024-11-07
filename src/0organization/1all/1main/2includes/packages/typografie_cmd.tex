@@ -7,15 +7,23 @@
 % still beware of the "Glue" from the set \parskip height plus x minus y
 % which in fact allows latex to stretch the space between paragraphs
 % (by default up to 1pt)
-\newcommand{\nl}{\par\noindent}% Abk. für NewLine
+\newcommand{\nl}{\par\noindent}% Abbr. for NewLine
 % and here a command to create really a new paragraph
 % inserts an additional free line
-\newcommand{\np}{\par\vspace{\baselineskip}}% Abk. für NewParagraph
-\newcommand{\npi}{\par\vspace{\baselineskip}\noindent}% Abk. für NewParagraph_noIndent
-% Zu benutzen also so:
-% Neue Zeile ohne Einrückung: \nl
-% Neue Zeile mit Einrückung: Freie Zeile im Editor
-% Neuer Absatz mit freier Zeile dazwischen: \na
+\newcommand{\np}{\par\vspace{\baselineskip}}% Abbr. for NewParagraph
+\newcommand{\npi}{\par\vspace{\baselineskip}\noindent}% Abbr. for NewParagraph_noIndent
+% USAGE:
+% New Line withOUT Indentation: \nl
+% New Line WITH Indentation: Empty Line in Editor or \par
+% New Paragraph with empty Line of height 'Baseline' between: \np or \npi
+%		-> WITH Indentation of first line: \np
+%		-> withOUT Indentation of first line: \npi
+%
+% A Macro for rather application-case dependent usage:
+\newcommand{\npe}{\par\noindent\hspace*{\parindent}}% Abbr. for NewParagraph_tobeExpanded
+% -> Some environments don't like new Paragraphs. Using this Macro instead of directly \par forces the compiler to introduce one more Macro-Expansion step, enabling paragraphs.
+%
+%
 \newcommand{\greenuline}[1]{\colorlet{temp}{.}\color{green}\underline{\color{temp}#1}\color{temp}\xspace}%
 %
 %

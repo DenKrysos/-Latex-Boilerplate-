@@ -54,9 +54,9 @@
 % - Author-Ref-Mark(s) (comma-separated list)
 % - Author-Name
 % - Mail-Address
-\DeclareDocumentCommand{\DenKrAuthor}{m m O{!}}{%
-	\addDenKrAuthorDefinedAuth{#1}{#2}{#3}%
-	\addDenKrAuthPerIdx{#1}{#2}{#3}%
+\DeclareDocumentCommand{\DenKrAuthor}{m m O{!} O{!}}{%
+	\addDenKrAuthorDefinedAuth{#1}{#2}{#3}{#4}%
+	\addDenKrAuthPerIdx{#1}{#2}{#3}{#4}%
 }%
 \DeclareDocumentCommand{\DenKrAuthorNewline}{}{%
 	% \addDenKrAuthorDefinedAuth{!}{!}%
@@ -101,6 +101,8 @@
 				\addtocounter{loopj}{-1}%
 			}{%
 				\getDenKrAuthorDefinedAuthNAME{\theloopi}%
+				\DenKrAuthorOrcidLogoPUT{\getDenKrAuthorDefinedAuthORCIDid{\theloopi}}%
+				% \checkEmptyDenKrAuthorDefinedORCIDid{\theloopi}{}{\DenKrAuthorOrcidLogo{\getDenKrAuthorDefinedAuthORCIDid{\theloopi}}}%
 				%\getDenKrAuthorDefinedAuthMAIL{\theloopi}%
 				\processRefMarksIEEE{\getDenKrAuthorDefinedAuthMARK{\theloopi}}%
 				\stepcounter{loopi}%
@@ -133,26 +135,29 @@
 	\setcounter{loopj}{\value{assocIDMax}}%
 	\whiledo{\value{loopi}<\value{assocIDMax}}{%
 		\stepcounter{loopi}%
-		\prepareSplitListTmpArray{\getDenKrAuthPerIdxNAME{\theloopi}}%
+		\prepareSplitListTmpArrayA{\getDenKrAuthPerIdxNAME{\theloopi}}%
+		\prepareSplitListTmpArrayB{\getDenKrAuthPerIdxORCIDid{\theloopi}}%
 		\IEEEauthorblockN{%
-			\ifnumcomp{\value{tmpArray}}{<}{1}{}{%
+			\ifnumcomp{\value{tmpArrayA}}{<}{1}{}{%
 				\setcounter{loopAuthi}{0}%
-				\setcounter{loopAuthj}{\value{tmpArray}}%
-				\whiledo{\value{loopAuthi}<\value{tmpArray}}{%
+				\setcounter{loopAuthj}{\value{tmpArrayA}}%
+				\whiledo{\value{loopAuthi}<\value{tmpArrayA}}{%
 					\DenKrAuthorTmpArrayAGetEnt{\theloopAuthi}%
 					\DenKrAuthorTmpArrayADelEnt{\theloopAuthi}%
+					\DenKrAuthorOrcidLogoPUT{\DenKrAuthorTmpArrayBGetEnt{\theloopAuthi}}%
+					\DenKrAuthorTmpArrayBDelEnt{\theloopAuthi}%
 					\stepcounter{loopAuthi}%
 					\addtocounter{loopAuthj}{-1}%
 					\ifnumcomp{\value{loopAuthj}}{>}{0}{\\}{}%
 				}%
 			}%
 		}%
-		\prepareSplitListTmpArray{\getDenKrAffilPerIdxADDR{\theloopi}}%
+		\prepareSplitListTmpArrayA{\getDenKrAffilPerIdxADDR{\theloopi}}%
 		\IEEEauthorblockA{%
-			\ifnumcomp{\value{tmpArray}}{<}{1}{}{%
+			\ifnumcomp{\value{tmpArrayA}}{<}{1}{}{%
 				\setcounter{loopAuthi}{0}%
-				\setcounter{loopAuthj}{\value{tmpArray}}%
-				\whiledo{\value{loopAuthi}<\value{tmpArray}}{%
+				\setcounter{loopAuthj}{\value{tmpArrayA}}%
+				\whiledo{\value{loopAuthi}<\value{tmpArrayA}}{%
 					\DenKrAuthorTmpArrayAGetEnt{\theloopAuthi}%
 					\DenKrAuthorTmpArrayADelEnt{\theloopAuthi}%
 					\stepcounter{loopAuthi}%
@@ -195,6 +200,7 @@
 			\addtocounter{loopj}{-1}%
 		}{%
 			\getDenKrAuthorDefinedAuthNAME{\theloopi}%
+			\DenKrAuthorOrcidLogoPUT{\getDenKrAuthorDefinedAuthORCIDid{\theloopi}}%
 			\processRefMarksARTICLE{\getDenKrAuthorDefinedAuthMARK{\theloopi}}{\theloopk}%
 			%Store the Mail(s) per assigned running numeric ID
 			\setcounter{assocIDMax}{\value{loopk}}%
@@ -442,27 +448,51 @@
 	}}%
 }%
 % % % % % % % % % % % % % % % % % % % % % % % %
-\newcounter{tmpArray}\setcounter{tmpArray}{0}%
-\DeclareDocumentCommand{\prepareSplitListTmpArray}{m}{%
+\newcounter{tmpArrayA}\setcounter{tmpArrayA}{0}%
+\DeclareDocumentCommand{\prepareSplitListTmpArrayA}{m}{%
 	% Catch empty String or with only Spaces
 	\StrLen{#1}[\tmpa]%
 	\StrCount{#1}{ }[\tmpb]%
-	\setcounter{tmpArray}{0}%
+	\setcounter{tmpArrayA}{0}%
 	\setcounter{DenKrAuthorTmpArrayA}{0}%
 	\DenKrAuthorTmpArrayADelEnt{0}%
 	\ifnumcomp{\tmpa}{<}{1}{}{\ifnumcomp{\tmpa}{=}{\tmpb}{}{%
 		% Split the List
 		\StrCount{#1}{°}[\tmpa]%
-		\setcounter{tmpArray}{\tmpa+1}%
+		\setcounter{tmpArrayA}{\tmpa+1}%
 		\setcounter{DenKrAuthorTmpArrayA}{0}%
 		\def\tmpb{#1}% Init. The loop runs one iteration too few. For when no comma is contained, the part after loop catches it.
-		\whiledo{\value{DenKrAuthorTmpArrayA}<\numexpr\value{tmpArray}-1}{%
+		\whiledo{\value{DenKrAuthorTmpArrayA}<\numexpr\value{tmpArrayA}-1}{%
 			\StrBefore{\tmpb}{°}[\tmpa]%
 			\StrBehind{\tmpb}{°}[\tmpb]%
 			\DenKrAuthorTmpArrayAAddEnt{\theDenKrAuthorTmpArrayA}{\tmpa}%
 			\stepcounter{DenKrAuthorTmpArrayA}%
 		}%
 		\DenKrAuthorTmpArrayAAddEnt{\theDenKrAuthorTmpArrayA}{\tmpb}%
+	}}%
+	\let\tmpa\undefined\let\tmpb\undefined%
+}%
+\newcounter{tmpArrayB}\setcounter{tmpArrayB}{0}%
+\DeclareDocumentCommand{\prepareSplitListTmpArrayB}{m}{%
+	% Catch empty String or with only Spaces
+	\StrLen{#1}[\tmpa]%
+	\StrCount{#1}{ }[\tmpb]%
+	\setcounter{tmpArrayB}{0}%
+	\setcounter{DenKrAuthorTmpArrayB}{0}%
+	\DenKrAuthorTmpArrayBDelEnt{0}%
+	\ifnumcomp{\tmpa}{<}{1}{}{\ifnumcomp{\tmpa}{=}{\tmpb}{}{%
+		% Split the List
+		\StrCount{#1}{°}[\tmpa]%
+		\setcounter{tmpArrayB}{\tmpa+1}%
+		\setcounter{DenKrAuthorTmpArrayB}{0}%
+		\def\tmpb{#1}% Init. The loop runs one iteration too few. For when no comma is contained, the part after loop catches it.
+		\whiledo{\value{DenKrAuthorTmpArrayB}<\numexpr\value{tmpArrayB}-1}{%
+			\StrBefore{\tmpb}{°}[\tmpa]%
+			\StrBehind{\tmpb}{°}[\tmpb]%
+			\DenKrAuthorTmpArrayBAddEnt{\theDenKrAuthorTmpArrayB}{\tmpa}%
+			\stepcounter{DenKrAuthorTmpArrayB}%
+		}%
+		\DenKrAuthorTmpArrayBAddEnt{\theDenKrAuthorTmpArrayB}{\tmpb}%
 	}}%
 	\let\tmpa\undefined\let\tmpb\undefined%
 }%
@@ -573,15 +603,17 @@
 % - - - - Authors
 \newcounter{DenKrAuthorDefinedAuth}%
 \setcounter{DenKrAuthorDefinedAuth}{0}%
-\newcommand\addDenKrAuthorDefinedAuth[3]{%
+\newcommand\addDenKrAuthorDefinedAuth[4]{%
 	\edef\DenKrMark{#1}\stripLeadTrailSpace{\DenKrMark}%
 	\edef\DenKrName{#2}\stripLeadTrailSpace{\DenKrName}%
 	\edef\DenKrMail{#3}\stripLeadTrailSpace{\DenKrMail}%
+	\edef\DenKrORCIDid{#4}\stripLeadTrailSpace{\DenKrORCIDid}%
 	\csedef{DenKrAuthorDefinedAuthMARK\theDenKrAuthorDefinedAuth}{\DenKrMark}%
 	\csedef{DenKrAuthorDefinedAuthNAME\theDenKrAuthorDefinedAuth}{\DenKrName}%
-	\expandafter\ifstrequal\expandafter{#3}{!}{}{%
+	\expandafter\ifstrequal\expandafter{\DenKrMail}{!}{}{%
 		\csedef{DenKrAuthorDefinedAuthMAIL\theDenKrAuthorDefinedAuth}{\DenKrMail}%
 	}%
+	\csedef{DenKrAuthorDefinedAuthORCIDid\theDenKrAuthorDefinedAuth}{\DenKrORCIDid}%
 	\stepcounter{DenKrAuthorDefinedAuth}%
 	\let\DenKrMark\undefined\let\DenKrName\undefined\let\DenKrMail\undefined%
 }%
@@ -594,13 +626,20 @@
 \newcommand\getDenKrAuthorDefinedAuthMAIL[1]{%
 	\csuse{DenKrAuthorDefinedAuthMAIL#1}%
 }%
+\newcommand\getDenKrAuthorDefinedAuthORCIDid[1]{%
+	\csuse{DenKrAuthorDefinedAuthORCIDid#1}%
+}%
 \newcommand\leaveIdxEmpyDenKrAuthorDefinedAuth{%
 	\csundef{DenKrAuthorDefinedAuthNAME\theDenKrAuthorDefinedAuth}%
 	\csundef{DenKrAuthorDefinedAuthMAIL\theDenKrAuthorDefinedAuth}%
+	\csundef{DenKrAuthorDefinedAuthORCIDid\theDenKrAuthorDefinedAuth}%
 	\stepcounter{DenKrAuthorDefinedAuth}%
 }%
 \newcommand\checkEmptyDenKrAuthorDefinedAuth[3]{%
 	\ifcsvoid{DenKrAuthorDefinedAuthNAME#1}{#2}{#3}%
+}%
+\newcommand\checkEmptyDenKrAuthorDefinedORCIDid[3]{%
+	\ifcsvoid{DenKrAuthorDefinedAuthORCIDid#1}{#2}{#3}%
 }%
 % - - - - Affiliation
 \newcounter{DenKrAuthorDefinedAffil}%
@@ -626,9 +665,10 @@
 }%
 % - - - - Association
 \newcounter{assocIDMax}\setcounter{assocIDMax}{0}%
-\DeclareDocumentCommand{\addDenKrAuthPerIdx}{m m m}{%
+\DeclareDocumentCommand{\addDenKrAuthPerIdx}{m m m m}{%
 	\addDenKrAuthPerIdxNAME{#1}{#2}%
 	\addDenKrAuthPerIdxMAIL{#1}{#3}%
+	\addDenKrAuthPerIdxORCIDid{#1}{#4}%
 }%
 \DeclareDocumentCommand{\addDenKrAffilPerIdx}{m m m}{%
 	\addDenKrAffilPerIdxADDR{#1}{#2}%
@@ -636,6 +676,9 @@
 }%
 \newcommand\addDenKrAuthPerIdxMAIL[2]{\storeMailSplitlistPerIdx{#1}{#2}{DenKrDefAuthPerIdxMAIL}}%
 \newcommand\getDenKrAuthPerIdxMAIL[1]{\csuse{DenKrDefAuthPerIdxMAIL#1}}%Pass the Association-Mark (not something like a Loop-Iterator)
+%
+\newcommand\addDenKrAuthPerIdxORCIDid[2]{\storeSingleEntryPerIdx{#1}{#2}{DenKrDefAuthPerIdxORCIDid}}%
+\newcommand\getDenKrAuthPerIdxORCIDid[1]{\csuse{DenKrDefAuthPerIdxORCIDid#1}}%
 %
 \newcommand\addDenKrAuthPerIdxNAME[2]{\storeSingleEntryPerIdx{#1}{#2}{DenKrDefAuthPerIdxNAME}}%
 \newcommand\getDenKrAuthPerIdxNAME[1]{\csuse{DenKrDefAuthPerIdxNAME#1}}%Pass the Association-Mark (not something like a Loop-Iterator)
@@ -645,6 +688,10 @@
 %
 \newcommand\addDenKrAffilPerIdxMAIL[2]{\storeMailSplitlistPerIdx{#1}{#2}{DenKrDefAffilPerIdxMAIL}}%
 \newcommand\getDenKrAffilPerIdxMAIL[1]{\csuse{DenKrDefAffilPerIdxMAIL#1}}%Pass the Association-Mark (not something like a Loop-Iterator)
+%
+\newcommand\checkEmptyDenKrAuthPerIdxORCIDid[3]{%
+	\ifcsvoid{DenKrAuthPerIdxORCIDid#1}{#2}{#3}%
+}%
 %
 % % % % % % % % % % % % % % % % % % % % % % % %
 %		Auxiliary Macros for this
@@ -730,11 +777,26 @@
 %
 %________________________________________________________________________
 %------------------------------------------------------------------------
+%				Auxiliary Typografie Cmds
+%/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+\DeclareDocumentCommand{\DenKrAuthorOrcidLogo}{m}{\href{https://orcid.org/#1}{\raisebox{0.5ex}[0pt][0pt]{\resizebox{!}{1.5ex}{\textcolor{orcidlogocol}{\faIcon{orcid}}}}}}%
+\DeclareDocumentCommand{\DenKrAuthorOrcidLogoPUT}{m}{\ifnumcomp{\number\numexpr\DenKrAuthorORCIDSwitch\relax}{=}{0}{}{\edef\argI{#1}\edef\argII{!}\ifx\argI\argII\else\DenKrAuthorOrcidLogo{\argI}\fi}}%
+%/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+%				END Auxiliary-Typografie
+%------------------------------------------------------------------------
+%========================================================================
+%
+%
+%
+%
+%________________________________________________________________________
+%------------------------------------------------------------------------
 %				Variables for Configuration
 %/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
 \providecommand{\DenKrAuthorMailSelect}{auto}% auto, individual, collective
 \providecommand{\DenKrAuthorIEEEForm}{vertical}% vertical, horizontal, compact
-\providecommand{\DenKrAuthorParboxed}{0}% 1: Assure keeping Textwidth, 0: Not wrapped
+\providecommand{\DenKrAuthorParboxed}{0}% 1: Assure keeping Textwidth  |  0: Not wrapped
+\providecommand{\DenKrAuthorORCIDSwitch}{1}% 1: ORCID added to Authors, in case specified  |  0: NOT ever printed
 %/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
 %				END Variables
 %------------------------------------------------------------------------

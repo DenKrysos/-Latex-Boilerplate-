@@ -2,7 +2,7 @@
 %<><><><><><><><><><><><><><><><>
 %		Authors
 %vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
-\DenKrAuthor{1}{Dennis Krummacker}[dennis.krummacker@dfki.de]%
+\DenKrAuthor{1}{Dennis Krummacker}[dennis.krummacker@dfki.de][0000-0001-9799-4870]% ORCID as second optional Argument. See below at USAGE Notes
 \DenKrAuthor{1}{FirstA LastA}[firstA.lastA@company.de]%
 \DenKrAuthor{2}{FirstB LastB}[lastB@corporate.org ° !]% See below at USAGE Notes
 \DenKrAuthorNewline%
@@ -38,9 +38,9 @@
 }{
 	some.person@company.com
 }%
-\DenKrAffiliation{4}{aaaa}{mail@mail.org}
-\DenKrAffiliation{5}{bbbb}{}
-\DenKrAffiliation{}{cccc}{a_a@a.org°b@b.org}
+\DenKrAffiliation{4}{aaaaAffil}{mail@mail.org}
+\DenKrAffiliation{5}{bbbbAffil}{}
+\DenKrAffiliation{}{ccccAffil}{a_a@a.org°b@b.org}
 \DenKrAffiliation{5°4}{Institute-Address}{person@company.org ° boss@company.org}% See below at USAGE Notes
 %^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 %
@@ -81,6 +81,11 @@
 % Linebreaks to comply to Textwidth
 % - Set the following to '1' and you do not necessarily need to specify Linebreaks above (but you lose a certain control).
 \renewcommand{\DenKrAuthorParboxed}{0}%
+%
+% ORCID: Whether or not it shall be printed (In case specified)
+% - '0' NOT   |   '1' Added
+% - (Of course, simply not specifying any above - as they are optional arguments - would also just not do anything in that regard)
+\renewcommand{\DenKrAuthorORCIDSwitch}{1}%
 %/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
 %				END Config
 %------------------------------------------------------------------------
@@ -114,8 +119,12 @@
 %				More USAGE Notes
 %/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
 % - Don't be confused by the Degree-Sign (°). It is just used as Separator in Lists.
-% - Append a "°!" to an E-Mail-Address in the 4th optional argument of the \DenKrAuthor[]{}{}[] Cmd to force a linebreak after this Mail-Addr
+% - Append a "°!" to an E-Mail-Address in the 3rd (optional) argument of the \DenKrAuthor{}{}[] Cmd to force a linebreak after this Mail-Addr
 %     -> taking effect in the case '\DenKrAuthorMailSelect' is set to 'individual'
+% - ORCID: Can be given as 4th argument, which is a 2nd 'optional' argument in sequence: \DenKrAuthor{}{}[][]
+%    - As such, it can only be specified, when also the (optional) E-Mail-Address argument is present.
+%    - If you need to specify an ORCID, but NO E-Mail-Address: Give as E-Mail-Address [!], to specify it as 'No-Value / invalid / not-applicable / NA / empty'
+%       -> \DenKrAuthor{1}{Name}[!][<ORCID>]
 %/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
 %				END Config
 %------------------------------------------------------------------------
