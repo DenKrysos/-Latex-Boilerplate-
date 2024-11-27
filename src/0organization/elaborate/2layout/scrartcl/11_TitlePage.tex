@@ -21,10 +21,18 @@
 %================================================================
 %
 %\maketitle
-\input{"\DenKrLayoutTPBB/title_TikZ".tex}% title_TikZ, titleDissertationEn, title_plain, titleTUKL
+\providecommand{\DenKrTitleTPEnable}{1}% 0: No TitlePage  |  1: TitlePage included
+\providecommand{\DenKrTitlePageTP}{title_TikZ}% title_TikZ, title_proposal, titleDissertationEn, title_plain_wAuthorAndSupvervisor, titleTUKL
+\DenKrITEequal{\DenKrTitleTPEnable}{1}{%
+	\input{"\DenKrLayoutTPBB/\DenKrTitlePageTP".tex}%
+}{}%
 %
-% Title Page Rückseite
-\input{"\DenKrLayoutTPBB/titleMocktitlePlain".tex}% titleMocktitleEn, titleMocktitlePlain
+% Title Page Back (Rückseite)
+\providecommand{\DenKrTitleMocktitleEnable}{1}% 0: No Mocktitle  |  1: Mocktitle included
+\providecommand{\DenKrTitleMocktitleTP}{titleMocktitlePlain}% titleMocktitleEn, titleMocktitlePlain
+\DenKrITEequal{\DenKrTitleMocktitleEnable}{1}{%
+	\input{"\DenKrLayoutTPBB/\DenKrTitleMocktitleTP".tex}%
+}{}%
 %
 %
 %

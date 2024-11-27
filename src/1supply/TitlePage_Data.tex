@@ -13,7 +13,7 @@
 %<><><><><><><><><><><><><><><><><><><><><><><><><><><><><>
 % Titles are generally capitalized except for words such as a, an, and, as, at, but, by, for, in, nor, of, on, or, the, to and up, which are usually not capitalized unless they are the first or last word of the title. Linebreaks \\ can be used within to get better formatting as desired. Do not put math or special symbols in the title.
 % Title (English)
-\newcommand{\DenKrTPtitle}{%
+\providecommand{\DenKrTPtitle}{%
 \LaTeX \ Boilerplate%
 \par{\smaller\smaller\smaller (Choose Layout in \enquote*{2ProjectSetup}; perhaps check what this means regarding \enquote{Document-Genre})\par}
 (Another Line to check spacing)
@@ -22,7 +22,7 @@
 % Sub-Title (English)   [Only used in 'elaborate' Document-Genre]
 %		(Optional)
 %  Further Description of the Content, welcome to be extensive and spanning across multiple lines of text, nonetheless linguistically formulated as a substantive clause%
-\newcommand{\DenKrTPsubtitle}{%
+\providecommand{\DenKrTPsubtitle}{%
 \textit{Book} supports big Documents with lots of pages. Additional structuring level \textquotedbl Chapter\textquotedbl\xspace available.
 \par\textit{Article} for more condensed documents, without \textbackslash chapter.
 }%
@@ -34,14 +34,14 @@
 %<><><><><><><><><><><><><><><><><><><><><><><><><><><><><>
 %
 % Titel (e.g. Deutsch / German)
-\newcommand{\DenKrTPtitleSecond}{%
+\providecommand{\DenKrTPtitleSecond}{%
 \DenKrTPtitle%
 }%
 %
 % Sub-Titel (e.g. Deutsch / German)
 %		(Optional)
 %  Nähere Erklärung der Thematik, was auch gerne über mehrere Zeilen gehen darf, jedoch linguistisch in Form eines Substantiv-Satzes gefasst ist%
-\newcommand{\DenKrTPsubtitleSecond}{%
+\providecommand{\DenKrTPsubtitleSecond}{%
 \textit{Book} eher für große Dokumente mit vielen Seiten. Zusätzlich ist das Strukturierungs-Level "Kapitel" verfügbar.
 \\\textit{Article} für prägnantere Dokumente, ohne \textbackslash chapter.
 }%
@@ -62,8 +62,8 @@
 % <> <>			(Dissertation, PhD-Thesis, Master-Thesis, Biography, ...)
 %<><><><><><><><><><><><><><><><><><><><><><><><><><><><><>
 % Is printed on the Title-Page of Big-Documents with an entire Page dedicated to be the 'Title'
-\newcommand{\DenKrTPpublicationType}{Template}%
-\newcommand{\DenKrTPpublicationTypeGer}{Template}%
+\providecommand{\DenKrTPpublicationType}{Template}%
+\providecommand{\DenKrTPpublicationTypeGer}{Template}%
 %
 %
 %
@@ -74,7 +74,7 @@
 % <> <>			To specify e.g. that it is a Draft prior to final release with an incremental version number.
 % <> <>			(Only printed when defined)
 %<><><><><><><><><><><><><><><><><><><><><><><><><><><><><>
-% \newcommand{\DenKrTPVersion}{\mbox{\Huge\contourlength{0.1em}\contour{violet}{\textcolor{orange}{DRAFT v1.0}}}}%
+% \providecommand{\DenKrTPVersion}{\mbox{\Huge\contourlength{0.1em}\contour{violet}{\textcolor{orange}{DRAFT v1.0}}}}%
 %
 %
 %
@@ -84,51 +84,51 @@
 % <> <>		Author, Address (& Supervisor)
 % <> <>			(For Book-alike Documents)
 %<><><><><><><><><><><><><><><><><><><><><><><><><><><><><>
-\newcommand{\DenKrTPauthorAnrede}{}%
-\newcommand{\DenKrTPauthorTitleBefore}{}%
-\newcommand{\DenKrTPauthorTitleAfter}{M.Sc.}%
-\newcommand{\DenKrTPauthorFirst}{Dennis}%
-\newcommand{\DenKrTPauthorLast}{Krummacker}%
-\newcommand{\DenKrTPauthorStreet}{Street 42}%
-\newcommand{\DenKrTPauthorPLZ}{12345}%
-\newcommand{\DenKrTPauthorCity}{Town}%
-\newcommand{\DenKrTPauthorMail}{name@domain.com}%
-\newcommand{\DenKrTPsignedAtCity}{Town}%
+\providecommand{\DenKrTPauthorAnrede}{}%
+\providecommand{\DenKrTPauthorTitleBefore}{}%
+\providecommand{\DenKrTPauthorTitleAfter}{M.Sc.}%
+\providecommand{\DenKrTPauthorFirst}{Dennis}%
+\providecommand{\DenKrTPauthorLast}{Krummacker}%
+\providecommand{\DenKrTPauthorStreet}{Street 42}%
+\providecommand{\DenKrTPauthorPLZ}{12345}%
+\providecommand{\DenKrTPauthorCity}{Town}%
+\providecommand{\DenKrTPauthorMail}{name@domain.com}%
+\providecommand{\DenKrTPsignedAtCity}{Town}%
 % - - - - -
-\newcommand{\DenKrTPsupervisorOneAnrede}{}%
-\newcommand{\DenKrTPsupervisorOneTitleBefore}{Prof. Dr.-Ing.}%
-\newcommand{\DenKrTPsupervisorOneTitleAfter}{}%
-\newcommand{\DenKrTPsupervisorOneFirst}{SupervisorFirst}%
-\newcommand{\DenKrTPsupervisorOneLast}{SupervisorLast}%
+\providecommand{\DenKrTPsupervisorOneAnrede}{}%
+\providecommand{\DenKrTPsupervisorOneTitleBefore}{Prof. Dr.-Ing.}%
+\providecommand{\DenKrTPsupervisorOneTitleAfter}{}%
+\providecommand{\DenKrTPsupervisorOneFirst}{SupervisorFirst}%
+\providecommand{\DenKrTPsupervisorOneLast}{SupervisorLast}%
 % - - - - -
-\newcommand{\DenKrTPsupervisorTwoAnrede}{}%
-\newcommand{\DenKrTPsupervisorTwoTitleBefore}{Prof. Dr.}%
-\newcommand{\DenKrTPsupervisorTwoTitleAfter}{}%
-\newcommand{\DenKrTPsupervisorTwoFirst}{FName}%
-\newcommand{\DenKrTPsupervisorTwoLast}{LName}%
+\providecommand{\DenKrTPsupervisorTwoAnrede}{}%
+\providecommand{\DenKrTPsupervisorTwoTitleBefore}{Prof. Dr.}%
+\providecommand{\DenKrTPsupervisorTwoTitleAfter}{}%
+\providecommand{\DenKrTPsupervisorTwoFirst}{FName}%
+\providecommand{\DenKrTPsupervisorTwoLast}{LName}%
 % - - - - -
-\newcommand{\DenKrTPsupervisorThreeAnrede}{}%
-\newcommand{\DenKrTPsupervisorThreeTitleBefore}{}%
-\newcommand{\DenKrTPsupervisorThreeTitleAfter}{}%
-\newcommand{\DenKrTPsupervisorThreeFirst}{}%
-\newcommand{\DenKrTPsupervisorThreeLast}{}%
+\providecommand{\DenKrTPsupervisorThreeAnrede}{}%
+\providecommand{\DenKrTPsupervisorThreeTitleBefore}{}%
+\providecommand{\DenKrTPsupervisorThreeTitleAfter}{}%
+\providecommand{\DenKrTPsupervisorThreeFirst}{}%
+\providecommand{\DenKrTPsupervisorThreeLast}{}%
 % - - - - -
 % - - - - -
-\newcommand{\DenKrTPdeanAnrede}{}%
-\newcommand{\DenKrTPdeanTitleBefore}{Prof. Dr. rer. nat.}%
-\newcommand{\DenKrTPdeanTitleAfter}{}%
-\newcommand{\DenKrTPdeanFirst}{Person}%
-\newcommand{\DenKrTPdeanLast}{One}%
+\providecommand{\DenKrTPdeanAnrede}{}%
+\providecommand{\DenKrTPdeanTitleBefore}{Prof. Dr. rer. nat.}%
+\providecommand{\DenKrTPdeanTitleAfter}{}%
+\providecommand{\DenKrTPdeanFirst}{Person}%
+\providecommand{\DenKrTPdeanLast}{One}%
 % - - - - -
-\newcommand{\DenKrTPauditchairAnrede}{}%
-\newcommand{\DenKrTPauditchairTitleBefore}{Prof. Dr.-Ing.}%
-\newcommand{\DenKrTPauditchairTitleAfter}{}%
-\newcommand{\DenKrTPauditchairFirst}{Person}%
-\newcommand{\DenKrTPauditchairLast}{Two}%
+\providecommand{\DenKrTPauditchairAnrede}{}%
+\providecommand{\DenKrTPauditchairTitleBefore}{Prof. Dr.-Ing.}%
+\providecommand{\DenKrTPauditchairTitleAfter}{}%
+\providecommand{\DenKrTPauditchairFirst}{Person}%
+\providecommand{\DenKrTPauditchairLast}{Two}%
 % - - - - -
-\newcommand{\DenKrTPoralExamdate}{2022-01-01}%
-%\newcommand{\DenKrTPdate}{\DenKrdateToday}% \DenKrdateToday \Today
-\newcommand{\DenKrTPdate}{2021-10-11}%
+\providecommand{\DenKrTPoralExamdate}{2022-01-01}%
+%\providecommand{\DenKrTPdate}{\DenKrdateToday}% \DenKrdateToday \Today
+\providecommand{\DenKrTPdate}{2021-10-11}%
 %
 %
 %
@@ -141,12 +141,12 @@
 %  Two Variants (both simultaneously compatible):
 % - - - - - - - -
 % -- These ones are just prefixed before the Text (between default Setting and Text)
-% \newcommand{\DenKrTPFontTitle}{\fontsize{21}{1.2em}\selectfont}%
-% \newcommand{\DenKrTPFontSubTitle}{\fontseries{m}\fontshape{n}\selectfont\normalsize\bfseries}%
+% \providecommand{\DenKrTPFontTitle}{\fontsize{21}{1.2em}\selectfont}%
+% \providecommand{\DenKrTPFontSubTitle}{\fontseries{m}\fontshape{n}\selectfont\normalsize\bfseries}%
 % - - - - - - - -
 % -- These wrap the Text, i.e. take it as argument and paste it within itself. (Hence, if used, these always have to contain '#1')
-% \newcommand{\DenKrTPFontWrapTitle}[1]{\fontseries{m}\fontshape{n}\selectfont\DenKrContour[0.05ex]{DenKrKomaColor_SubSubSectionHeading!80!DenKrKomaColor_SectionHeading}{DenKrKomaColor_SectionHeading}{#1}}%
-% \newcommand{\DenKrTPFontWrapSubTitle}[1]{#1}%
+% \providecommand{\DenKrTPFontWrapTitle}[1]{\fontseries{m}\fontshape{n}\selectfont\DenKrContour[0.05ex]{DenKrKomaColor_SubSubSectionHeading!80!DenKrKomaColor_SectionHeading}{DenKrKomaColor_SectionHeading}{#1}}%
+% \providecommand{\DenKrTPFontWrapSubTitle}[1]{#1}%
 %
 %
 %
@@ -175,7 +175,7 @@
 %<><><><><><><><><><><><><><><><><><><><><><><><><><><><><>
 % <> <>		Keywords
 %<><><><><><><><><><><><><><><><><><><><><><><><><><><><><>
-\newcommand{\TitlePageDataKeywords}{%
+\providecommand{\TitlePageDataKeywords}{%
 }%
 % no keywords
 %
@@ -186,7 +186,7 @@
 %<><><><><><><><><><><><><><><><><><><><><><><><><><><><><>
 % <> <>		Electronic Posting Policy, Electronic Preprints, Submission-Copyright-Notice
 %<><><><><><><><><><><><><><><><><><><><><><><><><><><><><>
-\newcommand{\TitlePageDataPreprintPolicyNotice}{%
+\providecommand{\TitlePageDataPreprintPolicyNotice}{%
 }%
 %This work has been submitted to the IEEE for possible publication. Copyright may be transferred without notice, after which this version may no longer be accessible.%
 %
@@ -197,7 +197,7 @@
 %<><><><><><><><><><><><><><><><><><><><><><><><><><><><><>
 % <> <>		Electronic Posting Policy, Electronic PostPrints, Submission-Copyright-Notice
 %<><><><><><><><><><><><><><><><><><><><><><><><><><><><><>
-\newcommand{\TitlePageDataPostprintPolicyNotice}{%
+\providecommand{\TitlePageDataPostprintPolicyNotice}{%
 This manuscript has been peer-reviewed
 and accepted for publication.
 }%

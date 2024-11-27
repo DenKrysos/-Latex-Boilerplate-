@@ -1,0 +1,173 @@
+%   \input{"\DenKrLayoutBaseRootDir/standalone_constituent/macro_exclusionMux".tex}% -->
+\providecommand{\onlyinsubfile}[1]{#1}%
+\providecommand{\notinsubfile}[1]{}%
+\providecommand{\onlyinmainfile}[1]{\notinsubfile{#1}}%
+\onlyinsubfile{%
+	\input{"2ProjectSetup".tex}%
+	\renewcommand{\DenKrJPFont}{0}%
+}%
+\input{"\DenKrInternalLayoutRootDir/standalone_constituent/1ConstituentIncludeThis".tex}%
+\DenKrStandaloneConstituentPreA%
+\documentclass[class=scrbook,multi=true,float=true,crop=false]{standalone}%
+\DenKrStandaloneConstituentPreB%
+\begin{document}%
+\DenKrStandaloneConstituentPreC%
+%================================================================
+%	  BEGIN
+%----------------------------------------------------------------
+%================================================================
+\input{"\DenKrLayoutCommonDir/TitlePage/titlePage_buildingBlocks/title_1_common_begin".tex}%
+%
+%
+\input{"\DenKrLayoutCommonDir/TitlePage/background/CircleRayFadeShade".tex}%
+%
+%
+%
+%
+\colorlet{TitlePage_TypoAccentColorOne}{TitlePage_colorOne}%
+%
+%
+%
+%
+%
+%
+%
+%================================================================================
+\vspace*{0.05\textheight}\par%
+%
+%
+% Title
+% \DenKrTPTitleAndSubtitle{\DenKrTPtitle}{\DenKrTPsubtitle}%
+\begin{minipage}{\textwidth}%
+{\textcolor{gray!30!TitlePage_TypoAccentColorOne}{\hrule width \hsize height 0.2ex}\kern0mm}%
+{\textcolor{white!80!TitlePage_TypoAccentColorOne}{\hrule width \hsize height 0.1ex}\kern0mm}%
+{\textcolor{TitlePage_Color_RankA}{\hrule width \hsize height 0.4ex}\kern0mm}%
+%
+% \tikzmark{srcery_logo_anchor}%
+% \begin{tikzpicture}[remember picture,overlay]%
+% \usetikzlibrary{positioning}%
+% \usetikzlibrary{calc}%
+% 	\coordinate(srceryLogoAnchor)at(pic cs:srcery_logo_anchor);%
+% 	%
+% 	% \coordinate(srceryWand_LT)at(current page text area.north west);%
+% 	% \node(magicWand)[inner sep=0pt,yshift=0\baselineskip,xshift=-1em,anchor=north west]at(srceryWand_LT|-srceryLogoAnchor){\includegraphics[height=4.7\baselineskip]{\DenKrGraphicsRootDir/1icon/srcery_wand}};%
+% 	%
+%     \coordinate(srceryLogo_R)at(current page text area.east);%
+%     \node(srcyLogo)[inner sep=0pt,yshift=-1ex,xshift=1.5em,anchor=north east]at(srceryLogo_R|-srceryLogoAnchor){\includegraphics[height=4.2\baselineskip]{\DenKrGraphicsRootDir/1icon/srcery_logo}};%
+% \end{tikzpicture}%
+%
+\end{minipage}\par%
+\vspace*{3ex}%
+\begin{minipage}{\textwidth}\centering%
+\setstretch{0}%
+{\huge\bfseries%
+\textcolor{TitlePage_Color_RankC}{\DenKrTPtitle}%
+}\par%
+\vspace*{2ex}%
+\noindent\textcolor{gray!20!TitlePage_TypoAccentColorOne}{\rule{0.6\textwidth}{0.3ex}}\par%
+\vspace*{2ex}%
+{\normalfont\Large%
+\textcolor{TitlePage_Color_RankA}{\DenKrTPsubtitle}%
+}%
+\end{minipage}\par%
+\vspace*{3ex}%
+\kern0pt\begin{minipage}{\textwidth}%
+{\textcolor{TitlePage_Color_RankA}{\hrule width \hsize height 0.4ex}\kern0mm}%
+{\textcolor{white!80!TitlePage_TypoAccentColorOne}{\hrule width \hsize height 0.1ex}\kern0mm}%
+{\textcolor{gray!60!TitlePage_TypoAccentColorOne}{\hrule width \hsize height 0.2ex}\kern0mm}%
+\end{minipage}\par%
+%
+\vspace*{3\baselineskip}%
+%
+%
+%
+\vspace*{0.05\textheight}%
+{%
+\RaggedRight%
+{\large\color{TitlePage_Color_RankA}\textbf{Beantragende Einrichtung:}}\\%
+{\centering%
+	Logos $\rightarrow$ For customizing TitlePage, see File:\\\enquote{\textcolor{DarkGreen!10!DarkOrange}{\bfseries\expandafter\escapeus\expandafter{\DenKrLayoutTPBB}/\expandafter\escapeus\expandafter{\DenKrTitlePageTP}.tex}}%
+	%\includegraphics[width=0.4\linewidth]{"\DenKrLayoutCommonDir/TitlePage/titlegraphics/DFKI/dfki_Logo_vz".pdf}%
+\par}%
+\vspace{\baselineskip}%
+\begin{addmargin}[2em]{0pt}%
+Deutsches Forschungszentrum für künstliche Intelligenz (DFKI) GmbH\\
+Trippstadter Str. 122\\
+67663 Kaiserslautern\\
+\end{addmargin}%
+}%
+%
+%
+\vfill%
+%
+{%
+\RaggedRight%
+{%
+\hyphenpenalty=10000%
+\exhyphenpenalty=10000%
+\setlength{\tabcolsep}{0ex}% Default value: 6pt
+%\renewcommand{\arraystretch}{1.5}% Default value: 1
+\renewcommand\theadfont{\bfseries}%
+{%
+\setlength{\extrarowheight}{2pt}%
+% \centering
+% \large%
+\begin{tabular}[]{>{\bfseries}p{0.2\linewidth}<{:}p{0.8\linewidth-4\tabcolsep}}%
+% Beantragende Einrichtung & Deutsches Forschungszentrum für künstliche Intelligenz (DFKI) GmbH\\%
+Kontaktperson & \makecell[lt]{
+	Dennis Krummacker\\
+	\hspace{1.5em}\begin{tabular}{>{\itshape}p{3em}<{:}p{\linewidth-4.5em}}%
+		Mail& dennis.krummacker@dfki.de\\
+		Tel&\num[parse-numbers=false]{(+49)\ 631\ 20575\ 5090}\\
+	\end{tabular}\\
+	Person\\
+	\hspace{1.5em}\begin{tabular}{>{\itshape}p{3em}<{:}p{\linewidth-4.5em}}%
+		Mail& name@domain.de\\
+		Tel&\num[parse-numbers=false]{(+49)\ 631\ 101010\ 1234}\\
+	\end{tabular}\\
+}\\
+\multicolumn{2}{c}{}\\%
+% Fördermittel & \\
+% Gesamtkosten & \\
+Förderbedarf & \providecommand{\fundingSum}{0}\num{\fundingSum} €\\
+\end{tabular}\par%
+%USAGE NOTE:
+% - To have the Sum automatically calculated from values later in the doc and display it here, you may want to do something like:
+% -> Here:
+%		% Initial state for first Compiler-Run:
+%		\providecommand{\fundingSum}{0}%
+%		% Print it
+%		Förderbedarf & \num{\fundingSum} €\\
+% -> Somewhere in the Doc, calculate, e.g.
+%		\edef\fundingSum{\fpeval{ceil(\fundingRate*\costPersonSum/100)}}%
+% -> Put value to .aux File
+%		\makeatletter%
+%		\newcommand{\laterdef}[2]{%
+%			\protected@write\@auxout{}{\gdef\string#1{#2}}}%
+%		\makeatother%
+%		\laterdef{\fundingSum}{\fundingSum}%
+% - - - - - - - - -
+}%
+}%
+}%
+%
+\vspace*{3\baselineskip}%
+%
+% Unterer Teil der Seite
+{\large \textcolor{TitlePage_Color_RankA}{\DenKrTPdate}}%
+%================================================================================
+%
+%
+%
+%
+%
+%
+%
+%
+\input{"\DenKrLayoutCommonDir/TitlePage/titlePage_buildingBlocks/title_1_common_end".tex}%
+%================================================================
+%	  FIN
+%----------------------------------------------------------------
+%================================================================
+\end{document}%
+\DenKrStandaloneConstituentPost%
