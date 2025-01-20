@@ -4,6 +4,7 @@
 \def\DenKrListOfHeading{\DenKrHeadingTopLvlCmd}%
 \makeatletter%
 \newcommand{\tableofcontentsDenKr}{%
+	\pdfbookmark[0]{\contentsname}{ToC}%
 	\DenKrListOfHeading*{\contentsname}%
 	\label{chap:ToC}%
 	%\markboth{\nameref{#2}}{\nameref{#3}}%

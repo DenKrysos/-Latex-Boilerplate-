@@ -42,6 +42,20 @@
 %
 %
 %/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+%				Geometry, Paper-Size, Dimensions
+%________________________________________________________________________
+\ifdef{\DenKrTikzStandaloneNotInclude}{}{%
+\input{"\DenKrLayoutMainRootDir/2includes/packages/typografie_geometry".tex}%
+}%
+%________________________________________________________________________
+%				END Geometry
+%/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+%
+%
+%
+%
+%
+%/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
 %				Font/Schriftarten Setup. And inputenc
 %________________________________________________________________________
 % Inter alia: A command to format as typewrite with enabled hyphenation
@@ -135,7 +149,7 @@
 %
 %
 %/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
-%				Typografie, KOMA, Geometry, Typesetting, Schrift-Satz
+%				Typografie, KOMA, (Geometry), Typesetting, Schrift-Satz
 %________________________________________________________________________
 %  Some Settings
 \input{"\DenKrAllMainRootDirPATH/3settings/colorPalette_tikz".tex}%
@@ -145,12 +159,12 @@
 \ifdef{\DenKrTikzStandaloneNotInclude}{}{%
 \input{"\DenKrLayoutMainRootDir/2includes/packages/typografie_koma".tex}%
 \input{"\DenKrLayoutMainRootDir/2includes/packages/ToC_tableOf_ContFigTabAlg".tex}%
-\input{"\DenKrLayoutMainRootDir/2includes/packages/typografie_geometry".tex}%
+% \input{"\DenKrLayoutMainRootDir/2includes/packages/typografie_geometry".tex}% Is put higher
 \input{"\DenKrLayoutMainRootDir/2includes/packages/typografie_redefine".tex}%
 }%
 \input{"\DenKrAllMainRootDirPATH/2includes/packages/typografie_cmd".tex}%
 %________________________________________________________________________
-%				END Typografie, KOMA, Geometry
+%				END Typografie, KOMA, (Geometry)
 %/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
 %
 %

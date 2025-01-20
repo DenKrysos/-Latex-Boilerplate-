@@ -13,7 +13,8 @@
 \setcounter{runningChapterTrack}{0}%
 \newcommand{\DenKrSetChapter}{%
 	\let\chapterDefault=\chapter%
-	\let\chapter=\chapterDenKr%
+	% \let\chapter=\chapterDenKr%
+	\renewcommand{\chapter}{\chapterDenKr}%
 }%
 \makeatletter%
 \NewDocumentCommand{\chapterDenKr}{%
@@ -80,7 +81,8 @@
 \setcounter{runningSectionTrack}{0}%
 \newcommand{\DenKrSetSection}{%
 	\let\sectionDefault=\section%
-	\let\section=\sectionDenKr%
+	% \let\section=\sectionDenKr%
+	\renewcommand{\section}{\sectionDenKr}%
 }%
 \makeatletter%
 \NewDocumentCommand{\sectionDenKr}{s o m}{% \chapter*[<opt>]{<man>}
@@ -129,7 +131,8 @@
 \setcounter{runningSubSectionTrack}{0}%
 \newcommand{\DenKrSetSubsection}{%
 	\let\subsectionDefault=\subsection%
-	\let\subsection=\subsectionDenKr%
+	% \let\subsection=\subsectionDenKr%
+	\renewcommand{\subsection}{\subsectionDenKr}%
 }%
 \makeatletter%
 \NewDocumentCommand{\subsectionDenKr}{s o m}{% \chapter*[<opt>]{<man>}

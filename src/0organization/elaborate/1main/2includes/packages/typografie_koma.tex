@@ -118,7 +118,7 @@
 % Create Sections on a new page, except for the first one
 %    (Outcomment / restore the "\AddToHook" to disable/enable this)
 %----------------------------------
-% \newcommand{\DenKrSectionbreak}{\ifnum\value{section}>0 \clearpage\fi}%
+\newcommand{\DenKrSectionbreak}{\ifnum\value{section}>0 \clearpage\fi}%
 % \AddToHook{cmd/section/before}{\DenKrSectionbreak}%
 %
 %
@@ -210,7 +210,7 @@
 %---------------------------------------------------------
 \KOMAoptions{%
  	%BCOR=8mm,% Bindeverlust von 8mm am Innenrand einbeziehen
-	DIV=last,%
+	% DIV=last,% last, current
 	toc=nolistof,% For NOT adding List-Ofs to the ToC (Default)
 	toc=graduated,% Format of the ToC
 	toc=nobib,% I take care of that manually
