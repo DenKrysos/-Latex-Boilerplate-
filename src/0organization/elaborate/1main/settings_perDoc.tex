@@ -110,14 +110,37 @@
 % - \draftPhaseSetGlobal{<Value>}%Sets the values of all
 % - \draftPhaseSetPicture{<Value>}% Sets only and selectively the value used for Picture included during the \dishPicMat-Macro
 % - \draftPhaseSetRating{<Value>}% Sets only and selectively the value used for generating the rating-symbols
-\draftPhaseSetGlobal{0}%
-%\draftPhaseSetPicture{1}%
-%\draftPhaseSetRating{1}%
-%\draftPhaseSetIngredients{1}%
-% - - - - - - - - - - - - - - - -
-\draftPhaseSetSurpressRecipes{0}%
-% - - - - - - - - - - - - - - - -
-\phaseSetRelease{1}%
+%################################
+% USAGE EXAMPLE:
+%==================================================================================
+% ----  Set-Up of Typography (Recipe Typesetting Macros)
+%----------------------------------------------------------------------------------
+% draftPhaseSet[...]  - Set to '1' to:
+%     Global: Sets the 3 below simultaneously
+%     Picture{1}: No Inclusion of Pictures
+%     Rating{1}: No Generation of Rating-Boxes
+%     Ingredients{1}: No nice Formatting of Ingredients-Box
+% draftPhaseSetSurpressRecipes{1}: No Inclusion of any Recipe. (Can be overwritten per Recipe with [1] behind the Recipe-Inclusion-Cmd)
+% phaseSetRelease{1}: Overwrites all the draftPhase Settings back to 0 and excludes the Development-Notes from the Beginning.
+%		% - - - - - - - - - - - - - - - - -
+%		\renewcommand{\DenKrJPFont}{0}% Deactivates Japanese-Font for quicker compilation during development
+%		% - - - - - - - -
+%		\draftPhaseSetGlobal{0}%
+%		%\draftPhaseSetPicture{1}%
+%		%\draftPhaseSetRating{1}%
+%		%\draftPhaseSetIngredients{1}%
+%		\draftPhaseSetSimpleTypografie{1}%
+%		% - - - - - - - - - - - - - - - - -
+%		\draftPhaseSetSurpressRecipes{1}%
+%		% - - - - - - - - - - - - - - - - -
+%		\phaseSetRelease{0}[1]%
+%		%----------------------------------
+%		%----------------------------------
+%		%----------------------------------
+%		%----------------------------------
+%		%----------------------------------
+%		% Some Settings take immediate effect (with the setting-Macros above). Others only set some Flag or Preference (e.g. the 'SimpleTypografie'). This Flag can then be overwritten (e.g. by the '\phaseSetRelease'). Finally, this Macro below modifies more complex overall Document-Settings, according to the current state of the Flag.
+%		\draftPhaseRealizeSettings%
 %/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
 %							Settings for my own Macros end
 %------------------------------------------------------------------------

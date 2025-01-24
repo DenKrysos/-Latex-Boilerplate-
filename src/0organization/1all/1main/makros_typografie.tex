@@ -32,48 +32,48 @@
 \newcommand{\reciperef}[1]{\gerguiquote{\textit{\nameref{#1} (S. \pageref{#1})}}}%
 %
 \DeclareDocumentCommand{\recipeHead}{%
-    o% as used with Section-Headings, for optional "short" title
-    m% The actual section-Heading
-    O{0}% Whether or not it shall be treated like with an Asterisk, i.e. shall become numbered. Implementation ToDo
+	o% as used with Section-Headings, for optional "short" title
+	m% The actual section-Heading
+	O{0}% Whether or not it shall be treated like with an Asterisk, i.e. shall become numbered. Implementation ToDo
 }{%
-    \IfNoValueTF{#1}{%
-        \section{#2}%
-    }{%
-        \section[#1]{#2}%
-    }%
+	\IfNoValueTF{#1}{%
+		\section{#2}%
+	}{%
+		\section[#1]{#2}%
+	}%
 }%
 \DeclareDocumentCommand{\recipeLevelOne}{%
-    o% as used with Section-Headings, for optional "short" title
-    m% The actual section-Heading
-    O{0}% Whether or not it shall be treated like with an Asterisk, i.e. shall become numbered. Implementation ToDo
+	o% as used with Section-Headings, for optional "short" title
+	m% The actual section-Heading
+	O{0}% Whether or not it shall be treated like with an Asterisk, i.e. shall become numbered. Implementation ToDo
 }{%
-    \IfNoValueTF{#1}{%
-        \subsection*{#2}%
-    }{%
-        \subsection*[#1]{#2}%
-    }%
+	\IfNoValueTF{#1}{%
+		\subsection*{#2}%
+	}{%
+		\subsection*[#1]{#2}%
+	}%
 }%
 \DeclareDocumentCommand{\recipeLevelTwo}{%
-    o% as used with Section-Headings, for optional "short" title
-    m% The actual section-Heading
-    O{0}% Whether or not it shall be treated like with an Asterisk, i.e. shall become numbered. Implementation ToDo
+	o% as used with Section-Headings, for optional "short" title
+	m% The actual section-Heading
+	O{0}% Whether or not it shall be treated like with an Asterisk, i.e. shall become numbered. Implementation ToDo
 }{%
-    \IfNoValueTF{#1}{%
-        \subsubsection*{#2}%
-    }{%
-        \subsubsection*[#1]{#2}%
-    }%
+	\IfNoValueTF{#1}{%
+		\subsubsection*{#2}%
+	}{%
+		\subsubsection*[#1]{#2}%
+	}%
 }%
 \DeclareDocumentCommand{\recipeLevelThree}{%
-    o% as used with Section-Headings, for optional "short" title
-    m% The actual section-Heading
-    O{0}% Whether or not it shall be treated like with an Asterisk, i.e. shall become numbered. Implementation ToDo
+	o% as used with Section-Headings, for optional "short" title
+	m% The actual section-Heading
+	O{0}% Whether or not it shall be treated like with an Asterisk, i.e. shall become numbered. Implementation ToDo
 }{%
-    \IfNoValueTF{#1}{%
-        \paragraph*{#2}%
-    }{%
-        \paragraph*[#1]{#2}%
-    }%
+	\IfNoValueTF{#1}{%
+		\paragraph*{#2}%
+	}{%
+		\paragraph*[#1]{#2}%
+	}%
 }%
 %^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 %------------- Cookbook-specific End -------------
@@ -90,22 +90,22 @@
 %____________________________________________________________________
 %Args: width, HeaderName, BannerColor, BorderColor, BG-Color
 \newenvironment{TBoxColored}[6][]{%
-    \colorlet{colorBoxBanner}{#4}%
-    \colorlet{colorBoxBorder}{#5}%
-    \colorlet{colorBoxBG}{#6}%
-    \noindent\begin{tikzpicture}[#1]%
-        \def\boxHead{#3}%
-        \node[draw=colorBoxBorder,fill=colorBoxBG,inner sep=1.5ex,rounded corners=0.5em,text width=#2]% good options: minimum height, minimum width
-            (BOXCONTENT)\bgroup\ignorespaces%%(BOXCONTENT)\bgroup\rule{0pt}{3ex}\ignorespaces%
+	\colorlet{colorBoxBanner}{#4}%
+	\colorlet{colorBoxBorder}{#5}%
+	\colorlet{colorBoxBG}{#6}%
+	\noindent\begin{tikzpicture}[#1]%
+		\def\boxHead{#3}%
+		\node[draw=colorBoxBorder,fill=colorBoxBG,inner sep=1.5ex,rounded corners=0.5em,text width=#2]% good options: minimum height, minimum width
+			(BOXCONTENT)\bgroup\ignorespaces%%(BOXCONTENT)\bgroup\rule{0pt}{3ex}\ignorespaces%
 }%
 %---------------------------------------------
 {%
-        \egroup;%
-        \node[right,inner xsep=1em,fill=colorBoxBanner!75,outer sep=0pt,text height=2ex,text depth=.5ex] (BOXNAME)%
-            at ([shift={(-1em,0pt)}]BOXCONTENT.north west){\boxHead};%
-        \fill[colorBoxBanner](BOXNAME.north east)--+(-1em,1em)--+(-1em,0)--cycle;%
-        \fill[colorBoxBanner](BOXNAME.south west)--+(1em,-1em)--+(1em,0)--cycle;%
-    \end{tikzpicture}%
+		\egroup;%
+		\node[right,inner xsep=1em,fill=colorBoxBanner!75,outer sep=0pt,text height=2ex,text depth=.5ex] (BOXNAME)%
+			at ([shift={(-1em,0pt)}]BOXCONTENT.north west){\boxHead};%
+		\fill[colorBoxBanner](BOXNAME.north east)--+(-1em,1em)--+(-1em,0)--cycle;%
+		\fill[colorBoxBanner](BOXNAME.south west)--+(1em,-1em)--+(1em,0)--cycle;%
+	\end{tikzpicture}%
 }%
 %^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 %------------- Framed TextBox with Banner-Header End -------------
@@ -129,27 +129,27 @@
 %
 %Args: width, HeaderName, BannerColor, BorderColor, BG-Color, BorderWidth
 \newenvironment{TBoxColoredDB}[7][]{%
-    \colorlet{colorBoxBanner}{#4}%
-    \colorlet{colorBoxBorder}{#5}%
-    \colorlet{colorBoxBG}{#6}%
-    \noindent\begin{tikzpicture}[#1]%
-        \def\boxHead{#3}%
-        \node[draw=colorBoxBorder,line width=#7,inner sep=\DoubleBorderDist,rounded corners=0.5em]%,text width=#2]% good options: minimum height, minimum width
-            (BOXCONTENT)\bgroup\ignorespaces%%(BOXCONTENT)\bgroup\rule{0pt}{3ex}\ignorespaces%
-        \noindent\begin{tikzpicture}[#1]%
-            \node[fill=colorBoxBG,inner sep=\ingredientsTextSep,rounded corners=0.5em,text width=#2]% good options: minimum height, minimum width
-                (BOXCONTENT_INNER)\bgroup\ignorespaces%%(BOXCONTENT_INNER)\bgroup\rule{0pt}{3ex}\ignorespaces%
+	\colorlet{colorBoxBanner}{#4}%
+	\colorlet{colorBoxBorder}{#5}%
+	\colorlet{colorBoxBG}{#6}%
+	\noindent\begin{tikzpicture}[#1]%
+		\def\boxHead{#3}%
+		\node[draw=colorBoxBorder,line width=#7,inner sep=\DoubleBorderDist,rounded corners=0.5em]%,text width=#2]% good options: minimum height, minimum width
+			(BOXCONTENT)\bgroup\ignorespaces%%(BOXCONTENT)\bgroup\rule{0pt}{3ex}\ignorespaces%
+		\noindent\begin{tikzpicture}[#1]%
+			\node[fill=colorBoxBG,inner sep=\ingredientsTextSep,rounded corners=0.5em,text width=#2]% good options: minimum height, minimum width
+				(BOXCONTENT_INNER)\bgroup\ignorespaces%%(BOXCONTENT_INNER)\bgroup\rule{0pt}{3ex}\ignorespaces%
 }%
 %---------------------------------------------
 {%
-            \egroup;%
-        \end{tikzpicture}%
-        \egroup;%
-        \node [right,inner xsep=1em,fill=colorBoxBanner!75,outer sep=0pt,text height=2ex,text depth=.5ex] (BOXNAME) %
-            at ([shift={(-1em,0pt)}]BOXCONTENT.north west) {\boxHead};%
-        \fill[colorBoxBanner] (BOXNAME.north east) -- +(-1em,1em) -- +(-1em,0) -- cycle;%
-        \fill[colorBoxBanner] (BOXNAME.south west) -- +(1em,-1em) -- +(1em,0) -- cycle;%
-    \end{tikzpicture}%
+			\egroup;%
+		\end{tikzpicture}%
+		\egroup;%
+		\node [right,inner xsep=1em,fill=colorBoxBanner!75,outer sep=0pt,text height=2ex,text depth=.5ex] (BOXNAME) %
+			at ([shift={(-1em,0pt)}]BOXCONTENT.north west) {\boxHead};%
+		\fill[colorBoxBanner] (BOXNAME.north east) -- +(-1em,1em) -- +(-1em,0) -- cycle;%
+		\fill[colorBoxBanner] (BOXNAME.south west) -- +(1em,-1em) -- +(1em,0) -- cycle;%
+	\end{tikzpicture}%
 }%
 %^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 %------------- Framed TextBox with Banner-Header, DoubleBorder End -------------
@@ -186,39 +186,39 @@
 \setlength\ingredientsMaxWidth{\textwidth-\ingredientsWidthHaveToReduce}%
 %
 \newenvironment{ingredients_base}[2][]{%
-    \begin{TBoxColoredDB}{#2}{\textit{\underline{Zutaten}}}{colorIngredientsHead}{colorIngredientsBorder}{colorIngredientsBG}{\recipeBorderWidthIngredients}%
-    \vspace*{-\baselineskip}%
-    \setlength{\columnseprule}{0.4pt}%
-    \begin{multicols}{2}%
+	\begin{TBoxColoredDB}{#2}{\textit{\underline{Zutaten}}}{colorIngredientsHead}{colorIngredientsBorder}{colorIngredientsBG}{\recipeBorderWidthIngredients}%
+	\vspace*{-\baselineskip}%
+	\setlength{\columnseprule}{0.4pt}%
+	\begin{multicols}{2}%
 }%
 %---------------------------------------------
 {%
-    \end{multicols}%
-    \setlength{\columnseprule}{0pt}%
-    \end{TBoxColoredDB}%
+	\end{multicols}%
+	\setlength{\columnseprule}{0pt}%
+	\end{TBoxColoredDB}%
 }%
 %===========================================
 \newenvironment{ingredients}[2][]{%This wraps the actual formatting of the Box into the checking of the Draft-State Value
-    \ifnumcomp{\value{draftPhase_ingredients}}{=}{0}{%
-        \begin{ingredients_base}{#2}%
-    }{%
-        \ifnumcomp{\value{draftPhase_ingredients}}{=}{1}{%
-            \textit{\underline{Zutaten}}:\nl%
-        }{%
-            »Invalid Value on \enquote{draftPhase} / \enquote{draftPhase\_ingredients}«%
-        }%
-    }%
+	\ifnumcomp{\value{draftPhase_ingredients}}{=}{0}{%
+		\begin{ingredients_base}{#2}%
+	}{%
+		\ifnumcomp{\value{draftPhase_ingredients}}{=}{1}{%
+			\textit{\underline{Zutaten}}:\nl%
+		}{%
+			»Invalid Value on \enquote{draftPhase} / \enquote{draftPhase\_ingredients}«%
+		}%
+	}%
 }%
 %---------------------------------------------
 {%
-    \ifnumcomp{\value{draftPhase_ingredients}}{=}{0}{%
-        \end{ingredients_base}%
-    }{%
-        \ifnumcomp{\value{draftPhase_ingredients}}{=}{1}{%
-        }{%
-            »Invalid Value on \enquote{draftPhase} / \enquote{draftPhase\_ingredients}«%
-        }%
-    }%
+	\ifnumcomp{\value{draftPhase_ingredients}}{=}{0}{%
+		\end{ingredients_base}%
+	}{%
+		\ifnumcomp{\value{draftPhase_ingredients}}{=}{1}{%
+		}{%
+			»Invalid Value on \enquote{draftPhase} / \enquote{draftPhase\_ingredients}«%
+		}%
+	}%
 }%
 %^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 %------------- Rezept Zutaten Box End -------------
@@ -236,14 +236,14 @@
 \newcommand{\dishPicSingle}[1]{%
 \begin{center}%\begin{scope}%\begin{figure}[!htbp]%[H]
 \centering%
-    \begin{tikzpicture}%
-        \colorlet{colorBoxBorder}{colorIngredientsBorder}%
-        \colorlet{colorBoxBG}{colorDishPicBG}%
-        \node[draw=colorBoxBorder,fill=colorBoxBG,inner sep=1.5ex,rounded corners=0.5em]%
-            (BOXCONTENT)\bgroup\ignorespaces%%(BOXCONTENT)\bgroup\rule{0pt}{3ex}\ignorespaces%
-            	\includegraphics[width=0.47\textwidth]{#1}%
-            \egroup;%
-    \end{tikzpicture}%
+	\begin{tikzpicture}%
+		\colorlet{colorBoxBorder}{colorIngredientsBorder}%
+		\colorlet{colorBoxBG}{colorDishPicBG}%
+		\node[draw=colorBoxBorder,fill=colorBoxBG,inner sep=1.5ex,rounded corners=0.5em]%
+			(BOXCONTENT)\bgroup\ignorespaces%%(BOXCONTENT)\bgroup\rule{0pt}{3ex}\ignorespaces%
+				\includegraphics[width=0.47\textwidth]{#1}%
+			\egroup;%
+	\end{tikzpicture}%
 	%\captionof{figure}{text}\label{labelname}%%\caption{Curry-Pfanne}%%\label{fig:curry-pfanne}%
 \end{center}%\end{scope}%\end{figure}%
 }%
@@ -251,17 +251,17 @@
 \newcommand{\dishPicDouble}[2]{%
 \begin{center}%\begin{scope}%\begin{figure}[!htbp]%[H]
 \centering%
-    \begin{tikzpicture}%
-        \colorlet{colorBoxBorder}{colorIngredientsBorder}%
-        \colorlet{colorBoxBG}{colorDishPicBG}%
-        \node[draw=colorBoxBorder,fill=colorBoxBG,inner sep=1.5ex,rounded corners=0.5em,rectangle split,rectangle split horizontal,rectangle split parts=2]%
-            (BOXCONTENT)\bgroup\ignorespaces%%(BOXCONTENT)\bgroup\rule{0pt}{3ex}\ignorespaces%
-            	\includegraphics[width=0.47\textwidth]{#1}%
-            	\nodepart{two}%
-            	\includegraphics[width=0.47\textwidth]{#2}%
-            \egroup;%
-            %\draw[brown](current bounding box.south west)rectangle(current bounding box.north east);
-    \end{tikzpicture}%
+	\begin{tikzpicture}%
+		\colorlet{colorBoxBorder}{colorIngredientsBorder}%
+		\colorlet{colorBoxBG}{colorDishPicBG}%
+		\node[draw=colorBoxBorder,fill=colorBoxBG,inner sep=1.5ex,rounded corners=0.5em,rectangle split,rectangle split horizontal,rectangle split parts=2]%
+			(BOXCONTENT)\bgroup\ignorespaces%%(BOXCONTENT)\bgroup\rule{0pt}{3ex}\ignorespaces%
+				\includegraphics[width=0.47\textwidth]{#1}%
+				\nodepart{two}%
+				\includegraphics[width=0.47\textwidth]{#2}%
+			\egroup;%
+			%\draw[brown](current bounding box.south west)rectangle(current bounding box.north east);
+	\end{tikzpicture}%
 	%\captionof{figure}{text}\label{labelname}%%\caption{Curry-Pfanne}%%\label{fig:curry-pfanne}%
 \end{center}%\end{scope}%\end{figure}%
 }%
@@ -282,227 +282,227 @@
 %       Example3(Stretch): \dishPicMat[2]{graphics/Pic1.png | graphics/Pic2.jpg | graphics/Pic3.jpg}[1]
 %       Example3(Stretch): \dishPicMat[2]{graphics/Pic1.png | graphics/Pic2.jpg | graphics/Pic3.jpg}[3,0.8]
 \DeclareDocumentCommand{\dishPicMat}{%
-    O{2} O{0} >{\SplitList{|}}m >{\SplitArgument{1}{,}}O{0}%
+	O{2} O{0} >{\SplitList{|}}m >{\SplitArgument{1}{,}}O{0}%
 }{%
-    %\newcounter{quotient}%
-    \setcounter{numArgs}{0}%
-    \setcounter{numPerLine}{\number\numexpr#1\relax}%
-    \setcounter{ArrayEntCnt}{0}%
-    \ProcessList{#3}{\preparePictureMatrixList}%
-    \dishPicMatParseArgStretch#4%
-    \setcounter{numLines}{\value{numArgs}}%
-    \divide\value{numLines} by \value{numPerLine}%
-    %\setcounter{numLines}{\inteval{\value{numArgs}/\value{numPerLine}}}%
-    %\setcounter{numInLastLine}{\value{numArgs}-(\value{numLines}-1)*\value{numPerLine}}%
-    \setcounter{numInLastLine}{\value{numArgs}-\value{numLines}*\value{numPerLine}}%
-    \ifnumcomp{\value{numInLastLine}}{>}{0}{%
-        \setcounter{numLines}{\value{numLines}+1}%
-    }{%
-        \setcounter{numInLastLine}{\value{numPerLine}}%
-    }%
-    % For Acquiring the actual dimensions of a Picture to include -> Then check whether the inclusion would interpolate and in case include with actual size. Performed later within processing
-    \newlength{\srcPicWidth}%
-    \newlength{\srcPicHeight}%
-    %\the\value{numArgs} -- \the\value{numPerLine} -- \the\value{numLines} -- \the\value{numInLastLine}
-    \let\innAbst\undefined%
-    \newlength\innAbst%
-    \setlength\innAbst{1.5ex}% Abstand zwischen Text und Zellenrand
-    \let\lineHeight\undefined%
-    \newlength\lineHeight%
-    \setlength\lineHeight{0pt}%
-    \let\lineHeightCmp\undefined%
-    \newlength\lineHeightCmp%
-    \setlength\lineHeightCmp{0pt}%
-    \let\nodeWidth\undefined%
-    \newlength\nodeWidth%
-    \setlength\nodeWidth{\textwidth/\value{numPerLine}-\recipeBorderWidthDishPic-\recipeBorderWidthDishPic/\value{numPerLine}}%
-    % \ifnumcomp{\thenumArgs}{<}{\thenumPerLine}{%
-    %     \setlength\nodeWidth{\textwidth/\value{numArgs}-\recipeBorderWidthDishPic-\recipeBorderWidthDishPic/\value{numArgs}}%
-    % }{%
-    %     \setlength\nodeWidth{\textwidth/\value{numPerLine}-\recipeBorderWidthDishPic-\recipeBorderWidthDishPic/\value{numPerLine}}%
-    % }%
-    \let\picWidth\undefined%
-    \newlength\picWidth%
-    \setlength\picWidth{\nodeWidth-2\innAbst}% Abstand zwischen Text und Zellenrand
-    %\setlength\picWidth{\textwidth/\value{numPerLine}-2\innAbst}% Abstand zwischen Text und Zellenrand
-    %\the\picWidth -- \the\textwidth
-    \setlength\dishPicMatPicHeightMax{\textheight/3}%
-    \setcounter{prevNode}{0}%
-    \setcounter{currLine}{1}%
-    \setcounter{currRow}{1}%
-    % - - - - - - - - - - - - -
-    \begin{center}
-    \centering%
-        \begin{tikzpicture}%
-            % \usetikzlibrary{shapes.misc, positioning}%
-            % \usetikzlibrary{calc}%
-            % \pgfdeclarelayer{background}%
-            % \pgfdeclarelayer{nodeShape}%->Layer1
-            % \pgfdeclarelayer{nodePic}%->Layer2
-            % \pgfsetlayers{background,nodeShape,nodePic}%
-            \colorlet{colorBoxBorder}{colorIngredientsBorder}%
-            \colorlet{colorBoxBG}{colorDishPicBG}%
-            \tikzstyle{rectBase}=[inner sep=\innAbst,rectangle,line width=\recipeBorderWidthDishPic,anchor=north west, minimum width=\nodeWidth, minimum height=\lineHeight]%draw=colorBoxBorder,fill=colorBoxBG
-            \tikzstyle{pathLineFill}=[draw=colorBoxBorder,fill=colorBoxBG,line width=\recipeBorderWidthDishPic]%
-            \tikzstyle{cornRounding}=[rounded corners=0.5em]%
-            \tikzstyle{cornNoRound}=[]%
-            \coordinate(-1)at(0,0);%As first anchor, which can be referenced by the first actual node with id (0)
-            % \begin{pgfonlayer}{Layer2}%
-            % \node[rectBase](0)%
-            %     \bgroup\ignorespaces%
-            %     	\includegraphics[width=\picWidth]{\checkArrayEnt{0}{NoEntryDefined}{\getArrayEnt{0}}}%
-            %     \egroup;%
-            % \end{pgfonlayer}%
-            % \drawPicNodeRect{0}{cornRounding}{cornNoRound}{cornNoRound}{cornNoRound}
-            \setcounter{loopi}{0}%
-            \loop\ifnum\value{loopi}<\value{numArgs}%
-                \ifnumcomp{\thecurrRow}{>}{\thenumPerLine}{%
-                    \stepcounter{currLine}%
-                    \setcounter{currRow}{1}%
-                    \setcounter{prevNode}{\theloopi-\thenumPerLine}%
-                    \renewcommand{\newNodeRefPoint}{south west}%
-                }{%
-                    \setcounter{prevNode}{\theloopi-1}%
-                    \renewcommand{\newNodeRefPoint}{north east}%
-                }%
-                % The last line
-                % \ifthenelse{\number\stretchArgMode=1 \AND \thenumInLastLine<\thenumPerLine}{%
-                \ifthenelse{\thenumInLastLine<\thenumPerLine \AND \thecurrLine=\thenumLines}{%
-                    \ifthenelse{\number\stretchArgMode>0}{%
-                        \ifnumcomp{\thecurrLine}{=}{\thenumLines}{%
-                            %\setlength\nodeWidth{\textwidth/\value{numPerLine}-\recipeBorderWidthDishPic-\recipeBorderWidthDishPic/\value{numPerLine}}%
-                            \ifnumcomp{\thecurrRow}{=}{1}{%
-                                \setlength\nodeWidth{\textwidth/\value{numInLastLine}-\recipeBorderWidthDishPic-\recipeBorderWidthDishPic/\value{numInLastLine}}%
-                            }{}%
-                            \ifnumcomp{\thecurrRow}{=}{\thenumInLastLine}{%
-                                %\setlength\nodeWidth{\nodeWidth+\recipeBorderWidthDishPic}%
-                            }{}%
-                        }{}%
-                    }{}%
-                    \ifthenelse{\number\stretchArgMode=1}{%
-                        %Nothing do do
-                    }{\ifthenelse{\number\stretchArgMode=2}{%
-                        \setlength\picWidth{\nodeWidth-2\innAbst}%
-                    }{\ifthenelse{\number\stretchArgMode=3}{%
-                        \setlength\picWidth{\nodeWidth-2\innAbst}%
-                        \setlength\picWidth{\stretchArgFactor\picWidth}%
-                    }{}}}%
-                }{}%
-                % First Pic in line: Compute Line-Height
-                \ifnumcomp{\thecurrRow}{=}{1}{%
-                    \setcounter{loopj}{\theloopi}%
-                    \ifnumcomp{\thecurrLine}{=}{\thenumLines}{%
-                        \setcounter{temp}{\theloopj+\thenumInLastLine}%
-                    }{%
-                        \setcounter{temp}{\theloopj+\thenumPerLine}%
-                    }%
-                        \setlength\lineHeight{1pt}
-                    {\loop\ifnum\value{loopj}<\value{temp}%Inner loops must be embraced
-                        % Measure the Pic calculating the dimension
-                        \dishPicMatSetMaxPicDimension{\theloopj}%
-                        \settoheight{\lineHeightCmp}{\includegraphics[width=\srcPicWidth]{\checkArrayEnt{\theloopj}{}{\getArrayEnt{\theloopj}}}}\global\lineHeightCmp=\lineHeightCmp%
-                        \setlength\lineHeightCmp{\lineHeightCmp+2\innAbst}\global\lineHeightCmp=\lineHeightCmp%
-                        \ifnumcomp{\lineHeightCmp}{>}{\lineHeight}{%
-                            \setlength\lineHeight{\lineHeightCmp}\global\lineHeight=\lineHeight%
-                        }{}%
-                    \stepcounter{loopj}%
-                    \repeat}%
-                }{}%
-                % Assure scaled inclusion won't interpolate picture. Here, make the final setting for the actual inclusion
-                \dishPicMatSetMaxPicDimension{\theloopi}%
-                \begin{pgfonlayer}{Layer2}%
-                    \node[rectBase](\theloopi)%
-                        at (\theprevNode.\newNodeRefPoint)%
-                        \bgroup\ignorespaces%
-                            %\theloopi -- \thecurrLine%
-                        	%\the\lineHeight - \the\value{loopj}, \the\value{temp}
-                            \ifnumcomp{\value{draftPhase_pic}}{=}{0}{%
-                                \dishPicMatIncludegraphics%
-                            }{%
-                                \ifnumcomp{\value{draftPhase_pic}}{=}{1}{%
-                                    \ifnumcomp{#2}{=}{1}{%
-                                        \dishPicMatIncludegraphics%
-                                    }{%
-                                        \textbf{»Draft«}%
-                                    }%
-                                }{%
-                                    »Invalid Value on \enquote{draftPhase} / \enquote{draftPhase\_pic}«%
-                                }%
-                            }%
-                        \egroup;%
-                \end{pgfonlayer}%
-                \ifthenelse{\thecurrLine=1 \AND \thecurrRow=1}{%
-                    \renewcommand{\cornFormatLT}{cornRounding}%
-                }{}%
-                \ifthenelse{\thecurrLine=1 \AND \thecurrRow=\thenumPerLine}{%
-                    \renewcommand{\cornFormatRT}{cornRounding}%
-                }{}%
-                \ifthenelse{\thecurrLine=1 \AND \thecurrRow=\thenumArgs}{%
-                    \renewcommand{\cornFormatRT}{cornRounding}%
-                }{}%
-                \ifthenelse{\thecurrLine=\thenumLines \AND \thecurrRow=1}{%
-                    \renewcommand{\cornFormatLB}{cornRounding}%
-                }{}%
-                \ifthenelse{\thecurrLine=\thenumLines \AND \thecurrRow=\thenumInLastLine}{%
-                    \renewcommand{\cornFormatRB}{cornRounding}%
-                }{}%
-                \ifthenelse{\number\numexpr\stretchArgMode\relax>0}{}{%
-                    \setcounter{temp}{\thenumLines-1}%
-                    \ifthenelse{\thenumInLastLine<\thenumPerLine \AND \thecurrLine=\thetemp \AND \thecurrRow=\thenumPerLine}{%
-                        \renewcommand{\cornFormatRB}{cornRounding}%
-                    }{}%
-                }%
-                \drawPicNodeRect{\theloopi}{\cornFormatLT}{\cornFormatRT}{\cornFormatRB}{\cornFormatLB}%
-                \renewcommand{\cornFormatLT}{cornNoRound}%
-                \renewcommand{\cornFormatRT}{cornNoRound}%
-                \renewcommand{\cornFormatLB}{cornNoRound}%
-                \renewcommand{\cornFormatRB}{cornNoRound}%
-            \stepcounter{currRow}%
-            \stepcounter{loopi}%
-            \repeat%
-        \end{tikzpicture}%
-    \end{center}
-    \let\stretchArgMode\undefined%
-    \let\stretchArgFactor\undefined%
-    \let\srcPicWidth\undefined%
-    \let\srcPicHeight\undefined%
+	%\newcounter{quotient}%
+	\setcounter{numArgs}{0}%
+	\setcounter{numPerLine}{\number\numexpr#1\relax}%
+	\setcounter{ArrayEntCnt}{0}%
+	\ProcessList{#3}{\preparePictureMatrixList}%
+	\dishPicMatParseArgStretch#4%
+	\setcounter{numLines}{\value{numArgs}}%
+	\divide\value{numLines} by \value{numPerLine}%
+	%\setcounter{numLines}{\inteval{\value{numArgs}/\value{numPerLine}}}%
+	%\setcounter{numInLastLine}{\value{numArgs}-(\value{numLines}-1)*\value{numPerLine}}%
+	\setcounter{numInLastLine}{\value{numArgs}-\value{numLines}*\value{numPerLine}}%
+	\ifnumcomp{\value{numInLastLine}}{>}{0}{%
+		\setcounter{numLines}{\value{numLines}+1}%
+	}{%
+		\setcounter{numInLastLine}{\value{numPerLine}}%
+	}%
+	% For Acquiring the actual dimensions of a Picture to include -> Then check whether the inclusion would interpolate and in case include with actual size. Performed later within processing
+	\newlength{\srcPicWidth}%
+	\newlength{\srcPicHeight}%
+	%\the\value{numArgs} -- \the\value{numPerLine} -- \the\value{numLines} -- \the\value{numInLastLine}
+	\let\innAbst\undefined%
+	\newlength\innAbst%
+	\setlength\innAbst{1.5ex}% Abstand zwischen Text und Zellenrand
+	\let\lineHeight\undefined%
+	\newlength\lineHeight%
+	\setlength\lineHeight{0pt}%
+	\let\lineHeightCmp\undefined%
+	\newlength\lineHeightCmp%
+	\setlength\lineHeightCmp{0pt}%
+	\let\nodeWidth\undefined%
+	\newlength\nodeWidth%
+	\setlength\nodeWidth{\textwidth/\value{numPerLine}-\recipeBorderWidthDishPic-\recipeBorderWidthDishPic/\value{numPerLine}}%
+	% \ifnumcomp{\thenumArgs}{<}{\thenumPerLine}{%
+	%	 \setlength\nodeWidth{\textwidth/\value{numArgs}-\recipeBorderWidthDishPic-\recipeBorderWidthDishPic/\value{numArgs}}%
+	% }{%
+	%	 \setlength\nodeWidth{\textwidth/\value{numPerLine}-\recipeBorderWidthDishPic-\recipeBorderWidthDishPic/\value{numPerLine}}%
+	% }%
+	\let\picWidth\undefined%
+	\newlength\picWidth%
+	\setlength\picWidth{\nodeWidth-2\innAbst}% Abstand zwischen Text und Zellenrand
+	%\setlength\picWidth{\textwidth/\value{numPerLine}-2\innAbst}% Abstand zwischen Text und Zellenrand
+	%\the\picWidth -- \the\textwidth
+	\setlength\dishPicMatPicHeightMax{\textheight/3}%
+	\setcounter{prevNode}{0}%
+	\setcounter{currLine}{1}%
+	\setcounter{currRow}{1}%
+	% - - - - - - - - - - - - -
+	\begin{center}
+	\centering%
+		\begin{tikzpicture}%
+			% \usetikzlibrary{shapes.misc, positioning}%
+			% \usetikzlibrary{calc}%
+			% \pgfdeclarelayer{background}%
+			% \pgfdeclarelayer{nodeShape}%->Layer1
+			% \pgfdeclarelayer{nodePic}%->Layer2
+			% \pgfsetlayers{background,nodeShape,nodePic}%
+			\colorlet{colorBoxBorder}{colorIngredientsBorder}%
+			\colorlet{colorBoxBG}{colorDishPicBG}%
+			\tikzstyle{rectBase}=[inner sep=\innAbst,rectangle,line width=\recipeBorderWidthDishPic,anchor=north west, minimum width=\nodeWidth, minimum height=\lineHeight]%draw=colorBoxBorder,fill=colorBoxBG
+			\tikzstyle{pathLineFill}=[draw=colorBoxBorder,fill=colorBoxBG,line width=\recipeBorderWidthDishPic]%
+			\tikzstyle{cornRounding}=[rounded corners=0.5em]%
+			\tikzstyle{cornNoRound}=[]%
+			\coordinate(-1)at(0,0);%As first anchor, which can be referenced by the first actual node with id (0)
+			% \begin{pgfonlayer}{Layer2}%
+			% \node[rectBase](0)%
+			%	 \bgroup\ignorespaces%
+			%	 	\includegraphics[width=\picWidth]{\checkArrayEnt{0}{NoEntryDefined}{\getArrayEnt{0}}}%
+			%	 \egroup;%
+			% \end{pgfonlayer}%
+			% \drawPicNodeRect{0}{cornRounding}{cornNoRound}{cornNoRound}{cornNoRound}
+			\setcounter{loopi}{0}%
+			\loop\ifnum\value{loopi}<\value{numArgs}%
+				\ifnumcomp{\thecurrRow}{>}{\thenumPerLine}{%
+					\stepcounter{currLine}%
+					\setcounter{currRow}{1}%
+					\setcounter{prevNode}{\theloopi-\thenumPerLine}%
+					\renewcommand{\newNodeRefPoint}{south west}%
+				}{%
+					\setcounter{prevNode}{\theloopi-1}%
+					\renewcommand{\newNodeRefPoint}{north east}%
+				}%
+				% The last line
+				% \ifthenelse{\number\stretchArgMode=1 \AND \thenumInLastLine<\thenumPerLine}{%
+				\ifthenelse{\thenumInLastLine<\thenumPerLine \AND \thecurrLine=\thenumLines}{%
+					\ifthenelse{\number\stretchArgMode>0}{%
+						\ifnumcomp{\thecurrLine}{=}{\thenumLines}{%
+							%\setlength\nodeWidth{\textwidth/\value{numPerLine}-\recipeBorderWidthDishPic-\recipeBorderWidthDishPic/\value{numPerLine}}%
+							\ifnumcomp{\thecurrRow}{=}{1}{%
+								\setlength\nodeWidth{\textwidth/\value{numInLastLine}-\recipeBorderWidthDishPic-\recipeBorderWidthDishPic/\value{numInLastLine}}%
+							}{}%
+							\ifnumcomp{\thecurrRow}{=}{\thenumInLastLine}{%
+								%\setlength\nodeWidth{\nodeWidth+\recipeBorderWidthDishPic}%
+							}{}%
+						}{}%
+					}{}%
+					\ifthenelse{\number\stretchArgMode=1}{%
+						%Nothing do do
+					}{\ifthenelse{\number\stretchArgMode=2}{%
+						\setlength\picWidth{\nodeWidth-2\innAbst}%
+					}{\ifthenelse{\number\stretchArgMode=3}{%
+						\setlength\picWidth{\nodeWidth-2\innAbst}%
+						\setlength\picWidth{\stretchArgFactor\picWidth}%
+					}{}}}%
+				}{}%
+				% First Pic in line: Compute Line-Height
+				\ifnumcomp{\thecurrRow}{=}{1}{%
+					\setcounter{loopj}{\theloopi}%
+					\ifnumcomp{\thecurrLine}{=}{\thenumLines}{%
+						\setcounter{temp}{\theloopj+\thenumInLastLine}%
+					}{%
+						\setcounter{temp}{\theloopj+\thenumPerLine}%
+					}%
+						\setlength\lineHeight{1pt}
+					{\loop\ifnum\value{loopj}<\value{temp}%Inner loops must be embraced
+						% Measure the Pic calculating the dimension
+						\dishPicMatSetMaxPicDimension{\theloopj}%
+						\settoheight{\lineHeightCmp}{\includegraphics[width=\srcPicWidth]{\checkArrayEnt{\theloopj}{}{\getArrayEnt{\theloopj}}}}\global\lineHeightCmp=\lineHeightCmp%
+						\setlength\lineHeightCmp{\lineHeightCmp+2\innAbst}\global\lineHeightCmp=\lineHeightCmp%
+						\ifnumcomp{\lineHeightCmp}{>}{\lineHeight}{%
+							\setlength\lineHeight{\lineHeightCmp}\global\lineHeight=\lineHeight%
+						}{}%
+					\stepcounter{loopj}%
+					\repeat}%
+				}{}%
+				% Assure scaled inclusion won't interpolate picture. Here, make the final setting for the actual inclusion
+				\dishPicMatSetMaxPicDimension{\theloopi}%
+				\begin{pgfonlayer}{Layer2}%
+					\node[rectBase](\theloopi)%
+						at (\theprevNode.\newNodeRefPoint)%
+						\bgroup\ignorespaces%
+							%\theloopi -- \thecurrLine%
+							%\the\lineHeight - \the\value{loopj}, \the\value{temp}
+							\ifnumcomp{\value{draftPhase_pic}}{=}{0}{%
+								\dishPicMatIncludegraphics%
+							}{%
+								\ifnumcomp{\value{draftPhase_pic}}{=}{1}{%
+									\ifnumcomp{#2}{=}{1}{%
+										\dishPicMatIncludegraphics%
+									}{%
+										\textbf{»Draft«}%
+									}%
+								}{%
+									»Invalid Value on \enquote{draftPhase} / \enquote{draftPhase\_pic}«%
+								}%
+							}%
+						\egroup;%
+				\end{pgfonlayer}%
+				\ifthenelse{\thecurrLine=1 \AND \thecurrRow=1}{%
+					\renewcommand{\cornFormatLT}{cornRounding}%
+				}{}%
+				\ifthenelse{\thecurrLine=1 \AND \thecurrRow=\thenumPerLine}{%
+					\renewcommand{\cornFormatRT}{cornRounding}%
+				}{}%
+				\ifthenelse{\thecurrLine=1 \AND \thecurrRow=\thenumArgs}{%
+					\renewcommand{\cornFormatRT}{cornRounding}%
+				}{}%
+				\ifthenelse{\thecurrLine=\thenumLines \AND \thecurrRow=1}{%
+					\renewcommand{\cornFormatLB}{cornRounding}%
+				}{}%
+				\ifthenelse{\thecurrLine=\thenumLines \AND \thecurrRow=\thenumInLastLine}{%
+					\renewcommand{\cornFormatRB}{cornRounding}%
+				}{}%
+				\ifthenelse{\number\numexpr\stretchArgMode\relax>0}{}{%
+					\setcounter{temp}{\thenumLines-1}%
+					\ifthenelse{\thenumInLastLine<\thenumPerLine \AND \thecurrLine=\thetemp \AND \thecurrRow=\thenumPerLine}{%
+						\renewcommand{\cornFormatRB}{cornRounding}%
+					}{}%
+				}%
+				\drawPicNodeRect{\theloopi}{\cornFormatLT}{\cornFormatRT}{\cornFormatRB}{\cornFormatLB}%
+				\renewcommand{\cornFormatLT}{cornNoRound}%
+				\renewcommand{\cornFormatRT}{cornNoRound}%
+				\renewcommand{\cornFormatLB}{cornNoRound}%
+				\renewcommand{\cornFormatRB}{cornNoRound}%
+			\stepcounter{currRow}%
+			\stepcounter{loopi}%
+			\repeat%
+		\end{tikzpicture}%
+	\end{center}
+	\let\stretchArgMode\undefined%
+	\let\stretchArgFactor\undefined%
+	\let\srcPicWidth\undefined%
+	\let\srcPicHeight\undefined%
 }%
 \newcommand{\dishPicMatSetMaxPicDimension}[1]{% The Index of the Pic in the array to measure
-    \settowidth{\srcPicWidth}{\includegraphics{\checkArrayEnt{#1}{}{\getArrayEnt{#1}}}}%
-    \ifnumcomp{\picWidth}{<}{\srcPicWidth}{%
-        \setlength{\srcPicWidth}{\picWidth}%
-    }{}%
-    \ifthenelse{\number\stretchArgMode=3 \AND \thecurrLine=\thenumLines}{%
-        % No Height-Limit for the last line, when stretching deliberately via given factor
-    }{%
-        \settoheight{\tmpheight}{\includegraphics[width=\srcPicWidth]{\checkArrayEnt{#1}{}{\getArrayEnt{#1}}}}%
-        \ifnumcomp{\dishPicMatPicHeightMax}{<}{\tmpheight}{%
-            \settowidth{\srcPicWidth}{\includegraphics[height=\dishPicMatPicHeightMax]{\checkArrayEnt{#1}{}{\getArrayEnt{#1}}}}%
-        }{}%
-    }%
+	\settowidth{\srcPicWidth}{\includegraphics{\checkArrayEnt{#1}{}{\getArrayEnt{#1}}}}%
+	\ifnumcomp{\picWidth}{<}{\srcPicWidth}{%
+		\setlength{\srcPicWidth}{\picWidth}%
+	}{}%
+	\ifthenelse{\number\stretchArgMode=3 \AND \thecurrLine=\thenumLines}{%
+		% No Height-Limit for the last line, when stretching deliberately via given factor
+	}{%
+		\settoheight{\tmpheight}{\includegraphics[width=\srcPicWidth]{\checkArrayEnt{#1}{}{\getArrayEnt{#1}}}}%
+		\ifnumcomp{\dishPicMatPicHeightMax}{<}{\tmpheight}{%
+			\settowidth{\srcPicWidth}{\includegraphics[height=\dishPicMatPicHeightMax]{\checkArrayEnt{#1}{}{\getArrayEnt{#1}}}}%
+		}{}%
+	}%
 }%
 \newcommand{\dishPicMatIncludegraphics}{%
-    \includegraphics[width=\srcPicWidth]{\checkArrayEnt{\theloopi}{NoEntryDefined}{\getArrayEnt{\theloopi}}}%
+	\includegraphics[width=\srcPicWidth]{\checkArrayEnt{\theloopi}{NoEntryDefined}{\getArrayEnt{\theloopi}}}%
 }%
 %====================================================================
 %####################################################################
 %\newcommand\countListArgs[1]{\stepcounter{numArgs}}%
 \newcommand\preparePictureMatrixList[1]{%
-    \stepcounter{numArgs}%
-    \addArrayEnt{#1}%
+	\stepcounter{numArgs}%
+	\addArrayEnt{#1}%
 }%
 \NewDocumentCommand{\dishPicMatParseArgStretch}{mm}{%
-    \def\stretchArgMode{#1}%
-    \IfValueTF{#2}{%
-        % \ifnumcomp{\number\numexpr\stretchArgFactor\relax}{>}{1}{%
-        \ifthenelse{\lengthtest{#2pt > 1.0pt}}{% Workaround via lengthtest, because ifthenelse or ifnumcomp cannot work with floating-point
-            \def\stretchArgFactor{1}%
-        }{
-            \def\stretchArgFactor{#2}%
-        }%
-    }{%
-        \def\stretchArgFactor{1}%
-    }%
+	\def\stretchArgMode{#1}%
+	\IfValueTF{#2}{%
+		% \ifnumcomp{\number\numexpr\stretchArgFactor\relax}{>}{1}{%
+		\ifthenelse{\lengthtest{#2pt > 1.0pt}}{% Workaround via lengthtest, because ifthenelse or ifnumcomp cannot work with floating-point
+			\def\stretchArgFactor{1}%
+		}{
+			\def\stretchArgFactor{#2}%
+		}%
+	}{%
+		\def\stretchArgFactor{1}%
+	}%
 }%
 %\dishPicMat neccessities
 \newcounter{numArgs}%
@@ -518,7 +518,7 @@
 %Arg-Order: Node-ID, NorthWest, NorthEast, SouthEast, SouthWest
 \newcommand{\drawPicNodeRect}[5]{%
 \begin{pgfonlayer}{Layer1}%
-    \path[pathLineFill]($(#1.north)+(0.1pt,0)$){[#3]-|(#1.east)}{[#4]|-(#1.south)}{[#5]-|(#1.west)}{[#2]|-($(#1.north)+(-0.1pt,0)$)}--($(#1.north)+(0.1pt,0)$)--cycle;%
+	\path[pathLineFill]($(#1.north)+(0.1pt,0)$){[#3]-|(#1.east)}{[#4]|-(#1.south)}{[#5]-|(#1.west)}{[#2]|-($(#1.north)+(-0.1pt,0)$)}--($(#1.north)+(0.1pt,0)$)--cycle;%
 \end{pgfonlayer}%
 }%
 \newcommand{\cornFormatLT}{cornNoRound}%Corner:LeftTop
@@ -580,100 +580,100 @@
 %ARGS: RatingPoints, RatingOutOf, InverseRating, FilledColor, EmptyColor, filledTextCol, emptyTextCol, NodeToDrawFilled, NodeToDrawEmpty
 %     In case the InverseRating is given with 1 instead of 0 it is considered as "less points is better", which is then reflected in the coloring of the Rating-Ellipse
 \newcommand\ratingCustomizedNeedNode[9]{%
-    \colorlet{filledCol}{#4}%
-    \colorlet{emptyCol}{#5}%
-    \colorlet{filledTextCol}{#6}%
-    \colorlet{emptyTextCol}{#7}%
-    \colorlet{ratingColUsed}{emptyTextCol}%
-    \definecolor{ratingColMax}{RGB}{127,0,255}%
-    \definecolor{ratingColHigh}{RGB}{0,153,0}%
-    \definecolor{ratingColMed}{RGB}{200,180,0}%
-    \definecolor{ratingColLow}{RGB}{220,100,0}%{200,100,0}%{250,140,0}
-    \definecolor{ratingColMin}{RGB}{210,0,0}%
-    \setcounter{ArrayEntCnt}{0}%
-    \addArrayEnt{ratingColMin}%
-    \addArrayEnt{ratingColLow}%
-    \addArrayEnt{ratingColMed}%
-    \addArrayEnt{ratingColHigh}%
-    \addArrayEnt{ratingColMax}%
-    \def\ratingRatio{\numexpr#1*100/#2\relax}%
-    \ifnumless{\ratingRatio}{91}{%
-        \ifnumless{\ratingRatio}{65}{%
-            \ifnumless{\ratingRatio}{35}{%
-                \ifnumless{\ratingRatio}{11}{%
-                    \setcounter{ratingCustomizedResultLevel}{0}%
-                }{%
-                    \setcounter{ratingCustomizedResultLevel}{1}%
-                }%
-            }{%
-                \setcounter{ratingCustomizedResultLevel}{2}%
-            }%
-        }{%
-            \setcounter{ratingCustomizedResultLevel}{3}%
-        }%
-    }{%
-        \setcounter{ratingCustomizedResultLevel}{4}%
-    }%
-    \ifnumcomp{\numexpr#3\relax}{=}{1}{\setcounter{ratingCustomizedResultLevel}{4-\value{ratingCustomizedResultLevel}}}{}%
-    \colorlet{ratingColUsed}{\checkArrayEnt{\theratingCustomizedResultLevel}{black}{\getArrayEnt{\theratingCustomizedResultLevel}}}%
-    \let\innabst\undefined%
-    \newlength\innabst%
-    \setlength\innabst{0.0ex}% Abstand zwischen Text und Zellenrand
-    \let\nodeWidth\undefined%
-    \newlength\nodeWidth%
-    \settowidth{\nodeWidth}{\pgfinterruptpicture\footnotesize#2\endpgfinterruptpicture}%
-    \setlength\nodeWidth{\nodeWidth+\innabst+\innabst}%
-    \ifnumcomp{\numexpr#1\relax}{=}{0}{}{%
-        \setcounter{temp}{\numexpr#1-1\relax}%
-        \foreach \i in {0,...,\thetemp}{%\numexpr#1-1\relax}{%
-            \tikz[baseline]{%
-                % \begin{pgfonlayer}{main}%
-                    #8%
-                % \end{pgfonlayer}%
-                %\draw[brown](current bounding box.south west)rectangle(current bounding box.north east);
-            }%
-        }%
-    }%
-    \ifnumcomp{\numexpr#1\relax}{<}{\numexpr#2\relax}{%
-        \setcounter{temp}{\numexpr#2-#1-1\relax}%
-        \foreach \i in {\thetemp,...,0}{%{\numexpr#2-#1-1\relax,...,0}{%
-            \tikz[baseline]{%
-                % \begin{pgfonlayer}{main}%
-                    #9%
-                % \end{pgfonlayer}%
-            }%
-        }%
-    }{}%
-    % - - - - - -
-    % \ifnumcomp{\numexpr#1\relax}{=}{0}{}{%
-    % \foreach \i in {0,...,\numexpr#1-1\relax}%
-    % {%
-    % \tikz[baseline]%
-    % #8%
-    % }%
-    % }%
-    % \ifnumcomp{\numexpr#1\relax}{<}{\numexpr#2\relax}{%
-    % \foreach \i in {\numexpr#2-#1-1\relax,...,0}%
-    % {%
-    % \tikz[baseline]%
-    % #9%
-    % }%
-    % }{}%
-    \hspace*{0.75em}%
-    \lipsaroundCol{\LARGE\textcolor{ratingColUsed}{\raisebox{\baselineRaiseLARGE}{\textbf{\sfrac{#1}{#2}}}}}{ratingColUsed}{emptyCol!50}
+	\colorlet{filledCol}{#4}%
+	\colorlet{emptyCol}{#5}%
+	\colorlet{filledTextCol}{#6}%
+	\colorlet{emptyTextCol}{#7}%
+	\colorlet{ratingColUsed}{emptyTextCol}%
+	\definecolor{ratingColMax}{RGB}{127,0,255}%
+	\definecolor{ratingColHigh}{RGB}{0,153,0}%
+	\definecolor{ratingColMed}{RGB}{200,180,0}%
+	\definecolor{ratingColLow}{RGB}{220,100,0}%{200,100,0}%{250,140,0}
+	\definecolor{ratingColMin}{RGB}{210,0,0}%
+	\setcounter{ArrayEntCnt}{0}%
+	\addArrayEnt{ratingColMin}%
+	\addArrayEnt{ratingColLow}%
+	\addArrayEnt{ratingColMed}%
+	\addArrayEnt{ratingColHigh}%
+	\addArrayEnt{ratingColMax}%
+	\def\ratingRatio{\numexpr#1*100/#2\relax}%
+	\ifnumless{\ratingRatio}{91}{%
+		\ifnumless{\ratingRatio}{65}{%
+			\ifnumless{\ratingRatio}{35}{%
+				\ifnumless{\ratingRatio}{11}{%
+					\setcounter{ratingCustomizedResultLevel}{0}%
+				}{%
+					\setcounter{ratingCustomizedResultLevel}{1}%
+				}%
+			}{%
+				\setcounter{ratingCustomizedResultLevel}{2}%
+			}%
+		}{%
+			\setcounter{ratingCustomizedResultLevel}{3}%
+		}%
+	}{%
+		\setcounter{ratingCustomizedResultLevel}{4}%
+	}%
+	\ifnumcomp{\numexpr#3\relax}{=}{1}{\setcounter{ratingCustomizedResultLevel}{4-\value{ratingCustomizedResultLevel}}}{}%
+	\colorlet{ratingColUsed}{\checkArrayEnt{\theratingCustomizedResultLevel}{black}{\getArrayEnt{\theratingCustomizedResultLevel}}}%
+	\let\innabst\undefined%
+	\newlength\innabst%
+	\setlength\innabst{0.0ex}% Abstand zwischen Text und Zellenrand
+	\let\nodeWidth\undefined%
+	\newlength\nodeWidth%
+	\settowidth{\nodeWidth}{\pgfinterruptpicture\footnotesize#2\endpgfinterruptpicture}%
+	\setlength\nodeWidth{\nodeWidth+\innabst+\innabst}%
+	\ifnumcomp{\numexpr#1\relax}{=}{0}{}{%
+		\setcounter{temp}{\numexpr#1-1\relax}%
+		\foreach \i in {0,...,\thetemp}{%\numexpr#1-1\relax}{%
+			\tikz[baseline]{%
+				% \begin{pgfonlayer}{main}%
+					#8%
+				% \end{pgfonlayer}%
+				%\draw[brown](current bounding box.south west)rectangle(current bounding box.north east);
+			}%
+		}%
+	}%
+	\ifnumcomp{\numexpr#1\relax}{<}{\numexpr#2\relax}{%
+		\setcounter{temp}{\numexpr#2-#1-1\relax}%
+		\foreach \i in {\thetemp,...,0}{%{\numexpr#2-#1-1\relax,...,0}{%
+			\tikz[baseline]{%
+				% \begin{pgfonlayer}{main}%
+					#9%
+				% \end{pgfonlayer}%
+			}%
+		}%
+	}{}%
+	% - - - - - -
+	% \ifnumcomp{\numexpr#1\relax}{=}{0}{}{%
+	% \foreach \i in {0,...,\numexpr#1-1\relax}%
+	% {%
+	% \tikz[baseline]%
+	% #8%
+	% }%
+	% }%
+	% \ifnumcomp{\numexpr#1\relax}{<}{\numexpr#2\relax}{%
+	% \foreach \i in {\numexpr#2-#1-1\relax,...,0}%
+	% {%
+	% \tikz[baseline]%
+	% #9%
+	% }%
+	% }{}%
+	\hspace*{0.75em}%
+	\lipsaroundCol{\LARGE\textcolor{ratingColUsed}{\raisebox{\baselineRaiseLARGE}{\textbf{\sfrac{#1}{#2}}}}}{ratingColUsed}{emptyCol!50}
 }%
 \newcounter{ratingCustomizedResultLevel}%
 %
 \newcommand\ratingCustomizedNeedNodeSwitchingHub[9]{%
-    \ifnumcomp{\value{draftPhase_rating}}{=}{0}{%
-        \ratingCustomizedNeedNode{#1}{#2}{#3}{#4}{#5}{#6}{#7}{#8}{#9}%
-    }{%
-        \ifnumcomp{\value{draftPhase_rating}}{=}{1}{%
-            \textbf{\sfrac{#1}{#2}} -- (\textbf{»Draft«})%
-        }{%
-            »Invalid Value on \enquote{draftPhase} / \enquote{draftPhase\_rating}«%
-        }%
-    }%
+	\ifnumcomp{\value{draftPhase_rating}}{=}{0}{%
+		\ratingCustomizedNeedNode{#1}{#2}{#3}{#4}{#5}{#6}{#7}{#8}{#9}%
+	}{%
+		\ifnumcomp{\value{draftPhase_rating}}{=}{1}{%
+			\textbf{\sfrac{#1}{#2}} -- (\textbf{»Draft«})%
+		}{%
+			»Invalid Value on \enquote{draftPhase} / \enquote{draftPhase\_rating}«%
+		}%
+	}%
 }
 %^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 %------------- Customizable Rating - Most versatile End -------------
@@ -692,34 +692,34 @@
 %ARGS: RatingPoints, RatingOutOf, InverseRating, FilledColor, EmptyColor, filledTextCol, emptyTextCol, shape[tikzset/tikzstyle]
 %     In case the InverseRating is given with 1 instead of 0 it is considered as "less points is better", which is then reflected in the coloring of the Rating-Ellipse
 \newcommand\ratingCustomized[8]{%
-    \ratingCustomizedNeedNodeSwitchingHub{#1}{#2}{#3}{#4}{#5}{#6}{#7}{%
-        \begin{pgfonlayer}{main}%
-            \node[anchor=base,inner sep=\innabst,%
-                minimum width=\nodeWidth,%
-                draw,fill=filledCol,text=filledTextCol,%
-                #8%
-            ]{\raisebox{\baselineRaisefootnotesize}{\footnotesize\number\numexpr\i+1\relax}};%
-        \end{pgfonlayer}%
-    }{%
-        \begin{pgfonlayer}{main}%
-            \node[anchor=base,inner sep=\innabst,%
-                minimum width=\nodeWidth,%
-                draw,dotted,fill=emptyCol,text=emptyTextCol,%
-                #8%
-            ]{\raisebox{\baselineRaisefootnotesize}{\footnotesize\number\numexpr#2-\i\relax}};%
-        \end{pgfonlayer}%
-    }
+	\ratingCustomizedNeedNodeSwitchingHub{#1}{#2}{#3}{#4}{#5}{#6}{#7}{%
+		\begin{pgfonlayer}{main}%
+			\node[anchor=base,inner sep=\innabst,%
+				minimum width=\nodeWidth,%
+				draw,fill=filledCol,text=filledTextCol,%
+				#8%
+			]{\raisebox{\baselineRaisefootnotesize}{\footnotesize\number\numexpr\i+1\relax}};%
+		\end{pgfonlayer}%
+	}{%
+		\begin{pgfonlayer}{main}%
+			\node[anchor=base,inner sep=\innabst,%
+				minimum width=\nodeWidth,%
+				draw,dotted,fill=emptyCol,text=emptyTextCol,%
+				#8%
+			]{\raisebox{\baselineRaisefootnotesize}{\footnotesize\number\numexpr#2-\i\relax}};%
+		\end{pgfonlayer}%
+	}
 }%
 %####################################################################
 %====================================================================
 %ARGS: RatingPoints, RatingOutOf, RatingInverse, FilledColor, EmptyColor
 \newcommand\ratingStarCustomized[7]{%
-    \tikzstyle{ratingShapeStar}=[shape=star,star points=5,star point ratio=2]%
-    \ratingCustomized{#1}{#2}{#3}{#4}{#5}{#6}{#7}{ratingShapeStar}%
+	\tikzstyle{ratingShapeStar}=[shape=star,star points=5,star point ratio=2]%
+	\ratingCustomized{#1}{#2}{#3}{#4}{#5}{#6}{#7}{ratingShapeStar}%
 }
 \newcommand\ratingDiamondCustomized[7]{%
-    \tikzstyle{ratingShapeDiamond}=[diamond,aspect=1,text centered,align=center,inner sep=0.25ex]%
-    \ratingCustomized{#1}{#2}{#3}{#4}{#5}{#6}{#7}{ratingShapeDiamond}%
+	\tikzstyle{ratingShapeDiamond}=[diamond,aspect=1,text centered,align=center,inner sep=0.25ex]%
+	\ratingCustomized{#1}{#2}{#3}{#4}{#5}{#6}{#7}{ratingShapeDiamond}%
 }
 %^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 %------------- Customizable Rating End -------------
@@ -738,137 +738,137 @@
 % Normalized Macros for the ones below (i.e. that don't take a maximum value as argument, but normalize to an intrinsic one)
 \def\rateTasteMax{10}%
 \newcommand{\rateTaste}[1]{%
-    \ifnumcomp{\rateTasteMax}{<}{#1}{%
-        \def\rateTasteVal{\rateTasteMax}%
-    }{%
-        \def\rateTasteVal{#1}%
-    }%
-    \rating{\rateTasteVal}{\rateTasteMax}%
+	\ifnumcomp{\rateTasteMax}{<}{#1}{%
+		\def\rateTasteVal{\rateTasteMax}%
+	}{%
+		\def\rateTasteVal{#1}%
+	}%
+	\rating{\rateTasteVal}{\rateTasteMax}%
 }%
 \def\rateTimeMax{6}%
 \newcommand{\rateTime}[1]{%
-    \ifnumcomp{\rateTimeMax}{<}{#1}{%
-        \def\rateTimeVal{\rateTimeMax}%
-    }{%
-        \def\rateTimeVal{#1}%
-    }%
-    \timerating{\rateTimeVal}{\rateTimeMax}%
+	\ifnumcomp{\rateTimeMax}{<}{#1}{%
+		\def\rateTimeVal{\rateTimeMax}%
+	}{%
+		\def\rateTimeVal{#1}%
+	}%
+	\timerating{\rateTimeVal}{\rateTimeMax}%
 }%
 \def\rateHealthMax{5}%
 \newcommand{\rateHealth}[1]{%
-    \ifnumcomp{\rateHealthMax}{<}{#1}{%
-        \def\rateHealthVal{\rateHealthMax}%
-    }{%
-        \def\rateHealthVal{#1}%
-    }%
-    \quant{\rateHealthVal}{\rateHealthMax}%
+	\ifnumcomp{\rateHealthMax}{<}{#1}{%
+		\def\rateHealthVal{\rateHealthMax}%
+	}{%
+		\def\rateHealthVal{#1}%
+	}%
+	\quant{\rateHealthVal}{\rateHealthMax}%
 }%
 %------------------------------------------------
 \newcommand\rating[2]{%
-    \definecolor{filledStarCol}{named}{yellow}%
-    \definecolor{emptyStarCol}{RGB}{240,240,220}%
-    \ratingStarCustomized{#1}{#2}{0}{filledStarCol}{emptyStarCol}{black}{black}%
+	\definecolor{filledStarCol}{named}{yellow}%
+	\definecolor{emptyStarCol}{RGB}{240,240,220}%
+	\ratingStarCustomized{#1}{#2}{0}{filledStarCol}{emptyStarCol}{black}{black}%
 }%
 %Rating about the Time required to put in
 \newcommand\timerating[2]{%
-    \definecolor{filledClockCol}{RGB}{120,30,220}%{150,50,250}%
-    \definecolor{emptyClockCol}{RGB}{210,190,230}%
-    \definecolor{filledClockTextCol}{RGB}{200,100,0}%
-    %
-    \definecolor{ZeigerColOne}{RGB}{20,20,20}%
-    \definecolor{ZeigerColTwo}{RGB}{180,180,180}%
-    %ARGS: RatingPoints, RatingOutOf, InverseRating, FilledColor, EmptyColor, filledTextCol, emptyTextCol, NodeToDrawFilled, NodeToDrawEmpty
-    \ratingCustomizedNeedNodeSwitchingHub{#1}{#2}{0}{filledClockCol}{emptyClockCol}{filledClockTextCol}{black}{%
-        \drawClockTikz{#2}{\raisebox{\baselineRaisefootnotesize}{\footnotesize\number\numexpr\i+1\relax}}{filledCol}{white}{ZeigerColOne}{}%
-    }{%
-        \drawClockTikz{#2}{\raisebox{\baselineRaisefootnotesize}{\footnotesize\number\numexpr#2-\i\relax}}{emptyClockCol}{black}{ZeigerColTwo}{dotted}%
-        % \begin{pgfonlayer}{Layer1}
-        % \node[anchor=base,inner sep=\innabst,%
-        %     minimum width=\circleWidth,%
-        %     ratingShapeStar,
-        %     draw,dotted,fill=emptyCol,text=emptyTextCol%
-        % ]{\footnotesize\number\numexpr#2-\i\relax};%
-        % \end{pgfonlayer}
-    }%
+	\definecolor{filledClockCol}{RGB}{120,30,220}%{150,50,250}%
+	\definecolor{emptyClockCol}{RGB}{210,190,230}%
+	\definecolor{filledClockTextCol}{RGB}{200,100,0}%
+	%
+	\definecolor{ZeigerColOne}{RGB}{20,20,20}%
+	\definecolor{ZeigerColTwo}{RGB}{180,180,180}%
+	%ARGS: RatingPoints, RatingOutOf, InverseRating, FilledColor, EmptyColor, filledTextCol, emptyTextCol, NodeToDrawFilled, NodeToDrawEmpty
+	\ratingCustomizedNeedNodeSwitchingHub{#1}{#2}{0}{filledClockCol}{emptyClockCol}{filledClockTextCol}{black}{%
+		\drawClockTikz{#2}{\raisebox{\baselineRaisefootnotesize}{\footnotesize\number\numexpr\i+1\relax}}{filledCol}{white}{ZeigerColOne}{}%
+	}{%
+		\drawClockTikz{#2}{\raisebox{\baselineRaisefootnotesize}{\footnotesize\number\numexpr#2-\i\relax}}{emptyClockCol}{black}{ZeigerColTwo}{dotted}%
+		% \begin{pgfonlayer}{Layer1}
+		% \node[anchor=base,inner sep=\innabst,%
+		%	minimum width=\circleWidth,%
+		%	ratingShapeStar,
+		%	draw,dotted,fill=emptyCol,text=emptyTextCol%
+		% ]{\footnotesize\number\numexpr#2-\i\relax};%
+		% \end{pgfonlayer}
+	}%
 }%
 %Quantification, Classification
 \newcommand\quant[2]{%
-    \definecolor{filledDiamondCol}{RGB}{80,80,255}%
-    \definecolor{emptyDiamondCol}{RGB}{200,200,255}%
-    \ratingDiamondCustomized{#1}{#2}{0}{filledDiamondCol}{emptyDiamondCol}{white}{black}%
+	\definecolor{filledDiamondCol}{RGB}{80,80,255}%
+	\definecolor{emptyDiamondCol}{RGB}{200,200,255}%
+	\ratingDiamondCustomized{#1}{#2}{0}{filledDiamondCol}{emptyDiamondCol}{white}{black}%
 }%
 %====================================================================
 %####################################################################
 %Args: MostLongContent, Label, FillColor, LabelColor, ZeigerColor, AdditionalStyleOptions
 \newcommand\drawClockTikz[6]{%
-    \let\tmpLen\undefined%
-    \newlength\tmpLen%
-    %
-    \let\innAbst\undefined%
-    \newlength\innAbst%
-    \setlength\innAbst{0.2ex}% Abstand zwischen Text und Zellenrand
-    %
-    \let\circleWidth\undefined%
-    \newlength\circleWidth%
-    \setlength\circleWidth{0ex}% Abstand zwischen Text und Zellenrand
-    \settowidth\circleWidth{\pgfinterruptpicture\footnotesize#1\endpgfinterruptpicture}%\footnotesize\number\numexpr#2\relax}%
-    \setlength\circleWidth{\circleWidth+2\innAbst}%
-    %
-    \let\circleHeight\undefined%
-    \newlength\circleHeight%
-    \setlength\circleHeight{0ex}% Abstand zwischen Text und Zellenrand
-    \settoheight\circleHeight{\pgfinterruptpicture\footnotesize#1\endpgfinterruptpicture}%
-    \setlength\circleHeight{\circleHeight+2\innAbst}%
-    %
-    \let\circleRadius\undefined%
-    \newlength\circleRadius%
-    % \ifthenelse{\circleHeight>\circleWidth}{\setlength\circleRadius{\circleHeight}}{\setlength\circleRadius{\circleHWidth}}%
-    % \setlength\circleRadius{\circleRadius/2}%
-    %
-    \setlength\tmpLen{1.5em}%
-    \ifthenelse{\tmpLen>\circleHeight}{\setlength\circleHeight{\tmpLen}}{}%
-    %
-    \tikzstyle{clockZeiger}=[draw=#5,line width=0.3ex]%draw=colorBoxBorder,fill=colorBoxBG
-    %
-    \begin{pgfonlayer}{Layer5}%Label % serves as first anchor
-        \node[anchor=base,inner sep=\innAbst,%
-            %draw,fill=filledCol,%text opacity=0,%
-            minimum width=\circleWidth,minimum height=\circleHeight,%
-            text=#4,%
-            circle](label\i)%
-            {#2};%\footnotesize\number\numexpr\i+1\relax};%
-    \end{pgfonlayer}
-    \begin{pgfonlayer}{Layer1}%Uhr Base-Shape & Füllung 1 % serves as 'new' anchor for everything else upcoming
-        \node[anchor=center,inner sep=\innAbst,%
-            %draw,
-            fill=#3,%text opacity=0,%
-            minimum width=\circleWidth,minimum height=\circleHeight,%
-            circle](\i)at(label\i.center)%
-            {};%\footnotesize\number\numexpr\i+1\relax};%
-    \end{pgfonlayer}
-        \coordinate(A)at(\i.center);
-        \coordinate(B)at(\i.north);
-        \calcLength(A,B){tmpLen}%
-        \circleRadius=\tmpLen pt%
-    \begin{pgfonlayer}{Layer4}
-        \path[clockZeiger](\i.center)--($(\i.center)+(90:\circleRadius+0.6ex)$);%
-        \path[clockZeiger](\i.center)--($(\i.center)+(-20:\circleRadius+0.6ex)$);%
-    \end{pgfonlayer}
-    \begin{pgfonlayer}{Layer2}%Hellere Uhrenfüllung
-        \path[fill=#3!50](\i.center)--($(\i.center)+(-20:\circleRadius)$)arc(-20:-270:\circleRadius)--(\i.center)--cycle;%
-    \end{pgfonlayer}
-    \begin{pgfonlayer}{Layer3}%UhrenRahmen & Striche
-        \let\outerRingAddR\undefined%
-        \newlength\outerRingAddR%
-        \setlength\outerRingAddR{0.15em}%
-        \path[draw,#6]($(\i.north)+(0,\outerRingAddR)$)arc(90:430:\circleRadius+\outerRingAddR)--cycle;%
-        \let\strokeWidth\undefined%
-        \newlength\strokeWidth%
-        \setlength\strokeWidth{0.175ex}%
-        \foreach \k in {0,30,...,360}{%
-            \path[draw=#5!50,line width=\strokeWidth,#6]($(\i.center)+(\k:0.85\circleRadius)$)--($(\i.center)+(\k:\circleRadius+\outerRingAddR)$);
-        }%
-    \end{pgfonlayer}
+	\let\tmpLen\undefined%
+	\newlength\tmpLen%
+	%
+	\let\innAbst\undefined%
+	\newlength\innAbst%
+	\setlength\innAbst{0.2ex}% Abstand zwischen Text und Zellenrand
+	%
+	\let\circleWidth\undefined%
+	\newlength\circleWidth%
+	\setlength\circleWidth{0ex}% Abstand zwischen Text und Zellenrand
+	\settowidth\circleWidth{\pgfinterruptpicture\footnotesize#1\endpgfinterruptpicture}%\footnotesize\number\numexpr#2\relax}%
+	\setlength\circleWidth{\circleWidth+2\innAbst}%
+	%
+	\let\circleHeight\undefined%
+	\newlength\circleHeight%
+	\setlength\circleHeight{0ex}% Abstand zwischen Text und Zellenrand
+	\settoheight\circleHeight{\pgfinterruptpicture\footnotesize#1\endpgfinterruptpicture}%
+	\setlength\circleHeight{\circleHeight+2\innAbst}%
+	%
+	\let\circleRadius\undefined%
+	\newlength\circleRadius%
+	% \ifthenelse{\circleHeight>\circleWidth}{\setlength\circleRadius{\circleHeight}}{\setlength\circleRadius{\circleHWidth}}%
+	% \setlength\circleRadius{\circleRadius/2}%
+	%
+	\setlength\tmpLen{1.5em}%
+	\ifthenelse{\tmpLen>\circleHeight}{\setlength\circleHeight{\tmpLen}}{}%
+	%
+	\tikzstyle{clockZeiger}=[draw=#5,line width=0.3ex]%draw=colorBoxBorder,fill=colorBoxBG
+	%
+	\begin{pgfonlayer}{Layer5}%Label % serves as first anchor
+		\node[anchor=base,inner sep=\innAbst,%
+			%draw,fill=filledCol,%text opacity=0,%
+			minimum width=\circleWidth,minimum height=\circleHeight,%
+			text=#4,%
+			circle](label\i)%
+			{#2};%\footnotesize\number\numexpr\i+1\relax};%
+	\end{pgfonlayer}
+	\begin{pgfonlayer}{Layer1}%Uhr Base-Shape & Füllung 1 % serves as 'new' anchor for everything else upcoming
+		\node[anchor=center,inner sep=\innAbst,%
+			%draw,
+			fill=#3,%text opacity=0,%
+			minimum width=\circleWidth,minimum height=\circleHeight,%
+			circle](\i)at(label\i.center)%
+			{};%\footnotesize\number\numexpr\i+1\relax};%
+	\end{pgfonlayer}
+		\coordinate(A)at(\i.center);
+		\coordinate(B)at(\i.north);
+		\calcLength(A,B){tmpLen}%
+		\circleRadius=\tmpLen pt%
+	\begin{pgfonlayer}{Layer4}
+		\path[clockZeiger](\i.center)--($(\i.center)+(90:\circleRadius+0.6ex)$);%
+		\path[clockZeiger](\i.center)--($(\i.center)+(-20:\circleRadius+0.6ex)$);%
+	\end{pgfonlayer}
+	\begin{pgfonlayer}{Layer2}%Hellere Uhrenfüllung
+		\path[fill=#3!50](\i.center)--($(\i.center)+(-20:\circleRadius)$)arc(-20:-270:\circleRadius)--(\i.center)--cycle;%
+	\end{pgfonlayer}
+	\begin{pgfonlayer}{Layer3}%UhrenRahmen & Striche
+		\let\outerRingAddR\undefined%
+		\newlength\outerRingAddR%
+		\setlength\outerRingAddR{0.15em}%
+		\path[draw,#6]($(\i.north)+(0,\outerRingAddR)$)arc(90:430:\circleRadius+\outerRingAddR)--cycle;%
+		\let\strokeWidth\undefined%
+		\newlength\strokeWidth%
+		\setlength\strokeWidth{0.175ex}%
+		\foreach \k in {0,30,...,360}{%
+			\path[draw=#5!50,line width=\strokeWidth,#6]($(\i.center)+(\k:0.85\circleRadius)$)--($(\i.center)+(\k:\circleRadius+\outerRingAddR)$);
+		}%
+	\end{pgfonlayer}
 }%
 %^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 %------------- Customizable Rating End -------------
@@ -893,43 +893,84 @@
 \newcounter{draftPhase_pic}%
 \newcounter{draftPhase_rating}%
 \newcounter{draftPhase_ingredients}%
+\newcounter{draftPhase_typografie}%
+%
+\setcounter{draftPhase}{0}%
+\setcounter{ReleaseBuild}{0}%
+\setcounter{draftPhase_pic}{0}%
+\setcounter{draftPhase_rating}{0}%
+\setcounter{draftPhase_ingredients}{0}%
+\setcounter{draftPhase_typografie}{0}%
 % - - - - - - - - - - - - -
 %If this is set to '0', Recipes using the Inclusion-Macro are included like normal. Set to '1', they are not included. Corresponding Inclusion-Macro is defined below
 \newcounter{draftPhase_SurpressRecipes}%
 % = = = = = = = = = = = = = = = = = = = = = = = =
 \newcommand\draftPhaseSetGlobal[1]{%
-    \setcounter{draftPhase}{#1}%
-    \setcounter{draftPhase_pic}{\value{draftPhase}}%
-    \setcounter{draftPhase_rating}{\value{draftPhase}}%
-    \setcounter{draftPhase_ingredients}{\value{draftPhase}}%
+	\setcounter{draftPhase}{#1}%
+	\setcounter{draftPhase_pic}{\value{draftPhase}}%
+	\setcounter{draftPhase_rating}{\value{draftPhase}}%
+	\setcounter{draftPhase_ingredients}{\value{draftPhase}}%
+	\setcounter{draftPhase_typografie}{\value{draftPhase}}%
 }%Sets the values of all
 % These two are the ones actually used by the Macros. Can be selectively set to new values after this position here to let their behaviour diverge
 \newcommand\draftPhaseSetPicture[1]{%
-    \setcounter{draftPhase_pic}{#1}%
+	\setcounter{draftPhase_pic}{#1}%
 }% Sets only and selectively the value used for Picture included during the \dishPicMat-Macro
 \newcommand\draftPhaseSetRating[1]{%
-    \setcounter{draftPhase_rating}{#1}%
+	\setcounter{draftPhase_rating}{#1}%
 }% Sets only and selectively the value used for generating the rating-symbols
 \newcommand\draftPhaseSetIngredients[1]{%
-    \setcounter{draftPhase_ingredients}{#1}%
+	\setcounter{draftPhase_ingredients}{#1}%
 }% Sets only and selectively the value used for generating the rating-symbols
 \newcommand{\draftPhaseSetSurpressRecipes}[1]{%
-    \setcounter{draftPhase_SurpressRecipes}{#1}%
+	\setcounter{draftPhase_SurpressRecipes}{#1}%
+}%
+\newcommand\draftPhaseSetSimpleTypografie[1]{%
+	\setcounter{draftPhase_typografie}{#1}%
 }%
 % - - - - - - - - -
 % Give the following a '1' to specify that the next Compile is supposed to be a somewhat final Build for Release.
 % By that, all the Draft-Flags are reset and the Release-Flag is Set. Hence put this at last, after all DraftPhase-Sets, whenever you intend to compile a Release-Version, so that it is able to properly overwrite their Flags.
 % Using this allows for example to also exclude Files/Chapters/Text/... that shall only be included during Writing/Development (things like for example Explanations for the Contributors).
-\newcommand\phaseSetRelease[1]{%
-    \setcounter{ReleaseBuild}{#1}%
-    \ifnumcomp{\value{ReleaseBuild}}{>}{0}{%
-        \setcounter{draftPhase}{0}%
-        \setcounter{draftPhase_pic}{\value{draftPhase}}%
-        \setcounter{draftPhase_rating}{\value{draftPhase}}%
-        \setcounter{draftPhase_ingredients}{\value{draftPhase}}%
-        \setcounter{draftPhase_SurpressRecipes}{\value{draftPhase}}%
-    }{}%
+% The optional-Second-Argument is a rather nice-Feature. If it is present, it also sets the \DenKrJPFont Parameter. Pass it a '1' to activate Japanese-Fonts in the Release-Version.
+\DeclareDocumentCommand{\phaseSetRelease}{%
+	m%
+	O{0}%
+}{%
+	\setcounter{ReleaseBuild}{#1}%
+	\ifnumcomp{\value{ReleaseBuild}}{>}{0}{%
+		\setcounter{draftPhase}{0}%
+		\setcounter{draftPhase_pic}{\value{draftPhase}}%
+		\setcounter{draftPhase_rating}{\value{draftPhase}}%
+		\setcounter{draftPhase_ingredients}{\value{draftPhase}}%
+		\setcounter{draftPhase_SurpressRecipes}{\value{draftPhase}}%
+		\setcounter{draftPhase_typografie}{\value{draftPhase}}%
+	}{}%
+	\ifnumcomp{\numexpr#2\relax}{>}{0}{%
+		\providecommand{\DenKrJPFont}{1}%
+		\renewcommand{\DenKrJPFont}{1}%
+	}{}%
 }%
+% - - - - - - - - -
+% Some Settings take immediate effect (with the setting-Macros above). Others only set some Flag or Preference (e.g. the '\...SimpleTypografie'). This Flag can afterward be overwritten (e.g. by the '\phaseSetRelease'). Finally, this Macro below modifies more complex overall Document-Settings, according to the current state of the Flag.
+\newcommand{\draftPhaseRealizeSettings}{%
+\ifnumcomp{\value{draftPhase_typografie}}{>}{0}{%
+	\renewcommand{\DenKrKOMAHookFormatHeadFootFrontmatter}{\DenKrInputKOMAFile{design_Head_1}\DenKrInputKOMAFile{design_Foot_1}}%x
+	\renewcommand{\DenKrKOMAHookFormatHeadFootMainmatter}{\DenKrInputKOMAFile{design_Head_1}\DenKrInputKOMAFile{design_Foot_1}}%
+	\renewcommand{\DenKrKOMAHookToCGroup}{\DenKrInputKOMAFile{design_chapter_2}}%
+	\DenKrInputKOMAFile{design_part_1}%
+	\DenKrInputKOMAFile{design_chapter_1}%
+	\DenKrInputKOMAFile{design_section_1}%
+	\DenKrInputKOMAFile{design_subsection_1}%
+	\DenKrInputKOMAFile{design_subsubsection_1}%
+	\DenKrInputKOMAFile{design_paragraph_1}%
+	\DenKrInputKOMAFile{design_subparagraph_1}%
+	\renewcommand{\DenKrKOMAHookFrontmatter}{}%
+	\renewcommand{\DenKrKOMAHookMainmatter}{}%
+	\renewcommand{\DenKrKOMAHookAppendix}{}%
+	\renewcommand{\DenKrKOMAHookBackmatter}{}%
+}{}%
+}
 %/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
 %							Settings for my own Macros end
 %------------------------------------------------------------------------
@@ -952,25 +993,25 @@
 \DeclareDocumentCommand{\inputRecipe}{%
 O{0} m%
 }{%
-    \ifnumcomp{#1}{=}{1}{%
-        \input{#2}%
-    }{%
-        \ifnumcomp{\value{draftPhase_SurpressRecipes}}{=}{0}{%
-            \input{#2}%
-        }{%
-            \ifnumcomp{\value{draftPhase_SurpressRecipes}}{=}{1}{%
-            }{%
-                »Invalid Value on \enquote{draftPhase\_SurpressRecipes}«%
-            }%
-        }%
-    }%
+	\ifnumcomp{#1}{=}{1}{%
+		\input{#2}%
+	}{%
+		\ifnumcomp{\value{draftPhase_SurpressRecipes}}{=}{0}{%
+			\input{#2}%
+		}{%
+			\ifnumcomp{\value{draftPhase_SurpressRecipes}}{=}{1}{%
+			}{%
+				»Invalid Value on \enquote{draftPhase\_SurpressRecipes}«%
+			}%
+		}%
+	}%
 }%
 % = = = = = = = = = = = = = = = = = = = =
 % What is wrapped by that Macro is just eaten and not processed at all, in case the 'ReleaseBuild' is Set.
 \DeclareDocumentCommand{\releaseExclude}{%
 m%
 }{%
-    \ifnumcomp{\value{ReleaseBuild}}{=}{0}{#1}{}%
+	\ifnumcomp{\value{ReleaseBuild}}{=}{0}{#1}{}%
 }%
 %^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 %------------- Inclusions End -------------
@@ -992,33 +1033,33 @@ m%
 \DeclareDocumentCommand{\ratingSection}{%
 O{2} m m m%
 }{%
-    % \begin{minipage}{\linewidth}% Let's rather not allow this to break across pages
-    % \begin{longtable}[l]{|l l l |}%@{}l
-    \begin{tabular}[l]{|l l l |}%@{}l
-    \hline
-    Köstlichkeit:&%
-        #2&%
-        \ratingSectionDescriptionFormat{Mehr Punkte}{Besser}%
-        \TstrutRatingSection\BstrutRatingSection\\
-    \hline
-    Aufwand:&%
-        #3&%
-        \ratingSectionDescriptionFormat{Mehr Punkte}{Weniger Aufwand}%
-        \TstrutRatingSection\BstrutRatingSection\\
-    \hline
-    \ifnumcomp{\numexpr#1\relax}{>}{2}{%
-    Gesundheit:&%
-        #4&%
-        \ratingSectionDescriptionFormat{Mehr Punkte}{Gesünder}%
-        \TstrutRatingSection\BstrutRatingSection\\
-    \hline
-    }{}%
-    \end{tabular}%
-    % \end{longtable}%
-    % \end{minipage}%
+	% \begin{minipage}{\linewidth}% Let's rather not allow this to break across pages
+	% \begin{longtable}[l]{|l l l |}%@{}l
+	\begin{tabular}[l]{|l l l |}%@{}l
+	\hline
+	Köstlichkeit:&%
+		#2&%
+		\ratingSectionDescriptionFormat{Mehr Punkte}{Besser}%
+		\TstrutRatingSection\BstrutRatingSection\\
+	\hline
+	Aufwand:&%
+		#3&%
+		\ratingSectionDescriptionFormat{Mehr Punkte}{Weniger Aufwand}%
+		\TstrutRatingSection\BstrutRatingSection\\
+	\hline
+	\ifnumcomp{\numexpr#1\relax}{>}{2}{%
+	Gesundheit:&%
+		#4&%
+		\ratingSectionDescriptionFormat{Mehr Punkte}{Gesünder}%
+		\TstrutRatingSection\BstrutRatingSection\\
+	\hline
+	}{}%
+	\end{tabular}%
+	% \end{longtable}%
+	% \end{minipage}%
 }%
 \newcommand{\ratingSectionDescriptionFormat}[2]{%ARGS: #1: Something like "Mehr Punkte". #2: What the first Expressions means as a result, like "Weniger Aufwand"
-    \makecell[l]{\color{black!50}\footnotesize (#1$\rightarrow$\\\color{black!50}\footnotesize\ \ #2)}%
+	\makecell[l]{\color{black!50}\footnotesize (#1$\rightarrow$\\\color{black!50}\footnotesize\ \ #2)}%
 }%
 %====================================================================
 % define "struts", as suggested by Claudio Beccari in a piece in TeX and TUG News, Vol. 2, 1993.
@@ -1050,10 +1091,10 @@ O{2} m m m%
 \edef\InclGraphWidthDINAFactorPic{#1}%
 \edef\InclGraphWidthDINAFactor{\InclGraphWidthDINAFactorPic}%
 \expandafter\ifstrequal\expandafter{\DenKrLayout}{scrbook_print}{%
-    \edef\InclGraphWidthDINAFactor{\fpeval{\InclGraphWidthDINAFiveMult*\InclGraphWidthDINAFactor}}%
+	\edef\InclGraphWidthDINAFactor{\fpeval{\InclGraphWidthDINAFiveMult*\InclGraphWidthDINAFactor}}%
 }{}%
 \ifthenelse{1=\fpeval{\InclGraphWidthDINAFactor>1.0}}{%
-    \edef\InclGraphWidthDINAFactor{1}%
+	\edef\InclGraphWidthDINAFactor{1}%
 }{}%
 \edef\InclGraphWidthDINA{\InclGraphWidthDINAFactor\linewidth}%
 }%

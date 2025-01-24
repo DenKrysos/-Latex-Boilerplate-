@@ -44,9 +44,9 @@ $resultSubDir='';
 #=====================================
 #=== Name of the resulting Output File (and aux files)  -  Adding %A appends the source file-name
 ##===   E.g. $jobname = '%A-result-lualatex';
-$jobname='1main';
+# $jobname='1main';
 # $jobname=$resultName;
-# $jobname=$MainSrcFile;
+$jobname=$MainSrcFile;
 
 
 
