@@ -15,7 +15,7 @@
 			"%TEX%",
 			"%LINE%",
 			//"%PDF%"
-        	"%OUTDIR%\\1main.pdf"
+			"%OUTDIR%\\1RecipeMain.pdf"
 		],
 		"latex-workshop.view.pdf.external.synctex.command": "C:\\Program Files\\SumatraPDF\\SumatraPDF.exe",
 		"latex-workshop.view.pdf.external.synctex.args": [
@@ -24,7 +24,9 @@
 			"%TEX%",
 			"%LINE%",
 			//"%PDF%"
-        	"%OUTDIR%\\1main.pdf"
-		]
+			"%OUTDIR%\\1RecipeMain.pdf"
+		],
+		"ltex.additionalRules.motherTongue": "de-DE",
+		"ltex.language": "en-US",
 	}
 }

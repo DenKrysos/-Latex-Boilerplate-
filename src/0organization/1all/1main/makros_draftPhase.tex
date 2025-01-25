@@ -1,0 +1,179 @@
+%####################################################################
+%====================================================================
+%------ Including this File is completely OPTIONAL --------------
+%------   only required/of use if you intend to use this "Drafting-Feature" --------------
+%vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
+% It provides some Macros to partially deactivate Features to be compiled for accelarating Drafting a huge, fancy Document
+%
+%
+% \usepackage{etoolbox}%
+% \usepackage{xparse}%
+%
+%
+%
+%
+%
+%________________________________________________________________________
+%------------------------------------------------------------------------
+%						For my own Macros (like the Recipe Book Formatting)
+%						For setting the Draft-State ("draftPhase") (See also the File settings.tex)
+%/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+% Used by the Macros formatting the Recipe-Book
+% - 0: Final Version. Everything formats nice and fine and as appealing as intended
+% - 1: Works as a draft state to save compiling time during working on it. Pictures are not included and the Rating-Symbols are not generated
+\newcounter{draftPhase}%
+\newcounter{ReleaseBuild}%
+% These two are the ones actually used by the Macros. Can be selectively set to new values after this position here to let their behaviour diverge
+\newcounter{draftPhase_pic}%
+\newcounter{draftPhase_rating}%
+\newcounter{draftPhase_ingredients}%
+\newcounter{draftPhase_typografie}%
+%
+\setcounter{draftPhase}{0}%
+\setcounter{ReleaseBuild}{0}%
+\setcounter{draftPhase_pic}{0}%
+\setcounter{draftPhase_rating}{0}%
+\setcounter{draftPhase_ingredients}{0}%
+\setcounter{draftPhase_typografie}{0}%
+% - - - - - - - - - - - - -
+%If this is set to '0', Recipes using the Inclusion-Macro are included like normal. Set to '1', they are not included. Corresponding Inclusion-Macro is defined below
+\newcounter{draftPhase_SurpressRecipes}%
+% = = = = = = = = = = = = = = = = = = = = = = = =
+\newcommand\draftPhaseSetGlobal[1]{%
+	\setcounter{draftPhase}{#1}%
+	\setcounter{draftPhase_pic}{\value{draftPhase}}%
+	\setcounter{draftPhase_rating}{\value{draftPhase}}%
+	\setcounter{draftPhase_ingredients}{\value{draftPhase}}%
+	\setcounter{draftPhase_typografie}{\value{draftPhase}}%
+}%Sets the values of all
+% These two are the ones actually used by the Macros. Can be selectively set to new values after this position here to let their behaviour diverge
+\newcommand\draftPhaseSetPicture[1]{%
+	\setcounter{draftPhase_pic}{#1}%
+}% Sets only and selectively the value used for Picture included during the \dishPicMat-Macro
+\newcommand\draftPhaseSetRating[1]{%
+	\setcounter{draftPhase_rating}{#1}%
+}% Sets only and selectively the value used for generating the rating-symbols
+\newcommand\draftPhaseSetIngredients[1]{%
+	\setcounter{draftPhase_ingredients}{#1}%
+}% Sets only and selectively the value used for generating the rating-symbols
+\newcommand{\draftPhaseSetSurpressRecipes}[1]{%
+	\setcounter{draftPhase_SurpressRecipes}{#1}%
+}%
+\newcommand\draftPhaseSetSimpleTypografie[1]{%
+	\setcounter{draftPhase_typografie}{#1}%
+}%
+% - - - - - - - - -
+% Give the following a '1' to specify that the next Compile is supposed to be a somewhat final Build for Release.
+% By that, all the Draft-Flags are reset and the Release-Flag is Set. Hence put this at last, after all DraftPhase-Sets, whenever you intend to compile a Release-Version, so that it is able to properly overwrite their Flags.
+% Using this allows for example to also exclude Files/Chapters/Text/... that shall only be included during Writing/Development (things like for example Explanations for the Contributors).
+% The optional-Second-Argument is a rather nice-Feature. If it is present, it also sets the \DenKrJPFont Parameter. Pass it a '1' to activate Japanese-Fonts in the Release-Version.
+\DeclareDocumentCommand{\phaseSetRelease}{%
+	m%
+	% O{0}%
+}{%
+	\setcounter{ReleaseBuild}{#1}%
+	\ifnumcomp{\value{ReleaseBuild}}{>}{0}{%
+		\setcounter{draftPhase}{0}%
+		\setcounter{draftPhase_pic}{\value{draftPhase}}%
+		\setcounter{draftPhase_rating}{\value{draftPhase}}%
+		\setcounter{draftPhase_ingredients}{\value{draftPhase}}%
+		\setcounter{draftPhase_SurpressRecipes}{\value{draftPhase}}%
+		\setcounter{draftPhase_typografie}{\value{draftPhase}}%
+		% This JP-Font-Exclusion Feature would be to cumbersome to integrate. Hence not done currently
+		% \ifnumcomp{\numexpr#2\relax}{>}{0}{%
+		% 	\providecommand{\DenKrJPFont}{1}%
+		% 	\renewcommand{\DenKrJPFont}{1}%
+		% }{}%
+	}{}%
+}%
+% - - - - - - - - -
+% Some Settings take immediate effect (with the setting-Macros above). Others only set some Flag or Preference (e.g. the '\...SimpleTypografie'). This Flag can afterward be overwritten (e.g. by the '\phaseSetRelease'). Finally, this Macro below modifies more complex overall Document-Settings, according to the current state of the Flag.
+\newcommand{\draftPhaseRealizeSettings}{%
+	\ifnumcomp{\value{draftPhase_typografie}}{>}{0}{%
+		\renewcommand{\DenKrKOMAHookFormatHeadFootFrontmatter}{\DenKrInputKOMAFile{design_Head_1}\DenKrInputKOMAFile{design_Foot_1}}%x
+		\renewcommand{\DenKrKOMAHookFormatHeadFootMainmatter}{\DenKrInputKOMAFile{design_Head_1}\DenKrInputKOMAFile{design_Foot_1}}%
+		\renewcommand{\DenKrKOMAHookToCGroup}{\DenKrInputKOMAFile{design_chapter_2}}%
+		\DenKrInputKOMAFile{design_part_1}%
+		\DenKrInputKOMAFile{design_chapter_1}%
+		\DenKrInputKOMAFile{design_section_1}%
+		\DenKrInputKOMAFile{design_subsection_1}%
+		\DenKrInputKOMAFile{design_subsubsection_1}%
+		\DenKrInputKOMAFile{design_paragraph_1}%
+		\DenKrInputKOMAFile{design_subparagraph_1}%
+		\renewcommand{\DenKrKOMAHookFrontmatter}{}%
+		\renewcommand{\DenKrKOMAHookMainmatter}{}%
+		\renewcommand{\DenKrKOMAHookAppendix}{}%
+		\renewcommand{\DenKrKOMAHookBackmatter}{}%
+	}{}%
+}
+%/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+%							Settings for my own Macros end
+%------------------------------------------------------------------------
+%________________________________________________________________________
+%
+%
+%
+%
+%
+%
+%########################################################################
+%  USAGE
+%  EXAMPLE
+%########################################################################
+% Paste the below e.g. in your Main-File, after placing/including preamble things, before \begin{document}
+%
+%
+%________________________________________________________________________
+%------------------------------------------------------------------------
+%						For my own Macros (like the Recipe Book Formatting)
+%						For setting the Draft-State ("draftPhase") (See also the File makros.tex)
+%/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+% Used by the Macros formatting the Recipe-Book
+% - 0: Final Version. Everything formats nice and fine and as appealing as intended
+% - 1: Works as a draft state to save compiling time during working on it. Pictures are not included and the Rating-Symbols are not generated
+% USAGE: Use the supplied Macros to set them.
+% - \draftPhaseSetGlobal{<Value>}%Sets the values of all
+% - \draftPhaseSetPicture{<Value>}% Sets only and selectively the value used for Picture included during the \dishPicMat-Macro
+% - \draftPhaseSetRating{<Value>}% Sets only and selectively the value used for generating the rating-symbols
+%################################
+% USAGE EXAMPLE:
+%		% - - - - - - - -
+%		% This JP-Font overwrite must come before including preamble (actually, before including the Fonts/luatexja/fontspec stuff) and after including the "2ProjectSetup.tex"-File.
+%		\renewcommand{\DenKrJPFont}{0}% Deactivates Japanese-Font for quicker compilation during development
+%		% - - - - - - - -
+%		%==================================================================================
+%		% ----  DRAFT-PHASE Configuration
+%		%----------------------------------------------------------------------------------
+%		\input{"\DenKrAllMainRootDirPATH/makros_draftPhase".tex}%
+%		%==================================================================================
+%		% ----  Set-Up for Typography-Features (Recipe-Book-specific Typesetting Macros)
+%		%----------------------------------------------------------------------------------
+%		% draftPhaseSet[...]  - Set to '1' to:
+%		%     Global: Sets the below simultaneously
+%		%     Picture{1}: No Inclusion of Pictures
+%		%     Rating{1}: No Generation of Rating-Boxes
+%		%     Ingredients{1}: No nice Formatting of Ingredients-Box
+%		%     SimpleTypografie{1}: No fancy Headings, etc.
+%		% draftPhaseSetSurpressRecipes{1}: No Inclusion of any Recipe. (Can be overwritten per Recipe with [1] behind the Recipe-Inclusion-Cmd)
+%		% phaseSetRelease{1}: Overwrites all the draftPhase Settings back to 0 and excludes the Development-Notes from the Beginning.
+%		% - - - - - - - - - - - - - - - - -
+%		\draftPhaseSetGlobal{0}%
+%		%\draftPhaseSetPicture{1}%
+%		\draftPhaseSetRating{1}%
+%		\draftPhaseSetIngredients{1}%
+%		\draftPhaseSetSimpleTypografie{1}%
+%		% - - - - - - - - - - - - - - - - -
+%		\draftPhaseSetSurpressRecipes{1}%
+%		% - - - - - - - - - - - - - - - - -
+%		\phaseSetRelease{0}%
+%		%----------------------------------
+%		%----------------------------------
+%		%----------------------------------
+%		%----------------------------------
+%		%----------------------------------
+%		% Some Settings take immediate effect (with the setting-Macros above-mentioned). Others only set some Flag or Preference (e.g. the 'SimpleTypografie'). This Flag can then be overwritten (e.g. by the '\phaseSetRelease'). Finally, this Macro below modifies more complex overall Document-Settings, according to the current state of the Flag.
+%		\draftPhaseRealizeSettings%
+%/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+%							Settings for my own Macros end
+%------------------------------------------------------------------------
+%________________________________________________________________________

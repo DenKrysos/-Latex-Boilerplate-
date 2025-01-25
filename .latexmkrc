@@ -30,23 +30,31 @@
 $SubSrcDir='src';
 #=== The main-File to be passed to the Compiler
 $MainSrcFile='1main';
-#=== How the resulting Doc shall be named (After succesfull compilation, the Post-File copies to root and names like this)
-$resultName='1compiled';
-# $resultName=$MainSrcFile;
-#=== Where the resulting Doc shall be stored (Leave empty-String for root-Dir, i.e. parallel to this file here)
-# $resultSubDir='.9compiled';
-$resultSubDir='';
 
 
 
 ######################################
 # Output/Result  #####################
+#    (& temporary aux-Files)  ########
 #=====================================
 #=== Name of the resulting Output File (and aux files)  -  Adding %A appends the source file-name
+##===  -> This is what the Latex-Compiler creates (in the Build-Directory)
 ##===   E.g. $jobname = '%A-result-lualatex';
 # $jobname='1main';
-# $jobname=$resultName;
 $jobname=$MainSrcFile;
+# $jobname=$resultName;
+#-------------------------------------
+#=== How the finally resulting Doc shall be named (After succesfull compilation, the Post-File copies to root and names like this)
+##===  -> This is an additional thing, created by my Framework here (outside of Build-Dir, at a position as configured directly below)
+$resultName='1compiled';
+# $resultName=$MainSrcFile;
+# $resultName=$jobname;
+#=== Where the resulting Doc shall be stored (Leave empty-String for root-Dir, i.e. parallel to this file here)
+# $resultSubDir='.9compiled';
+$resultSubDir='';
+#-------------------------------------
+# This "Additional finally resulting Doc" feature by me can be exploited for example for keeping things tidy and in order and having a successfully compiled Document renamed and in the Top-Directory and separate from every tmp/aux/build stuff.
+# The final Copy may be deactivated by default. Then look into ".latexmk_post" -> "Post-Build Steps".
 
 
 
