@@ -3,9 +3,9 @@
 %========================================================================
 % For Using "String-based Variables, collected under some Domain"
 %  USAGE:
-%         \setCollectVar{someCollection}{Var1}{12pt}
-%         Value is: \getCollectVar{someCollection}{Var1}
-%         \destroyCollectVar{someCollection}{Var1}
+%		\setCollectVar{someCollection}{Var1}{12pt}
+%		Value is: \getCollectVar{someCollection}{Var1}
+%		\destroyCollectVar{someCollection}{Var1}
 \makeatletter%
 \newcommand{\setCollectVar}[3]{%
 	\expandafter\def\csname #1@#2\endcsname{#3}%
@@ -73,10 +73,10 @@
 %   USAGE: \escapeus{text_with_underscore}
 \makeatletter%
 \DeclareRobustCommand*{\escapeus}[1]{%
-  \begingroup\@activeus\scantokens{#1\endinput}\endgroup%
+	\begingroup\@activeus\scantokens{#1\endinput}\endgroup%
 }%
 \begingroup\lccode`\~=`\_\relax%
-   \lowercase{\endgroup\def\@activeus{\catcode`\_=\active \let~\_}}%
+	\lowercase{\endgroup\def\@activeus{\catcode`\_=\active \let~\_}}%
 \makeatother%
 %------------------------------------------------------------------------
 %========================================================================
@@ -99,8 +99,8 @@
 	}{}%
 }%
 % USAGE:
-%    \newcommand{\CustomTempFile}{../tmp/DenKrNestedSrcDir.tex}%
-%    \ReadFileToMacro{\DenKrNestedSrcDirTmpfile}{\CustomTempFile}%
+%	\newcommand{\CustomTempFile}{../tmp/DenKrNestedSrcDir.tex}%
+%	\ReadFileToMacro{\DenKrNestedSrcDirTmpfile}{\CustomTempFile}%
 %------------------------------------------------------------------------
 %========================================================================
 %
@@ -175,5 +175,21 @@
 }{%
 	\defCompilerXe%
 }%
+%------------------------------------------------------------------------
+%========================================================================
+%
+%
+%
+%________________________________________________________________________
+%========================================================================
+% For removing/stripping (leading/trailing/at all) Whitespaces
+\ExplSyntaxOn%
+\DeclareExpandableDocumentCommand{\trimSpaces}{m}{\tl_trim_spaces:V #1}%
+\cs_generate_variant:Nn \tl_trim_spaces:n{V}%
+%
+\NewDocumentCommand{\remLeadTrailSpaces}{m}{\tl_trim_spaces:n{#1}}%
+\ExplSyntaxOff%
+% USAGE:
+%	\remLeadTrailSpaces{#2}&%
 %------------------------------------------------------------------------
 %========================================================================
