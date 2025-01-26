@@ -39,13 +39,16 @@
 %If this is set to '0', Recipes using the Inclusion-Macro are included like normal. Set to '1', they are not included. Corresponding Inclusion-Macro is defined below
 \newcounter{draftPhase_SurpressRecipes}%
 % = = = = = = = = = = = = = = = = = = = = = = = =
-\newcommand\draftPhaseSetGlobal[1]{%
+\newcommand\draftPhaseSetAll[1]{%
 	\setcounter{draftPhase}{#1}%
 	\setcounter{draftPhase_pic}{\value{draftPhase}}%
 	\setcounter{draftPhase_rating}{\value{draftPhase}}%
 	\setcounter{draftPhase_ingredients}{\value{draftPhase}}%
 	\setcounter{draftPhase_typografie}{\value{draftPhase}}%
 }%Sets the values of all
+\newcommand\draftPhaseSetGeneral[1]{%
+	\setcounter{draftPhase}{#1}%
+}% Basically just sets the Variable for 'General Use' so that it can be queried inside arbitrary Macros.
 % These two are the ones actually used by the Macros. Can be selectively set to new values after this position here to let their behaviour diverge
 \newcommand\draftPhaseSetPicture[1]{%
 	\setcounter{draftPhase_pic}{#1}%
@@ -116,6 +119,51 @@
 %
 %
 %
+%####################################################################
+%====================================================================
+%------------- Customized Inclusions -------------
+%vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
+%____________________________________________________________________
+% For including Recipes & be able to disable the Inclusion, while overriding the exclusion on individual occasions
+%ARGS:
+% - [Optional](#1) - If the exclusion shall be 'bypassed'. If this is set 'notAtAll(not present optional argument)' or to zero (or anything other than '1'), the Inclusion of the Recipe depends on the global Setting of "\draftPhaseSurpressRecipes". If a '1' is passed, this Recipe is included, compiled and displayed in any way, disregarding the global setting.
+% - Mandatory(#2) - The path of the Recipe to include
+\DeclareDocumentCommand{\inputRecipe}{%
+O{0} m%
+}{%
+	\ifnumcomp{#1}{=}{1}{%
+		\input{#2}%
+	}{%
+		\ifnumcomp{\value{draftPhase_SurpressRecipes}}{=}{0}{%
+			\input{#2}%
+		}{%
+			\ifnumcomp{\value{draftPhase_SurpressRecipes}}{=}{1}{%
+			}{%
+				»Invalid Value on \enquote{draftPhase\_SurpressRecipes}«%
+			}%
+		}%
+	}%
+}%
+% = = = = = = = = = = = = = = = = = = = =
+% What is wrapped by that Macro is just eaten and not processed at all, in case the 'ReleaseBuild' is Set.
+\DeclareDocumentCommand{\releaseExclude}{m}{%
+	\ifnumcomp{\value{ReleaseBuild}}{=}{0}{#1}{}%
+}%
+% The Mandatory-Argument (1st) is NOT included if draftPhase is set.
+% If an Optional-Argument (2nd) is given, this is instead included with draftPhase (and only then).
+\DeclareDocumentCommand{\draftExclude}{mo}{%
+	\ifnumcomp{\value{draftPhase}}{>}{0}{\IfValueT{#2}{\ifx\empty#2\empty\else#2\fi#2}}{#1}%
+}%
+%^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+%------------- Inclusions End -------------
+%====================================================================
+%####################################################################
+%
+%
+%
+%
+%
+%
 %########################################################################
 %  USAGE
 %  EXAMPLE
@@ -132,7 +180,7 @@
 % - 0: Final Version. Everything formats nice and fine and as appealing as intended
 % - 1: Works as a draft state to save compiling time during working on it. Pictures are not included and the Rating-Symbols are not generated
 % USAGE: Use the supplied Macros to set them.
-% - \draftPhaseSetGlobal{<Value>}%Sets the values of all
+% - \draftPhaseSetAll{<Value>}%Sets the values of all
 % - \draftPhaseSetPicture{<Value>}% Sets only and selectively the value used for Picture included during the \dishPicMat-Macro
 % - \draftPhaseSetRating{<Value>}% Sets only and selectively the value used for generating the rating-symbols
 %################################
@@ -149,7 +197,8 @@
 %		% ----  Set-Up for Typography-Features (Recipe-Book-specific Typesetting Macros)
 %		%----------------------------------------------------------------------------------
 %		% draftPhaseSet[...]  - Set to '1' to:
-%		%     Global: Sets the below simultaneously
+%		%     All: Sets the below simultaneously
+%		%     General{1}: Sets just some Flag for 'General Use'
 %		%     Picture{1}: No Inclusion of Pictures
 %		%     Rating{1}: No Generation of Rating-Boxes
 %		%     Ingredients{1}: No nice Formatting of Ingredients-Box

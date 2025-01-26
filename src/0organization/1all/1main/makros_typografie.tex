@@ -882,48 +882,6 @@
 %
 %####################################################################
 %====================================================================
-%------------- Customized Inclusions -------------
-%vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
-%____________________________________________________________________
-% For including Recipes & be able to disable the Inclusion, while overriding the exclusion on individual occasions
-%ARGS:
-% - [Optional](#1) - If the exclusion shall be 'bypassed'. If this is set 'notAtAll(not present optional argument)' or to zero (or anything other than '1'), the Inclusion of the Recipe depends on the global Setting of "\draftPhaseSurpressRecipes". If a '1' is passed, this Recipe is included, compiled and displayed in any way, disregarding the global setting.
-% - Mandatory(#2) - The path of the Recipe to include
-\DeclareDocumentCommand{\inputRecipe}{%
-O{0} m%
-}{%
-	\ifnumcomp{#1}{=}{1}{%
-		\input{#2}%
-	}{%
-		\ifnumcomp{\value{draftPhase_SurpressRecipes}}{=}{0}{%
-			\input{#2}%
-		}{%
-			\ifnumcomp{\value{draftPhase_SurpressRecipes}}{=}{1}{%
-			}{%
-				»Invalid Value on \enquote{draftPhase\_SurpressRecipes}«%
-			}%
-		}%
-	}%
-}%
-% = = = = = = = = = = = = = = = = = = = =
-% What is wrapped by that Macro is just eaten and not processed at all, in case the 'ReleaseBuild' is Set.
-\DeclareDocumentCommand{\releaseExclude}{%
-m%
-}{%
-	\ifnumcomp{\value{ReleaseBuild}}{=}{0}{#1}{}%
-}%
-%^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-%------------- Inclusions End -------------
-%====================================================================
-%####################################################################
-%
-%
-%
-%
-%
-%
-%####################################################################
-%====================================================================
 %------------- A Command / Environment for Displaying a whole Rating-Section -------------
 %vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
 %____________________________________________________________________
