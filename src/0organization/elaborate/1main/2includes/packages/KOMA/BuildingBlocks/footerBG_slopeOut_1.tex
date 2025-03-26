@@ -1,7 +1,8 @@
 %========================================================================
 %       Setting up some Macros for later use
 % - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-\newcommand{\HeadFootShadeTriangleB}[4]{% 1: BL  2: BR  3: Top  4: Steps
+\providecommand{\HeadFootShadeTriangleB}{}%
+\renewcommand{\HeadFootShadeTriangleB}[4]{% 1: BL  2: BR  3: Top  4: Steps
     \tikzmath{%
         \opacstep=1/(#4+1);%
         \scalestep=1/#4;%
@@ -18,14 +19,17 @@
     }%
     \let\scalestep\undefined\let\opacstep\undefined\let\scalecur\undefined\let\smoothen\undefined\let\opacCur\undefined%
 }%
-\newcommand{\HeadFootShadeTriangleBR}[3]{%
+\providecommand{\HeadFootShadeTriangleBR}{}%
+\renewcommand{\HeadFootShadeTriangleBR}[3]{%
     \HeadFootShadeTriangleB{#1}{#2}{#3}{20}%
 }%
-\newcommand{\HeadFootShadeTriangleBL}[3]{%
+\providecommand{\HeadFootShadeTriangleBL}{}%
+\renewcommand{\HeadFootShadeTriangleBL}[3]{%
     \HeadFootShadeTriangleB{#2}{#1}{#3}{20}%
 }%
 %
-\newcommand{\HeadFootShadeTriangleBInverse}[4]{% 1: L  2: R  3: Top  4: Steps
+\providecommand{\HeadFootShadeTriangleBInverse}{}%
+\renewcommand{\HeadFootShadeTriangleBInverse}[4]{% 1: L  2: R  3: Top  4: Steps
     \tikzmath{%
         \opacstep=1/(#4+1);%
         \scalestep=1/#4;%
@@ -43,17 +47,20 @@
     }%
     \let\scalestep\undefined\let\opacstep\undefined\let\scalecur\undefined\let\smoothen\undefined\let\opacCur\undefined%
 }%
-\newcommand{\HeadFootShadeTriangleBInverseTopL}[3]{% 1: LB  2: RT  3: (L)Top
+\providecommand{\HeadFootShadeTriangleBInverseTopL}{}%
+\renewcommand{\HeadFootShadeTriangleBInverseTopL}[3]{% 1: LB  2: RT  3: (L)Top
     \HeadFootShadeTriangleBInverse{#1}{#2}{#3}{20}%
 }%
-\newcommand{\HeadFootShadeTriangleBInverseTopR}[3]{% 1: LT  2: RB  3: (T)Top
+\providecommand{\HeadFootShadeTriangleBInverseTopR}{}%
+\renewcommand{\HeadFootShadeTriangleBInverseTopR}[3]{% 1: LT  2: RB  3: (T)Top
     \HeadFootShadeTriangleBInverse{#2}{#1}{#3}{20}%
 }%
 %
 %
 %
 % Not used currently, also not quite yet finished
-\newcommand{\HeadFootShadeRectangleBR}[3]{% 1: TL  2: BR  3: Steps
+\providecommand{\HeadFootShadeRectangleBR}{}%
+\renewcommand{\HeadFootShadeRectangleBR}[3]{% 1: TL  2: BR  3: Steps
     \tikzmath{%
         \opacstep=1/(#3+1);%
         \scalestep=1/#3;%
