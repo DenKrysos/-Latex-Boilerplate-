@@ -23,11 +23,15 @@ Some special characters:
 \nl%
 Some Example Macro:
 \gerguiquote{My Enquote}.
-\nl%
-Example Acronym, Glossary-Entry \& Symbol:\nl
+
+\npi%
+Example \textbf{Acronym}, Glossary-Entry \& Symbol:\nl
 \gls{fsa}, \glsunset{api}\gls{api}\nl
 \gls{molmass}, \gls{sigma}\nl
-\gls{eventfd}
+\gls{eventfd}\nl
+Automating the correct usage of the \textbf{Indefinite Article}, in case differing for abbreviation and long form\nl
+\glsreset{shobj}\glsInArticle{shobj} \gls{shobj} $\rightarrow$ \glsInArticle{shobj} \gls{shobj}\nl
+\glsreset{ufo}\glsInArticle[1]{ufo} \gls{ufo} $\rightarrow$ \glsInArticle[1]{ufo} \gls{ufo}
 
 \np
 \newcommand{\I}{\mathrm{i}}

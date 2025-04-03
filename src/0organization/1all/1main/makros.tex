@@ -633,9 +633,27 @@ m O{Sidenote} O{0pt}%
 %  More Glossaries-Cmds
 %================================================
 % Printing an "Indefinite Article" (Unbestimmter Artikel)
-%    For printing an Article before a \gls{} matching is expansion (c.f.: "a Software Definition"  vs.  "an SD")
-\newcommand{\glsInArticle}[1]{%
-	\ifglsused{#1}{an}{a}%
+%    For printing an Article before a \gls{} matching its expansion, in case this is different for the abbreviation and the expanded long form (c.f.: "a Shared-Object"  vs.  "an SO").
+%    Use it when you don't know, whether acronym or long form will be printed, i.e. this depends on the document state, i.e. when using the simple \gls{}/\glspl{} (basically, the main reason you are using the glossaries-package in the first place...).
+%  DEFAULT Behavior:
+%    - Puts the "vowel sound"  *an* when the acronym was already used before (i.e. it is printed the abbreviation)
+%    - Puts the "consonant sound"  *a* when the key hasn't been used yet (i.e. it will be printed the long form on next occassion)
+%  OPTIONAL Argument:
+%    - 1 : Reverse Behavior.  *a* for abbreviation;  *an* for long form
+%           (In my experience, such are reeeeaaally scarce, but some rare ones exist; e.g. "an Unidentified Object" vs. "a UO")
+%    - 0 : Default Behavior.
+%    - ELSE: Expands to nothing.
+%    - NO-Opt-Arg: Default Behavior
+\DeclareDocumentCommand{\glsInArticle}{om}{%
+	\IfValueTF{#1}{%
+		\expandafter\ifstrequal\expandafter{1}{#1}{%
+			\ifglsused{#2}{a}{an}%
+		}{%
+			\ifglsused{#2}{an}{a}%
+		}%
+	}{%
+		\ifglsused{#2}{an}{a}%
+	}%
 }%
 \providecommand{\glsdescpl}{}%
 \renewcommand{\glsdescpl}[1]{\glslink{#1}{\glsentrylongpl{#1}}}%
