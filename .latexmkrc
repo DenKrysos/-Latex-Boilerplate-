@@ -22,6 +22,9 @@
 # - clean
 
 
+print "DenKr: BEGIN .latexmkrc File\n";
+
+
 
 ######################################
 # Preferences  #######################
