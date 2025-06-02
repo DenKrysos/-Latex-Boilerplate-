@@ -57,7 +57,7 @@ $resultName='1compiled';
 $resultSubDir='';
 #-------------------------------------
 # This "Additional finally resulting Doc" feature by me can be exploited for example for keeping things tidy and in order and having a successfully compiled Document renamed and in the Top-Directory and separate from every tmp/aux/build stuff.
-# The final Copy may be deactivated by default. Then look into ".latexmk_post" -> "Post-Build Steps".
+# The final Copy may be deactivated by default. Then look into ".latexmk_post" -> "Post-Build Steps" (-> search for "cpy_final").
 
 
 
