@@ -680,9 +680,19 @@ m O{Sidenote} O{0pt}%
 \begin{ocg}{Spoiler \arabic{spoiler}}{spoiler\arabic{spoiler}}{0}%
 %\footnotesize%
 }%
-%---------------------------------------------
+%-------------------------------
 {\par\end{ocg}%
 \end{minipage}}%
+%---------------------------------------------
+%================================================
+\newenvironment{spoilerinline}%
+{\noindent\stepcounter{spoiler}%
+\switchocg{spoiler\arabic{spoiler}}{\raisebox{0.4ex}{\fbox{\tiny Spoiler!}}}%
+\begin{ocg}{Spoiler \arabic{spoiler}}{spoiler\arabic{spoiler}}{0}%
+%\footnotesize%
+}%
+%-------------------------------
+{\raisebox{0.3ex}{\framebox(1ex,1ex){$\times$}}\end{ocg}}%
 %---------------------------------------------
 %================================================
 %
