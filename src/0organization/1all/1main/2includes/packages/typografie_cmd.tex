@@ -24,6 +24,24 @@
 % -> Some environments don't like new Paragraphs. Using this Macro instead of directly \par forces the compiler to introduce one more Macro-Expansion step, enabling paragraphs.
 %
 %
+%
+%-----------------------------
+% To store and restore the current paragraph spacing settings (e.g. call before and inside a minipage to retain the indentation)
+\makeatletter%
+\newcommand{\parcfgstore}{%
+    \edef\denkr@parindent{\the\parindent}%
+    \edef\denkr@parskip{\the\parskip}%
+}%
+\newcommand{\parcfgset}{%
+    \setlength{\parindent}{\denkr@parindent}%
+    \setlength{\parskip}{\denkr@parskip}%
+}%
+\makeatother%
+\parcfgstore%
+%
+%
+%
+%-----------------------------
 \newcommand{\greenuline}[1]{\colorlet{temp}{.}\color{green}\underline{\color{temp}#1}\color{temp}\xspace}%
 %
 %
@@ -111,9 +129,20 @@
 \newcommand{\entitynumnamref}[1]{\numnamref{#1}}%
 \newcommand{\elenumnamref}[1]{\numnamref{#1}}%
 \newcommand{\typenumnamref}[1]{\numnamref{#1}}%
+%
+\makeatletter%
+\newcommand{\formatnumnamref}[1]{%
+	\hyperref[#1]{\formatrefLabelFormat{\namecref{#1}} \formatrefNumFormat{\ref*{#1}} \formatnamref{\formatrefFormat{\nameref*{#1}}}}%
+}%
+\makeatother%
+\def\entityformatnumnamref{\formatnumnamref}%
+\def\eleformatnumnamref{\formatnumnamref}%
+\def\typeformatnumnamref{\formatnumnamref}%
 % - - - - - - - - - - - - - - - -
 % Nameref with some fancy formatting
 % - - Setup for it
+\newcommand{\formatrefLabelFormat}[1]{{\color{DenKrKomaColor_ChapterHeading!55!black}#1}}%
+\newcommand{\formatrefNumFormat}[1]{{\color{DenKrKomaColor_ChapterHeading!85!black}#1}}%
 \newcommand{\formatrefFormat}[1]{{\color{DenKrColor_Highlight_Emerald}#1}}%
 \newcommand{\quotrefFormat}[1]{{\gerguiquotel{#1}}}%
 \newcommand{\formatquotrefFormat}[1]{{\quotrefFormat{\formatrefFormat{#1}}}}%
@@ -139,10 +168,19 @@
 %     -> e.g. \formatquotnamref{sec:someSec} (\furtherref{subsub:unnumberedSec})
 %         --> becomes:  Section 1.2 (Section-Name) (→ ›NameOfUnnumberedSection‹)
 \newcommand{\furtherrefFormat}[1]{{%
-	$\rightarrow$ \formatquotnamref{#1}%
+	\formatquotrefFormat{#1}%
+}}%
+\newcommand{\furtherrefPrefix}[1]{{%
+	$\rightarrow$ {#1}%
+}}%
+\newcommand{\furtherrefBraces}[1]{{%
+	({#1})%
+}}%
+\newcommand{\furtherrefNoB}[1]{{%
+	\furtherrefPrefix{\hyperref[#1]{\furtherrefFormat{\nameref*{#1}}}}%
 }}%
 \newcommand{\furtherref}[1]{{%
-	(\furtherrefFormat{#1})%
+	\furtherrefBraces{\furtherrefNoB{#1}}%
 }}%
 \newcommand{\deeperref}[1]{\furtherref{#1}}%
 %

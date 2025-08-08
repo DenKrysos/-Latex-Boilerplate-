@@ -14,8 +14,8 @@
 			"-forward-search",
 			"%TEX%",
 			"%LINE%",
-			//"%PDF%"
-			"%OUTDIR%\\1RecipeMain.pdf"
+			"%PDF%"
+			//"%OUTDIR%\\1main.pdf"
 		],
 		"latex-workshop.view.pdf.external.synctex.command": "C:\\Program Files\\SumatraPDF\\SumatraPDF.exe",
 		"latex-workshop.view.pdf.external.synctex.args": [
@@ -23,8 +23,8 @@
 			"-forward-search",
 			"%TEX%",
 			"%LINE%",
-			//"%PDF%"
-			"%OUTDIR%\\1RecipeMain.pdf"
+			"%PDF%"
+			//"%OUTDIR%\\1main.pdf"
 		],
 		"ltex.additionalRules.motherTongue": "de-DE",
 		"ltex.language": "en-US",

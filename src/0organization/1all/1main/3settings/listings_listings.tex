@@ -5,6 +5,7 @@
 \newcommand{\lstC}[1]{\lstinline[language=DenKr-C,breaklines=true]$#1$}%basicstyle=\listingsfontinline
 \newcommand{\lstJS}[1]{\lstinline[language=DenKr-JavaScript,breaklines=true]$#1$}%
 \newcommand{\lstPY}[1]{\lstinline[language=DenKr-Python,breaklines=true]$#1$}%
+\newcommand{\lstTEX}[1]{\lstinline[language=DenKr-TeX,breaklines=true]$#1$}%
 % Colors etc. to get the Eclipse Look
 % \newfontfamily\listingsfont[Scale=0.7]{Courier}
 % \newfontfamily\listingsfontinline[Scale=0.8]{Courier New}
@@ -23,6 +24,13 @@
 \definecolor{vscode_keyword_1_blueLight}{RGB}{86,156,214}%Ice Blue (white-ish)  (VSCode Structure Entity and Members)
 \definecolor{vscode_keyword_1_yellow}{RGB}{245,198,18}%Bright Yellow  (VSCode Curly Brackets)
 \definecolor{vscode_keyword_1_yellowMild}{RGB}{219,219,138}%A dull Yellow  (VSCode Library-Funcs)
+\definecolor{vscode_keyword_1_blue}{RGB}{86,156,214}%
+\definecolor{vscode_keyword_1_purple}{RGB}{197,134,192}%
+\definecolor{vscode_keyword_1_cyan}{RGB}{77,186,231}%  156,220,254  87,186,251  73,157,213  94,170,230
+\definecolor{vscode_keyword_1_emerald}{RGB}{78,201,176}%
+\definecolor{vscode_keyword_1_blue}{RGB}{38,80,157}%  86,156,214  36,72,126  38,90,167
+\definecolor{vscode_keyword_1_orange}{RGB}{215,186,125}% 
+\definecolor{vscode_keyword_2_pink}{RGB}{195,96,135}% That's actually not a color vom VSC, but I started from its orange and wanted to create a certain contrast
 \definecolor{stackoverflow_keyword_orange}{RGB}{183,83,1}%Brownish Orange
 \definecolor{stackoverflow_keyword_orangeOverflow}{RGB}{244,128,36}%Orange from StackOverflow Logo
 % - - - - - - - - - -
@@ -114,19 +122,39 @@
 	\end{DenKrLstInputEnv}%
 }
 %
-\lstnewenvironment{DenKrLst}[1][]%
+\lstnewenvironment{DenKrLst}[3][]%
 {%
 	\DenKrLst@ifempty{#1}%
 	\else%
 		\lstset{#1}%
+	\fi%
+	\DenKrLst@ifempty{#2}%
+		\global\let\DenKrLst@caption\undefined%
+	\else%
+		\gdef\DenKrLst@caption{#2}%
+	\fi%
+	\DenKrLst@ifempty{#3}%
+		\global\let\DenKrLst@label\undefined%
+	\else%
+		\gdef\DenKrLst@label{#3}%
 	\fi%
 	\lstset{frame=none,framesep=0pt,rulesep=0pt,framerule=0pt,framexleftmargin=0pt,framexrightmargin=0pt,framextopmargin=0pt,framexbottommargin=0pt,backgroundcolor={}}%
 	%\DenKrLstBeginBox%
 }{%
 	%\end{tcolorbox}%
 }%
-\BeforeBeginEnvironment{DenKrLst}{\DenKrLstBeginBox\vspace{-1pt}}%
-\AfterEndEnvironment{DenKrLst}{\DenKrLstEndBox}%
+\BeforeBeginEnvironment{DenKrLst}{%
+	\begin{DenKrLstInputEnv}%
+	% \@ifundefined{DenKrLst@caption}{NONE}{\DenKrLst@caption}%
+	\captionsetup{type=lstlisting,hypcapspace=0.25\baselineskip}%
+	\DenKrLstBeginBox\vspace{-1pt}%
+}%
+\AfterEndEnvironment{DenKrLst}{%
+	\DenKrLstEndBox%
+	\@ifundefined{DenKrLst@caption}{}{\DenKrLstCaption{\DenKrLst@caption}}%
+	\@ifundefined{DenKrLst@label}{}{\label{\DenKrLst@label}}%
+	\end{DenKrLstInputEnv}%
+}%
 \makeatother%
 %============================================
 %
@@ -348,6 +376,7 @@
 	keywordstyle=[14]\lstCFontMoreKey,%Yet More Special Words
 	keywordstyle=[20]\lstCFontString,%Strings, Inclusions
 	keywordstyle=[99]\lstCFontHighRed,%Highlighting in Red (Pseudo-Code)
+	%
 	%morestring=[s]{<}{>},% Not working well
 	stringstyle=\lstCFontString,%
 	commentstyle=\lstCFontComment,%
@@ -640,6 +669,52 @@
 	%stringstyle=\color{white},%
 	commentstyle=\color{lstCol_Terminal_user}\bfseries,%
 }%
+%
+\definecolor{lstCol_TEX_yellow}{named}{code_keyword_orange}% vscode_keyword_1_yellow
+\definecolor{lstCol_TEX_pink}{named}{vscode_keyword_2_pink}%
+\definecolor{lstCol_TEX_blue}{named}{vscode_keyword_1_blue}
+\definecolor{lstCol_TEX_purple}{named}{vscode_keyword_1_purple}
+\definecolor{lstCol_TEX_cyan}{named}{vscode_keyword_1_cyan}% vscode_keyword_1_cyan  code_keyword_blueIce
+\definecolor{lstCol_TEX_emerald}{named}{vscode_keyword_1_emerald}
+%
+% \def\lstTEXFontString{\color{eclipse_1_string}}%
+\def\lstTEXFontComment{\color{eclipse_1_comment}\itshape}%
+\def\lstTEXFontBasic{\color{lstCol_TEX_purple}}%
+\def\lstTEXFontLibrary{\color{lstCol_TEX_blue}}%
+\def\lstTEXFontMacro{\color{lstCol_TEX_yellow}}%
+\def\lstTEXFontArgument{\color{lstCol_TEX_emerald}}%
+\def\lstTEXFontLabel{\color{lstCol_TEX_cyan}}%
+\def\lstTEXFontChar{\color{lstCol_TEX_pink}}%
+%
+\lstdefinelanguage{DenKr-Tex}{%
+	language=Tex,%
+	% morecomment=[l]{\%},%
+	morekeywords=[1]{%Macros
+		par,baselineskip,begin,end,vspace,hspace
+		tikz,
+	},%
+	morekeywords=[2]{%Basic
+		label,usepackage,input,
+	},%
+	morekeywords=[3]{%Library
+		newcommand,DeclareDocumentCommand,NewDocumentCommand,
+	},%
+	morekeywords=[4]{%Argument (of Macros), e.g. \usepackage{blindtext}
+		blindtext,
+	},%
+	morekeywords=[5]{%Label (inside Macros), e.g. \begin{document}, \label{chap:ToC}
+		document,
+	},%
+	%
+	keywordstyle=[1]\lstTEXFontMacro,%
+	keywordstyle=[2]\lstTEXFontBasic,%
+	keywordstyle=[3]\lstTEXFontLibrary,%
+	keywordstyle=[4]\lstTEXFontArgument,%
+	keywordstyle=[5]\lstTEXFontLabel,%
+	%
+	% stringstyle=\lstCFontString,%
+	commentstyle=\lstCFontComment,%
+}%
 %/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
 %							Listings Done
 %------------------------------------------------------------------------
@@ -741,6 +816,23 @@
 \newcommand{\lstJSbasicalike}[1]{{\color{lstCol_JS_blue}\DenKrLstBreakoutText{#1}}}%Special-Keywords. Like Basic, but not bold.
 \newcommand{\lstJSlibalike}[1]{{\color{lstCol_JS_violet}\DenKrLstBreakoutText{#1}}}%Special-Keywords. Like Basic, but not bold.
 \newcommand{\lstJScomment}[1]{{\color{eclipse_1_comment}\ttfamily\DenKrLstBreakoutText{#1}}}%Like a Comment, without the need to add the Comment-Symbols
+%------------------------------------------
+%- - For Code in "LaTeX" formatted like LaTeX Workshop in VSCode
+% - - - (In the LaTeX case, I have two sets of formatting Macros. Because these involve a Backslash (of course...), the automatic Digit-Breakout doesn't work properly. Hence, the Variants with 'BO' ('BreakOut') can only be used for straight words (without backslash). The other ones, add a Backslash the hard way.)
+\newcommand{\lstTEXbslash}{\hspace{0.36ex}\textbackslash\hspace{0.33ex}}%
+\newcommand{\lstTEXmacro}[1]{{\lstTEXFontMacro\lstTEXbslash\DenKrLstBreakoutText{#1}}}%
+\newcommand{\lstTEXbasic}[1]{{\lstTEXFontBasic\lstTEXbslash\DenKrLstBreakoutText{#1}}}%
+\newcommand{\lstTEXlibrary}[1]{{\lstTEXFontLibrary\lstTEXbslash\DenKrLstBreakoutText{#1}}}%
+\newcommand{\lstTEXargument}[1]{{\lstTEXFontArgument\lstTEXbslash\DenKrLstBreakoutText{#1}}}%
+\newcommand{\lstTEXlabel}[1]{{\lstTEXFontLabel\lstTEXbslash\DenKrLstBreakoutText{#1}}}%
+\newcommand{\lstTEXchar}[1]{{\lstTEXFontChar\lstTEXbslash\DenKrLstBreakoutText{#1}}}%
+% - - - - - -
+\newcommand{\lstTEXmacroBO}[1]{{\lstTEXFontMacro\DenKrLstBreakoutText{#1}}}% any kind of ordinary Macro, e.g. self-defined
+\newcommand{\lstTEXbasicBO}[1]{{\lstTEXFontBasic\DenKrLstBreakoutText{#1}}}% fundamental TeX Keywords, e.g. \usepackage, \input
+\newcommand{\lstTEXlibraryBO}[1]{{\lstTEXFontLibrary\DenKrLstBreakoutText{#1}}}% established Library Keywords, e.g. \newcommand
+\newcommand{\lstTEXargumentBO}[1]{{\lstTEXFontArgument\DenKrLstBreakoutText{#1}}}% arguments of Macros, e.g. in \usepackage{blindtext}
+\newcommand{\lstTEXlabelBO}[1]{{\lstTEXFontLabel\DenKrLstBreakoutText{#1}}}% Labels inside Macros, e.g. in \begin{document}, \label{chap:ToC}
+\newcommand{\lstTEXcharBO}[1]{{\lstTEXFontChar\DenKrLstBreakoutText{#1}}}% Single Characters, like when putting a singular \ or $
 %/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
 %			Cmds Done
 %------------------------------------------------------------------------

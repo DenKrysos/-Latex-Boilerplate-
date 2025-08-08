@@ -56,7 +56,106 @@ y = \int_0^x\cos(x)\,\mathrm{d}{x} = \frac{e^{\I x} - e^{-\I x}}{2\I} | 01234567
 
 
 
+
+\section{Formatted References}
+
+There are some Macros available to furnish intra-doc references uniformly with fancy formatting.
+
 \npi
+\begin{itemize}
+	\item \texttt{\lstTEXmacro{eleref}\{\}}: \eleref{chap:twoDigit}, \eleref{sec:justMore}, \eleref{subsec:twoPages}, \eleref{lst:exmplLabel}, \eleref{fig:tikzexample}\nl
+		\begin{itemize}
+			\item \textit{Alias}:
+			\begin{itemize}
+				\item \texttt{\lstTEXmacro{typeref}\{\}}, \texttt{\lstTEXmacro{listref}\{\}}
+			\end{itemize}
+		\end{itemize}
+	\item \texttt{\lstTEXmacro{elenumnamref}\{\}}: \elenumnamref{chap:twoDigit}, \elenumnamref{sec:justMore}
+		\begin{itemize}
+			\item \textit{Formatting-Macros involved}:
+			\begin{itemize}
+				\item \texttt{\lstTEXmacro{formatnamref}\{\}}: \formatnamref{Any-Text}
+			\end{itemize}
+			\item \textit{Alias}:
+			\begin{itemize}
+				\item \texttt{\lstTEXmacro{numnamref}\{\}}, \texttt{\lstTEXmacro{entitynumnamref}\{\}}, \texttt{\lstTEXmacro{typenumnamref}\{\}}
+			\end{itemize}
+		\end{itemize}
+	\item \texttt{\lstTEXmacro{formatnumnamref}\{\}}: \formatnumnamref{chap:twoDigit}, \formatnumnamref{sec:justMore}
+		\begin{itemize}
+			\item \textit{Formatting-Macros involved}:
+			\begin{itemize}
+				\item \texttt{\lstTEXmacro{formatnamref}\{\}}: \formatnamref{Any-Text}
+				\item \texttt{\lstTEXmacro{formatrefFormat}\{\}}: \formatrefFormat{Any-Text}
+				\item \texttt{\lstTEXmacro{formatrefLabelFormat}\{\}}: \formatrefLabelFormat{Any-Text}
+				\item \texttt{\lstTEXmacro{formatrefNumFormat}\{\}}: \formatrefNumFormat{Any-Text}
+			\end{itemize}
+			\item \textit{Alias}:
+			\begin{itemize}
+				\item \texttt{\lstTEXmacro{entityformatnumnamref}\{\}}, \texttt{\lstTEXmacro{eleformatnumnamref}\{\}}, \texttt{\lstTEXmacro{typeformatnumnamref}\{\}}
+			\end{itemize}
+		\end{itemize}
+	\item[-]- - - - - -
+	\item \texttt{\lstTEXmacro{eleref}\{\}} can get a list of Elements to reference (same type).
+		\begin{itemize}
+			\item \eleref{chap:twoDigit,chap:chapter1}, \eleref{fig:tikzexample,fig:testFig}, \eleref{sec:justMore,sec:testing}
+		\end{itemize}
+	\item[-]- - - - - -
+	\item \texttt{\lstTEXmacro{formatquotnamref}\{\}}: \formatquotnamref{chap:twoDigit}
+		\begin{itemize}
+			\item \textit{Formatting-Macros involved}:
+			\begin{itemize}
+				\item \texttt{\lstTEXmacro{formatquotrefFormat}\{\}}: \formatquotrefFormat{Any-Text}
+			\end{itemize}
+		\end{itemize}
+	\item (The previous one combines the following two)
+	\item \texttt{\lstTEXmacro{formattednamref}\{\}}: \formattednamref{chap:twoDigit}
+		\begin{itemize}
+			\item \textit{Formatting-Macros involved}:
+			\begin{itemize}
+				\item \texttt{\lstTEXmacro{formatrefFormat}\{\}}: \formatrefFormat{Any-Text}
+			\end{itemize}
+			\item \textit{Alias}:
+			\begin{itemize}
+				\item \texttt{\lstTEXmacro{entityformattednamref}\{\}}, \texttt{\lstTEXmacro{eleformattednamref}\{\}}, \texttt{\lstTEXmacro{typeformattednamref}\{\}}
+			\end{itemize}
+		\end{itemize}
+	\item \texttt{\lstTEXmacro{quotednamref}\{\}}: \quotednamref{chap:twoDigit}
+		\begin{itemize}
+			\item \textit{Formatting-Macros involved}:
+			\begin{itemize}
+				\item \texttt{\lstTEXmacro{quotrefFormat}\{\}}: \quotrefFormat{Any-Text}
+			\end{itemize}
+		\end{itemize}
+	\item[-]- - - - - -
+	\item \texttt{\lstTEXmacro{furtherref}\{\}}: \furtherref{sec:justMore}
+		\begin{itemize}
+			\item \textit{Formatting-Macros involved}:
+			\begin{itemize}
+				\item \texttt{\lstTEXmacro{furtherrefFormat}\{\}}: \furtherrefFormat{Any-Text}
+				\item \texttt{\lstTEXmacro{furtherrefPrefix}\{\}}: \furtherrefPrefix{Any-Text}
+				\item \texttt{\lstTEXmacro{furtherrefBraces}\{\}}: \furtherrefBraces{Any-Text}
+			\end{itemize}
+			\item \textit{Alias}:
+			\begin{itemize}
+				\item \texttt{\lstTEXmacro{deeperref}\{\}}
+			\end{itemize}
+		\end{itemize}
+	\item \texttt{\lstTEXmacro{furtherrefNoB}\{\}}: \furtherrefNoB{sec:justMore}
+	\item[-]- - - - - -
+	\item \texttt{\lstTEXmacro{entityref}\{\}}: \entityref{sec:justMore}
+		\begin{itemize}
+			\item Similar to \texttt{\textbackslash eleref} but a bit worse. Does not provide the capability to pass it a list of Elements.
+		\end{itemize}
+\end{itemize}
+
+
+
+
+
+
+\section{Listings}
+
 Listing in separate File:
 \DenKrLstInput[
 	language=DenKr-C,
@@ -78,8 +177,14 @@ Listing in separate File:
 
 
 \npi
-Listing in Environment, directly in Code:
-\begin{DenKrLst}[language=DenKr-C]
+Listing in Environment, directly in tex-File:
+\begin{DenKrLst}[language=DenKr-C]{}{}
+if(1){
+	strlen("Str");
+}
+\end{DenKrLst}
+
+\begin{DenKrLst}[language=DenKr-C]{Listing-Caption}{lst:lstLabel}
 if(1){
 	strlen("Str");
 }
@@ -334,8 +439,11 @@ Two different Packages and by that Methods are supplied here:
 
 \setcounter{\DenKrHeadingTopLvl}{9}
 \DenKrHeadingCmdLvlA{A Chapter with two-digit number} ABYZ
+\label{chap:twoDigit}
 \section{And more Sections} ABYZ
+\label{sec:justMore}
 \subsection{to make the ToC two pages} ABYZ
+\label{subsec:twoPages}
 \section{More Sec} ABYZ
 \section{Yet more Sec} ABYZ
 \subsection{And a Subsec} ABYZ
