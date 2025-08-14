@@ -30,20 +30,20 @@ m% Abbreviation to be displayed by the created Commands
 O{#2}% Identifier to be displayed in the Legend
 m% Color
 }{%
-    % \IfValueTF{#3}{}{}
-    \expandafter\newcommand\csname#1\endcsname[1]{%
-        \disablewr{{\color{#4}{\#}#2: ##1}}%
-    }%
-    \expandafter\newcommand\csname#1hl\endcsname[1]{%
-        \disablewr{{\color{#4}##1}}%
-    }%
-    % For the Legend:
-    \addDenKrComDefinedCmd{#1}{#3}%
+	% \IfValueTF{#3}{}{}
+	\expandafter\newcommand\csname#1\endcsname[1]{%
+		\disablewr{{\color{#4}{\#}#2: ##1}}%
+	}%
+	\expandafter\newcommand\csname#1hl\endcsname[1]{%
+		\disablewr{{\color{#4}##1}}%
+	}%
+	% For the Legend:
+	\addDenKrComDefinedCmd{#1}{#3}%
 }%
 %
 % The old one. Not in use anymore for People's Cmds. (Just for simple ones, like the "todo", "notice".)
 \newcommand{\newcommanddisw}[3]{\expandafter\newcommand\csname#1\endcsname[1]{%
-    \disablewr{{\color{#2}#3}}%
+	\disablewr{{\color{#2}#3}}%
 }}%
 % - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 %= = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
@@ -93,25 +93,25 @@ m% Color
 \newcounter{DenKrComDefinedCmds}%
 \setcounter{DenKrComDefinedCmds}{0}%
 \newcommand\addDenKrComDefinedCmd[2]{%
-  \csdef{DenKrComDefinedCmdsCMD\theDenKrComDefinedCmds}{#1}%
-  \csdef{DenKrComDefinedCmdsNAME\theDenKrComDefinedCmds}{#2}%
-  \stepcounter{DenKrComDefinedCmds}%
+	\csdef{DenKrComDefinedCmdsCMD\theDenKrComDefinedCmds}{#1}%
+	\csdef{DenKrComDefinedCmdsNAME\theDenKrComDefinedCmds}{#2}%
+	\stepcounter{DenKrComDefinedCmds}%
 }%
 \newcommand\getDenKrComDefinedCmdCMD[1]{%
-  \csuse{DenKrComDefinedCmdsCMD#1}%
+	\csuse{DenKrComDefinedCmdsCMD#1}%
 }%
 \newcommand\getDenKrComDefinedCmdNAME[1]{%
-  \csuse{DenKrComDefinedCmdsNAME#1}%
+	\csuse{DenKrComDefinedCmdsNAME#1}%
 }%
 \newcommand\checkDenKrComDefinedCmd[2]{%
-  \ifcsempty{DenKrComDefinedCmds#1#2}{}{}%
+	\ifcsempty{DenKrComDefinedCmds#1#2}{}{}%
 }%
 \newcommand\loopDenKrComDefinedCmds{%
-    \setcounter{loopi}{0}%
-    \loop\ifnum\value{loopi}<\value{DenKrComDefinedCmds}%
-        \pasteColCodeLegend{\getDenKrComDefinedCmdCMD{\theloopi}}{\getDenKrComDefinedCmdNAME{\theloopi}}%
-        \stepcounter{loopi}%
-    \repeat%
+	\setcounter{loopi}{0}%
+	\loop\ifnum\value{loopi}<\value{DenKrComDefinedCmds}%
+		\pasteColCodeLegend{\getDenKrComDefinedCmdCMD{\theloopi}}{\getDenKrComDefinedCmdNAME{\theloopi}}%
+		\stepcounter{loopi}%
+	\repeat%
 }%
 % - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 %= = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
@@ -122,21 +122,21 @@ m% Color
 % ----  Supportive (Displaying, etc.)
 %----------------------------------------------------------------------------------
 \newcommand{\pasteColCodeLegend}[2]{% 1: Abbreviation, 2: Name
-    \csname#1\endcsname{Comments \gerguiquote{#2}: \mbox{$\Rightarrow$ \textbackslash#1\{\}}}\nl%
+	\csname#1\endcsname{Comments \gerguiquote{#2}: \mbox{$\Rightarrow$ \textbackslash#1\{\}}}\nl%
 }%
 %
 \newcommand{\DisplayDenKrCommandsLegend}{\disablewr{%
-    {%
-    \section{Draft-State: Comment Color Code}{\noindent\raggedright%
-    \todo{Comments: ToDos: \mbox{$\Rightarrow$ \textbackslash todo\{ \}}}\nl%
-    \notice{Comment: A general Notice: \mbox{$\Rightarrow$ \textbackslash notice\{ \}}}\nl%
-    %
-    \loopDenKrComDefinedCmds%
-    %
-    \textbf{$\rightarrow$} Also provided (simple highlighting): \mbox{\textbackslash[\ldots]hl\{\}}\nl%
-    \textbf{\mbox{$\Rightarrow$ You} may add such a Comment-Macro for yourself in "\DenKrSupplyRootDir/DenKr\_comments.tex" if you \mbox{wish $\Leftarrow$}}\nl%
-    \textbf{$\rightarrow$} \texttt{Disable} Cmds (not rendering): Set \gerguiquote{\textbackslash DenKrCommentsUsage} to \texttt{\textquotesingle 0\textquotesingle} (in \enquote{./2ProjectSetup.tex}).%
-    }}%
+	{%
+		\section{Draft-State: Comment Color Code}{\noindent\raggedright%
+		\todo{Comments: ToDos: \mbox{$\Rightarrow$ \textbackslash todo\{ \}}}\nl%
+		\notice{Comment: A general Notice: \mbox{$\Rightarrow$ \textbackslash notice\{ \}}}\nl%
+		%
+		\loopDenKrComDefinedCmds%
+		%
+		\textbf{$\rightarrow$} Also provided (simple highlighting): \mbox{\textbackslash[\ldots]hl\{\}}\nl%
+		\textbf{\mbox{$\Rightarrow$ You} may add such a Comment-Macro for yourself in "\DenKrSupplyRootDir/DenKr\_comments.tex" if you \mbox{wish $\Leftarrow$}}\nl%
+		\textbf{$\rightarrow$} \texttt{Disable} Cmds (not rendering): Set \gerguiquote{\textbackslash DenKrCommentsUsage} to \texttt{\textquotesingle 0\textquotesingle} (in \enquote{./2ProjectSetup.tex}).%
+	}}%
 }}%
 % - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 %= = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =

@@ -1,0 +1,52 @@
+\documentclass[%
+	lualatex,%
+	fontsize=11pt,%
+	%Paper-Size not done here, but instead with geometry.sty
+	%paper=a4,% a4, a5, b5, letter, executive, legal
+	%twoside=true,%
+	%titlepage,%
+	%openany,%
+	numbers=noenddot,%
+	headings=optiontoheadandtoc,% For using the optional Chaptername in the Header
+	pdfpagelabels=false,%
+	%draft,%
+	noamsthm,
+]{beamer}%
+%
+%
+% Das Prozent-Zeichen leitet einen Kommentar ein, es hilft ebenso, im Text Leerzeichen zu unterbinden.
+%
+% fontsize=12pt  Schriftgroesse in 10, 11 oder 12 Punkt
+% a4paper        Papierformat ist hier A4
+% landscape      Querformat wird natürlich unterstützt ;-)
+% parskip        Absatzabstand anstatt Einzüge
+% draft          Der Entwurfsmodus deckt Schwächen auf
+%			e.g. Pictures erscheinen nur als Umrissboxen mit Bildname
+% {scrartcl}     Die Dokumentenklasse book, report, article
+%                oder fürs deutsche scrbook, scrreprt, scrartcl
+%
+% bibtex and biber are external programs that process bibliography information
+% and act (roughly) as the interface between your .bib file and your LaTeX document.
+% -> To prefer: biber
+% natbib and biblatex are LaTeX packages that format citations and
+% bibliographies; natbib works only with bibtex, while biblatex (at the moment)
+% works with both bibtex and biber.)
+%
+%
+%
+% INFO:
+% \paperheight =
+%				\topmargin +
+%				\headheight +
+%				\headsep +
+%				\textheight +
+%				\footskip +
+%				\footheight +
+%				\ %Some more Space at the bottom
+%
+% \paperwidth =
+%				\oddsidemargin +
+%				\textwidth +
+%				\marginparsep +
+%				\marginparwidth +
+%				\ %Some more Space at the "left"

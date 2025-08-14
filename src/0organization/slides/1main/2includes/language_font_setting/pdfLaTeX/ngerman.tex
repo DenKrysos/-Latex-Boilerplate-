@@ -1,0 +1,31 @@
+%
+\newcommand{\DenKrLanguageStringCmd}{ngerman}%
+%
+\usepackage[english,german,ngerman]{babel}% The last Language is considered the MAIN-Language
+\selectlanguage{ngerman}%
+% \AtEndPreamble{%
+% \PassOptionsToPackage{%
+% 	babel,%
+% 	style=ngerman%
+% }{csquotes}%
+% - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+% == Note ==  With csquotes.sty, use
+%     \textquote{}, to automatically print correct quotation marks, depending on the set language by babel (or polyglossia)
+%     \enquote{}, for 'nested' quotations
+% - german=quotes% Deutsche Anführungszeichen, german=quotes, guillemets, swiss
+\PassOptionsToPackage{%
+	babel,%
+	autostyle=true,%
+	german=quotes,%
+	english=american%
+}{csquotes}%
+% }%
+%
+%
+\addto{\captionsngerman}{%
+	\renewcommand*{\contentsname}{Inhalt}%
+	\renewcommand*{\listfigurename}{Abbildungen}%
+	\renewcommand*{\listtablename}{Tabellen}%
+	\renewcommand*{\figurename}{Abbildung}%
+	\renewcommand*{\tablename}{Tabelle}%
+}%

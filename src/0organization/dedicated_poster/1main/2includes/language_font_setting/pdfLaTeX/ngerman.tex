@@ -1,3 +1,6 @@
+%
+\newcommand{\DenKrLanguageStringCmd}{ngerman}%
+%
 \usepackage[english,german,ngerman]{babel}%
 \selectlanguage{ngerman}%
 % \AtEndPreamble{%
@@ -7,7 +10,7 @@
 % }{csquotes}%
 \PassOptionsToPackage{%
 	babel,%
-	autostyle,%
+	autostyle=true,%
 	german=quotes,%
 	english=american%
 }{csquotes}%
@@ -21,8 +24,6 @@
 	\renewcommand*{\figurename}{Abbildung}%
 	\renewcommand*{\tablename}{Tabelle}%
 }%
-%
-\newcommand{\DenKrLanguageStringCmd}{ngerman}%
 %
 %
 % In some languages (e.g. ngeermanb.ldb, russianb.lbf) the double quote (") is an active short hand character with babel.sty and is thus not expandable. Hence, cannot be used e.g. in File-names (as I always like to do). Either use the expandable \dq or deactivate the shorthand

@@ -1,0 +1,53 @@
+%________________________________________________________________________
+% Hyperref Usage-Wrapper
+%/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+\expandafter\ifstrequal\expandafter{\DenKrLayoutUseHyperref}{1}{%
+%
+%
+\newcommand{\DenKrHyperrefUsageState}{true}%
+%________________________________________________________________________
+%------------------------------------------------------------------------
+%                   --- Begin hyperref ---
+%/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+% For the Beamer-Class, the Options are not set here done here but before \documentclass{}  (in "preamble.tex")
+% % Also, is no \usepackage performed, as Beamer loads it automatically.
+% \input{"\DenKrLayoutMainRootDir/2includes/packages/hyperref-1options".tex}%
+%
+% Usually, hyperref has to be loaded as THE LAST of all packages or at least as one of latest. (Some specials like glossaries rather prefer to be loaded even after hyperref)
+% Because of that \AtEndPreamble{} can be used.
+% But be aware that Biblatex does some things different whether or not hyperref is loaded. Hence, Biblatex checks for hyperref and thus the presence of hyperref must be known prior to that checks. One way to ensure this is via this combination: Use \AtEndPreamble{} to load hyperref, but paste this BEFORE \usepackage{biblatex}
+%
+% See PassOptions for url on Top
+% % Most of the times, links & bookmarks are not allowed for conference articles
+% % .pdf Bookmarks are created here by this
+% \AtEndPreamble{%
+% \usepackage[%
+% 	%bookmarks=false,%
+% 	%bookmarksdepth=subsubsection,%
+% 	%bookmarksopen=true,%
+% 	%bookmarksopenlevel=1,%
+% ]{hyperref}%
+%
+\input{"\DenKrLayoutMainRootDir/2includes/packages/hyperref-2config".tex}%
+% }%
+% \AtEndPreamble{%
+\usepackage{url}%
+% }%
+% Improves the bookmark handling and adds some features. Is worth having together with 'hyperref'
+\usepackage[%
+	depth=subsubsection,%
+	open=true,%
+	openlevel=1,%
+]{bookmark}%
+%/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+%                   --- End hyperref ---
+%------------------------------------------------------------------------
+%________________________________________________________________________
+%
+%
+}{%
+\newcommand{\DenKrHyperrefUsageState}{false}%
+}%
+%/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+% END Usage-Wrapper
+%________________________________________________________________________

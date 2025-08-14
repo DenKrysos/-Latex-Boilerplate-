@@ -12,12 +12,11 @@
 % \usepackage{libertinust1math}%
 % \usepackage{inconsolata}%
 % - Font for Math
-\usepackage[T1,small,euler-digits]{eulervm}%
-% Lesser and Greater Equal are by default slanted with eulervm. Overwrite back to a straight variant (enabled by "1all/[...]/language_font_setting/1common/font.tex")
-\let\leq\leqstraight%
-\let\geq\geqstraight%
+% \usepackage{amsfonts}%
+%  %  %\usepackage[T1,small,euler-digits]{eulervm}% Deprecated, the below one is newer
+% \usepackage{euler-math}%
+\usepackage[warnings-off={mathtools-colon,mathtools-overbracket}]{unicode-math}%
 %
-% \usepackage{libertinust1math}%
 % - Load Font-handling Package
 \usepackage{fontspec}%
 \newcommand{\DenKrFontEngine}{fontspec}%
@@ -29,13 +28,13 @@
 %  - OTF: "LinuxLibertine O"
 % - - - - - - - - - - - - -
 \setmainfont{Latin Modern Roman}[%
-  SmallCapsFont={Latin Modern Roman Caps},% A Patch, because LMR does not provide Small Caps Bold
-  %SmallCapsFeatures={Letters=SmallCaps},%
-  ItalicFeatures={SmallCapsFont=LMRomanCaps10-Oblique},%
+	SmallCapsFont={Latin Modern Roman Caps},% A Patch, because LMR does not provide Small Caps Bold
+	%SmallCapsFeatures={Letters=SmallCaps},%
+	ItalicFeatures={SmallCapsFont=LMRomanCaps10-Oblique},%
 ]%
 \setmainfont{LinuxLibertine O}[%
-  Scale=1.01,%
-%  RawFeature={+zero},%
+	Scale=1.01,%
+	%RawFeature={+zero},%
 ]%
 %--------------------------
 % Sans-Serif Font
@@ -43,15 +42,15 @@
 %  - OTF: "LinuxBiolinum O"
 % - - - - - - - - - - - - -
 % \setsansfont{texgyreheros}[%
-%   Scale=MatchLowercase,%
-%   UprightFont=*-regular,%
-%   BoldFont=*-bold,%
-%   ItalicFont=*-italic,%
-%   BoldItalicFont=*-bolditalic,%
+% 	Scale=MatchLowercase,%
+% 	UprightFont=*-regular,%
+% 	BoldFont=*-bold,%
+% 	ItalicFont=*-italic,%
+% 	BoldItalicFont=*-bolditalic,%
 % ]%
 \setsansfont{Linux Biolinum O}[%
-  Scale=1.01,%
-%  RawFeature={+zero},%
+	Scale=1.01,%
+	%RawFeature={+zero},%
 ]%
 %--------------------------
 % Monospace Font
@@ -62,14 +61,70 @@
 % - - - - - - - - - - - - -
 % \setmonofont[StylisticSet={1,3}]{Inconsolatazi4}%
 \setmonofont{Latin Modern Mono}[%
-  BoldFont={LMMonoLight10-Bold},%
-  ItalicFont={LMMono10-Italic},%
-  SlantedFont={* Slanted},%
-  SmallCapsFont={* Caps},% A Patch for lack of proper Small Caps Provision
-  BoldItalicFont={LMMonoLight10-BoldOblique},%
-  ItalicFeatures={SmallCapsFont=LMMonoCaps10-Oblique},%
-  BoldFeatures={SmallCapsFont=* Caps},%
+	BoldFont={LMMonoLight10-Bold},%
+	ItalicFont={LMMono10-Italic},%
+	SlantedFont={* Slanted},%
+	SmallCapsFont={* Caps},% A Patch for lack of proper Small Caps Provision
+	BoldItalicFont={LMMonoLight10-BoldOblique},%
+	ItalicFeatures={SmallCapsFont=LMMonoCaps10-Oblique},%
+	BoldFeatures={SmallCapsFont=* Caps},%
 ]%
+%--------------------------
+% Math Font
+%      https://tex.stackexchange.com/questions/425098/which-opentype-math-fonts-are-available
+% - - - - - - - - - - - - -
+% My Setup:
+% \setmathfont{TeX Gyre DejaVu Math}%
+% \setmathfont{TeX Gyre Termes Math}%
+% \setmathfont{GFS Neohellenic Math}%
+% \setmathfont{XITS Math}%
+\setmathfont{STIX Two Math}%
+% \setmathfont{Asana Math}%
+\setmathfont{Euler Math}%
+%   - Change Integral-Signs
+% \setmathfont[range={"222B-"2233,"2A0B-"2A1C},StylisticSet=1]{XITS Math}%
+\setmathfont[range={"222B-"2233,"2A0B-"2A1C},StylisticSet=8]{STIX Two Math}%
+%   - Change Numbers
+% \setmathfont[range={"0030-"0039,"00B2,"00B3,"00B9,"00BC-"00BE,"FF10-"FF19,"2070,"2074-"2079,"2080-"2089},Numbers={Lining, Proportional},Scale=MatchUppercase]{Asana Math}%
+% \setmathfont[range=up/Digits, Numbers={Lining, Proportional}, Scale=MatchUppercase]{Asana Math}%
+\setmathfont[range={up/{num},bb/{num},tt/{num},sfup/{num},bfup/{num},bfsfup/{num}}]{Euler Math}%
+%   - Change Literal Symbol Sets
+%  %  %\setmathfont[Scale=MatchLowercase]{Asana Math}%
+\setmathfont[range={bb,bbit},Scale=MatchUppercase]{STIX Two Math}%
+\setmathfont[range={cal,bfcal},Alternate,Scale=MatchUppercase]{Asana Math}%
+\setmathfont[range={scr,bfscr},Scale=MatchUppercase]{Asana Math}%
+\setmathfont[range={frak},Scale=MatchUppercase]{Asana Math}%
+\setmathfont[range={bffrak},Scale=MatchUppercase]{STIX Two Math}%
+% - - - - - - - - - - - - -
+%  (Math Alternatives)
+% - - - - - - - - - - - - -
+% \setmathfont{TeX Gyre DejaVu Math}% an extension of the DejaVu Serif font, which is based on Arev, which is based on Bitstream Vera, which is based on Bitstream Prima. It is significantly different from the other TeX Gyre fonts, as they were conversions of legacy fonts to Unicode, and this turns an existing, comprehensive Unicode font by someone else into a math font. The DejaVu project was started by Štěpán Roh of the Czech Republic.
+% \setmathfont{Libertinus Math}% Fork of Linux Libertine. Uses more or less the standard Libertine Font. (Which is very nice, but as *I* use this already as normal-Text-Font, I want something different as Math-Font.)
+% \setmathfont{Noto Sans Math}% This font is available from the Noto Math fonts GitHub page. Starting from version 3.000, it fully implements OpenType math features and privides an all-sans math font.
+% \setmathfont{TeX Gyre Termes Math}% Clone of Times
+% \setmathfont{TeX Gyre Bonum Math}% Clone of Bookman
+% \setmathfont{TeX Gyre Pagella Math}% Clone of Palatino
+% \setmathfont{TeX Gyre Schola Math}% Clone of Century Schoolbook
+% \setmathfont{Latin Modern Math}% The default of 'unicode-math.sty'
+% \setmathfont{XITS Math}% A Fork of STIX
+% \setmathfont{Asana Math}% Close match to Palatino
+% \setmathfont{STIX Two Math}% Successor to STIX
+% \setmathfont{GFS Neohellenic Math}% This font has only minor slab serifs, making it a good choice for presentations. It is based on the public-domain font New Hellenic, inspired by a Greek font from Renaissance Venice.
+% \setmathfont{Garamond Math}% Based on EB Garamond
+% \setmathfont{FiraMath-Regular}% This font is based on the Fira Go sans-serif font.
+% \setmathfont{Fira Sans}%
+%
+%--------------------------
+% Finalizing Math-Font Setting
+%--------------------------
+% Lesser and Greater Equal are by default slanted with Euler-Font. Overwrite back to a straight variant (enabled by "1all/[...]/language_font_setting/1common/font.tex")
+%  - This does it withOUT unicode-math.sty
+\let\leq\leqstraight%
+\let\geq\geqstraight%
+%  - This does it WITH unicode-math.sty
+\setmathfont[range={"2264,"2265}]{Libertinus Math}%
+%
+%
 %=================================
 % For Japanese Characters
 %=================================
@@ -82,18 +137,18 @@
 \newcommand{\JPFontDir}{}%
 \newcommand{\JPFontSubDir}{\DenKrAllMainRootDirPATH/4aids/fonts/JP}%
 % Doesn't work reliably, don't use that:
-%    \newcommand{\checkAndPrependJPFontDir}{%
-%        \typeout{»DenKr:  Checking JPFontDir: \JPFontDir\JPFontSubDir}%
-%        \ifboolexpr{test {\IfFontExistsTF{\JPFontDir\JPFontSubDir/NotoSansJP-Regular.otf}}}{%
-%            \typeout{»DenKr:  Working JPFontDir found: "\JPFontDir\JPFontSubDir/NotoSansJP-Regular.otf"}%
-%            \edef\JPFontDir{\expandonce{\JPFontDir\JPFontSubDir/}}%
-%        }{%
-%            \typeout{»DenKr:  Iterating over JPFontDir: \JPFontDir}%
-%            \edef\JPFontDir{\expandonce{\JPFontDir../}}%
-%            \checkAndPrependJPFontDir%
-%        }%
-%    }%
-%    \checkAndPrependJPFontDir%
+%		\newcommand{\checkAndPrependJPFontDir}{%
+%				\typeout{»DenKr:  Checking JPFontDir: \JPFontDir\JPFontSubDir}%
+%				\ifboolexpr{test {\IfFontExistsTF{\JPFontDir\JPFontSubDir/NotoSansJP-Regular.otf}}}{%
+%						\typeout{»DenKr:  Working JPFontDir found: "\JPFontDir\JPFontSubDir/NotoSansJP-Regular.otf"}%
+%						\edef\JPFontDir{\expandonce{\JPFontDir\JPFontSubDir/}}%
+%				}{%
+%						\typeout{»DenKr:  Iterating over JPFontDir: \JPFontDir}%
+%						\edef\JPFontDir{\expandonce{\JPFontDir../}}%
+%						\checkAndPrependJPFontDir%
+%				}%
+%		}%
+%		\checkAndPrependJPFontDir%
 % \edef\JPFontDir{\expandonce{./../\JPFontSubDir/}}%
 \edef\JPFontDir{\expandonce{\JPFontDir\JPFontSubDir/}}%
 \typeout{»DenKr:  Using JPFontDir: \JPFontDir}%
@@ -101,7 +156,7 @@
 % \setmonojfont{Harano Aji Gothic}%
 \typeout{»DenKr:  Load JP main Font}%
 \setmainjfont{NotoSerifJP}[%
-    Path={\JPFontDir},Extension={.otf},%
+	Path={\JPFontDir},Extension={.otf},%
 	UprightFont={*-Regular},%
 	SmallCapsFont={*-Medium},%
 	BoldItalicFont={*-SemiBold},%
@@ -110,7 +165,7 @@
 ]%
 \typeout{»DenKr:  Load JP sans Font}%
 \setsansjfont{NotoSansJP}[%
-    Path={\JPFontDir},Extension={.otf},%
+	Path={\JPFontDir},Extension={.otf},%
 	UprightFont={*-Regular},%
 	SmallCapsFont={*-Light},%
 	BoldItalicFont={*-Bold},%
@@ -119,7 +174,7 @@
 ]%
 \typeout{»DenKr:  Load JP mono Font}%
 \setmonojfont{NotoSansJP-Medium}[%
-    Path={\JPFontDir},Extension={.otf},%
+	Path={\JPFontDir},Extension={.otf},%
 	UprightFont={NotoSansJP-Medium},%
 	SmallCapsFont={NotoSansJP-Light},%
 	BoldItalicFont={NotoSansJP-Black},%
@@ -127,9 +182,9 @@
 	BoldFont={NotoSansJP-Black}%
 ]%
 }{%
-    \typeout{»DenKr:  \\DenKrJPFont configured to not include Japanese Fonts. Define it to '1' to setup Japanese Fonts.}%
+	\typeout{»DenKr:  \\DenKrJPFont configured to not include Japanese Fonts. Define it to '1' to setup Japanese Fonts.}%
 }}{%
-    \typeout{»DenKr:  \\DenKrJPFont not defined. Hence no Inclusion of Japanese Fonts. Define it to '1' to setup Japanese Fonts.}%
+	\typeout{»DenKr:  \\DenKrJPFont not defined. Hence no Inclusion of Japanese Fonts. Define it to '1' to setup Japanese Fonts.}%
 }%
 %/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
 %							Font/Schriftarten done

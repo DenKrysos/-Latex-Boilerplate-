@@ -119,13 +119,13 @@
 %----------------------------------------------------------------------------------
 \input{"\DenKrLayoutMainRootDir/preamble".tex}%
 \input{"\DenKrAllMainRootDirPATH/makros".tex}%
-% \input{"\DenKrAllMainRootDirPATH/makros_draftPhase".tex}% Values in this are required for some sophisticated Macros from "makros_typografie" (e.g. Framed-Image-Matrix). If no such are used, this File is dispensable
+%\input{"\DenKrAllMainRootDirPATH/makros_draftPhase".tex}% Values in this are required for some sophisticated Macros from "makros_typografie" (e.g. Framed-Image-Matrix). If no such are used, this File is dispensable
 \input{"\DenKrAllMainRootDirPATH/makros_typografie".tex}%
 \input{"\DenKrAllMainRootDirPATH/3settings/5tikz/tikz_makro_preamble".tex}%
 \input{"\DenKrAllMainRootDirPATH/3settings/settings_basic".tex}%
 \input{"\DenKrLayoutMainRootDir/settings_perDoc".tex}%
 %
-%   \input{"\DenKrLayoutBaseRootDir/standalone_constituent/macro_exclusionMux".tex}% -->
+%   %\input{"\DenKrLayoutBaseRootDir/standalone_constituent/macro_exclusionMux".tex}% -->
 \newcommand{\onlyinsubfile}[1]{}%
 \newcommand{\notinsubfile}[1]{#1}%
 \newcommand{\onlyinmainfile}[1]{\notinsubfile{#1}}%
@@ -144,7 +144,7 @@
 %////////////////////////////////////////////////////////////////////´´´´´´
 %''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 %
-\input{"\DenKrLayoutRootDir/10_TitlePage_&_init".tex}%
+% \input{"\DenKrLayoutRootDir/10_TitlePage_&_init".tex}%
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%#############################################################################%%
@@ -155,9 +155,11 @@
 \newcommand{\DenKrDispositionFILE}{3Disposition}%
 \DenKrITEequal{\DenKrDocGenre}{elaborate}{
 	\input{"\DenKrSetupFilesSubDirPrefix\DenKrDispositionFILE_book".tex}%
+}{\DenKrITEequal{\DenKrDocGenre}{slides}{
+	\input{"\DenKrSetupFilesSubDirPrefix\DenKrDispositionFILE_slides".tex}%
 }{\DenKrITEequal{\DenKrDocGenre}{dedicated_poster}{
 	\input{"\DenKrSetupFilesSubDirPrefix\DenKrDispositionFILE_article".tex}%
-}{}}%
+}{}}}%
 %
 %
 %

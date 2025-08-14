@@ -1,0 +1,32 @@
+%
+% \setlength\bibhang{1em}%
+%
+% % % %
+% Note: This "\chapter*[]{Chapname}" only works with including my "typografie_redefine.tex", as this redefines \chapter with an own implementation. Otherwise, you may want to use my "\chapnt{}[]" from "typografie_cmd.tex".
+% But anyway: Remark that the Bibliography is put after \backmatter, which makes only unnumbered Chapters as default. Using still a stared-Cmd is just redundant in Book-Class, but required in Article-Class.
+\def\DenKrBibHeadingLvlCmd{\DenKrHeadingTopLvlCmd*[]}% Resolves to simply either '\chapter' or '\section' depending on the documentclass
+%\defbibheading{literature}{\DenKrBibHeadingLvlCmd{Literature}\label{chap:literature}\addtocounter{\DenKrBibHeadingLvl}{-1}}%
+\defbibheading{literature}{\DenKrBibHeadingLvlCmd{Literature}\label{chap:literature}}%
+\defbibheading{literature_techspec}{\DenKrBibHeadingLvlCmd{Technical Specifications}\label{chap:literature_techspec}}%
+\defbibheading{literature_secondary}{\DenKrBibHeadingLvlCmd{Secondary Literature}\label{chap:literature_secondary}}%
+\defbibheading{literature_figures}{\DenKrBibHeadingLvlCmd{Figure Sources}\label{chap:fig_src}}%
+\defbibheading{literature_tables}{\DenKrBibHeadingLvlCmd{Table Sources}\label{chap:tab_src}}%
+%========================================================================================================
+%      Alternative Methods
+%--------------------------------------------------------------------------------------------------------
+% % % % % % % \DeclareBibliographyCategory{literatur}%
+% % % % % % % \DeclareBibliographyCategory{literatur_abbildung}%
+% % % % % % % \addtocategory{literatur}{Key1,Key2,..}%
+% % % % % % % \addtocategory{literatur_abbildung}{Key1,Key4,..}%
+% % % % % % \bibliography{./literatur/literatur}%
+%========================================================================================================
+%\input{./organization/biblatex-customization.tex}%
+%
+%
+%
+%========================================================================================================
+% % Make the Bibliography Output left-aligned an (implicitly) turn off hyphenation
+\appto{\bibsetup}{\raggedright}%
+%  --> Usually a good idea, both, for aesthetic reasons and content-wise. At least for Books (since scientific Papers usually prescribe a common format and have tight space restrictions).
+%Justification:
+% Bibliographies tend to (a) consist of very short paragraphs, usually 1 to 3 lines, and (b) contain a high frequency of difficult-to-automatically-hyphenate words, mainly due to the signficant role that author's first and last names, from languages across the globe, play and (often-times newly coined) technical terms. So, both from a technical as well as from an aesthetic perspective, a ragged-right, non-hyphenated bibliography suits the circumstances better. (Particularly when the bib entries contain words that, in average, are much longer than in, say, English or are more difficult to hyphenate. Including Names)

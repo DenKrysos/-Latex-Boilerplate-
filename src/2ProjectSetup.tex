@@ -36,13 +36,23 @@
 % - preprint % Used to compile a preprint (i.e. no Final-Version or Working-State. Uses the article-class and includes a Submission-Copyright-Notice and the word 'preprint')
 % - postprint % Used to compile a particularly special kind of preprint. For the very final version of the paper, not only after submission and not only after Review-Phase but after final acceptance, ready for print. So it is pretty much the Final-Version without being really THE printed one and in another Layout (Uses the article-class and includes a Copyright-Notice (different from the preprint one))
 % - MDPI % NOT included, because the class for that either alters drastically rapidly or is slightly different for each Journal. Also, for submission they want the source but don't like complex Project Structuresfff, but everything within one File.
+%
 %  %  %  %  %
 % - tikz_standalone % Sort of a special layout type. Used for Tikz-Pictures compiled in standalone-mode
+%
 %  %  %  %  %
 % - tikzposter
 % - fancytikzposter % Not implemented yet, because tikzposter is truly great (when you know tikz yourself ;oP)
 % - beamerposter % Not implemented yet, because tikzposter is truly great (when you know tikz yourself ;oP)
 % - betterposter % Not implemented yet, because tikzposter is truly great (when you know tikz yourself ;oP)
+%
+%
+%<><><><><><><><><><><><><><><><><><><><><>
+%<> <>  Document-Genre: slides       <><><>
+%<> <>         (aka presentation)    <><><>
+%<-><-><-><-><-><-><-><-><-><-><-><-><-><->
+% - beamer % Probably the most well-known
+% - powerdot % NOT IMPLEMENTED. Another hot contester. Haven't tried it thoroughly yet.
 %
 %
 %<><><><><><><><><><><><><><><><><><><><><>
@@ -56,7 +66,7 @@
 %<><><><><><><><><><><><><><><><><><><><><>
 %<> <>  Setting the Values           <><><>
 %<-><-><-><-><-><-><-><-><-><-><-><-><-><->
-\providecommand{\DenKrLayout}{scrbook}%
+\providecommand{\DenKrLayout}{beamer}%
 \providecommand{\DenKrLayoutLanguage}{english}% en_ger, english, ngerman
 \providecommand{\DenKrGlossaryPrint}{1}% 0: Not printing Glossaries at end-of-document (Acronyms, etc. are still available, just no listing at the end is printed)  |  1: true aka USE Hyperref
 \providecommand{\DenKrLayoutUseHyperref}{1}% 0: false aka NOT use Hyperref  |  1: true aka USE Hyperref
@@ -207,6 +217,9 @@
 \setDocGenreIf{dedicated_poster}{ieeeconf}{%
 \setDocGenreIf{dedicated_poster}{acmart}{%
 \setDocGenreIf{dedicated_poster}{MDPI}{%
+% Slides / Presentation
+\setDocGenreIf{slides}{beamer}{%
+\setDocGenreIf{slides}{powerdot}{%
 % Poster
 \setDocGenreIf{dedicated_poster}{tikzposter}{%
 \setDocGenreIf{dedicated_poster}{fancytikzposter}{%
@@ -215,7 +228,7 @@
 %
 \setDocGenreIf{internal}{tikz_standalone}{%
 \setDocGenreIf{internal}{standalone_constituent}{%
-}}}}}}}}}}}}}}}}}%
+}}}}}}}}}}}}}}}}}}}%
 %
 %
 %

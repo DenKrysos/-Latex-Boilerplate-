@@ -1,0 +1,52 @@
+%________________________________________________________________________
+%------------------------------------------------------------------------
+%						Setups für Hyperref/URL
+%		Note: Package hyperref internally laods package url
+%		(Like some other Packages do. For Example: biblatex)
+%/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+% Allow linebreaks in URLs after additional character to the defaults, but
+% don't just \renew or \def it, because this would remove all characters
+% predefined within \UrlBreaks in the package. This could mislead other users.
+% E.g. can cause smaller dots.. So use the etoolbox with "append to"
+% - - - - - - - - - - - - - - - - - %
+\mathchardef\UrlBreakPenalty=100% I think default is 100
+\appto\UrlBreaks{%
+	%\do\-% Is done with the url option "hyphens"
+	\do\*%
+	\do\~%
+	\do\"%
+	\do\a\do\b\do\c\do\d\do\e\do\f\do\g\do\h\do\i\do\j\do\k\do\l\do\m\do\n\do\o\do\p\do\q\do\r\do\s\do\t\do\u\do\v\do\w\do\x\do\y\do\z%
+}%
+\makeatletter%
+\g@addto@macro\UrlSpecials{%
+	\do\/{\mbox{\UrlFont/}\hskip 0pt plus 10pt}%
+}%
+\Urlmuskip=0mu plus 1mu\relax%
+\makeatother%
+% - - - - - - - - - - - - - - - - - %
+%\AtBeginDocument{%
+%	\setcounter{biburlucpenalty}{1}%break URL after uppercase character
+%	\setcounter{biburlnumpenalty}{1}%break URL after number
+%	\setcounter{biburllcpenalty}{1}%break URL after lowercase character
+%}%
+% - - - - - - - - - - - - - - - - - %
+%	Note: Already inside the \UrlBreaks by default are:
+% 	\do\.%
+% 	\do\=%
+% 	\do\'%
+% 	\do\&%
+% 	\do\-% With the option hyphens
+% \expandafter\def\expandafter\UrlBreaks\expandafter{\UrlBreaks% save the current one
+% 	\do\*%
+% 	\do\-%
+% 	\do\~%
+% 	\do\'%
+% 	\do\"%
+% 	\do\-%
+% 	\do\&%
+% 	\do\=%
+% }%
+%/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+%						Hyperref/URL fertig
+%------------------------------------------------------------------------
+%________________________________________________________________________

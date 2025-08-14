@@ -1,0 +1,65 @@
+%================================================================
+%----------------------------------------------------------------
+%      Inhaltsverzeichnis
+%================================================================
+%
+% Figures & Tables are put to the postamble, right before the Literature-References
+\begingroup%
+	\renewcommand*{\chapterpagestyle}{plain}%
+	\pagestyle{plain}%
+	\DenKrKOMAHookToCGroup%
+	\tableofcontentsDenKr%
+	%\thispagestyle{empty}%
+	%\clearpage%
+	%\listoffigures%
+	%\clearpage%
+	%\listoftables%
+	\cleardoublepage%
+\endgroup%
+%
+%
+%================================================================
+%----------------------------------------------------------------
+%      Aphorismus. Some witty brilliant quotation aka Fortune-Cookie Saying
+%================================================================
+\noindent%
+\settoheight{\tmpheight}{\begin{minipage}{\textwidth}\input{"\DenKrSegmentationSubDir/0020_aphorism".tex}\end{minipage}}%
+\setlength\tmpheight{\textheight-\tmpheight}%
+\setlength\tmpheight{\tmpheight/3}% \tmpheight/3-\baselineskip
+\setlength\tmpheight{0.75\tmpheight}%
+\vspace*{\tmpheight}\\%
+\input{"\DenKrSegmentationSubDir/0020_aphorism".tex}%
+\cleardoublepage%
+%
+%================================================================
+%----------------------------------------------------------------
+%      Front-Matter
+%================================================================
+%
+%--------------------------------------------------------------------==========%
+%------------- Preamble, Präambel ------------------------------------------------==========%
+%--------------------------------------------------------------------==========%
+% \headingOpenTempRight%
+% \part{Preamble}%
+% \headingOpenTempRestore%
+% \label{part:preamble}%
+%
+\headingOpenTempAny%
+\chapter{Abstract}%
+\headingOpenTempRestore%
+\input{"\DenKrSegmentationSubDir/0100_abstract".tex}%
+\headingOpenTempAny%
+\begin{german}%
+\chapter{Kurzfassung}%
+\headingOpenTempRestore%
+\input{"\DenKrSegmentationSubDir/0101_abstract_Ger".tex}%
+\end{german}%
+%
+\providecommand{\DenKrLayout}{}%
+\expandafter\ifstrequal\expandafter{\DenKrLayout}{scrbook_print}{}{%
+\headingOpenTempAny%
+\chapter{Prologue}%
+\headingOpenTempRestore%
+\input{"\DenKrSegmentationSubDir/0102_prologue".tex}%
+}%
+%
