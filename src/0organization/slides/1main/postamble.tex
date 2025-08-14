@@ -18,6 +18,36 @@
 %Displays 'only' Acronyms
 % \secnt{\DenKrGlossHeadSecAcronyms}%
 % \printglossary[type=\acronymtype,style=list]%
+\DenKrITEequal{\DenKrGlossaryPrint}{0}{}{%
+% \chapter{Glossar}%Eigenes Chapter weg, wenn Option: section=chapter (bei usepackage)
+% \nopagebreak
+% \printglossaries%Stellt Glossar und Akronyme gemeinsam dar
+% Bei den beiden folgenden achtsam sein mit der Option: nomain
+% \glsaddall% Würde hier eine leere Seite erzeugen. Siehe weiter oben
+% \glsaddallunused%
+%
+% == Some Comments to the Cmds down there:
+% The 'type=\acronymtype', (alterantively: =acronym) works because of the option 'acronym' is given at Package Inclusion
+%    \secnt{\DenKrGlossHeadSecAcronyms}%See Preamble, usepackage -> \renewcommand{\glossarysection}[2][]{} to remove the section-heading actually created by \printglossary
+%    \printglossary[type=\acronymtype,style=list+crossRef]% [title=Special Terms, toctitle=List of terms]
+%
+%
+\normalsize
+\part{\DenKrGlossHeadChapGlossary}\label{chap:Glossary}%
+%Displays 'only' Acronyms
+\section{\DenKrGlossHeadSecAcronyms}\label{sec:Acronyms}%
+\printglossary[type=\acronymtype]% ,style=list+crossRef
+\clearpage%
+%Display "Glossary-Entries"
+\section{\DenKrGlossHeadSecGlossaries}\label{sec:Glossaries}%
+\printglossary%[style=list+crossRef+alt+otherLang+subtitle+url]%Stellt Glossar dar
+\clearpage%
+%Displays Symbols
+\section{\DenKrGlossHeadSecSymbols}\label{sec:Symbols}%
+\printglossary[type=symbol,nonumberlist]%
+\cleardoublepage%
+%
+}%
 %
 %
 %

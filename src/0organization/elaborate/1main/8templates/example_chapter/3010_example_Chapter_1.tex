@@ -34,12 +34,38 @@ Automating the correct usage of the \textbf{Indefinite Article}, in case differi
 \glsreset{ufo}\glsInArticle[1]{ufo} \gls{ufo} $\rightarrow$ \glsInArticle[1]{ufo} \gls{ufo}
 
 \np
+\providecommand{\showcaseMathString}{}%
 \newcommand{\I}{\mathrm{i}}
 $y = \int_0^x\cos(x)\,\mathrm{d}{x} = \frac{e^{\I x} - e^{-\I x}}{2\I} | 0123456789 \geq i \leqslant l$
 \nl
 \begin{equation}
-y = \int_0^x\cos(x)\,\mathrm{d}{x} = \frac{e^{\I x} - e^{-\I x}}{2\I} | 0123456789 \geq i \leqslant l
-\end{equation}
+\oint \iint \sum_{k=0}^{m} \alpha \beta \gamma \delta \epsilon + \max \left\{ \frac{\| v\oplus w\bigoplus z \Vert}{x^{\mathbf{N} \varepsilon \symbb{C}^{N\times 10}}} \right\}
+\end{equation}\nl
+QED Variants: $\Box \square \blacksquare ∎ \qedsym \char"220E$
+\npi
+\renewcommand{\showcaseMathString}{eix \Rightarrow 0123 \geq}%
+\begin{tabular}{lll}%
+	plain&\texttt{\lstTEXargumentBO{$ $}}&$\showcaseMathString$\\
+	Upright&\texttt{\lstTEXmacro{mathrm}\{\}}&$\mathrm{\showcaseMathString}$\\ % Or \mathup{}
+	Italic&\texttt{\lstTEXmacro{mathit}\{\}}&$\mathit{\showcaseMathString}$\\
+	Bold&\texttt{\lstTEXmacro{mathbf}\{\}}&$\mathbf{\showcaseMathString}$\\
+	Sans-Serif&\texttt{\lstTEXmacro{mathsf}\{\}}&$\mathsf{\showcaseMathString}$\\
+	Monospaced-Teletype&\texttt{\lstTEXmacro{mathtt}\{\}}&$\mathtt{\showcaseMathString}$\\
+\end{tabular}
+
+\renewcommand{\showcaseMathString}{CDEIJUV 012}%
+\begin{tabular}{lll}%
+	\multicolumn{3}{l}{$\symbb{ABCDEFGHIJKLMNOPQRSTUVWXYZ 0123456789}$}\\
+	\multicolumn{3}{l}{$\symbbit{ABCDEFGHIJKLMNOPQRSTUVWXYZ 0123456789}$}\\
+	&&\\
+	% Caligrahpic, Script, Fraktal
+	$\symcal{\showcaseMathString}$&$\symscr{\showcaseMathString}$&$\symfrak{\showcaseMathString}$\\
+	$\symbfcal{\showcaseMathString}$&$\symbfscr{\showcaseMathString}$&$\symbffrak{\showcaseMathString}$\\
+	&&\\
+	$\symsfup{\showcaseMathString}$&$\symsfit{\showcaseMathString}$&\\
+	$\symbfup{\showcaseMathString}$&$\symbfit{\showcaseMathString}$&\\
+	$\symbfsfup{\showcaseMathString}$&$\symbfsfit{\showcaseMathString}$&$\symbfsf{\showcaseMathString}$\\
+\end{tabular}
 
 
 

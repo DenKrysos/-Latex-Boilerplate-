@@ -1,0 +1,34 @@
+
+% ________________________________________________________________________
+% ------------------------------------------------------------------------
+% 							List Settings
+% 					itemize, enumerate, description
+%vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
+%
+\setlength\leftmargini  {2em}
+\setlength\leftmarginii  {2em}
+\setlength\leftmarginiii  {2em}
+\setlength  \labelsep  {.5em}
+\setlength  \labelwidth{\leftmargini}
+\addtolength\labelwidth{-\labelsep}
+%
+% Candidates:
+% [default]
+% [ball]
+% [triangle]
+% [circle]
+% [square]
+\setbeamertemplate{itemize item}[ball]
+\setbeamertemplate{itemize subitem}[default]
+\setbeamertemplate{itemize subsubitem}[square]
+\setbeamertemplate{itemize mini template}{-}
+%
+\setbeamertemplate{enumerate item}{\insertenumlabel.}
+\setbeamertemplate{enumerate subitem}{\insertenumlabel.\insertsubenumlabel}
+\setbeamertemplate{enumerate subsubitem}{\insertenumlabel.\insertsubenumlabel.\insertsubsubenumlabel}
+\setbeamertemplate{enumerate mini template}{\insertenumlabel}
+%
+% /\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+% 							List Settings fertig
+% ------------------------------------------------------------------------
+% ________________________________________________________________________

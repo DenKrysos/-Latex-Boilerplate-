@@ -69,6 +69,14 @@
 %---------------------------
 % %  List-Style Settings
 % - - - - - - - -
+\providecommand{\DenKrDescriptionlabelFont}{}%
+\providecommand{\DenKrDescriptionlabelFormat}{}%
+\providecommand{\DenKrDescriptionlabelMake}{}%
+%
+\renewcommand{\DenKrDescriptionlabelMake}[1]{\DenKrDescriptionlabelFormat{{\DenKrDescriptionlabelFont#1}}}%
+% \renewcommand{\descriptionlabel}[1]{\hspace{\labelsep}\DenKrDescriptionlabelMake{#1}}%
+%
+%
 % \renewcommand{\DenKrDescriptionlabelFont}{\normalfont\bfseries}%
 \renewcommand{\DenKrDescriptionlabelFont}{\normalfont\color{DenKrColor_DescriptionLabel}\bfseries}%
 % \renewcommand{\DenKrDescriptionlabelFont}{\normalfont\itshape}%

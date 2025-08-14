@@ -1,6 +1,6 @@
 %________________________________________________________________________
 %------------------------------------------------------------------------
-%							Setups für Glossaries
+%						Setups für Glossaries
 %/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
 % - - Some Setting
 \def\DenKrGlsPrintOtherLangFormat#1#2#3#4#5#6{%
@@ -9,88 +9,6 @@
         \textit{#2}: #5 (#6)%
         .\space%
     }{}}{}%
-}%
-%
-\edef\DenKrGlossENHeadChapGlossary{Glossary}%
-\edef\DenKrGlossENHeadSecGlossaries{Glossaries}%
-\edef\DenKrGlossENHeadSecAcronyms{Acronyms}%
-\edef\DenKrGlossENHeadSecSymbols{Symbols}%
-%
-\edef\DenKrGlossDEHeadChapGlossary{Glossar}%
-\edef\DenKrGlossDEHeadSecGlossaries{Glossarien}%
-\edef\DenKrGlossDEHeadSecAcronyms{Akronyme}%
-\edef\DenKrGlossDEHeadSecSymbols{Symbole}%
-%
-\edef\DenKrGlossENRefLabelGlossaries{Glossaries}%
-\edef\DenKrGlossENRefLabelAcronym{Acronyms}%
-\edef\DenKrGlossENRefLabelAKA{Also known as}%
-%
-\edef\DenKrGlossDERefLabelGlossaries{Glossarien}%
-\edef\DenKrGlossDERefLabelAcronym{Akronyme}%
-\edef\DenKrGlossDERefLabelAKA{Auch genannt}%
-%
-\edef\DenKrGlossRefLabelInDE{Zu Deutsch}%
-\edef\DenKrGlossRefLabelInEN{In English}%
-% - - - - - - - - - - - - - - - -
-\ifdef{\DenKrLayoutLanguage}{%
-    \expandafter\ifstrequal\expandafter{\DenKrLayoutLanguage}{english}{%
-        \edef\DenKrGlossHeadChapGlossary{\DenKrGlossENHeadChapGlossary}%
-        \edef\DenKrGlossHeadSecGlossaries{\DenKrGlossENHeadSecGlossaries}%
-        \edef\DenKrGlossHeadSecAcronyms{\DenKrGlossENHeadSecAcronyms}%
-        \edef\DenKrGlossHeadSecSymbols{\DenKrGlossENHeadSecSymbols}%
-        \edef\DenKrRefLabelGlossaries{\DenKrGlossENRefLabelGlossaries}%
-        \edef\DenKrRefLabelAcronyms{\DenKrGlossENRefLabelAcronym}%
-        \edef\DenKrRefLabelAKA{\DenKrGlossENRefLabelAKA}%
-        \def\DenKrGlsPrintOtherLang#1{%
-            \DenKrGlsPrintOtherLangFormat{#1}{\DenKrGlossRefLabelInDE}{textDE}{longDE}{\glsentrylongDE{#1}}{\glsentrytextDE{#1}}%
-       }%
-    }{%
-    \expandafter\ifstrequal\expandafter{\DenKrLayoutLanguage}{ngerman}{%
-        \edef\DenKrGlossHeadChapGlossary{\DenKrGlossDEHeadChapGlossary}%
-        \edef\DenKrGlossHeadSecGlossaries{\DenKrGlossDEHeadSecGlossaries}%
-        \edef\DenKrGlossHeadSecAcronyms{\DenKrGlossDEHeadSecAcronyms}%
-        \edef\DenKrGlossHeadSecSymbols{\DenKrGlossDEHeadSecSymbols}%
-        \edef\DenKrRefLabelGlossaries{\DenKrGlossDERefLabelGlossaries}%
-        \edef\DenKrRefLabelAcronyms{\DenKrGlossDERefLabelAcronym}%
-        \edef\DenKrRefLabelAKA{\DenKrGlossDERefLabelAKA}%
-        \def\DenKrGlsPrintOtherLang#1{%
-            \DenKrGlsPrintOtherLangFormat{#1}{\DenKrGlossRefLabelInEN}{textEN}{longEN}{\glsentrylongEN{#1}}{\glsentrytextEN{#1}}%
-        }%
-    }{%
-    \expandafter\ifstrequal\expandafter{\DenKrLayoutLanguage}{german}{%
-        \edef\DenKrGlossHeadChapGlossary{\DenKrGlossDEHeadChapGlossary}%
-        \edef\DenKrGlossHeadSecGlossaries{\DenKrGlossDEHeadSecGlossaries}%
-        \edef\DenKrGlossHeadSecAcronyms{\DenKrGlossDEHeadSecAcronyms}%
-        \edef\DenKrGlossHeadSecSymbols{\DenKrGlossDEHeadSecSymbols}%
-        \edef\DenKrRefLabelGlossaries{\DenKrGlossDERefLabelGlossaries}%
-        \edef\DenKrRefLabelAcronyms{\DenKrGlossDERefLabelAcronym}%
-        \edef\DenKrRefLabelAKA{\DenKrGlossDERefLabelAKA}%
-        \def\DenKrGlsPrintOtherLang#1{%
-            \DenKrGlsPrintOtherLangFormat{#1}{\DenKrGlossRefLabelInEN}{textEN}{longEN}{\glsentrylongEN{#1}}{\glsentrytextEN{#1}}%
-       }%
-    }{%
-        \edef\DenKrGlossHeadChapGlossary{\DenKrGlossENHeadChapGlossary}%
-        \edef\DenKrGlossHeadSecGlossaries{\DenKrGlossENHeadSecGlossaries}%
-        \edef\DenKrGlossHeadSecAcronyms{\DenKrGlossENHeadSecAcronyms}%
-        \edef\DenKrGlossHeadSecSymbols{\DenKrGlossENHeadSecSymbols}%
-        \edef\DenKrRefLabelGlossaries{\DenKrGlossENRefLabelGlossaries}%
-        \edef\DenKrRefLabelAcronyms{\DenKrGlossENRefLabelAcronym}%
-        \edef\DenKrRefLabelAKA{\DenKrGlossENRefLabelAKA}%
-        \def\DenKrGlsPrintOtherLang#1{%
-            \DenKrGlsPrintOtherLangFormat{#1}{\DenKrGlossRefLabelInEN}{textEN}{longEN}{\glsentrylongEN{#1}}{\glsentrytextEN{#1}}%
-       }%
-    }}}%
-}{%
-    \edef\DenKrGlossHeadChapGlossary{\DenKrGlossENHeadChapGlossary}%
-    \edef\DenKrGlossHeadSecGlossaries{\DenKrGlossENHeadSecGlossaries}%
-    \edef\DenKrGlossHeadSecAcronyms{\DenKrGlossENHeadSecAcronyms}%
-    \edef\DenKrGlossHeadSecSymbols{\DenKrGlossENHeadSecSymbols}%
-    \edef\DenKrRefLabelGlossaries{\DenKrGlossENRefLabelGlossaries}%
-    \edef\DenKrRefLabelAcronyms{\DenKrGlossENRefLabelAcronym}%
-    \edef\DenKrRefLabelAKA{\DenKrGlossENRefLabelAKA}%
-    \def\DenKrGlsPrintOtherLang#1{%
-        \DenKrGlsPrintOtherLangFormat{#1}{\DenKrGlossRefLabelInEN}{textEN}{longEN}{\glsentrylongEN{#1}}{\glsentrytextEN{#1}}%
-   }%
 }%
 % - - - - - - - - - - - - - - - -
 \def\DenKrGlsPrintAKA#1{%
