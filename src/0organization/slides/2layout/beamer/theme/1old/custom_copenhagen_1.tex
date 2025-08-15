@@ -1,0 +1,66 @@
+
+% ---- Customizing the Theme-Template ----
+% \AtBeginSection[]
+% {
+%   \begin{frame}
+%     \frametitle{Table of Contents}
+%     \tableofcontents[currentsection]
+%   \end{frame}
+% }
+
+
+\beamertemplatenavigationsymbolsempty
+
+% position the logo
+\addtobeamertemplate{frametitle}{}{%
+\begin{textblock*}{1cm}(0.1cm,0.03cm)
+\includegraphics[height=0.55cm,keepaspectratio]{./bilder/logotukl.png}
+\end{textblock*}}
+
+
+\setbeamerfont{author}{size=\Huge}
+\setbeamerfont{institute}{size=\normalsize\itshape}
+\setbeamerfont{title}{size=\fontsize{22}{22}}%\bfseries}
+\setbeamerfont{subtitle}{size=\Large\normalfont\slshape}
+
+\definecolor{TUblue}{RGB}{14,49,146}
+\definecolor{TUred}{RGB}{254,0,9}
+
+\setbeamertemplate{title page}{%
+\begin{tikzpicture}[remember picture,overlay]
+\fill[TUblue]
+  ([yshift=15pt]current page.west) rectangle (current page.south east);
+\node[anchor=east] 
+  at ([yshift=-50pt]current page.north east) (author)
+  {\parbox[t]{.6\paperwidth}{\raggedleft%
+    \usebeamerfont{author}\textcolor{TUblue}{%
+    \textpdfrender{
+    TextRenderingMode=FillStroke,
+    FillColor=TUblue,
+    LineWidth=.1ex,
+    }{\insertauthor}}}};
+\node[anchor=north east] 
+  at ([yshift=-70pt]current page.north east) (institute)
+  {\parbox[t]{.78\paperwidth}{\raggedleft%
+    \usebeamerfont{institute}\textcolor{gray}{\insertinstitute}}};
+\node[anchor=south west] 
+  at ([yshift=20pt]current page.west) (logo)
+  {\parbox[t]{.19\paperwidth}{\raggedleft%
+    \usebeamercolor[fg]{titlegraphic}\inserttitlegraphic}};
+\node[anchor=north east]
+  at ([yshift=10pt,xshift=-20pt]current page.east) (title)
+  {\parbox[t]{\textwidth}{\raggedleft%
+ \usebeamerfont{title}\textcolor{white}{%
+    \textpdfrender{
+    TextRenderingMode=FillStroke,
+    FillColor=white,
+    LineWidth=.1ex,
+    }{\inserttitle}}}};
+\node[anchor=north west]
+  at ([yshift=-10pt,xshift=-40pt]title.south west)
+  (subtitle) {\parbox[t]{.6\paperwidth}{\raggedleft\usebeamerfont{subtitle}\textcolor{black}{\insertsubtitle}}};
+\node[anchor=north east]
+  at ([yshift=-10pt,xshift=-0pt]title.south east) (subject)
+  {\parbox[t]{.6\paperwidth}{\raggedleft\usebeamerfont{subtitle}\textcolor{TUred}{Präsentation}}};
+\end{tikzpicture}
+}

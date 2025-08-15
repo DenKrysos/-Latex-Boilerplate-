@@ -6,6 +6,7 @@
 % But anyway: Remark that the Bibliography is put after \backmatter, which makes only unnumbered Chapters as default. Using still a stared-Cmd is just redundant in Book-Class, but required in Article-Class.
 \def\DenKrBibHeadingLvlCmd{\DenKrHeadingTopLvlCmd*[]}% Resolves to simply either '\chapter' or '\section' depending on the documentclass
 %\defbibheading{literature}{\DenKrBibHeadingLvlCmd{Literature}\label{chap:literature}\addtocounter{\DenKrBibHeadingLvl}{-1}}%
+\defbibheading{none}{}%
 \defbibheading{literature}{\DenKrBibHeadingLvlCmd{Literature}\label{chap:literature}}%
 \defbibheading{literature_techspec}{\DenKrBibHeadingLvlCmd{Technical Specifications}\label{chap:literature_techspec}}%
 \defbibheading{literature_secondary}{\DenKrBibHeadingLvlCmd{Secondary Literature}\label{chap:literature_secondary}}%

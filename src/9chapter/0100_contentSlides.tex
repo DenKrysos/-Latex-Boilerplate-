@@ -1,10 +1,10 @@
 % !TEX root = ../1main.tex
 %
 
-\vspace{\baselineskip}
+\begin{frame}
 %This is the sample File for 'Slides / aka Presentation' Documents (i.e. a Slide-set, usually landscape format for giving a Presentation)
 This is the sample File for \enquote*{Slides / aka Presentation} Documents (i.e. a Slide-set, usually landscape format for giving a Presentation)
-\vspace{\baselineskip}
+\end{frame}
 
 
 % \input{"\DenKrLayoutMainRootDir/8templates/example_chapter/3110_exampleSubject".tex}%
@@ -24,40 +24,53 @@ This is the sample File for \enquote*{Slides / aka Presentation} Documents (i.e.
 \label{sec:intro}
 
 
-
-
-
-
-
-\section{Related Work}
-\label{sec:RelWork}
-
-
-%
-% Title Page
-\begin{frame}[plain]%
-\titlepage%
-\end{frame}%
-% \pagestyle{plain}
-%
-% Präsentation
-%
-\part{Hauptteil}
-\begingroup\AtBeginSection[]{}
-\section{Einleitung}%
-\endgroup
-\subsection{Einführung}%
-
-
-\begin{frame}{Test 1}
-	\frametitle{This is the first slide}
-	Content goes here
-
-	\gls{m2m}
+\begin{frame}
+\frametitle{Introduction}
+Text
 \end{frame}
 
 
-\begin{frame}{Lists}
+
+
+
+
+
+\part{Examples}
+
+\section*{Table-Of-Contents}%
+\begin{frame}[plain,allowframebreaks]%
+\frametitle{Outline -- Examples}% ToC
+\tableofcontents%
+\end{frame}%
+
+\section{Example Code}
+
+\subsection{Arbitrary}
+
+\begin{frame}
+	\frametitle{Some Example Frame}
+	Example-Citation:
+	\cite{DenKr_denkrement1_indeco}
+	% \nl%
+	% A custom citation command that puts information about the reference to the footnote on first occurrence:
+	% \citeff{DenKr_MigArb,DenKr_denkrement1_indeco}%
+
+	\npi%
+	Some special characters:
+	»«.
+	\nl%
+	\gerguiquote{Done with Macro}\nl
+	\enquote{Ordinary Quotation}\ \ \enquote*{Single Quotation}
+	\nl%
+	Example Acronym, Glossary-Entry \& Symbol:\nl
+	\gls{fsa}, \glsunset{api}\gls{api}\nl
+	\gls{molmass}, \gls{sigma}\nl
+	\gls{eventfd}
+\end{frame}
+
+
+
+\begin{frame}
 	\frametitle{Lists}
 	\begin{minipage}[t]{0.48\linewidth}
 		\begin{itemize}
@@ -97,8 +110,12 @@ This is the sample File for \enquote*{Slides / aka Presentation} Documents (i.e.
 \end{frame}
 
 
+
+
+\subsection{Math}
+
 \providecommand{\showcaseMathString}{}%
-\begin{frame}{Math}
+\begin{frame}
 	\frametitle{Math Cmds \& Font}
 	\only<1>{
 	\newcommand{\I}{\mathrm{i}}
@@ -197,6 +214,19 @@ This is the sample File for \enquote*{Slides / aka Presentation} Documents (i.e.
 
 
 
+\begin{frame}
+\frametitle{Problem Statement \& Goal}
+	Distributed System
+	Communicating Applications
+	-> Deployment and Management of Apps
+	-> Efficient Communication
+
+	So I introduced a couple new features
+	-> Also kept the entire system working as efficient as possible
+\end{frame}
+
+
+
 
 
 
@@ -239,7 +269,7 @@ This is the sample File for \enquote*{Slides / aka Presentation} Documents (i.e.
 %////////////////////////////////////////////////////////////////////´´´´´´
 %''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
-\section{Conclusion and future work}
+\section{Summary, Conclusion, Future Work}
 \label{sec:Concl}
 
 
@@ -256,11 +286,14 @@ This is the sample File for \enquote*{Slides / aka Presentation} Documents (i.e.
 %#################################################################
 %##=========================================================######
 %##---------------------------------------------------------######
-\section*{Acknowledgment}%
+% \section*{Acknowledgment}%
 %##=========================================================######
 %#################################################################
 
-% The authors acknowledge the financial support by the German \textit{Federal Ministry of Education and Research (BMBF)} within the project »Open6GHub« \{16KISK003K\}.
-%\par\noindent The list of authors is arranged in alphabetical order.
-%
-%This work is supported by the German \textit{Federal Ministry of Education and Research (BMBF)} within the project »Open 6G Hub« \{16KIS1158K\}.
+% \begin{frame}[plain]
+% \frametitle{Acknowledgment}
+% 	The authors acknowledge the financial support by the German \textit{Federal Ministry of Education and Research (BMBF)} within the project »Open6GHub« \{16KISK003K\}.
+% 	% \par\noindent The list of authors is arranged in alphabetical order.
+% 	%
+% 	% This work is supported by the German \textit{Federal Ministry of Education and Research (BMBF)} within the project »Open 6G Hub« \{16KIS1158K\}.
+% \end{frame}

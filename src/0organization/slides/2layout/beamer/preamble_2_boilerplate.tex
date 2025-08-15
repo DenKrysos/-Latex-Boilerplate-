@@ -1,8 +1,22 @@
-
 % ________________________________________________________________________
 % ------------------------------------------------------------------------
-% 							List Settings
-% 					itemize, enumerate, description
+% 						Theme
+%vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
+% \usetheme{Copenhagen}%
+\input{"\DenKrLayoutRootDir/theme/DenKr_1".tex}%
+% /\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+% 						END Theme
+% ------------------------------------------------------------------------
+% ________________________________________________________________________
+%
+%
+%
+%
+%
+% ________________________________________________________________________
+% ------------------------------------------------------------------------
+% 						List Settings
+% 				itemize, enumerate, description
 %vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
 %
 \setlength\leftmargini  {2em}
@@ -28,7 +42,63 @@
 \setbeamertemplate{enumerate subsubitem}{\insertenumlabel.\insertsubenumlabel.\insertsubsubenumlabel}
 \setbeamertemplate{enumerate mini template}{\insertenumlabel}
 %
+\defbeamertemplate{description item}{align left}{\insertdescriptionitem\hfill}
+%  Use next Line here, to have Description Labels globally aligned left or inside a Frame to have it on only this Frame.
+% \setbeamertemplate{description item}[align left]
+%
 % /\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
-% 							List Settings fertig
+% 						END List Settings fertig
+% ------------------------------------------------------------------------
+% ________________________________________________________________________
+%
+%
+%
+%
+%
+% ________________________________________________________________________
+% ------------------------------------------------------------------------
+% 						Some Typografic Elements
+%vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
+\newenvironment<>{headingblock}[1]{%
+	\begin{actionenv}%
+	#2%
+	\def\insertblocktitle{#1}%
+	\par%
+	\mode<presentation>{%
+		\setbeamercolor{heading}{fg=black,bg=yellow}%
+	}%
+	\setbeamercolor{block title}{fg=orange,bg=structure}%
+	%\setbeamercolor{block body}{fg=green,bg=orange} % to customize the colors of the block body
+	\usebeamertemplate{block begin}%
+}{%
+	\par%
+	\usebeamertemplate{block end}%
+	\end{actionenv}%
+}%
+%
+%
+\newcommand\headingsimple[1]{%
+	\par\bigskip%
+	{\Large\bfseries#1}%
+	\par\smallskip%
+}%
+%
+% /\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+% 						END Typografic Elements
+% ------------------------------------------------------------------------
+% ________________________________________________________________________
+%
+%
+%
+%
+%
+% ________________________________________________________________________
+% ------------------------------------------------------------------------
+% 						Some Global Settings
+%vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
+% When using \begin{frame}[allowframebreaks], a suffix Counter is added to the Frametitle exclusively, when more than 1 page are created.
+\setbeamertemplate{frametitle continuation}[singleframecheck]%
+% /\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+% 						END Global Settings
 % ------------------------------------------------------------------------
 % ________________________________________________________________________

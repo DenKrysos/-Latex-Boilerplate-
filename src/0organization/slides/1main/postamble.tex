@@ -1,9 +1,19 @@
-%
 %________________________________________________________________________
 %------------------------------------------------------------------------
-%					Addendum
+%					Postamble, Addendum
 %				Some additional Appendices
 %/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+% For Presentation, I guess, there won't be such a thing as "Appendix", but only a "Backmatter", and even this only rarely, like when wanting to include a Bibliography or Glossary, for people to read, when distributing the slide-set afterwards, or as true reading material.
+% Well, that isn't really, what the concept and format of "presentation slides" are meant to serve for, but you do you. There may be some rare occassions, where this happens.
+%
+\part{Back-Matter}%
+%
+\section*{Addendum}%
+\begin{frame}[plain,allowframebreaks]%
+\frametitle{Addendum -- Outline}% ToC
+\tableofcontents%
+% \tableofcontents[pausesections]%
+\end{frame}%
 %
 %
 %
@@ -32,19 +42,28 @@
 %    \printglossary[type=\acronymtype,style=list+crossRef]% [title=Special Terms, toctitle=List of terms]
 %
 %
-\normalsize
-\part{\DenKrGlossHeadChapGlossary}\label{chap:Glossary}%
+\normalsize%
+\section{\DenKrGlossHeadChapGlossary}\label{sec:Glossary}%
 %Displays 'only' Acronyms
-\section{\DenKrGlossHeadSecAcronyms}\label{sec:Acronyms}%
+\subsection{\DenKrGlossHeadSecAcronyms}\label{sec:Acronyms}%
+\begin{frame}[allowframebreaks]%
+\footnotesize%
 \printglossary[type=\acronymtype]% ,style=list+crossRef
+\end{frame}%
 \clearpage%
 %Display "Glossary-Entries"
-\section{\DenKrGlossHeadSecGlossaries}\label{sec:Glossaries}%
+\subsection{\DenKrGlossHeadSecGlossaries}\label{sec:Glossaries}%
+\begin{frame}[allowframebreaks]%
+\footnotesize%
 \printglossary%[style=list+crossRef+alt+otherLang+subtitle+url]%Stellt Glossar dar
+\end{frame}%
 \clearpage%
 %Displays Symbols
-\section{\DenKrGlossHeadSecSymbols}\label{sec:Symbols}%
+\subsection{\DenKrGlossHeadSecSymbols}\label{sec:Symbols}%
+\begin{frame}[allowframebreaks]%
+\footnotesize%
 \printglossary[type=symbol,nonumberlist]%
+\end{frame}%
 \cleardoublepage%
 %
 }%
@@ -54,46 +73,35 @@
 %
 %
 %
+%================================================================
+%----------------------------------------------------------------
+%      Literaturverzeichnis
+%================================================================
+%
 %#################################################################
 %##=========================================================######
 %##---------------------------------------------------------######
-%\section*{References}
+%\chapter{References}
 %##=========================================================######
 %#################################################################
-% trigger a \newpage just before the given reference
-% number - used to balance the columns on the last page
-% adjust value as needed - may need to be readjusted if
-% the document is modified later
-%\IEEEtriggeratref{8}
-% The "triggered" command can be changed if desired:
-%\IEEEtriggercmd{\enlargethispage{-5in}}
-%
-% references section
-%
+%\input{./literaturverzeichnis.tex}
 %\nocite{*}
 %
-% \newcommand{\DenKrBibliographyFileInclusion}{%
-% \bibliography{%
-% \DenKrLiteratureDir/literature_own.bib,%
-% \DenKrLiteratureDir/literature_misc.bib,%
-% \DenKrLiteratureDir/literature_thirdParty.bib%
-% }%
-% }%
-% %
-% \expandafter\ifstrequal\expandafter{\DenKrLayout}{IEEEtranNoBiblatex}{%
-% \bibliographystyle{IEEEtran}%
-% \DenKrBibliographyFileInclusion%
-% }{%
-% \expandafter\ifstrequal\expandafter{\DenKrLayout}{wiley}{%
-% \bibliographystyle{\DenKrLayoutRootDir/class/MSP}%
-% \DenKrBibliographyFileInclusion%
-% }{%
-% \expandafter\ifstrequal\expandafter{\DenKrLayout}{MDPI}{%
-% \bibliographystyle{\DenKrLayoutRootDir/Definitions/mdpi}%
-% \DenKrBibliographyFileInclusion%
-% }{%
-% \printbibliography[env=bibliographyDenKrEnv]%
-% }}}%
+%\printbibliography%
+\begingroup%
+\section{Literature}%
+\begin{frame}[allowframebreaks]%
+\tiny% No effect here, because \footnotesize is baked into the bibliography printing
+\printbibliography[%
+	env=bibliographyDenKrEnv,%
+	heading=none,%
+]%
+\end{frame}%
+\endgroup%
+%\printbibliography[notkeyword=figure]
+%\thispagestyle{empty}
+%\printbibliography[title={Abbildungs-Quellen},keyword=figure]
+%\thispagestyle{empty}
 %
 %
 %
@@ -108,5 +116,8 @@
 %##=========================================================######
 %#################################################################
 %\TempDisplayPreparation%
+\begin{frame}[allowframebreaks]%
+\tiny%
 \DisplayDenKrCommandsLegend%
+\end{frame}%
 %

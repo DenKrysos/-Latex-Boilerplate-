@@ -1,0 +1,143 @@
+
+% ---- Customizing the Theme-Template ----
+\AtBeginSection[]
+{
+  \begin{frame}
+    \frametitle{Inhalt}
+    \tableofcontents[%
+    	currentsection,%
+% 	    hideothersubsections,%
+% 	    sectionstyle=show/hide,%
+    	subsectionstyle=hide,%
+% 	    subsectionstyle=show/shaded,%
+    	]
+  \end{frame}
+}
+
+\definecolor{TUblue}{RGB}{14,49,146}
+\definecolor{TUred}{RGB}{254,0,9}
+\definecolor{WiCoN_light_blue}{RGB}{140,180,210}
+\definecolor{WiCoN_light_blue2}{RGB}{10,140,200}
+
+
+
+
+%-------------------------------------------------------------
+%-------------------------------------------------------------
+%-------------------------------------------------------------
+%-------------------------------------------------------------
+
+\definecolor{myblue1}{RGB}{35,119,189}%
+\definecolor{myblue2}{RGB}{95,179,238}%
+\definecolor{myblue3}{RGB}{129,168,207}%
+\definecolor{myblue4}{RGB}{26,89,142}%
+
+% \setbeamercolor{frametitle}{bg=TUblue}
+
+%-------------------------------------------------------------
+% fg:
+% bg: "Schatten" bei 3D Objekten wie [ball] als itemize label
+\setbeamercolor*{structure}{fg=WiCoN_light_blue2,bg=TUblue!80}%
+%-------------------------------------------------------------
+% fg: frametitle/-subtitle, subsection in lineout (top right), document-title (bottom right)
+% bg:
+\setbeamercolor*{palette primary}{use=structure,fg=white,bg=structure.fg}%
+%-------------------------------------------------------------
+% fg:
+% bg:
+\setbeamercolor*{palette secondary}%
+	{use=structure,fg=white,bg=structure.fg!75!black}%
+%-------------------------------------------------------------
+% fg:
+% bg:
+\setbeamercolor*{palette tertiary}%
+	{use=structure,fg=white,bg=structure.fg!50!black}%
+%-------------------------------------------------------------
+% fg: section in lineout (top left), author (bottom left)
+% bg: Hintergrund (top left, bottom left)
+\setbeamercolor*{palette quaternary}{fg=black,bg=WiCoN_light_blue2!40}%
+%-------------------------------------------------------------
+% fg: Schrift als Inhalt z.B. bei [ball]: Label von enumerate
+% bg: Füllung von z.B. [ball] als Label von enumerate, itemize
+\setbeamercolor*{item projected}{fg=white,bg=WiCoN_light_blue}%
+%-------------------------------------------------------------
+% fg:
+% bg:
+\setbeamercolor*{block title example}{fg=white,bg=myblue4}%
+
+\setbeamertemplate{blocks}[rounded][shadow=true]
+
+%-------------------------------------------------------------
+%-------------------------------------------------------------
+%-------------------------------------------------------------
+%-------------------------------------------------------------
+
+
+\beamertemplatenavigationsymbolsempty
+
+% position the logo
+\addtobeamertemplate{frametitle}{}{%
+\begin{textblock*}{3cm}(0.1cm,0.03cm)%
+% \includegraphics[height=1.0cm,keepaspectratio]{./bilder/core/logotukl.png}%
+\includegraphics[height=1.0cm,keepaspectratio]{./bilder/core/WiCoN-Logo_kleiner.png}%
+\end{textblock*}}%
+
+
+\setbeamerfont{author}{size=\Huge}
+\setbeamerfont{institute}{size=\normalsize\itshape}
+\setbeamerfont{title}{size=\fontsize{20}{20}}%\bfseries}
+\setbeamerfont{subtitle}{size=\Large\normalfont\slshape}
+\setbeamerfont{supervisorone}{size=\normalsize}
+\setbeamerfont{supervisortwo}{size=\normalsize}
+
+\definecolor{TUblue}{RGB}{14,49,146}
+\definecolor{TUred}{RGB}{254,0,9}
+
+\setbeamertemplate{title page}{%
+\begin{tikzpicture}[remember picture,overlay]
+\fill[WiCoN_light_blue2]
+  ([yshift=15pt]current page.west) rectangle (current page.south east);
+\node[anchor=east] 
+  at ([yshift=-50pt]current page.north east) (author)
+  {\parbox[t]{.6\paperwidth}{\raggedleft%
+    \usebeamerfont{author}\textcolor{TUblue}{%
+    \textpdfrender{
+    TextRenderingMode=FillStroke,
+    FillColor=TUblue,
+    LineWidth=.1ex,
+    }{\insertauthor}}}};
+\node[anchor=north east] 
+  at ([yshift=-5pt]author.south east) (institute)
+  {\parbox[t]{.78\paperwidth}{\raggedleft%
+    \usebeamerfont{institute}\textcolor{gray}{\insertinstitute}}};
+\node[anchor=north east] 
+  at ([yshift=-0pt]institute.south east) (supervisortwo)
+  {\raggedleft%
+    \usebeamerfont{supervisortwo}\textcolor{TUblue}{%
+	\TPsupervisorTwoAnrede\ \TPsupervisorTwoFirst\ \TPsupervisorTwoLast}};
+\node[anchor=north east] 
+  at ([yshift=-0pt,xshift=-10pt]supervisortwo.north west) (supervisorone)
+  {\raggedleft%
+    \usebeamerfont{supervisorone}\textcolor{TUblue}{%
+	\TPsupervisorOneAnrede\ \TPsupervisorOneFirst\ \TPsupervisorOneLast}};
+\node[anchor=north west] 
+  at ([yshift=-20pt]current page.north west) (logo)
+  {\parbox[t]{.19\paperwidth}{\raggedleft%
+    \usebeamercolor[fg]{titlegraphic}\inserttitlegraphic}};
+\node[anchor=north east]
+  at ([yshift=10pt,xshift=-20pt]current page.east) (title)
+  {\parbox[t]{\textwidth}{\raggedleft%
+ \usebeamerfont{title}\textcolor{white}{%
+    \textpdfrender{
+    TextRenderingMode=FillStroke,
+    FillColor=white,
+    LineWidth=.1ex,
+    }{\inserttitle}}}};
+\node[anchor=north west]
+  at ([yshift=-10pt,xshift=-40pt]title.south west)
+  (subtitle) {\parbox[t]{.6\paperwidth}{\raggedleft\usebeamerfont{subtitle}\textcolor{black}{\insertsubtitle}}};
+\node[anchor=north east]
+  at ([yshift=-10pt,xshift=-0pt]title.south east) (subject)
+  {\parbox[t]{.6\paperwidth}{\raggedleft\usebeamerfont{subtitle}\textcolor{TUblue}{Präsentation}}};
+\end{tikzpicture}
+}

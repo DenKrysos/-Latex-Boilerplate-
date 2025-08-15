@@ -15,7 +15,7 @@
 % Title (English)
 \providecommand{\DenKrTPtitle}{%
 \LaTeX \ Boilerplate%
-\par{\smaller\smaller\smaller (Choose Layout in \enquote*{2ProjectSetup}; perhaps check what this means regarding \enquote{Document-Genre})\par}
+\par{\footnotesize (Choose Layout in \enquote*{2ProjectSetup}; perhaps check what this means regarding \enquote{Document-Genre})\par}
 (Another Line to check spacing)
 }%
 %
@@ -59,7 +59,7 @@
 %
 %<><><><><><><><><><><><><><><><><><><><><><><><><><><><><>
 % <> <>		"Type" of Document
-% <> <>			(Dissertation, PhD-Thesis, Master-Thesis, Biography, ...)
+% <> <>			(Dissertation, PhD-Thesis, Master-Thesis, Biography, Presentation, Keynote ...)
 %<><><><><><><><><><><><><><><><><><><><><><><><><><><><><>
 % Is printed on the Title-Page of Big-Documents with an entire Page dedicated to be the 'Title'
 \providecommand{\DenKrTPpublicationType}{Template}%
@@ -177,7 +177,6 @@
 %<><><><><><><><><><><><><><><><><><><><><><><><><><><><><>
 \providecommand{\TitlePageDataKeywords}{%
 }%
-% no keywords
 %
 %
 %
@@ -210,27 +209,12 @@ and accepted for publication.
 %
 %________________________________________________________________________
 %------------------------------------------------------------------------
-%		"Standard"-Title-Page Daten
-%			(Just setting them up also)
+%		"Standard"-Title-Page Data
+%			(Carry over Values to have these also set up)
 %/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
 % Only in case, we work with an 'elaborate' Document, because there, the Values are not set otherwise.
 \DenKrITEequal{\DenKrDocGenre}{elaborate}{%
 	\title{\DenKrTPtitle}%
 	\author{\DenKrTPauthorFirst \DenKrTPauthorLast}%
 	\date{\copyright \DenKrTPdate}%
-}{\DenKrITEequal{\DenKrDocGenre}{slides}{%
-	\title{\DenKrTPtitle}%
-	\author{\DenKrTPauthorFirst \DenKrTPauthorLast}%
-	\date{\copyright \DenKrTPdate}%
-	\subtitle{Master-Arbeit}%
-	\institute[Universität]{% (optional)
-		\inst{}%
-		RPTU\\
-		Lehrstuhl für Funkkommunikation und Navigation
-		%  \and
-		%  \inst{2}%
-		%  Deutsches Forschungszentrum für künstliche Intelligenz
-	}
-	\subject{Präsentation}%
-	\titlegraphic{\includegraphics[width=2cm]{./bilder/core/logotukl.png}}%
-}{}}%
+}{}%
