@@ -39,7 +39,9 @@
 \newcommand{\DenKrAbstractFile}{"\DenKrSegmentationSubDir/0100_abstract_slides".tex}%
 \IfFileExists{\DenKrAbstractFile}{\input{\DenKrAbstractFile}}{}%
 %
-\section*{Table-Of-Contents}% The order of this section and part seems twisted, but is indeed deliberate. This way, you have a Bookmark in the pdf-Navigation, but the ToC does count towards the Front-Matter and does not show up in the on-slide navigation (depending on theme) of the Main-Matter.
+% The order of this section and part seems twisted, but is indeed deliberate. This way, you have a Bookmark in the pdf-Navigation, but the ToC does count towards the Front-Matter and does not show up in the on-slide navigation (depending on theme) of the Main-Matter.
+% \section*{Table-Of-Contents}%
+\pdfbookmark[2]{Table-Of-Contents}{ToC}%
 \part{Main-Matter}%
 \begin{frame}[plain,allowframebreaks]%
 \frametitle{Outline}% ToC

@@ -1,0 +1,83 @@
+% Copyright 2007 by Till Tantau
+% Copyright 2015 by Vedran Mileti\'c, Joseph Wright
+% 2025 Dennis Krummacker
+%
+% This file may be distributed and/or modified
+%
+% 1. under the LaTeX Project Public License and/or
+% 2. under the GNU Public License.
+%
+% See the file LICENSE.md for more details.
+
+\DeclareOptionBeamer{shadow}[true]{\def\beamer@themerounded@shadow{#1}}
+\ExecuteOptionsBeamer{shadow=false}
+\ProcessOptionsBeamer
+
+\mode<presentation>
+
+\setbeamertemplate{blocks}[rounded][shadow=\beamer@themerounded@shadow]
+\setbeamertemplate{items}[ball]
+\setbeamertemplate{sections/subsections in toc}[square]
+\setbeamertemplate{section in toc shaded}[default][70]
+\setbeamertemplate{title page}[default][colsep=-4bp,rounded=true,shadow=\beamer@themerounded@shadow]
+\setbeamertemplate{part page}[default][colsep=-4bp,rounded=true,shadow=\beamer@themerounded@shadow]
+\setbeamertemplate{section page}[default][colsep=-4bp,rounded=true,shadow=\beamer@themerounded@shadow]
+\setbeamertemplate{subsection page}[default][colsep=-4bp,rounded=true,shadow=\beamer@themerounded@shadow]
+
+\setbeamersize{
+	text margin left=1.5em,
+	text margin right=1em,
+}
+\makeatletter
+\define@key{beamerframe}{c}[true]{% centered
+	\beamer@frametopskip=0pt plus 1fill\relax%
+	\beamer@framebottomskip=0pt plus 1.5fill\relax%
+	\beamer@frametopskipautobreak=0pt plus .4\paperheight\relax%
+	\beamer@framebottomskipautobreak=0pt plus .6\paperheight\relax%
+}
+\define@key{beamerframe}{t}[true]{% top
+	\beamer@frametopskip=0pt plus .2\paperheight\relax%
+	\beamer@framebottomskip=0pt plus 1fill\relax%
+	\beamer@frametopskipautobreak=\beamer@frametopskip\relax%
+	\beamer@framebottomskipautobreak=\beamer@framebottomskip\relax%
+}
+\define@key{beamerframe}{b}[true]{% bottom
+	\beamer@frametopskip=0pt plus 1fill\relax%
+	\beamer@framebottomskip=0pt\relax%
+	\beamer@frametopskipautobreak=\beamer@frametopskip\relax%
+	\beamer@framebottomskipautobreak=\beamer@framebottomskip\relax%
+}
+% \define@key{beamerframe}{s}[true]{% stretch
+% 	\beamer@frametopskip=0pt\relax%
+% 	\beamer@framebottomskip=0pt plus 0.001fill\relax%
+% 	\beamer@frametopskipautobreak=\beamer@frametopskip\relax%
+% 	\beamer@framebottomskipautobreak=\beamer@framebottomskip\relax%
+% }
+\makeatother
+
+\setlength\leftmargini{0.0em}
+\setlength\leftmarginii{1.4em}
+\setlength\leftmarginiii{0.9em}
+\setlength\labelsep{.3em}
+\setlength\labelwidth{\leftmargini}
+\addtolength\labelwidth{-\labelsep}
+
+
+% Candidates:
+% [default]
+% [ball]
+% [triangle]
+% [circle]
+% [square]
+%
+\setbeamertemplate{itemize item}[ball]
+\setbeamertemplate{itemize subitem}[default]
+\setbeamertemplate{itemize subsubitem}[square]
+\setbeamertemplate{itemize mini template}{-}
+%
+\setbeamertemplate{enumerate item}{(\insertenumlabel)}
+\setbeamertemplate{enumerate subitem}{(\insertenumlabel.\insertsubenumlabel)}
+\setbeamertemplate{enumerate subsubitem}{(\insertenumlabel.\insertsubenumlabel.\insertsubsubenumlabel)}
+\setbeamertemplate{enumerate mini template}{(\insertenumlabel)}
+  
+\mode<all>

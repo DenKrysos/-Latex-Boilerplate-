@@ -35,33 +35,35 @@ Example Acronym, Glossary-Entry \& Symbol:\nl
 $y = \int_0^x\cos(x)\,\mathrm{d}{x} = \frac{e^{\I x} - e^{-\I x}}{2\I} | 0123456789 \geq i \leqslant l$
 \nl
 \begin{equation}
-\oint \iint \sum_{k=0}^{m} \alpha \beta \gamma \delta \epsilon + \max \left\{ \frac{\| v\oplus w\bigoplus z \Vert}{x^{\mathbf{N} \varepsilon \symbb{C}^{N\times 10}}} \right\}
+\oint \iint \sum_{k=0}^{m} \alpha \beta \gamma \delta \epsilon + \max \left\{ \frac{\| v\oplus w\bigoplus z \Vert}{x^{\mathbf{N} \varepsilon {C}^{N\times 10}}} \right\}%\symbb{C}
 \end{equation}\nl
-QED Variants: $\Box \square \blacksquare ∎ \qedsym \char"220E$
-\npi
-\renewcommand{\showcaseMathString}{eix \Rightarrow 0123 \geq}%
-\begin{tabular}{lll}%
-	plain&\texttt{\lstTEXargumentBO{$ $}}&$\showcaseMathString$\\
-	Upright&\texttt{\lstTEXmacro{mathrm}\{\}}&$\mathrm{\showcaseMathString}$\\ % Or \mathup{}
-	Italic&\texttt{\lstTEXmacro{mathit}\{\}}&$\mathit{\showcaseMathString}$\\
-	Bold&\texttt{\lstTEXmacro{mathbf}\{\}}&$\mathbf{\showcaseMathString}$\\
-	Sans-Serif&\texttt{\lstTEXmacro{mathsf}\{\}}&$\mathsf{\showcaseMathString}$\\
-	Monospaced-Teletype&\texttt{\lstTEXmacro{mathtt}\{\}}&$\mathtt{\showcaseMathString}$\\
-\end{tabular}
+QED Variants: $\Box \square \blacksquare$ % ∎ \qedsym \char"220E$
 
-\renewcommand{\showcaseMathString}{CDEIJUV 012}%
-\begin{tabular}{lll}%
-	\multicolumn{3}{l}{$\symbb{ABCDEFGHIJKLMNOPQRSTUVWXYZ 0123456789}$}\\
-	\multicolumn{3}{l}{$\symbbit{ABCDEFGHIJKLMNOPQRSTUVWXYZ 0123456789}$}\\
-	&&\\
-	% Caligrahpic, Script, Fraktal
-	$\symcal{\showcaseMathString}$&$\symscr{\showcaseMathString}$&$\symfrak{\showcaseMathString}$\\
-	$\symbfcal{\showcaseMathString}$&$\symbfscr{\showcaseMathString}$&$\symbffrak{\showcaseMathString}$\\
-	&&\\
-	$\symsfup{\showcaseMathString}$&$\symsfit{\showcaseMathString}$&\\
-	$\symbfup{\showcaseMathString}$&$\symbfit{\showcaseMathString}$&\\
-	$\symbfsfup{\showcaseMathString}$&$\symbfsfit{\showcaseMathString}$&$\symbfsf{\showcaseMathString}$\\
-\end{tabular}
+
+% \npi
+% \renewcommand{\showcaseMathString}{eix \Rightarrow 0123 \geq}%
+% \begin{tabular}{lll}%
+% 	plain&\texttt{\lstTEXargumentBO{$ $}}&$\showcaseMathString$\\
+% 	Upright&\texttt{\lstTEXmacro{mathrm}\{\}}&$\mathrm{\showcaseMathString}$\\ % Or \mathup{}
+% 	Italic&\texttt{\lstTEXmacro{mathit}\{\}}&$\mathit{\showcaseMathString}$\\
+% 	Bold&\texttt{\lstTEXmacro{mathbf}\{\}}&$\mathbf{\showcaseMathString}$\\
+% 	Sans-Serif&\texttt{\lstTEXmacro{mathsf}\{\}}&$\mathsf{\showcaseMathString}$\\
+% 	Monospaced-Teletype&\texttt{\lstTEXmacro{mathtt}\{\}}&$\mathtt{\showcaseMathString}$\\
+% \end{tabular}
+
+% \renewcommand{\showcaseMathString}{CDEIJUV 012}%
+% \begin{tabular}{lll}%
+% 	\multicolumn{3}{l}{$\symbb{ABCDEFGHIJKLMNOPQRSTUVWXYZ 0123456789}$}\\
+% 	\multicolumn{3}{l}{$\symbbit{ABCDEFGHIJKLMNOPQRSTUVWXYZ 0123456789}$}\\
+% 	&&\\
+% 	% Caligrahpic, Script, Fraktal
+% 	$\symcal{\showcaseMathString}$&$\symscr{\showcaseMathString}$&$\symfrak{\showcaseMathString}$\\
+% 	$\symbfcal{\showcaseMathString}$&$\symbfscr{\showcaseMathString}$&$\symbffrak{\showcaseMathString}$\\
+% 	&&\\
+% 	$\symsfup{\showcaseMathString}$&$\symsfit{\showcaseMathString}$&\\
+% 	$\symbfup{\showcaseMathString}$&$\symbfit{\showcaseMathString}$&\\
+% 	$\symbfsfup{\showcaseMathString}$&$\symbfsfit{\showcaseMathString}$&$\symbfsf{\showcaseMathString}$\\
+% \end{tabular}
 
 
 \npi%
@@ -70,7 +72,7 @@ Document-within References to check whether hyperref \& nameref work properly:\n
 Consider using my \textbf{Referencing-Macros}:\nl
 \eleref{fig:Pic}\nl
 \ \ or \elenumnamref{tab:OI_app}\nl
-\ \ or \eleref{fig:Pic,fig:tikz_test,fig:Pic}
+\ \ or \eleref{fig:Pic,fig:Pic}
 
 \npi%
 \begin{itemize}
@@ -117,12 +119,12 @@ Consider using my \textbf{Referencing-Macros}:\nl
 
 \nl%
 %
-\begin{figure}[!htpb]
-	\centering
-	\includestandalone[mode=\includestandalonedefaultmode]{\tikzFilesPath/tikztest}% width=\columnwidth
-	\caption{Tikz-Picture Caption. Some Example Standalone-Tikz-Pic. Examples for Standalone-TikZ Picture Files can be found in \enquote{0organization/1main/8templates/tikz/7Tikz}.}
-	\label{fig:tikz_test}
-\end{figure}
+% \begin{figure}[!htpb]
+% 	\centering
+% 	\includestandalone[mode=\includestandalonedefaultmode]{\tikzFilesPath/tikztest}% width=\columnwidth
+% 	\caption{Tikz-Picture Caption. Some Example Standalone-Tikz-Pic. Examples for Standalone-TikZ Picture Files can be found in \enquote{0organization/1main/8templates/tikz/7Tikz}.}
+% 	\label{fig:tikz_test}
+% \end{figure}
 %
 %
 % \tikzabb%[tex]%
@@ -178,7 +180,7 @@ Listing in separate File:
 
 \npi
 Listing in Environment, directly in Code:
-\begin{DenKrLst}[language=DenKr-C]
+\begin{DenKrLst}[language=DenKr-C]{}{}
 if(1){
 	strlen("Str");
 }

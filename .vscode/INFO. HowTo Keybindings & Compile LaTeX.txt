@@ -1,0 +1,26 @@
+======================
+== For Setting the useful Hotkey "Ctrl+Enter" to Compilation of a Latex Document GLOBALLY. (I.e. globally on one PC, independent of a single Project (or other separate devices, which may also work on the same Project).
+======================
+
+In VS-Code:
+Hotkey: Ctrl+Shift+P
+	-> To enter this "Show and Run Commands" Feature in the upper Smart Bar
+Type: keyboard
+From the shown Menu then select "Preferences: Open Keyboard Shortcuts (JSON)"
+
+Copy over the Stuff (either everything, or a Selection as you see fit) from the 'keybindings.json' here and save.
+=> Most important is the "latex-workshop.build" (Ctrl+Enter) Shortcut.
+
+
+
+
+
+
+
+======================
+== Also:
+======================
+
+Copy over the Files "settings.json" & "tasks.json" from the ".vscode" Directory in my Book-Boilerplate-Project (or simply the entire ".vscode" Dir) to the Root-Directory of the new Project; parallel to the "src" Directory and the .latexmk.
+
+Also, copy over the ".latexmkrc*" Files and within the new copy, change the Value of the "$SubSrcDir" variable to the name of the directory containing all the Src-Files in the new Project. (And optionally adjust other documented Variables to your needs.)

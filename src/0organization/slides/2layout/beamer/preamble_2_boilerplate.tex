@@ -1,30 +1,75 @@
-% ________________________________________________________________________
-% ------------------------------------------------------------------------
-% 						Theme
+%_________________________________________________________________________
+%-------------------------------------------------------------------------
+% 						Theme-Calling
+%				(New Commands to "\usetheme" inside Project-Directory)
+%	!!! >> JUST DON'T TOUCH THIS. YOUR SETTINGS ARE DONE BELOW << !!!
+%vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
+\newcommand{\DenKrBeamerThemeDir}{\DenKrLayoutRootDir/themes}%
+\makeatletter%
+\def\DenKr@beamerthemedir{\DenKrBeamerThemeDir}%
+\def\DenKr@beamer@calltheme#1#2#3#4{%
+	\def\DenKr@beamer@themelist{#2}%%
+	\@for\DenKr@beamer@themename:=\DenKr@beamer@themelist\do%
+	{\usepackage[{#1}]{\DenKr@beamerthemedir/#4/#3\DenKr@beamer@themename}}%
+}%
+%
+\newrobustcmd*\usethemeDenKr[2][]{\DenKr@beamer@calltheme{#1}{#2}{beamertheme}{theme}}%
+\newrobustcmd*\usecolorthemeDenKr[2][]{\DenKr@beamer@calltheme{#1}{#2}{beamercolortheme}{color}}%
+\newrobustcmd*\usefontthemeDenKr[2][]{\DenKr@beamer@calltheme{#1}{#2}{beamerfonttheme}{font}}%
+\newrobustcmd*\useouterthemeDenKr[2][]{\DenKr@beamer@calltheme{#1}{#2}{beameroutertheme}{outer}}%
+\newrobustcmd*\useinnerthemeDenKr[2][]{\DenKr@beamer@calltheme{#1}{#2}{beamerinnertheme}{inner}}%
+%
+\newrobustcmd*\useelementDenKr[2][]{\DenKr@beamer@calltheme{#1}{#2}{beamerbuildingblock}{element}}%
+\makeatother%
+%/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+% 						END Theme-Cmds
+%--------------------------------------------------------------------------
+%__________________________________________________________________________
+%
+%
+%
+%
+%
+%_________________________________________________________________________
+%-------------------------------------------------------------------------
+% 						Theme - Selection
 %vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
 % \usetheme{Copenhagen}%
-\input{"\DenKrLayoutRootDir/theme/DenKr_1".tex}%
-% /\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+% \usetheme{Frankfurt}%
+%
+% \usecolortheme[]{}%
+% \usefonttheme[]{}%
+% \useinnertheme[]{}%
+% \useoutertheme[]{}%
+%
+\usethemeDenKr{DenKr1}%
+%/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
 % 						END Theme
-% ------------------------------------------------------------------------
-% ________________________________________________________________________
+%--------------------------------------------------------------------------
+%__________________________________________________________________________
 %
 %
 %
 %
 %
-% ________________________________________________________________________
-% ------------------------------------------------------------------------
-% 						List Settings
-% 				itemize, enumerate, description
+%#########################################################################
+%=========================================================================
+%				Further Customization
+%#########################################################################
+%
+%
+%_________________________________________________________________________
+%-------------------------------------------------------------------------
+%						List Settings
+%				itemize, enumerate, description
 %vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
 %
-\setlength\leftmargini  {2em}
-\setlength\leftmarginii  {2em}
-\setlength\leftmarginiii  {2em}
-\setlength  \labelsep  {.5em}
-\setlength  \labelwidth{\leftmargini}
-\addtolength\labelwidth{-\labelsep}
+% \setlength\leftmargini{0.0em}
+% \setlength\leftmarginii{1.4em}
+% \setlength\leftmarginiii{0.9em}
+% \setlength\labelsep{.3em}
+% \setlength\labelwidth{\leftmargini}
+% \addtolength\labelwidth{-\labelsep}
 %
 % Candidates:
 % [default]
@@ -32,31 +77,32 @@
 % [triangle]
 % [circle]
 % [square]
-\setbeamertemplate{itemize item}[ball]
-\setbeamertemplate{itemize subitem}[default]
-\setbeamertemplate{itemize subsubitem}[square]
-\setbeamertemplate{itemize mini template}{-}
 %
-\setbeamertemplate{enumerate item}{\insertenumlabel.}
-\setbeamertemplate{enumerate subitem}{\insertenumlabel.\insertsubenumlabel}
-\setbeamertemplate{enumerate subsubitem}{\insertenumlabel.\insertsubenumlabel.\insertsubsubenumlabel}
-\setbeamertemplate{enumerate mini template}{\insertenumlabel}
+% \setbeamertemplate{itemize item}[ball]
+% \setbeamertemplate{itemize subitem}[default]
+% \setbeamertemplate{itemize subsubitem}[square]
+% \setbeamertemplate{itemize mini template}{-}
+%
+% \setbeamertemplate{enumerate item}{(\insertenumlabel)}
+% \setbeamertemplate{enumerate subitem}{(\insertenumlabel.\insertsubenumlabel)}
+% \setbeamertemplate{enumerate subsubitem}{(\insertenumlabel.\insertsubenumlabel.\insertsubsubenumlabel)}
+% \setbeamertemplate{enumerate mini template}{(\insertenumlabel)}
 %
 \defbeamertemplate{description item}{align left}{\insertdescriptionitem\hfill}
 %  Use next Line here, to have Description Labels globally aligned left or inside a Frame to have it on only this Frame.
 % \setbeamertemplate{description item}[align left]
 %
-% /\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+%/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
 % 						END List Settings fertig
-% ------------------------------------------------------------------------
-% ________________________________________________________________________
+%--------------------------------------------------------------------------
+%__________________________________________________________________________
 %
 %
 %
 %
 %
-% ________________________________________________________________________
-% ------------------------------------------------------------------------
+%_________________________________________________________________________
+%-------------------------------------------------------------------------
 % 						Some Typografic Elements
 %vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
 \newenvironment<>{headingblock}[1]{%
@@ -83,22 +129,44 @@
 	\par\smallskip%
 }%
 %
-% /\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+%/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
 % 						END Typografic Elements
-% ------------------------------------------------------------------------
-% ________________________________________________________________________
+%--------------------------------------------------------------------------
+%__________________________________________________________________________
 %
 %
 %
 %
 %
-% ________________________________________________________________________
-% ------------------------------------------------------------------------
+%_________________________________________________________________________
+%-------------------------------------------------------------------------
 % 						Some Global Settings
 %vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
 % When using \begin{frame}[allowframebreaks], a suffix Counter is added to the Frametitle exclusively, when more than 1 page are created.
-\setbeamertemplate{frametitle continuation}[singleframecheck]%
-% /\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+% This is also set but my Theme (can be overwritten here).
+% \setbeamertemplate{frametitle continuation}[singleframecheck][(\insertcontinuationcountroman)]%
+%
+% = = Margins of Text-Area
+% \setbeamersize{%
+% 	text margin left=1.5em,%
+% 	text margin right=1em,%
+% }%
+%
+%
+% Automatically a ToC at the Beginning of each Section, with emphasiz on the current Section
+% \AtBeginSection[]{
+% 	\begin{frame}
+% 	\frametitle{Content}
+% 	\tableofcontents[%
+% 		currentsection,%
+% 		%hideothersubsections,%
+% 		%sectionstyle=show/hide,%
+% 		subsectionstyle=hide,%
+% 		%subsectionstyle=show/shaded,%
+% 		]
+% 	\end{frame}
+% }
+%/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
 % 						END Global Settings
-% ------------------------------------------------------------------------
-% ________________________________________________________________________
+%--------------------------------------------------------------------------
+%__________________________________________________________________________

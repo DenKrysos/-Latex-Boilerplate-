@@ -1,0 +1,856 @@
+% Copyright 2007 by Till Tantau
+% Copyright 2012,2015 by Vedran Mileti\'c, Joseph Wright
+% Copyright 2019-2024 by Joseph Wright, samcarter
+% 2025 Dennis Krummacker
+%
+% This file may be distributed and/or modified
+%
+% 1. under the LaTeX Project Public License and/or
+% 2. under the GNU Public License.
+%
+% See the file LICENSE.md for more details.
+
+\newif\ifbeamer@sb@subsection
+
+%________________________________________________________________________
+%------------------------------------------------------------------------
+%			Arguments / Options
+%  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+%/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+%VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
+
+\DeclareOptionBeamer{outline}[progressbar]{\def\beamer@head@outline{#1}}
+\ExecuteOptionsBeamer{outline=progressbar}
+
+\DeclareOptionBeamer{footline}[gradienttriangle]{\def\beamer@head@footline{#1}}
+\ExecuteOptionsBeamer{footline=gradienttriangle}
+
+\DeclareOptionBeamer{frametitle}[gradienttriangle]{\def\beamer@head@frametitle{#1}}
+\ExecuteOptionsBeamer{frametitle=gradienttriangle}
+
+\DeclareOptionBeamer{pagenumber}[none]{\def\beamer@pagenumber@display{#1}}
+\ExecuteOptionsBeamer{pagenumber=none}
+
+\DeclareOptionBeamer{subsection}[true]{\csname beamer@sb@subsection#1\endcsname}
+\ExecuteOptionsBeamer{subsection=true}
+
+\ProcessOptionsBeamer
+
+
+
+%________________________________________________________________________
+%------------------------------------------------------------------------
+%			Internal Settings
+%  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+%/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+%VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
+\mode<presentation>
+
+\setbeamercolor{author in head/foot}{parent=section in head/foot}
+\setbeamercolor{title in head/foot}{parent=subsection in head/foot}
+
+\setbeamertemplate{section in head/foot}{\hfill\insertsectionhead}
+\setbeamertemplate{section in head/foot shaded}{\hfill\color{fg!50!bg}\insertsectionhead}
+
+\setbeamercolor{frametitle}{parent=palette primary}
+\setbeamercolor{subsection in head/foot}{parent=palette secondary}% palette primary, secondary
+\setbeamercolor{section in head/foot}{parent=palette quaternary}
+
+\setbeamercolor{ornament in head/foot}{parent=separation line}
+
+
+% When using \begin{frame}[allowframebreaks], a suffix Counter is added to the Frametitle exclusively, when more than 1 page are created.
+\setbeamertemplate{frametitle continuation}[singleframecheck][(\insertcontinuationcountroman)]%
+
+
+
+
+
+%________________________________________________________________________
+%------------------------------------------------------------------------
+%			Macros
+%  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+%  Some Cmds to be used below
+%/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+%VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
+% Args:
+%  1: Number of Steps
+%  2: color
+%  3: Anchored Point
+%  4: Shade from
+%  5: Shade to
+\newcommand{\DenKr@beamer@drawGradientTriangleA@Separate}[5][20]{
+	\tikzmath{%
+		\opacstep=1/(#1+1);%
+		\scalestep=1/(#1+1);%
+		\scalecur=1;%
+	}%
+	\foreach\i in {1,...,#1}{%
+		\tikzmath{%
+			\smoothen=1/(sqrt(\i+1));%
+			\opacCur=(\i)*\opacstep;%*\smoothen;%
+			\opacCur=1-\opacCur;%
+			\scalecurA=(\i-1)*\scalestep;%
+			\scalecurB=(\i)*\scalestep;%
+		}%
+		\path[line width=0pt,line join=miter,fill=#2,opacity=\opacCur]%
+			(#3)--($(#4)!\scalecurA!(#5)$)--($(#4)!\scalecurB!(#5)$)--cycle;%
+	}%
+}
+
+% Args:
+%  1: Number of Steps
+%  2: color
+%  3: Anchored Point
+%  4: Shade from
+%  5: Shade to
+\newcommand{\DenKr@beamer@drawGradientTriangleB@Separate}[5][20]{
+	\tikzmath{%
+		\opacstep=1/(#1+1);%
+		\scalestep=1/(#1+1);%
+		\scalecur=1;%
+	}%
+	\foreach\i in {1,...,#1}{%
+		\tikzmath{%
+			\smoothen=1/(sqrt(\i+1));%
+			\opacCur=(\i)*\opacstep;%*\smoothen;%
+			\opacCur=1-\opacCur;%
+			\scalecurA=(\i-1)*\scalestep;%
+			\scalecurB=(\i)*\scalestep;%
+		}%
+		\path[line width=0pt,line join=miter,fill=#2,opacity=\opacCur]%
+			($(#3)!\scalecurB!(#5)$)--($(#3)!\scalecurA!(#5)$)--($(#4)!\scalecurA!(#5)$)--($(#4)!\scalecurB!(#5)$)--cycle;%
+	}%
+}
+
+
+% Args:
+%  1: Number of Steps
+%  2: color
+%  3: Anchored Point
+%  4: Shade from
+%  5: Shade to
+\newcommand{\DenKr@beamer@drawGradientTriangleA@Overlap}[5][20]{
+	\tikzmath{%
+		\opacstep=1/(#1+1);%
+		\scalestep=1/(#1+1);%
+		\scalecur=1;%
+	}%
+	\foreach\i in {1,...,#1}{%
+		\tikzmath{%
+			\smoothen=1/(sqrt(\i+1));%
+			\opacCur=(\i)*\opacstep;%
+			\opacCur=(1-\opacCur)*\smoothen;%
+			\scalecurA=(\i-1)*\scalestep;%
+		}%
+		\path[line width=0pt,line join=miter,fill=#2,opacity=\opacCur]%
+			(#3)--($(#4)!\scalecurA!(#5)$)--(#4)--cycle;%
+	}%
+}
+
+
+% Args:
+%  1: Number of Steps
+%  2: color
+%  3: Anchored Point
+%  4: Shade from
+%  5: Shade to
+\newcommand{\DenKr@beamer@drawGradientTriangleB@Overlap}[5][20]{
+	\tikzmath{%
+		\opacstep=1/(#1+1);%
+		\scalestep=1/(#1+1);%
+		\scalecur=1;%
+	}%
+	\foreach\i in {1,...,#1}{%
+		\tikzmath{%
+			\smoothen=1/(sqrt(\i+1));%
+			\opacCur=(\i)*\opacstep;%
+			\opacCur=(1-\opacCur)*\smoothen;%
+			\scalecurA=(\i-1)*\scalestep;%
+		}%
+		\path[line width=0pt,line join=miter,fill=#2,opacity=\opacCur]%
+			(#3)--($(#3)!\scalecurA!(#5)$)--($(#4)!\scalecurA!(#5)$)--(#4)--cycle;%
+	}%
+}
+
+
+
+% Args:
+%  1: Number of Steps
+%  2: color
+%  3: Anchored Point
+%  4: Shade from
+%  5: Shade to
+\newcommand{\DenKr@beamer@drawGradientTriangleC}[5][20]{
+	\tikzmath{%
+		\opacstep=1/(#1+1);%
+		\scalestep=1/(#1+1);%
+		\scalecur=1;%
+	}%
+	\foreach\i in {1,...,#1}{%
+		\tikzmath{%
+			\smoothen=1/(sqrt(\i+1));%
+			\opacCur=(\i)*\opacstep;%*\smoothen;%
+			\opacCur=1-\opacCur;%
+			\scalecurA=(\i-1)*\scalestep;%
+			\scalecurB=(\i)*\scalestep;%
+		}%
+		\path[line width=0pt,line join=miter,fill=#2,opacity=\opacCur]%
+			($(#3)!\scalecurA!(#5)$)--($(#3)!\scalecurB!(#5)$)--($(#4)!\scalecurA!(#5)$)--($(#4)!\scalecurB!(#5)$)--cycle;%
+	}%
+}
+
+
+
+
+
+
+%________________________________________________________________________
+%------------------------------------------------------------------------
+%			Pagenumber
+%  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+%  Setting whether and how the Pagenumber shall be displayed
+%/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+%VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
+\newcounter{DenKr@beamer@pagemax}
+\newcounter{DenKr@beamer@pagecur}
+\providecommand{\DenKrInsertpagenumber}{}
+
+\edef\DenKr@beamer@tmp{total}
+\ifx\beamer@pagenumber@display\DenKr@beamer@tmp
+
+\renewcommand{\DenKrInsertpagenumber}{%
+	\thepage/\beamer@endpageofdocument%
+}
+
+\else
+\edef\DenKr@beamer@tmp{perPart}
+\ifx\beamer@pagenumber@display\DenKr@beamer@tmp
+
+\renewcommand{\DenKrInsertpagenumber}{%
+	\setcounter{DenKr@beamer@pagemax}{\beamer@endpageofpart-\beamer@startpageofpart}%
+	\setcounter{DenKr@beamer@pagecur}{\thepage-\beamer@startpageofpart}%
+	\theDenKr@beamer@pagecur/\theDenKr@beamer@pagemax%
+}
+
+\else
+\fi\fi
+
+
+
+
+
+
+%________________________________________________________________________
+%------------------------------------------------------------------------
+%			Progressbar
+%  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+%  An additional Line above the Frametitle, displaying the progress into the Presentation's Sections
+%/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+%VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
+\edef\DenKr@beamer@tmp{progressbar}
+\ifx\beamer@head@outline\DenKr@beamer@tmp
+
+\beamer@compresstrue
+
+								% Head
+\defbeamertemplate*{headline}{DenKr1 theme}
+{%
+	\pgfuseshading{beamer@barshade}%
+	\vskip-0.05ex%
+	\begin{beamercolorbox}[wd=\paperwidth,ht=1ex,dp=0ex]{empty}
+	\begin{pgfpicture}
+		\begin{pgfscope}%
+			\ifbeamer@sb@subsection%
+				\pgfsetfillcolor{subsection in head/foot.bg}%
+			\else%
+				\pgfsetfillcolor{section in head/foot.bg}%
+			\fi%
+			\pgfpathrectangle{\pgfpoint{-.5\paperwidth}{-0.5ex}}{\pgfpoint{\paperwidth}{1ex}}%
+			\pgfsetfading{beamer@belowframetitlemask}{}%
+			\pgfusepath{fill}%
+		\end{pgfscope}%
+	\end{pgfpicture}%
+	\end{beamercolorbox}%
+	\ifbeamer@sb@subsection%
+		\vskip-9.75ex%
+	\else%
+		\vskip-6.85ex%
+	\fi%
+	\begin{beamercolorbox}[ignorebg,ht=2.25ex,dp=3.75ex]{section in head/foot}
+		\insertnavigation{\paperwidth}
+	\end{beamercolorbox}%
+	\ifbeamer@sb@subsection%
+		\begin{beamercolorbox}[ignorebg,ht=2.125ex,dp=1.125ex,%
+			leftskip=.3cm,rightskip=.3cm plus1fil]{subsection in head/foot}
+			\usebeamerfont{subsection in head/foot}\usebeamertemplate{subsection in head/foot}
+		\end{beamercolorbox}%
+		\vskip-0.1ex%
+	\fi%
+	\edef\DenKr@beamer@tmp{gradienttriangle}
+	\ifx\beamer@head@frametitle\DenKr@beamer@tmp
+		% \vskip-0.8ex%
+	\else
+	\edef\DenKr@beamer@tmp{arrow}
+	\ifx\beamer@head@frametitle\DenKr@beamer@tmp
+		% \vskip-0.8ex%
+	\else
+	\edef\DenKr@beamer@tmp{separator}
+	\ifx\beamer@head@frametitle\DenKr@beamer@tmp
+		\vskip-0.8ex%
+	\else
+	\fi\fi\fi
+}%
+
+
+\else
+\edef\DenKr@beamer@tmp{sectiontree}
+\ifx\beamer@head@outline\DenKr@beamer@tmp
+
+\defbeamertemplate*{headline}{split theme}
+{%
+	\leavevmode%
+	{\usebeamerfont{section in head/foot}%
+	\@tempdimb=2.4375ex%
+	\ifnum\beamer@subsectionmax<\beamer@sectionmax%
+		\multiply\@tempdimb by\beamer@sectionmax%
+	\else%
+		\multiply\@tempdimb by\beamer@subsectionmax%
+	\fi%
+	\ifdim\@tempdimb>0pt%
+		\advance\@tempdimb by 1.825ex%
+		\begin{beamercolorbox}[wd=.5\paperwidth,ht=\@tempdimb]{section in head/foot}%
+			\vbox to\@tempdimb{\vfil\usebeamerfont{section in head/foot}\insertsectionnavigation{.5\paperwidth}\vfil}%
+		\end{beamercolorbox}%
+		\begin{beamercolorbox}[wd=.5\paperwidth,ht=\@tempdimb]{subsection in head/foot}%
+			\vbox to\@tempdimb{\vfil\usebeamerfont{subsection in head/foot}\insertsubsectionnavigation{.5\paperwidth}\vfil}%
+		\end{beamercolorbox}%
+	\fi%
+	}%
+	\edef\DenKr@beamer@tmp{gradienttriangle}
+	\ifx\beamer@head@frametitle\DenKr@beamer@tmp
+		% \vskip-0.8ex%
+	\else
+	\edef\DenKr@beamer@tmp{arrow}
+	\ifx\beamer@head@frametitle\DenKr@beamer@tmp
+		% \vskip-0.8ex%
+	\else
+	\edef\DenKr@beamer@tmp{separator}
+	\ifx\beamer@head@frametitle\DenKr@beamer@tmp
+		\vskip-0.8ex%
+	\else
+	\fi\fi\fi
+}
+
+\else
+\edef\DenKr@beamer@tmp{sectiontreecompact}
+\ifx\beamer@head@outline\DenKr@beamer@tmp
+
+\defbeamertemplate*{headline}{split theme}
+{%
+	\leavevmode%
+	{\usebeamerfont{section in head/foot}%
+	\begin{beamercolorbox}[wd=.5\paperwidth,ht=2.5ex,dp=1.125ex]{section in head/foot}%
+		\insertsectionnavigationhorizontal{.5\paperwidth}{\hskip0pt plus1filll}{}%
+	\end{beamercolorbox}%
+	\begin{beamercolorbox}[wd=.5\paperwidth,ht=2.5ex,dp=1.125ex]{subsection in head/foot}%
+		\usebeamerfont{subsection in head/foot}%
+		\insertsubsectionnavigationhorizontal{.5\paperwidth}{}{\hskip0pt plus1filll}%
+	\end{beamercolorbox}}%
+	\edef\DenKr@beamer@tmp{gradienttriangle}
+	\ifx\beamer@head@frametitle\DenKr@beamer@tmp
+		% \vskip-0.8ex%
+	\else
+	\edef\DenKr@beamer@tmp{arrow}
+	\ifx\beamer@head@frametitle\DenKr@beamer@tmp
+		% \vskip-0.8ex%
+	\else
+	\edef\DenKr@beamer@tmp{separator}
+	\ifx\beamer@head@frametitle\DenKr@beamer@tmp
+		\vskip-0.8ex%
+	\else
+	\fi\fi\fi
+}
+
+\else
+\fi\fi\fi
+
+
+
+
+
+
+%________________________________________________________________________
+%------------------------------------------------------------------------
+%			Footline
+%  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+%  A Line at the Bottom of the Frame, showing the Author, Shorttitle and optionally Pagenumber
+%/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+%VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
+\edef\DenKr@beamer@tmp{simple}
+\ifx\beamer@head@footline\DenKr@beamer@tmp
+
+\defbeamertemplate*{footline}{DenKr1 theme}
+{%
+	\leavevmode%
+	\hbox{\begin{beamercolorbox}[wd=.5\paperwidth,ht=2.5ex,dp=1.125ex,leftskip=.3cm plus1fill,rightskip=.3cm]{author in head/foot}%
+		\usebeamerfont{author in head/foot}\insertshortauthor
+	\end{beamercolorbox}%
+	\begin{beamercolorbox}[wd=.5\paperwidth,ht=2.5ex,dp=1.125ex,leftskip=.3cm,rightskip=.3cm plus1fil]{title in head/foot}%
+		\usebeamerfont{title in head/foot}\insertshorttitle\nobreak\hfill%
+		\usebeamercolor[fg]{page number in head/foot}\usebeamerfont{page number in head/foot}\usebeamertemplate{page number in head/foot}\DenKrInsertpagenumber
+	\end{beamercolorbox}}%
+	\vskip0pt%
+}
+
+\else
+\edef\DenKr@beamer@tmp{gradienttriangle}
+\ifx\beamer@head@footline\DenKr@beamer@tmp
+
+\defbeamertemplate*{footline}{DenKr1 theme}
+{%
+	\leavevmode%
+	\hbox{%
+	\begin{tikzpicture}%
+		% Left Part
+		%\usebeamercolor[fg]{title in head/foot}
+		\usebeamercolor{author in head/foot}% Sets up colors 'fg' & 'bg'
+		\color{fg}
+		\colorlet{bgL}{bg}
+		\useasboundingbox(0,0)rectangle(\the\paperwidth,3.625ex);
+		\coordinate(separatorC)at($(current bounding box.south)!.5!(current bounding box.north)$);
+		\path let\n1={6pt}in
+			coordinate(sepL)at($(separatorC)+(-\n1,0)$)
+			coordinate(sepR)at($(separatorC)+(\n1,0)$)
+			coordinate(sepTL)at(sepL|-current bounding box.north)
+			coordinate(sepTR)at(sepR|-current bounding box.north)
+			coordinate(sepBL)at(sepL|-current bounding box.south)
+			coordinate(sepBR)at(sepR|-current bounding box.south)
+		;
+		\coordinate(gradientTip)at($(current bounding box.north west)+(12pt,0)$);
+		\path[fill=bg]($(gradientTip)+(-1pt,0)$)--(current bounding box.north)--(current bounding box.south)--(current bounding box.south west)--++(0,1pt)--cycle;
+		\DenKr@beamer@drawGradientTriangleB@Overlap{bg}{current bounding box.south west}{gradientTip}{current bounding box.north west}
+		\node[anchor=east,inner sep=0pt]at($(sepL)+(-0pt,0)$){\usebeamerfont{author in head/foot}\insertshortauthor};
+		% Right Part
+		\usebeamercolor{title in head/foot}
+		\color{fg}
+		\colorlet{bgR}{bg}
+		\coordinate(gradientTip)at($(current bounding box.north east)+(-12pt,0)$);
+		\path[fill=bg]($(gradientTip)+(1pt,0)$)--(current bounding box.north)--(current bounding box.south)--(current bounding box.south east)--++(0,1pt)--cycle;
+		\DenKr@beamer@drawGradientTriangleB@Overlap{bg}{current bounding box.south east}{gradientTip}{current bounding box.north east}
+		\node[anchor=west,inner sep=0pt]at($(sepR)+(0pt,0)$){
+			\usebeamerfont{title in head/foot}\insertshorttitle%
+		};
+		\node[anchor=east,inner sep=0pt]at($(sepR-|gradientTip)+(0pt,0)$){
+			\usebeamercolor[fg]{page number in head/foot}\usebeamerfont{page number in head/foot}\usebeamertemplate{page number in head/foot}\DenKrInsertpagenumber%
+		};
+		% Separator
+		\path[left color=bgR,right color=bgL](sepTL)--(sepTR)--(separatorC)--cycle;
+		\path[left color=bgR,right color=bgL](sepBL)--(sepBR)--(separatorC)--cycle;
+	\end{tikzpicture}%
+	}%
+	\vskip0pt%
+}
+
+\else% else, none, other
+\fi\fi
+
+
+
+
+
+
+
+%________________________________________________________________________
+%------------------------------------------------------------------------
+%			Frametitle
+%  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
+%
+%/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+%VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
+
+\AtBeginDocument{
+	{
+		\usebeamerfont*{headline}
+		\colorlet{global.bg}{bg}
+		\usebeamercolor{subsection in head/foot}
+		\usebeamercolor{section in head/foot}
+		\usebeamercolor{frametitle}
+
+		\ifbeamer@sb@subsection
+			\pgfdeclareverticalshading{beamer@barshade}{\the\paperwidth}{%
+				color(0ex)=(subsection in head/foot.bg);%
+				color(2.25ex)=(subsection in head/foot.bg);%
+				color(3.25ex)=(section in head/foot.bg);%
+				color(8.75ex)=(section in head/foot.bg)%
+			 }
+			 \pgfdeclareverticalshading{beamer@aboveframetitle}{\the\paperwidth}{%
+				color(0ex)=(frametitle.bg);%
+				color(1ex)=(subsection in head/foot.bg)
+			 }
+		\else
+			\pgfdeclareverticalshading{beamer@barshade}{\the\paperwidth}{%
+				color(0ex)=(section in head/foot.bg);%
+				color(6ex)=(section in head/foot.bg)%
+			 }
+		 \pgfdeclareverticalshading{beamer@aboveframetitle}{\the\paperwidth}{%
+				color(0ex)=(frametitle.bg);%
+				color(1ex)=(frametitle.bg);%
+				color(2ex)=(section in head/foot.bg)
+			 }
+		\fi
+		
+		\begingroup
+			\selectcolormodel{gray}
+			\pgfdeclareverticalshading{beamer@belowframetitle}{\the\paperwidth}{%
+				color(0ex)=(pgftransparent!100);%
+				color(1ex)=(pgftransparent!0)
+			}
+			\pgfdeclarefading{beamer@belowframetitlemask}{\pgfuseshading{beamer@belowframetitle}}
+		\endgroup
+	}
+}
+
+
+\edef\DenKr@beamer@tmp{simple}
+\ifx\beamer@head@frametitle\DenKr@beamer@tmp
+
+\defbeamertemplate*{frametitle}{DenKr1 theme}[1][left]
+{%
+	\nointerlineskip%
+	% \vskip-0.1ex%
+	\usebeamerfont{headline}%
+	\begin{beamercolorbox}[wd=\paperwidth,ht=1ex,dp=1ex,vmode]{empty}
+		\pgfuseshading{beamer@aboveframetitle}%
+	\end{beamercolorbox}%
+	\vskip-1.19ex%
+	\nointerlineskip%
+	\begin{beamercolorbox}[wd=\paperwidth,leftskip=.3cm,rightskip=.3cm plus1fil,vmode]{frametitle}
+		% \vskip0.5ex%
+		\usebeamerfont*{frametitle}\strut\insertframetitle%
+			\ifx\insertframesubtitle\@empty%
+				\strut\par%
+			\else
+				\par{\usebeamerfont*{framesubtitle}{\usebeamercolor[fg]{framesubtitle}\strut\insertframesubtitle}\strut\par}%
+			\fi%%
+		\usebeamerfont{headline}%
+		% \vskip0.05ex%
+	\end{beamercolorbox}%
+	\nointerlineskip%
+	\vskip-0.15ex%
+	\begin{beamercolorbox}[wd=\paperwidth,ht=1ex,dp=0ex]{empty}
+	\begin{pgfpicture}
+		\begin{pgfscope}%
+			\pgfsetfillcolor{frametitle.bg}%
+			\pgfpathrectangle{\pgfpoint{-.5\paperwidth}{-.5ex}}{\pgfpoint{\paperwidth}{1ex}}%
+			\pgfsetfading{beamer@belowframetitlemask}{}%
+			\pgfusepath{fill}%
+		\end{pgfscope}%
+	\end{pgfpicture}%
+	\end{beamercolorbox}%
+}
+
+% \defbeamertemplate*{frametitle}{DenKr1 theme}[1][left]
+% {%
+% 	\ifbeamercolorempty[bg]{frametitle}{}{\nointerlineskip}%
+% 	\@tempdima=\textwidth%
+% 	\advance\@tempdima by\beamer@leftmargin%
+% 	\advance\@tempdima by\beamer@rightmargin%
+% 	\begin{beamercolorbox}[sep=0.3cm,#1,wd=\the\@tempdima]{frametitle}
+% 		\usebeamerfont{frametitle}%
+% 		\vbox{}\vskip-1ex%
+% 		\if@tempswa\else\csname beamer@fte#1\endcsname\fi%
+% 		\strut\insertframetitle\strut\par%
+% 		{%
+% 			\ifx\insertframesubtitle\@empty%
+% 			\else%
+% 			{\usebeamerfont{framesubtitle}\usebeamercolor[fg]{framesubtitle}\strut\insertframesubtitle\strut\par}%
+% 			\fi
+% 		}%
+% 		\vskip-1ex%
+% 		\if@tempswa\else\vskip-.3cm\fi% set inside beamercolorbox... evil here...
+% 	\end{beamercolorbox}%
+% }
+
+\else
+\edef\DenKr@beamer@tmp{gradienttriangle}
+\ifx\beamer@head@frametitle\DenKr@beamer@tmp
+
+% Args:
+%  1: Number of Steps
+%  2: color
+\newcommand{\DenKr@beamer@frametitle@drawGradient}[2][20]{
+	\tikzmath{%
+		\opacstep=1/(#1+1);%
+		\scalestep=1/(#1+1);%
+		\scalecur=1;%
+	}%
+	\foreach\i in {1,...,#1}{%
+		\tikzmath{%
+			\smoothen=1/(sqrt(\i+1));%
+			\opacCur=(\i)*\opacstep;%
+			\opacCur=(1-\opacCur)*\smoothen;%
+			\scalecurA=(\i-1)*\scalestep;%
+			\roundCorn=0.1pt*(1+3*\i*\scalestep);%
+		}%
+		\path[line width=0pt,line join=miter,fill=#2,opacity=\opacCur,rounded corners=\roundCorn]%
+			(p1)--(p2)--(p3)--(p4)--
+			($(p4)!\scalecurA!(2p5)$)--($(p3)!\scalecurA!(2p4)$)--($(p2)!\scalecurA!(2p3)$)--($(p2)!\scalecurA!(2p2)$)--($(p1)!\scalecurA!(2p1)$)
+			--cycle;%
+	}%
+}
+\defbeamertemplate*{frametitle}{DenKr1 theme}[1][left]
+{%
+	\nointerlineskip%
+	% \vskip-0.1ex%
+	\usebeamerfont{headline}%
+	\begin{beamercolorbox}[wd=\paperwidth,ht=1ex,dp=1ex,vmode]{empty}
+		\pgfuseshading{beamer@aboveframetitle}%
+	\end{beamercolorbox}%
+	\vskip-1.19ex%
+	\nointerlineskip%
+	\begin{beamercolorbox}[wd=\paperwidth,leftskip=0pt,rightskip=0pt plus1fil,vmode]{}
+	% \vskip-1.0ex%
+	\begin{tikzpicture}%
+		\usebeamercolor{frametitle}% Sets up colors 'fg' & 'bg'
+		\color{fg}
+		\begin{pgfonlayer}{main}
+			\tikzstyle{titlenode}=[anchor=north west,line width=0pt,inner sep=0pt,align=justify,text width=\paperwidth-17pt]%
+			\node[titlenode](frametitle)at(9pt,0){\parbox{\linewidth}{\usebeamerfont*{frametitle}\strut\insertframetitle\strut}};
+			\ifx\insertframesubtitle\@empty%
+				\strut\par%
+				\path let\p1=(\paperwidth,0)in coordinate(RB)at(frametitle.south-|\p1);
+				\coordinate(lowestL)at(frametitle.south west);
+				\coordinate(lowestR)at(frametitle.south east);
+			\else%
+				\node[titlenode](framesubtitle)at($(frametitle.south west)+(0,-0.0ex)$){\parbox{\linewidth}{\usebeamerfont*{framesubtitle}{\usebeamercolor[fg]{framesubtitle}\strut\insertframesubtitle}\strut}};
+				\path let\p1=(\paperwidth,0)in coordinate(RB)at(framesubtitle.south-|\p1);
+				\coordinate(lowestL)at(framesubtitle.south west);
+				\coordinate(lowestR)at(framesubtitle.south east);
+			\fi%
+		\end{pgfonlayer}
+		\useasboundingbox(0,0)rectangle($(RB)+(0,-5pt)$);
+		\begin{pgfonlayer}{background}
+			\path let\p1=(0,0),\p2=(\p1|-frametitle.south)in coordinate(p1)at($(\p1)!.3!(\p2)$);
+			\coordinate(p2)at(lowestL);
+			\coordinate(p3)at(lowestR);
+			\coordinate(p4)at(current bounding box.north east);
+			\path[fill=bg]let\n1={0.02pt}in(0,0)--($(p1)+(0,-\n1)$)--($(p2)+(250:\n1)$)--($(p3)+(300:\n1)$)--($(p4)+(0,-\n1)$)--cycle;
+			\coordinate(2p1)at(p1);
+			\path let\p1=(current bounding box.north west|-RB)in coordinate(2p2)at($(\p1)+(-2pt,-2pt)$);
+			\coordinate(2p3)at($(p2|-current bounding box.south)+(2pt,0)$);
+			\coordinate(2p4)at($(p3)+(310:1pt)$);
+			\coordinate(2p5)at($(p4)!.85!(current bounding box.south east)$);
+			\DenKr@beamer@frametitle@drawGradient{bg}
+		\end{pgfonlayer}
+	\end{tikzpicture}%
+	\end{beamercolorbox}%
+}
+
+\else
+\edef\DenKr@beamer@tmp{arrow}
+\ifx\beamer@head@frametitle\DenKr@beamer@tmp
+
+\defbeamertemplate*{frametitle}{DenKr1 theme}[1][left]
+{%
+	\nointerlineskip%
+	% \vskip-0.1ex%
+	\usebeamerfont{headline}%
+	\begin{beamercolorbox}[wd=\paperwidth,ht=1ex,dp=1ex,vmode]{empty}
+		\pgfuseshading{beamer@aboveframetitle}%
+	\end{beamercolorbox}%
+	\vskip-1.19ex%
+	\nointerlineskip%
+	\begin{beamercolorbox}[wd=\paperwidth,leftskip=0pt,rightskip=0pt plus1fil,vmode]{}
+	% \vskip-1.0ex%
+	\begin{tikzpicture}%
+		\usebeamercolor{background canvas}\colorlet{gradeTo}{bg}
+		\usebeamercolor{section in head/foot}\colorlet{arrow}{bg}
+		\usebeamercolor{frametitle}% Sets up colors 'fg' & 'bg'
+		\color{fg}
+		\begin{pgfonlayer}{main}
+			\tikzstyle{titlenode}=[anchor=north west,line width=0pt,inner sep=0pt,align=justify,text width=\paperwidth-17pt]%
+			\node[titlenode](frametitle)at(9pt,0){\parbox{\linewidth}{\usebeamerfont*{frametitle}\strut\insertframetitle\strut}};
+			\ifx\insertframesubtitle\@empty%
+				\strut\par%
+				\path let\p1=(\paperwidth,0)in coordinate(RB)at(frametitle.south-|\p1);
+				\coordinate(lowestL)at(frametitle.south west);
+				\coordinate(lowestR)at(frametitle.south east);
+			\else%
+				\node[titlenode](framesubtitle)at($(frametitle.south west)+(0,-0.0ex)$){\parbox{\linewidth}{\usebeamerfont*{framesubtitle}{\usebeamercolor[fg]{framesubtitle}\strut\insertframesubtitle}\strut}};
+				\path let\p1=(\paperwidth,0)in coordinate(RB)at(framesubtitle.south-|\p1);
+				\coordinate(lowestL)at(framesubtitle.south west);
+				\coordinate(lowestR)at(framesubtitle.south east);
+			\fi%
+		\end{pgfonlayer}
+		\useasboundingbox(0,0)rectangle($(RB)+(0,-3pt)$);
+		\begin{pgfonlayer}{background}
+			\path[left color=bg,right color=gradeTo](current bounding box.north west)rectangle(current bounding box.south east);
+			\path[fill=arrow!80!bg,left color=arrow,right color=arrow!20!bg!70!black,middle color=arrow!70!bg!90!white](current bounding box.south west)--($(current bounding box.north west)+(0,3pt)$)--($(frametitle.west)+(-3pt,0)$)--cycle;
+		\end{pgfonlayer}
+	\end{tikzpicture}%
+	\end{beamercolorbox}%
+}
+
+\else
+\edef\DenKr@beamer@tmp{separator}
+\ifx\beamer@head@frametitle\DenKr@beamer@tmp
+
+\defbeamertemplate*{frametitle}{DenKr1 theme}[1][left]
+{%
+	\nointerlineskip%
+	% \vskip-0.1ex%
+	\usebeamerfont{headline}%
+	% \vskip-0.8ex%
+	\begin{beamercolorbox}[wd=\paperwidth,leftskip=0pt,rightskip=0pt plus1fil,vmode]{}
+	% \vskip-0.8ex%
+	\begin{tikzpicture}%
+		\usebeamercolor{background canvas}\colorlet{gradeTo}{bg}
+		\usebeamercolor{ornament in head/foot}\colorlet{separator}{fg}
+		\usebeamercolor{frametitle}% Sets up colors 'fg' & 'bg'
+		\color{fg}
+		\begin{pgfonlayer}{main}
+			\tikzstyle{titlenode}=[anchor=north west,line width=0pt,inner sep=0pt,align=justify,text width=\paperwidth-17pt]%
+			\node[titlenode](frametitle)at(9pt,-1.2ex){\parbox{\linewidth}{\usebeamerfont*{frametitle}\strut\insertframetitle\strut}};
+			\ifx\insertframesubtitle\@empty%
+				\strut\par%
+				\path let\p1=(\paperwidth,0)in coordinate(RB)at(frametitle.south-|\p1);
+				\coordinate(lowestL)at(frametitle.south west);
+				\coordinate(lowestR)at(frametitle.south east);
+			\else%
+				\node[titlenode](framesubtitle)at($(frametitle.south west)+(0,-0.0ex)$){\parbox{\linewidth}{\usebeamerfont*{framesubtitle}{\usebeamercolor[fg]{framesubtitle}\strut\insertframesubtitle}\strut}};
+				\path let\p1=(\paperwidth,0)in coordinate(RB)at(framesubtitle.south-|\p1);
+				\coordinate(lowestL)at(framesubtitle.south west);
+				\coordinate(lowestR)at(framesubtitle.south east);
+			\fi%
+		\end{pgfonlayer}
+		\useasboundingbox(0,0)rectangle($(RB)+(0,-3pt)$);
+		\begin{pgfonlayer}{background}
+			\path[left color=bg!30!gradeTo,right color=gradeTo](current bounding box.north west)rectangle(current bounding box.south east);
+			\path[top color=section in head/foot.bg,bottom color=bg!10!gradeTo,middle color=bg!20!gradeTo!70!section in head/foot.bg!90!white](current bounding box.north west)rectangle($(current bounding box.north east)+(0,-0.8ex)$);
+			\path[top color=separator!90!bg!85!white,bottom color=separator!80!background canvas.bg!85!black,middle color=separator!40!white]let\p1=($(current bounding box.south west-|frametitle.west)+(-2pt,0)$),\p2=($(\p1)+(0.2\paperwidth,0)$),\p3=($(\p1-|current page.east)+(-0.05\paperwidth,0)$),\n1={0.5pt},\n2={2.5pt},\n3={\n1}in
+				($(\p1)+(0,\n1)$)
+					..controls
+					($(\p2)+(-0.01\paperwidth,+0.002\paperwidth)$)
+					..
+				($(\p2)+(0,\n2)$)
+						..controls
+						($(\p2)+(0.02\paperwidth,+0.002\paperwidth)$)
+						..
+				($(\p3)+(0,\n3)$)to[out=0,in=0]($(\p3)+(0,-\n3)$)
+						..controls
+						($(\p2)+(0.02\paperwidth,-0.002\paperwidth)$)
+						..
+				($(\p2)+(0,-\n2)$)
+					..controls
+					($(\p2)+(-0.01\paperwidth,-0.002\paperwidth)$)
+					..
+				($(\p1)+(0,-\n1)$)to[out=180,in=180]cycle
+				;
+		\end{pgfonlayer}
+	\end{tikzpicture}%
+	\vskip0.4ex%
+	\end{beamercolorbox}%
+}
+
+\else
+\edef\DenKr@beamer@tmp{rectsep}
+\ifx\beamer@head@frametitle\DenKr@beamer@tmp
+
+\defbeamertemplate*{frametitle}{DenKr1 theme}[1][left]
+{%
+	\nointerlineskip%
+	% \vskip-0.1ex%
+	\usebeamerfont{headline}%
+	% \vskip-0.8ex%
+	\begin{beamercolorbox}[wd=\paperwidth,leftskip=0pt,rightskip=0pt plus1fil,vmode]{}
+	% \vskip-0.8ex%
+	\begin{tikzpicture}%
+		\usebeamercolor{background canvas}\colorlet{gradeTo}{bg}
+		\usebeamercolor{ornament in head/foot}\colorlet{separator}{fg}
+		\usebeamercolor{frametitle}% Sets up colors 'fg' & 'bg'
+		\colorlet{bg}{frametitle.bg!55!background canvas.bg}
+		\colorlet{rect1}{frametitle.bg!90!black}
+		\colorlet{rect2}{frametitle.bg!70!black}
+		\color{fg}
+		\begin{pgfonlayer}{main}
+			\tikzstyle{titlenode}=[anchor=north west,line width=0pt,inner sep=0pt,align=justify,text width=\paperwidth-17pt]%
+			\node[titlenode](frametitle)at(9pt,-1.2ex){\parbox{\linewidth}{\usebeamerfont*{frametitle}\strut\insertframetitle\strut}};
+			\ifx\insertframesubtitle\@empty%
+				\strut\par%
+				\path let\p1=(\paperwidth,0)in coordinate(RB)at(frametitle.south-|\p1);
+				\coordinate(lowestL)at(frametitle.south west);
+				\coordinate(lowestR)at(frametitle.south east);
+			\else%
+				\node[titlenode](framesubtitle)at($(frametitle.south west)+(0,-0.0ex)$){\parbox{\linewidth}{\usebeamerfont*{framesubtitle}{\usebeamercolor[fg]{framesubtitle}\strut\insertframesubtitle}\strut}};
+				\path let\p1=(\paperwidth,0)in coordinate(RB)at(framesubtitle.south-|\p1);
+				\coordinate(lowestL)at(framesubtitle.south west);
+				\coordinate(lowestR)at(framesubtitle.south east);
+			\fi%
+		\end{pgfonlayer}
+		\useasboundingbox(0,0)rectangle($(RB)+(0,-5pt)$);
+		\begin{pgfonlayer}{background}
+			\coordinate(bgBL)at(current bounding box.south west);
+			\path[fill=bg](current bounding box.north west)rectangle(bgBL-|current bounding box.east);
+			\path[top color=section in head/foot.bg,bottom color=bg,middle color=bg!70!section in head/foot.bg!90!white](current bounding box.north west)rectangle($(current bounding box.north east)+(0,-0.8ex)$);
+			\path[fill=rect1](bgBL)rectangle++(0.2\textwidth,2ex)coordinate(rect1TR);
+			\path[fill=rect2](rect1TR)rectangle($(\tikzcurrentcoordinate|-bgBL)+(0.3\textwidth,0)$);
+		\end{pgfonlayer}
+	\end{tikzpicture}%
+	\vskip0.4ex%
+	\end{beamercolorbox}%
+}
+
+\else
+\edef\DenKr@beamer@tmp{pitifulrightgradient}
+\ifx\beamer@head@frametitle\DenKr@beamer@tmp
+
+\defbeamertemplate*{frametitle}{mydefault}[1][left]
+{
+	\usebeamercolor{frametitle}% Sets up colors 'fg' & 'bg'
+	\usebeamercolor{background canvas}%
+	\ifbeamercolorempty[bg]{frametitle}{}{\nointerlineskip}%
+	\nointerlineskip%
+	\@tempdima=\textwidth%
+	\advance\@tempdima by\beamer@leftmargin%
+	\advance\@tempdima by\beamer@rightmargin%
+	\begin{tcolorbox}[
+	enhanced,
+	outer arc=0pt,
+	arc=0pt,
+	boxrule=0pt,
+	top=0pt,
+	bottom=0pt,
+	enlarge left by=-\beamer@leftmargin,
+	enlarge right by=-\beamer@rightmargin,
+	width=\paperwidth,
+	nobeforeafter,
+	interior style={
+		left color=frametitle.bg,
+		right color=background canvas.bg
+		},
+	shadow={0mm}{-0.4mm}{0mm}{black!60,opacity=0.6},
+	shadow={0mm}{-0.8mm}{0mm}{black!40,opacity=0.4},
+	]
+		\usebeamerfont{frametitle}%
+		\vbox{}\vskip-1ex%
+		\if@tempswa\else\csname beamer@fte#1\endcsname\fi%
+		\insertframetitle\par%
+		{%
+			\ifx\insertframesubtitle\@empty%
+			\else%
+			{\usebeamerfont{framesubtitle}\usebeamercolor[fg]{framesubtitle}\insertframesubtitle\strut\par}%
+			\fi
+		}%
+		\vskip-0.2ex%
+		\if@tempswa\else\vskip-.3cm\fi% set inside beamercolorbox... evil here...
+	\end{tcolorbox}%
+}
+
+\else% else, none, other
+\fi\fi\fi\fi\fi
+
+
+\mode
+<all>
+%

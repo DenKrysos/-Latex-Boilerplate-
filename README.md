@@ -4,7 +4,7 @@ A sophisticated Boilerplate/Template together with some Macros and ready-to-use 
 
 This Boilerplate supports documents differing in two axes:
 - The structuring Level: Whether it allows Chapter (like Books) or has Section as highest level (like Articles).
-- The degree of freedom, you have regarding look and feel. I.e. whether the final document is tatgeted towards a publishing target, which usually prescribes the layout, or you can do as you please.
+- The degree of freedom, you have regarding look and feel. I.e. whether the final document is targeted towards a publishing target, which usually prescribes the layout, or you can do as you please.
 
 Consequently, does this Boilerplate support in a wide variety of Document Types: Research Articles, Scientific Papers, Academic Thesis, Books, Posters, etc.
 
@@ -12,7 +12,8 @@ Because of similarity in features, code and functioning, I classified certain La
 - 'elaborate' -- Documents that are under your control and design. The Code supplied for this is very sophisticated and allows a lot of things and brings functions and typesetting to the table. Can deal with both "Chapter-level" & "Article-level" documents (scrbook, scrartcl).
 - 'dedicated' -- For Documents (usually shorter ones, and only including up to Section) that go to a specific Publishing-Target (like a scientific conference, a journal, magazine, etc). Through this 'dedication' to a publisher, usually a specific layout, probably even document-class is prescribed (All articles bundled to proceedings or in a journal are supposed to look the same).<br />
 One especially cool thing here is that the Boilerplate provides a 'uniform' interface to several different layouts. E.g. you specify the list of authors once and then you can freely change the Layout, one of which is dedicated for compiling a "preprint". Everything is automatically adjusted and you just have to specify information once.
-- There are also '1all' & '2internal', which shouldn't bother you. This contains some essential Code that is common to all or at least many different Layouts. E.g. it defines additional Functionalities, Macros; stuff that commonly aids every project equally and won't be adjusted as it supplies general tools.
+- 'slides' -- For Slide-Sets, probably mainly used for giving Presentations. Using "Beamer" and my Template, it has several custamization options. For example, changing the color palette, different Header, Footer, Frametitles. (Look into "./0organization/slides/2layout/beamer/themes/". The central file to easily change options is in "theme/", only changing colors is in "color/". The other files require you to know LaTeX and TikZ rather well to make sophisticated changes.)
+- (There are also '1all' & '2internal', which shouldn't bother you. This contains some essential Code that is common to all or at least many different Layouts. E.g. it defines additional Functionalities, Macros; stuff that commonly aids every project equally and won't be adjusted as it supplies general tools.)
 
 
 
@@ -41,14 +42,25 @@ The existence of the *Document-Genre* (aka Document-Type) ("influencing the Stru
 
 
 ## Compilation
-* This here is meant to be compiled with 'LuaLaTeX'
+* This here is meant to be compiled with '*LuaLaTeX*'
    - The Layouts of 'dedicated'-DocGenre can also be compiled with 'pdfLaTeX'
+   - While most of 'dedicated' work well with 'Lua', '*IEEEtran*' is better compiled using 'pdfLaTeX'
 * Remember to add "--shell-escape" to your compiler's arguments in order to make all that Standalone & TikZ stuff working
 * Examplary proper compiler argument setup
   * TeX Live / VS-Code + LaTeX Workshop, Utilities / Texlipse
     * -synctex=1 -interaction=nonstopmode --shell-escape %input
   * Overleaf 'latexmkrc'
     * $lualatex = 'lualatex %O %S --synctex=1 --interaction=nonstopmode --shell-escape';
+
+
+# More INFO
+* Inside the directory "./.vscode/" are some Files located, giving more information on how to set up your toolbox well.
+
+
+# HowTo
+* There is another file "./9chapter/0segmentation/9001_HowTo.tex", which verbosely explains how to set up a project, compile and use the Boilerplate
+   - It is however in German and heavily typeset with LaTeX Code.
+   - So, it might be difficult to read the source-code and you first must compile it, to read it nicely...
 
 
 

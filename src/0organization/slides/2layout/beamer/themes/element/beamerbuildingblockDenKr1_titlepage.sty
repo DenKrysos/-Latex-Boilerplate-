@@ -1,0 +1,49 @@
+\setbeamerfont*{author}{size=\fontsize{28}{1}}%,series=\bfseries}
+\setbeamerfont*{institute}{size=\fontsize{12}{1},series=\itshape}
+\setbeamerfont*{title}{size=\fontsize{22}{1},series=\sffamily}%series=\bfseries}
+\setbeamerfont*{subtitle}{size=\fontsize{14}{1},series=\slshape}
+\setbeamerfont*{supervisorone}{size=\fontsize{14}{1}}
+\setbeamerfont*{supervisortwo}{size=\fontsize{14}{1}}
+
+\setbeamercolor*{structure darker}{use=structure,fg=structure.fg!60!black,bg=structure.bg!60!black}
+
+\setbeamertemplate{title page}{%
+\begin{tikzpicture}[remember picture,overlay]
+	\usebeamercolor{structure darker}
+	\usebeamercolor{background canvas}
+	\usebeamercolor{structure}
+	\tikzstyle{plaintext}=[inner sep=0pt,draw=none]
+	\coordinate(sepL)at([yshift=0.1\paperheight]current page.west);
+	\coordinate(sepR)at(sepL-|current page.east);
+	\fill[structure.fg](sepL)rectangle(current page.south east);
+	\node[plaintext,anchor=north west]at([yshift=-20pt]current page.north west)(logo)
+		{\parbox[t]{.19\paperwidth}{\raggedleft%
+			\usebeamercolor[fg]{titlegraphic}\inserttitlegraphic}};
+	\node[plaintext,anchor=north east]at($(current page.north east)!.2!(sepR)+(-6pt,0)$)(author)
+		{\parbox[t]{.8\paperwidth}{\raggedleft\usebeamerfont{author}%
+		% \color{structure darker.fg}\textpdfrender{TextRenderingMode=FillStroke,FillColor={structure.fg},LineWidth=.05ex,}{\insertauthor}
+		\def\DenKrAuthTmp{\beamer@longauthor}%
+		% \contourlength{0.05ex}\contour{structure darker.fg}{\textcolor{structure.fg}{\DenKrAuthTmp}}
+		\DenKrContour[0.05ex]{structure darker.fg}{structure.fg}{\DenKrAuthTmp}%
+		}};
+	\node[plaintext,anchor=east]at($(author.south east)!.33!(sepR-|author.south east)$)(institute)
+		{\parbox[t]{.78\paperwidth}{\raggedleft%
+			\usebeamerfont{institute}\color{gray}\insertinstitute}};
+	\node[plaintext,anchor=east]at($(institute.south east)!.5!(sepR-|institute.south east)+(0,2pt)$)(supervisortwo)
+		{\raggedleft\usebeamerfont{supervisortwo}\color{structure darker.fg}%
+		\DenKrTPsupervisorTwoAnrede\ \DenKrTPsupervisorTwoFirst\ \DenKrTPsupervisorTwoLast};
+	\node[plaintext,anchor=north east]at([yshift=-0pt,xshift=-10pt]supervisortwo.north west)(supervisorone)
+		{\raggedleft\usebeamerfont{supervisorone}\color{structure darker.fg}%
+		\DenKrTPsupervisorOneAnrede\ \DenKrTPsupervisorOneFirst\ \DenKrTPsupervisorOneLast};
+	\node[plaintext,anchor=north west]at([yshift=-10pt,xshift=20pt]sepL)(title)
+		{\parbox[t]{\textwidth}{\raggedright\usebeamerfont{title}
+			% \color{white}\textpdfrender{TextRenderingMode=FillStroke,FillColor=white,LineWidth=.1ex,}{\inserttitle}
+			\DenKrContour[0.07ex]{structure darker.fg}{structure.bg!20!background canvas.bg}{\inserttitle}
+			% \inserttitle
+			}};
+	\node[plaintext,anchor=north west]at([yshift=-10pt,xshift=0pt]title.south west)(subtitle)
+		{\parbox[t]{.6\paperwidth}{\raggedright\usebeamerfont{subtitle}\color{background canvas.bg}\insertsubtitle}};
+	\node[plaintext,anchor=south]at([yshift=10pt,xshift=0pt]current page.south) (subject)
+		{\parbox[t]{.6\paperwidth}{\centering\usebeamerfont{subtitle}\color{structure.fg!40!black}\beamer@subject}};
+\end{tikzpicture}
+}

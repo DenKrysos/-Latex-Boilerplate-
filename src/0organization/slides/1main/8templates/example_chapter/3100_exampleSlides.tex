@@ -11,113 +11,292 @@
 
 
 
-\npi%
-Document-within References to check whether hyperref \& nameref work properly:\nl%
-\ref{sec:intro} (\nameref{sec:intro}). \ref{sec:RelWork}  (\nameref{sec:RelWork}). \ref{sec:Concl} (\nameref{sec:Concl})\nl%
-Consider using my \textbf{Referencing-Macros}:\nl
-\eleref{fig:Pic}\nl
-\ \ or \elenumnamref{tab:OI_app}\nl
-\ \ or \eleref{fig:Pic,fig:tikz_test,fig:Pic}
+
+\part{Examples}
+\label{part:examples}
+
+% \section*{Table-Of-Contents}%
+\pdfbookmark[2]{Table-Of-Contents}{ToC}%
+\begin{frame}[plain,allowframebreaks]%
+\frametitle{Outline -- Examples}% ToC
+\tableofcontents%
+\end{frame}%
 
 
-\npi%
-{%
-	\LARGE%
-	\contourlength{\DenKrOutlineWidth}% The Default-Value here
-	\contour{violet}{\textcolor{orange}{Text with Outline/Contour}}\nl%
+
+\section{Layout}
+
+\subsection{Text Area}
+
+\begin{frame}[t]
+\frametitle{Text Area}
+	\tikzmark{textareaTL}\begin{tikzpicture}[overlay,remember picture]
+		\coordinate(TL)at($(pic cs:textareaTL)+(0,\baselineskip-\lineskip-0.4ex)$);
+		\coordinate(BR)at(current page text area.south east);
+		% \coordinate(TL)at(0,0);
+		% \coordinate(BR)at($(TL)+(\textwidth,-\textheight)$);
+		\coordinate(TR)at(TL-|BR);
+		\coordinate(BL)at(TL|-BR);
+		\coordinate(T)at($(TL)!.5!(TR)$);
+		\coordinate(B)at($(BL)!.5!(BR)$);
+		\path[line width=1pt,draw=black,fill=orange!50!white,opacity=0.3](TL)rectangle(BR);
+		\path[thick,draw=orange!60!white,opacity=0.5](TL)--(BR)(TR)--(BL);
+		\node[anchor=center,scale=2]at($(T)!.5!(B)$){\sffamily Text-Area};
+	\end{tikzpicture}
+	\noindent First Line of Text
+	\par\vfill\noindent
+	Last Line of Text \hfill End of Frame
+\end{frame}
+
+\section[Exmpl Code]{Example Code}
+\label{sec:exampleCode}
+
+\subsection{Arbitrary}
+
+\begin{frame}[c,allowframebreaks]
+\frametitle{Some Example Frame -- As long a Title, so that it requires to break the line; we must see, whether my Template can handle this}
+\framesubtitle{A bit more information about this -- Same thing regarding line break must hold true for the Subtitle as well; there must be line-breaks tested}
+	Example-Citation:
+	\cite{DenKr_denkrement1_indeco}
+	% \nl%
+	% A custom citation command that puts information about the reference to the footnote on first occurrence:
+	% \citeff{DenKr_MigArb,DenKr_denkrement1_indeco}%
+
+	\npi%
+	Some special characters:
+	»«.
+	\footnote[frame]{Some First footnote}
+	\nl%
+	\gerguiquote{Done with Macro}\nl
+	\enquote{Ordinary Quotation}\ \ \enquote*{Single Quotation}
+	\nl%
+	Example Acronym, Glossary-Entry \& Symbol:\nl
+	\gls{fsa}, \glsunset{api}\gls{api}\nl
+	\gls{molmass}, \gls{sigma}\nl
+	\gls{eventfd}
+
+	\npi
+	And also high enough to cause a pagebreak.\nl 1\nl 2\nl 3\nl 4\nl 5\nl 6\nl 7\nl 8\nl 9\nl a\nl b\nl c\nl d
+	\footnote[frame]{A Second footnote}
+\end{frame}
+
+
+
+\begin{frame}[t]
+\frametitle{Lists}
+	\begin{minipage}[t]{0.48\linewidth}
+		\begin{itemize}
+		\item Example Itemization
+			\begin{itemize}
+			\item%
+				Lvl-2
+				\begin{itemize}
+				\item%
+					Lvl-3
+				\end{itemize}
+			\end{itemize}
+		\end{itemize}
+	\end{minipage}
+	%
+	\hfill
+	%
+	\begin{minipage}[t]{0.48\linewidth}
+		\begin{enumerate}
+		\item Example Enumeration
+			\begin{enumerate}
+			\item%
+				Lvl-2
+				\begin{enumerate}
+				\item%
+					Lvl-3
+				\end{enumerate}
+			\end{enumerate}
+		\end{enumerate}
+	\end{minipage}
+	
+	\begin{description}
+	\item[Example Description List]%
+		Just some random Text without any sense, but with sufficient length to cause a line-break, so that the indentation is properly showing influence.
+	\item[2nd Item] Some Text, just barely long enough, to cause a linebreak, to see in the indentation.
+	\end{description}
+\end{frame}
+
+
+
+
+\subsection{Math}
+
+\providecommand{\showcaseMathString}{}%
+\begin{frame}[c]
+\frametitle{Math Cmds \& Font}
+	\only<1>{
+	\newcommand{\I}{\mathrm{i}}
+	$y = \int_0^x\cos(x)\,\mathrm{d}{x} = \frac{e^{\I x} - e^{-\I x}}{2\I} | 0123456789 \geq i \leqslant l$
+	\nl
+	\begin{equation}
+	\oint \iint \sum_{k=0}^{m} \alpha \beta \gamma \delta \epsilon + \max \left\{ \frac{\| v\oplus w\bigoplus z \Vert}{x^{\mathbf{N} \varepsilon \symbb{C}^{N\times 10}}} \right\}
+	\end{equation}\nl
+	QED Variants: $\Box \square \blacksquare ∎ \qedsym \char"220E$
+	\npi
+	\renewcommand{\showcaseMathString}{eix \Rightarrow 0123 \geq}%
+	\begin{tabular}{lll}%
+		plain&\texttt{\lstTEXargumentBO{$ $}}&$\showcaseMathString$\\
+		Upright&\texttt{\lstTEXmacro{mathrm}\{\}}&$\mathrm{\showcaseMathString}$\\ % Or \mathup{}
+		Italic&\texttt{\lstTEXmacro{mathit}\{\}}&$\mathit{\showcaseMathString}$\\
+		Bold&\texttt{\lstTEXmacro{mathbf}\{\}}&$\mathbf{\showcaseMathString}$\\
+		Sans-Serif&\texttt{\lstTEXmacro{mathsf}\{\}}&$\mathsf{\showcaseMathString}$\\
+		Monospaced-Teletype&\texttt{\lstTEXmacro{mathtt}\{\}}&$\mathtt{\showcaseMathString}$\\
+	\end{tabular}
+	}
+
+	\only<2>{
+	\renewcommand{\showcaseMathString}{CDEIJUV 012}%
+	\begin{tabular}{lll}%
+		\multicolumn{3}{l}{$\symbb{ABCDEFGHIJKLMNOPQRSTUVWXYZ 0123456789}$}\\
+		\multicolumn{3}{l}{$\symbbit{ABCDEFGHIJKLMNOPQRSTUVWXYZ 0123456789}$}\\
+		&&\\
+		% Caligrahpic, Script, Fraktal
+		$\symcal{\showcaseMathString}$&$\symscr{\showcaseMathString}$&$\symfrak{\showcaseMathString}$\\
+		$\symbfcal{\showcaseMathString}$&$\symbfscr{\showcaseMathString}$&$\symbffrak{\showcaseMathString}$\\
+		&&\\
+		$\symsfup{\showcaseMathString}$&$\symsfit{\showcaseMathString}$&\\
+		$\symbfup{\showcaseMathString}$&$\symbfit{\showcaseMathString}$&\\
+		$\symbfsfup{\showcaseMathString}$&$\symbfsfit{\showcaseMathString}$&$\symbfsf{\showcaseMathString}$\\
+	\end{tabular}
+	}
+\end{frame}
+
+
+
+\subsection{Referencing inside Document}
+
+\begin{frame}[b]
+% \frametitle{Document-within Referencing}
+	Document-within References to check whether hyperref \& nameref work properly:\nl%
+	\ref{part:examples} (\nameref{part:examples}). \ref{sec:exampleCode}  (\nameref{sec:exampleCode}). \ref{sec:exampleCode2} (\nameref{sec:exampleCode2})
+\end{frame}
+
+
+\subsection{Text with Contour}
+
+\begin{frame}
+\frametitle{}
 	{%
-		\contourlength{0.2em}%
+		\LARGE%
+		\contourlength{\DenKrOutlineWidth}% The Default-Value here
 		\contour{violet}{\textcolor{orange}{Text with Outline/Contour}}\nl%
+		{%
+			\contourlength{0.2em}%
+			\contour{violet}{\textcolor{orange}{Text with Outline/Contour}}\nl%
+			\contour{violet}{\textcolor{orange}{Text with Outline/Contour}}\nl%
+		}%
 		\contour{violet}{\textcolor{orange}{Text with Outline/Contour}}\nl%
 	}%
-	\contour{violet}{\textcolor{orange}{Text with Outline/Contour}}\nl%
-}%
 
-\par\vspace{1.0\baselineskip}
-\noindent Expanding outwards, featuring \textbf{linebreak}\nl%
-{%
-	\Large%
-	\DenKrContour[0.06em]{violet}{orange}{A Macro of mine, to retain Text breakable with the outwards growing approach, as you can see here happening.}\par%
-}%
-\par
+	\par\vspace{1.0\baselineskip}
+	\noindent Expanding outwards, featuring \textbf{linebreak}\nl%
+	{%
+		\Large%
+		\DenKrContour[0.06em]{violet}{orange}{A Macro of mine, to retain Text breakable with the outwards growing approach, as you can see here happening.}\par%
+	}%
+\end{frame}
 
 
 
-\nl%
-%
-\begin{figure}[!htpb]
-	\centering
-	\includestandalone[mode=\includestandalonedefaultmode]{\tikzFilesPath/tikztest}% width=\columnwidth
-	\caption{Tikz-Picture Caption. Some Example Standalone-Tikz-Pic. Examples for Standalone-TikZ Picture Files can be found in \enquote{0organization/1main/8templates/tikz/7Tikz}.}
-	\label{fig:tikz_test}
-\end{figure}
-%
-%
-% \tikzabb%[tex]%
-% {tikztest}%
-% [\DenKrLayoutMainRootDir/8templates/tikz/7Tikz]% Alternative Path to the std "./7Tikz"
-% {%
-% Tikz-Picture Caption. Some Example Standalone-Tikz-Pic
-% }%
-% {1}[1,1,!ht]%[0.55,1,!ht]%
-% {fig:tikz_test2}%
-%
-%
-\begin{figure}%[!ht]
-\centering
-	\includegraphics[width=0.3\linewidth]{{"\DenKrGraphicsRootDir/example_AGV"}.pdf}%
-	\caption{Some another Pic}%
-	\label{fig:Pic}
-\end{figure}
+\section[Exmpl Code 2]{Example Code 2}
+\label{sec:exampleCode2}
 
+\begin{frame}
+\frametitle{Images}
+	\begin{minipage}[t]{0.48\linewidth}
+		% \includestandalone[mode=buildnew, width=\linewidth]{\tikzFilesPath/tikztest}% width=\columnwidth
+	\end{minipage}
+	%
+	\hfill
+	%
+	\begin{minipage}[t]{0.48\linewidth}
+		\includegraphics[width=\linewidth]{{"\DenKrGraphicsRootDir/example_AGV"}.pdf}%
+	\end{minipage}
+	%
+	%
+	% \tikzabb%[tex]%
+	% {tikztest}%
+	% [\DenKrLayoutMainRootDir/8templates/tikz/7Tikz]% Alternative Path to the std "./7Tikz"
+	% {%
+	% Tikz-Picture Caption. Some Example Standalone-Tikz-Pic
+	% }%
+	% {1}[1,1,!ht]%[0.55,1,!ht]%
+	% {fig:tikz_test2}%
+	%
+	%
+\end{frame}
 
 
 
 
-\npi
-Listing in separate File:
-\DenKrLstInput[
-	language=DenKr-C,
-	morekeywords={[4]{%Typedefed, Names of Struct, Enum, ...
-		some_struct
-	}},
-	morekeywords={[5]{%Collection-Members, Struct-Instances
-		tim,
-		entry,
-		member,
-		iterator
-	}},
-	morekeywords={[6]{%Variables
-		current
-	}},
-]{\DenKrListingsRootDir/example_lst_C.c}
-[Example-Listing (for Programming-Language \textit{C})]
-[lst:exmplLabel]
-%
-%
-\lstinputlisting[
-	frame=single,
-	label=lst:cfgCalc,
-	caption={Example-Code-Listing (for Pseudo-Code)},
-	captionpos=b,
-	language=DenKr-JavaScript
-]
-{\DenKrListingsRootDir/example_lst.pseudo}
 
-\npi
-Listing in Environment, directly in Code:
-\begin{DenKrLst}[language=DenKr-C]
-if(1){
-	strlen("Str");
+\subsection{Listings}
+
+\defverbatim[colored]\mycode{%
+	\DenKrLstInput[
+		language=DenKr-C,
+		morekeywords={[4]{%Typedefed, Names of Struct, Enum, ...
+			some_struct
+		}},
+		morekeywords={[5]{%Collection-Members, Struct-Instances
+			tim,
+			entry,
+			member,
+			iterator
+		}},
+		morekeywords={[6]{%Variables
+			current
+		}},
+	]{\DenKrListingsRootDir/example_lst_C.c}
+	[Example-Listing (for Programming-Language \textit{C})]
+	[lst:exmplLabel]
 }
-\end{DenKrLst}
 
-\npi
-An Inline-Listing:
-\lstinline[language=DenKr-C,breaklines=true,morekeywords={[4]{msghandle}}]$struct msghandle$
+\begin{frame}
+\frametitle{}
+	Listing in separate File:
+	\mycode
+\end{frame}
 
 
 
-%
-\input{"\DenKrTablesRootDir/example_table".tex}%
-%
+% \begin{frame}
+% \frametitle{}
+% 	\lstinputlisting[
+% 		frame=single,
+% 		label=lst:cfgCalc,
+% 		caption={Example-Code-Listing (for Pseudo-Code)},
+% 		captionpos=b,
+% 		language=DenKr-JavaScript
+% 	]
+% 	{\DenKrListingsRootDir/example_lst.pseudo}
+% \end{frame}
+
+
+
+% \begin{frame}
+% \frametitle{}
+% 	Listing in Environment, directly in Code:
+% 	\begin{DenKrLst}[language=DenKr-C]
+% 	if(1){
+% 		strlen("Str");
+% 	}
+% 	\end{DenKrLst}
+
+% 	\npi
+% 	An Inline-Listing:
+% 	\lstinline[language=DenKr-C,breaklines=true,morekeywords={[4]{msghandle}}]$struct msghandle$
+% \end{frame}
+
+
+
+\subsection{Table}
+
+% \begin{frame}
+% 	\input{"\DenKrTablesRootDir/example_table".tex}%
+% \end{frame}

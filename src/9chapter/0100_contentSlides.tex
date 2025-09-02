@@ -7,7 +7,7 @@ This is the sample File for \enquote*{Slides / aka Presentation} Documents (i.e.
 \end{frame}
 
 
-% \input{"\DenKrLayoutMainRootDir/8templates/example_chapter/3110_exampleSubject".tex}%
+\input{"\DenKrLayoutMainRootDir/8templates/example_chapter/3100_exampleSlides".tex}%
 
 
 %______________________________________________________________
@@ -26,203 +26,28 @@ This is the sample File for \enquote*{Slides / aka Presentation} Documents (i.e.
 
 \begin{frame}
 \frametitle{Introduction}
-Text
+	Text
 \end{frame}
-
-
-
-
-
-
-
-\part{Examples}
-
-\section*{Table-Of-Contents}%
-\begin{frame}[plain,allowframebreaks]%
-\frametitle{Outline -- Examples}% ToC
-\tableofcontents%
-\end{frame}%
-
-\section{Example Code}
-
-\subsection{Arbitrary}
-
-\begin{frame}
-	\frametitle{Some Example Frame}
-	Example-Citation:
-	\cite{DenKr_denkrement1_indeco}
-	% \nl%
-	% A custom citation command that puts information about the reference to the footnote on first occurrence:
-	% \citeff{DenKr_MigArb,DenKr_denkrement1_indeco}%
-
-	\npi%
-	Some special characters:
-	»«.
-	\nl%
-	\gerguiquote{Done with Macro}\nl
-	\enquote{Ordinary Quotation}\ \ \enquote*{Single Quotation}
-	\nl%
-	Example Acronym, Glossary-Entry \& Symbol:\nl
-	\gls{fsa}, \glsunset{api}\gls{api}\nl
-	\gls{molmass}, \gls{sigma}\nl
-	\gls{eventfd}
-\end{frame}
-
 
 
 \begin{frame}
-	\frametitle{Lists}
-	\begin{minipage}[t]{0.48\linewidth}
-		\begin{itemize}
-		\item Example Itemization
-			\begin{itemize}
-			\item%
-				Lvl-2
-				\begin{itemize}
-				\item%
-					Lvl-3
-				\end{itemize}
-			\end{itemize}
-		\end{itemize}
-	\end{minipage}
-	%
-	\hfill
-	%
-	\begin{minipage}[t]{0.48\linewidth}
-		\begin{enumerate}
-		\item Example Enumeration
-			\begin{enumerate}
-			\item%
-				Lvl-2
-				\begin{enumerate}
-				\item%
-					Lvl-3
-				\end{enumerate}
-			\end{enumerate}
-		\end{enumerate}
-	\end{minipage}
-	
-	\begin{description}
-	\item[Example Description List]%
-		Just some random Text without any sense, but with sufficient length to cause a line-break, so that the indentation is properly showing influence.
-	\item[2nd Item] Some Text, just barely long enough, to cause a linebreak, to see in the indentation.
-	\end{description}
+\frametitle{Long Title Long Title Long Title Long Title Long Title Long Title Long Title Long Title Long Title Long Title}
+\framesubtitle{Long Subtitle Long Subtitle Long Subtitle Long Subtitle Long Subtitle Long Subtitle Long Subtitle Long Subtitle Long Subtitle Long Subtitle Long Subtitle Long Subtitle Long Subtitle Long Subtitle Long Subtitle Long Subtitle}
+	Text
+	\footnote[frame]{Some footnote}
 \end{frame}
 
 
 
 
-\subsection{Math}
-
-\providecommand{\showcaseMathString}{}%
-\begin{frame}
-	\frametitle{Math Cmds \& Font}
-	\only<1>{
-	\newcommand{\I}{\mathrm{i}}
-	$y = \int_0^x\cos(x)\,\mathrm{d}{x} = \frac{e^{\I x} - e^{-\I x}}{2\I} | 0123456789 \geq i \leqslant l$
-	\nl
-	\begin{equation}
-	\oint \iint \sum_{k=0}^{m} \alpha \beta \gamma \delta \epsilon + \max \left\{ \frac{\| v\oplus w\bigoplus z \Vert}{x^{\mathbf{N} \varepsilon \symbb{C}^{N\times 10}}} \right\}
-	\end{equation}\nl
-	QED Variants: $\Box \square \blacksquare ∎ \qedsym \char"220E$
-	\npi
-	\renewcommand{\showcaseMathString}{eix \Rightarrow 0123 \geq}%
-	\begin{tabular}{lll}%
-		plain&\texttt{\lstTEXargumentBO{$ $}}&$\showcaseMathString$\\
-		Upright&\texttt{\lstTEXmacro{mathrm}\{\}}&$\mathrm{\showcaseMathString}$\\ % Or \mathup{}
-		Italic&\texttt{\lstTEXmacro{mathit}\{\}}&$\mathit{\showcaseMathString}$\\
-		Bold&\texttt{\lstTEXmacro{mathbf}\{\}}&$\mathbf{\showcaseMathString}$\\
-		Sans-Serif&\texttt{\lstTEXmacro{mathsf}\{\}}&$\mathsf{\showcaseMathString}$\\
-		Monospaced-Teletype&\texttt{\lstTEXmacro{mathtt}\{\}}&$\mathtt{\showcaseMathString}$\\
-	\end{tabular}
-	}
-
-	\only<2>{
-	\renewcommand{\showcaseMathString}{CDEIJUV 012}%
-	\begin{tabular}{lll}%
-		\multicolumn{3}{l}{$\symbb{ABCDEFGHIJKLMNOPQRSTUVWXYZ 0123456789}$}\\
-		\multicolumn{3}{l}{$\symbbit{ABCDEFGHIJKLMNOPQRSTUVWXYZ 0123456789}$}\\
-		&&\\
-		% Caligrahpic, Script, Fraktal
-		$\symcal{\showcaseMathString}$&$\symscr{\showcaseMathString}$&$\symfrak{\showcaseMathString}$\\
-		$\symbfcal{\showcaseMathString}$&$\symbfscr{\showcaseMathString}$&$\symbffrak{\showcaseMathString}$\\
-		&&\\
-		$\symsfup{\showcaseMathString}$&$\symsfit{\showcaseMathString}$&\\
-		$\symbfup{\showcaseMathString}$&$\symbfit{\showcaseMathString}$&\\
-		$\symbfsfup{\showcaseMathString}$&$\symbfsfit{\showcaseMathString}$&$\symbfsf{\showcaseMathString}$\\
-	\end{tabular}
-	}
-\end{frame}
 
 
-% \begin{frame}
-% 	\frametitle{This is the second slide}
-% 	\framesubtitle{A bit more information about this}
-% 	More content goes here
-% \end{frame}
-
-
-% \begin{frame}{}
-% 	\frametitle{Einführung}
-% 	Entwickelt wurde das sogenannte >>Abstract Interface (AI)<<
-% 	\begin{itemize}%
-% 	  \item Aufgaben
-% 		\begin{itemize}%
-% 		  \item Verwaltung der physikalischen Netzwerkschnittstellen
-% 		  \item >>Seamless Handover<< (dt: Bruchloser/Unterbrechungsfreier
-% 		  Funkkanal-Wechsel)
-% 		  \item Verbindungs-Optimierung
-% 		\end{itemize}
-% 	  \item Eigenschaften
-% 		\begin{itemize}%
-% 		  \item C-Programm
-% 			\begin{itemize}%
-% 			  \item Name: AbsInt
-% 			\end{itemize}
-% 		  \item Linux
-% 		\end{itemize}
-% 	\end{itemize}
-% \end{frame}
-
-
-
-% \begin{frame}{}
-% 	\frametitle{Aufbau des Vortrags}
-% 	\begin{itemize}%
-% 	  \item Einleitung
-% 		\begin{itemize}%
-% 		  \item Eingrenzung von Thema und Ziel
-% 		  \item Schwerpunkt der Arbeit
-% 		  \item Stand der Technik
-% 		\end{itemize}
-% 	  \item Theorie
-% 		\begin{itemize}%
-% 		  \item Software-Defined Switching
-% 		\end{itemize}
-% 	  \item Abstract Interface
-% 		\begin{itemize}%
-% 		  \item Unterbrechungsfreier WLAN-Kanal-Wechsel
-% 		  \item WLAN-Monitor
-% 		\end{itemize}
-% 	  \item Evaluierung
-% 		\begin{itemize}%
-% 		  \item Testreihen
-% 		  \item Fazit
-% 		\end{itemize}
-% 	\end{itemize}
-% \end{frame}
 
 
 
 \begin{frame}
 \frametitle{Problem Statement \& Goal}
-	Distributed System
-	Communicating Applications
-	-> Deployment and Management of Apps
-	-> Efficient Communication
-
-	So I introduced a couple new features
-	-> Also kept the entire system working as efficient as possible
+	
 \end{frame}
 
 
@@ -269,8 +94,13 @@ Text
 %////////////////////////////////////////////////////////////////////´´´´´´
 %''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
-\section{Summary, Conclusion, Future Work}
+\section[Conclusion]{Summary, Conclusion, Future Work}
 \label{sec:Concl}
+
+\begin{frame}
+\frametitle{Conclusion}
+	
+\end{frame}
 
 
 
