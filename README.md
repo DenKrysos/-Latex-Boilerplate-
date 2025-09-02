@@ -42,9 +42,9 @@ The existence of the *Document-Genre* (aka Document-Type) ("influencing the Stru
 
 
 ## Compilation
-* This here is meant to be compiled with '*LuaLaTeX*'
-   - The Layouts of 'dedicated'-DocGenre can also be compiled with 'pdfLaTeX'
-   - While most of 'dedicated' work well with 'Lua', '*IEEEtran*' is better compiled using 'pdfLaTeX'
+* This here is meant to be compiled with '**LuaLaTeX**'
+  - The Layouts of 'dedicated'-DocGenre can also be compiled with 'pdfLaTeX'
+  - While most of 'dedicated' work well with 'Lua', '**IEEEtran**' is better compiled using 'pdfLaTeX'
 * Remember to add "--shell-escape" to your compiler's arguments in order to make all that Standalone & TikZ stuff working
 * Examplary proper compiler argument setup
   * TeX Live / VS-Code + LaTeX Workshop, Utilities / Texlipse
@@ -53,14 +53,38 @@ The existence of the *Document-Genre* (aka Document-Type) ("influencing the Stru
     * $lualatex = 'lualatex %O %S --synctex=1 --interaction=nonstopmode --shell-escape';
 
 
-# More INFO
+### More INFO
 * Inside the directory "./.vscode/" are some Files located, giving more information on how to set up your toolbox well.
 
 
-# HowTo
+## Project's Storage Size (-> Font Files)
+You may be wondering (rightfully so) why the Boilerplate takes up so comparably much storage space, while it is mainly nothing but plain text.
+* This is because I included some Font files directly into the project. This are for CJK (Chinese, Japanese, Korean; mainly Japanese) characters.
+* I did this, because this is not as easy to set up and these fonts aren't that easily found and combined to a full set of typographic features. This way, the fonts are always ready for use with the project.
+* ==> *If you do not intend to use such characters however, you can safely **delete** these **Font files** in your project copy.*
+  - Located in: "./0organization/1all/1main/4aids/fonts/JP/"
+
+
+## HowTo
 * There is another file "./9chapter/0segmentation/9001_HowTo.tex", which verbosely explains how to set up a project, compile and use the Boilerplate
-   - It is however in German and heavily typeset with LaTeX Code.
-   - So, it might be difficult to read the source-code and you first must compile it, to read it nicely...
+  - It is however in German and heavily typeset with LaTeX Code.
+  - So, it might be difficult to read the source-code and you first must compile it, to read it nicely...
+
+
+
+# Fonts
+I am using as primary Fonts for the Textbody, "Linux Libertine & Biolinum".
+* These cannot be assumed just available. They are not included in operating systems, nor are they shipped with Tex distributions.
+* They are however, free and easy to acquire. They come both in one package (Libertine is a Serif-font, Biolinum a Sans-serif).
+* Download at:
+  * https://www.linuxlibertine.org/ or
+  * https://sourceforge.net/projects/linuxlibertine/
+* And simply install to your compiling system (as you would with any ordinary Font).
+* (I recommend these Fonts anyway. Very aesthetic, many features, a highly expanded character set; just great Fonts.)
+
+---
+
+* Other Fonts, I am utilizing (like differing for Math mode) should be simply made available by any Tex installation.
 
 
 
@@ -106,9 +130,9 @@ The existence of the *Document-Genre* (aka Document-Type) ("influencing the Stru
 
 Several Files with Templates are contained.
 - Most inside "0organization/1all/1main/8templates/"
-   - Just some help for kicking off several LaTeX things.
+  - Just some help for kicking off several LaTeX things.
 - Some others -- per Document-Genre -- inside the respective Directory "./0rganization/[DocGenre]/1main/8templates/example_chapter/"
-   - Chapter/Section Examples with showing how various things can be done.
+  - Chapter/Section Examples with showing how various things can be done.
 
 1. One for a Article/Paper
    * Syntax e.g. for inputting Standalone-TikZ Pictures
