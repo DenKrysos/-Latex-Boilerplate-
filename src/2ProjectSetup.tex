@@ -205,30 +205,33 @@
 		#4%
 	\fi%
 }%
-\setDocGenreIf{elaborate}{scrbook}{%
-\setDocGenreIf{elaborate}{scrbook_print}{%
-\setDocGenreIf{elaborate}{scrartcl}{%
-% Dedicated Purpose Stuff (e.g. scientific Paper)
-\setDocGenreIf{dedicated_poster}{preprint}{%
-\setDocGenreIf{dedicated_poster}{postprint}{%
-\setDocGenreIf{dedicated_poster}{IEEEtran}{%
-\setDocGenreIf{dedicated_poster}{article}{%
-\setDocGenreIf{dedicated_poster}{article_mobilkomm}{%
-\setDocGenreIf{dedicated_poster}{ieeeconf}{%
-\setDocGenreIf{dedicated_poster}{acmart}{%
-\setDocGenreIf{dedicated_poster}{MDPI}{%
-% Slides / Presentation
-\setDocGenreIf{slides}{beamer}{%
-\setDocGenreIf{slides}{powerdot}{%
-% Poster
-\setDocGenreIf{dedicated_poster}{tikzposter}{%
-\setDocGenreIf{dedicated_poster}{fancytikzposter}{%
-\setDocGenreIf{dedicated_poster}{beamerposter}{%
-\setDocGenreIf{dedicated_poster}{betterposter}{%
-%
-\setDocGenreIf{internal}{tikz_standalone}{%
-\setDocGenreIf{internal}{standalone_constituent}{%
-}}}}}}}}}}}}}}}}}}}%
+\DeclareDocumentCommand{\setDocGenre}{}{%
+	\setDocGenreIf{elaborate}{scrbook}{%
+	\setDocGenreIf{elaborate}{scrbook_print}{%
+	\setDocGenreIf{elaborate}{scrartcl}{%
+	% Dedicated Purpose Stuff (e.g. scientific Paper)
+	\setDocGenreIf{dedicated_poster}{preprint}{%
+	\setDocGenreIf{dedicated_poster}{postprint}{%
+	\setDocGenreIf{dedicated_poster}{IEEEtran}{%
+	\setDocGenreIf{dedicated_poster}{article}{%
+	\setDocGenreIf{dedicated_poster}{article_mobilkomm}{%
+	\setDocGenreIf{dedicated_poster}{ieeeconf}{%
+	\setDocGenreIf{dedicated_poster}{acmart}{%
+	\setDocGenreIf{dedicated_poster}{MDPI}{%
+	% Slides / Presentation
+	\setDocGenreIf{slides}{beamer}{%
+	\setDocGenreIf{slides}{powerdot}{%
+	% Poster
+	\setDocGenreIf{dedicated_poster}{tikzposter}{%
+	\setDocGenreIf{dedicated_poster}{fancytikzposter}{%
+	\setDocGenreIf{dedicated_poster}{beamerposter}{%
+	\setDocGenreIf{dedicated_poster}{betterposter}{%
+	%
+	\setDocGenreIf{internal}{tikz_standalone}{%
+	\setDocGenreIf{internal}{standalone_constituent}{%
+	}}}}}}}}}}}}}}}}}}}%
+}%
+\setDocGenre%
 %
 %
 %

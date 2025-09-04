@@ -15,10 +15,10 @@
 % \usepackage{amsfonts}%
 %  %  %\usepackage[T1,small,euler-digits]{eulervm}% Deprecated, the below one is newer
 % \usepackage{euler-math}%
-\usepackage[warnings-off={mathtools-colon,mathtools-overbracket}]{unicode-math}%
 %
 % - Load Font-handling Package
 \usepackage{fontspec}%
+\usepackage[warnings-off={mathtools-colon,mathtools-overbracket},math-style=ISO,bold-style=ISO]{unicode-math}%
 \newcommand{\DenKrFontEngine}{fontspec}%
 % - - - - Fonts - - - 
 %  --  --  The lower, the better I like them
@@ -74,31 +74,45 @@
 %      https://tex.stackexchange.com/questions/425098/which-opentype-math-fonts-are-available
 % - - - - - - - - - - - - -
 % My Setup:
+%   - Set proper Bold availability
+% \setmathfont[range={\Rightarrow,\rightarrow,\Leftarrow,\leftarrow,\Uparrow,\uparrow,\Downarrow,\downarrow,\longleftarrow,\Longleftarrow,\longrightarrow,\Longrightarrow,\leftrightarrow,\Leftrightarrow,\longleftrightarrow,\Longleftrightarrow,\updownarrow,\Updownarrow,\nearrow,\searrow,\swarrow,\nwarrow,\leftleftarrows,\rightrightarrows,\upuparrows,\downdownarrows,\leftrightarrows,\rightleftarrows}]{XITS Math}%
+\setmathfont[version=bold,script=math]{XITS Math Bold}%
+%   - Actual Font Setting
+\setmathfont{latinmodern-math.otf}[BoldFont={XITSMath-Bold}]%
 % \setmathfont{TeX Gyre DejaVu Math}%
 % \setmathfont{TeX Gyre Termes Math}%
 % \setmathfont{GFS Neohellenic Math}%
 % \setmathfont{XITS Math}%
-\setmathfont{STIX Two Math}%
+\setmathfont{STIX Two Math}[BoldFont={XITSMath-Bold}]%
+%[%
+% 	BoldFont={STIXTwoText-Bold},%
+% 	SemiBoldFont={STIXTwoText-SemiBold},%
+% 	ItalicFont={STIXTwoText-Italic},%
+% 	MediumItalicFont={STIXTwoText-MediumItalic},%
+% 	SlantedFont={STIXTwoText-MediumItalic},%
+% 	BoldItalicFont={STIXTwoText-BoldItalic},%
+% ]%
 % \setmathfont{Asana Math}%
-\setmathfont{Euler Math}%
+\setmathfont{Euler-Math.otf}[BoldFont={XITSMath-Bold}]%
 %   - Change Integral-Signs
 % \setmathfont[range={"222B-"2233,"2A0B-"2A1C},StylisticSet=1]{XITS Math}%
-\setmathfont[range={"222B-"2233,"2A0B-"2A1C},StylisticSet=8]{STIX Two Math}%
+\setmathfont[range={"222B-"2233,"2A0B-"2A1C},StylisticSet=8,BoldFont={XITSMath-Bold}]{STIX Two Math}%
 %   - Change Numbers
 % \setmathfont[range={"0030-"0039,"00B2,"00B3,"00B9,"00BC-"00BE,"FF10-"FF19,"2070,"2074-"2079,"2080-"2089},Numbers={Lining, Proportional},Scale=MatchUppercase]{Asana Math}%
 % \setmathfont[range=up/Digits, Numbers={Lining, Proportional}, Scale=MatchUppercase]{Asana Math}%
-\setmathfont[range={up/{num},bb/{num},tt/{num},sfup/{num},bfup/{num},bfsfup/{num}}]{Euler Math}%
+\setmathfont[range={up/{num},bb/{num},tt/{num},sfup/{num},bfup/{num},bfsfup/{num}},BoldFont={XITSMath-Bold}]{Euler Math}%
 %   - Change Literal Symbol Sets
 %  %  %\setmathfont[Scale=MatchLowercase]{Asana Math}%
-\setmathfont[range={bb,bbit},Scale=MatchUppercase]{STIX Two Math}%
-\setmathfont[range={cal,bfcal},Alternate,Scale=MatchUppercase]{Asana Math}%
-\setmathfont[range={scr,bfscr},Scale=MatchUppercase]{Asana Math}%
-\setmathfont[range={frak},Scale=MatchUppercase]{Asana Math}%
-\setmathfont[range={bffrak},Scale=MatchUppercase]{STIX Two Math}%
+\setmathfont[range={bb,bbit},Scale=MatchUppercase,BoldFont={XITSMath-Bold}]{STIX Two Math}%
+\setmathfont[range={cal,bfcal},Alternate,Scale=MatchUppercase,BoldFont={XITSMath-Bold}]{Asana Math}%
+\setmathfont[range={scr,bfscr},Scale=MatchUppercase,BoldFont={XITSMath-Bold}]{Asana Math}%
+\setmathfont[range={frak},Scale=MatchUppercase,BoldFont={XITSMath-Bold}]{Asana Math}%
+\setmathfont[range={bffrak},Scale=MatchUppercase,BoldFont={XITSMath-Bold}]{STIX Two Math}%
 % - - - - - - - - - - - - -
 %  (Math Alternatives)
 % - - - - - - - - - - - - -
 % \setmathfont{TeX Gyre DejaVu Math}% an extension of the DejaVu Serif font, which is based on Arev, which is based on Bitstream Vera, which is based on Bitstream Prima. It is significantly different from the other TeX Gyre fonts, as they were conversions of legacy fonts to Unicode, and this turns an existing, comprehensive Unicode font by someone else into a math font. The DejaVu project was started by Štěpán Roh of the Czech Republic.
+% \setmathfont{Euler Math}% From package "Euler-Math.sty", call alternatively with \setmathfont{Euler-Math.otf}. Repo: https://ctan.org/tex-archive/fonts/euler-math
 % \setmathfont{Libertinus Math}% Fork of Linux Libertine. Uses more or less the standard Libertine Font. (Which is very nice, but as *I* use this already as normal-Text-Font, I want something different as Math-Font.)
 % \setmathfont{Noto Sans Math}% This font is available from the Noto Math fonts GitHub page. Starting from version 3.000, it fully implements OpenType math features and privides an all-sans math font.
 % \setmathfont{TeX Gyre Termes Math}% Clone of Times
@@ -108,7 +122,7 @@
 % \setmathfont{Latin Modern Math}% The default of 'unicode-math.sty'
 % \setmathfont{XITS Math}% A Fork of STIX
 % \setmathfont{Asana Math}% Close match to Palatino
-% \setmathfont{STIX Two Math}% Successor to STIX
+% \setmathfont{STIX Two Math}% Successor to STIX. Repo: https://github.com/stipub/stixfonts
 % \setmathfont{GFS Neohellenic Math}% This font has only minor slab serifs, making it a good choice for presentations. It is based on the public-domain font New Hellenic, inspired by a Greek font from Renaissance Venice.
 % \setmathfont{Garamond Math}% Based on EB Garamond
 % \setmathfont{FiraMath-Regular}% This font is based on the Fira Go sans-serif font.
@@ -117,12 +131,12 @@
 %--------------------------
 % Finalizing Math-Font Setting
 %--------------------------
-% Lesser and Greater Equal are by default slanted with Euler-Font. Overwrite back to a straight variant (enabled by "1all/[...]/language_font_setting/1common/font.tex")
-%  - This does it withOUT unicode-math.sty
+% - Lesser and Greater Equal are by default slanted with Euler-Font. Overwrite back to a straight variant (enabled by "1all/[...]/language_font_setting/1common/font.tex")
+%    -> This does it withOUT unicode-math.sty
 \let\leq\leqstraight%
 \let\geq\geqstraight%
-%  - This does it WITH unicode-math.sty
-\setmathfont[range={"2264,"2265}]{Libertinus Math}%
+%    -> This does it WITH unicode-math.sty
+\setmathfont[range={"2264,"2265},BoldFont={XITSMath-Bold}]{Libertinus Math}%
 %
 %
 %=================================

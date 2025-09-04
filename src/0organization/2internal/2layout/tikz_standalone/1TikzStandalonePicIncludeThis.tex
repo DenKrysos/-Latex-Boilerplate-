@@ -4,46 +4,49 @@
 % To create a Standalone Tikz-Picture do the following.
 % 1) Create a new blank .tex File.
 % 2) Paste the Following to the Beginning of the File
-%      % Author: Dennis Krummacker%
-%      \ifdefined\DenKr\documentclass[tikz,fontsize=11pt,class=scrbook]{standalone}\begin{document}\else%
-%      \input{"./2ProjectSetup".tex}%
-%      \input{"\DenKrAllMainRootDirPATH/2includes/packages/preamble_pre".tex}%
-%      \documentclass[tikz,fontsize=11pt,class=scrbook]{standalone}% I.e. the content from \input{"\DenKrLayoutMainRootDir/2layout/tikz_standalone/preamble_1_class".tex}%
-%      \input{"\DenKrInternalLayoutRootDir/tikz_standalone/1TikzStandalonePicIncludeThis".tex}%
-%      \DenKrTikzStandalonePre\fi%
+%		% Author: Dennis Krummacker%
+%		\ifdefined\DenKr\documentclass[tikz,fontsize=11pt,class=scrbook]{standalone}\begin{document}\else%
+%		\input{"./2ProjectSetup".tex}%
+%		\input{"\DenKrAllMainRootDirPATH/2includes/packages/preamble_pre".tex}%
+%		\documentclass[tikz,fontsize=11pt,class=scrbook]{standalone}% I.e. the content from \input{"\DenKrLayoutMainRootDir/2layout/tikz_standalone/preamble_1_class".tex}%
+%		\input{"\DenKrInternalLayoutRootDir/tikz_standalone/1TikzStandalonePicIncludeThis".tex}%
+%		\DenKrTikzStandalonePre\fi%
 % 3) If desired/required, perform "Pre-Tikzpicture-Operations". At this Position, you are inside \begin{Document} [] \end{Document}, but not inside a Tikz-Picture.
-%    Here, first, You may write things like tikzsets, length-definitions and such.
+%	Here, first, You may write things like tikzsets, length-definitions and such.
 % 4) Fill in your Picture. Start a Tikzpicture like
-%       \begin{tikzpicture}[
-%           scale = 1.0,%Könnte das Makro \tikzpicturescale sein. Siehe in makros.tex
-%           % (Sollte eigentlich übergeben werden)(Beachte Möglichkeiten der Übergabe;
-%           % standalone mode=tex vs mode=buildnew)
-%           auto,
-%           node distance=\nodedistance
-%       ]
-%    <Do the Picture-Stuff>
-%    <End the Picture like>
-%       \end{tikzpicture}%
+%		\begin{tikzpicture}[
+%			scale = 1.0,% Could be the Macro \tikzpicturescale. See in makros.tex
+%			% (Is supposed to be handed over)(Be mindful of the possibilities for handing over;
+%			% standalone mode=tex vs mode=buildnew)
+%			auto,
+%			node distance=\nodedistance
+%		]
+%	<Do the Picture-Stuff>
+%	<End the Picture like>
+%		\end{tikzpicture}%
 % 5) Paste the Following to the End of the File
-%      \ifdefined\DenKr\end{document}\else\DenKrTikzStandalonePost\fi%
+%		\ifdefined\DenKr\end{document}\else\DenKrTikzStandalonePost\fi%
 %
 % To then use this picture, i.e. print it in the actual document, use the \tikzabb Command from the makros.tex.
 % Example
-%    \tikzabb%[tex]%
-%    {TikzPictureFileNameWithoutDotTex}%
-%    {%
-%    Tikz-Picture Caption.%
-%    }%
-%    {1}[1,1,!ht]%[0.55,1,!ht]%
-%    {fig:tikz_test}%
+%	\tikzabb%[tex]%
+%	{TikzPictureFileNameWithoutDotTex}%
+%	{%
+%	Tikz-Picture Caption.%
+%	}%
+%	{1}[1,1,!ht]%[0.55,1,!ht]%
+%	{fig:tikz_test}%
 %----------------------------------------------------------------------------------
 %
 %
 \newcommand{\DenKrTikzStandalonePre}{%
-% Changing \DenKrLayout is not required anymore
-%		\renewcommand{\DenKrLayout}{tikz_standalone}%
-% Actually not advisable to change the DocGenre. Just continue with the "Parent-Genre".
-%		\edef\DenKrDocGenreParent{\DenKrDocGenre}%
+% Changing \DenKrLayout & \DenKrDocGenre (this is not required for all but some)
+%    Setting this to a fixed value may cause some settings to not be in line with the rest of the document if this' Layout-&-Genre are different to what is used here, but at least I can assure that it renders in the first place. And anyway, we are talking images here. So things like Page-Layout, Structuring, etc. doesn't really apply. And the fonts I do set individually below anyway.)
+\edef\DenKrLayoutParent{\DenKrLayout}%
+\edef\DenKrDocGenreParent{\DenKrDocGenre}%
+\renewcommand{\DenKrLayout}{scrbook}%
+\setDocGenre%
+% ([Bkp: I had it once stating:] Actually not advisable to change the DocGenre. Just continue with the "Parent-Genre".)
 %		\renewcommand{\DenKrDocGenre}{\DenKrDocGenreInternalSUB}%
 %		\def\DenKrLayoutMainRootDirOVERWRITE{\DenKrOrgaRootDir/\DenKrDocGenreParent/\DenKrOrgaMainSub}%
 \newcommand{\DenKrTikzStandaloneNotInclude}{1}%
@@ -63,19 +66,19 @@
 % -- Different Font in TikZ-Pics
 \ifdef{\DenKrFontEngine}{\expandafter\ifstrequal\expandafter{\DenKrFontEngine}{fontspec}{%
 \setmainfont{Latin Modern Roman}[%
-  SmallCapsFont={Latin Modern Roman Caps},% A Patch, because LMR does not provide Small Caps Bold
-  %SmallCapsFeatures={Letters=SmallCaps},%
-  ItalicFeatures={SmallCapsFont=LMRomanCaps10-Oblique},%
+	SmallCapsFont={Latin Modern Roman Caps},% A Patch, because LMR does not provide Small Caps Bold
+	%SmallCapsFeatures={Letters=SmallCaps},%
+	ItalicFeatures={SmallCapsFont=LMRomanCaps10-Oblique},%
 ]%
 \setsansfont{Latin Modern Sans}%
 \setmonofont{Latin Modern Mono}[%
-  BoldFont={LMMonoLight10-Bold},%
-  ItalicFont={LMMono10-Italic},%
-  SlantedFont={* Slanted},%
-  SmallCapsFont={* Caps},% A Patch for lack of proper Small Caps Provision
-  BoldItalicFont={LMMonoLight10-BoldOblique},%
-  ItalicFeatures={SmallCapsFont=LMMonoCaps10-Oblique},%
-  BoldFeatures={SmallCapsFont=* Caps},%
+	BoldFont={LMMonoLight10-Bold},%
+	ItalicFont={LMMono10-Italic},%
+	SlantedFont={* Slanted},%
+	SmallCapsFont={* Caps},% A Patch for lack of proper Small Caps Provision
+	BoldItalicFont={LMMonoLight10-BoldOblique},%
+	ItalicFeatures={SmallCapsFont=LMMonoCaps10-Oblique},%
+	BoldFeatures={SmallCapsFont=* Caps},%
 ]%
 }{}}{}%
 % = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =

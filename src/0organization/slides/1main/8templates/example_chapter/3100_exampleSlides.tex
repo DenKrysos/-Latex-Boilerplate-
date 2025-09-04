@@ -138,12 +138,13 @@
 	\end{equation}\nl
 	QED Variants: $\Box \square \blacksquare ∎ \qedsym \char"220E$
 	\npi
-	\renewcommand{\showcaseMathString}{eix \Rightarrow 0123 \geq}%
+	\renewcommand{\showcaseMathString}{eix \Rightarrow 0123 \geq\geqslant \sigma\nabla}%
 	\begin{tabular}{lll}%
 		plain&\texttt{\lstTEXargumentBO{$ $}}&$\showcaseMathString$\\
 		Upright&\texttt{\lstTEXmacro{mathrm}\{\}}&$\mathrm{\showcaseMathString}$\\ % Or \mathup{}
 		Italic&\texttt{\lstTEXmacro{mathit}\{\}}&$\mathit{\showcaseMathString}$\\
-		Bold&\texttt{\lstTEXmacro{mathbf}\{\}}&$\mathbf{\showcaseMathString}$\\
+		Bold v1&\texttt{\lstTEXmacro{symbf}\{\}}&$\symbf{\showcaseMathString}$\\
+		Bold v2&\texttt{\lstTEXmacro{mathbf}\{\}}&$\mathbf{\showcaseMathString}$\\
 		Sans-Serif&\texttt{\lstTEXmacro{mathsf}\{\}}&$\mathsf{\showcaseMathString}$\\
 		Monospaced-Teletype&\texttt{\lstTEXmacro{mathtt}\{\}}&$\mathtt{\showcaseMathString}$\\
 	\end{tabular}
@@ -163,6 +164,44 @@
 		$\symbfup{\showcaseMathString}$&$\symbfit{\showcaseMathString}$&\\
 		$\symbfsfup{\showcaseMathString}$&$\symbfsfit{\showcaseMathString}$&$\symbfsf{\showcaseMathString}$\\
 	\end{tabular}
+	}
+	
+	\only<3>{
+	Ways to make Math Bold
+
+	$\rightarrow\Rightarrow Bb12∇-\nabla \leq\leqslant$
+
+	{\boldmath$\rightarrow\Rightarrow$}
+	{\boldmath$Bb$}
+	{\boldmath$12$}
+	{\boldmath$∇-\nabla$}
+	{\boldmath$\leq\leqslant$}
+
+	{\mathversion{bold}$\rightarrow\Rightarrow$}
+	{\mathversion{bold}$Bb$}
+	{\mathversion{bold}$12$}
+	{\mathversion{bold}$∇-\nabla$}
+	{\mathversion{bold}$\leq\leqslant$}
+
+	$\boldsymbol{\rightarrow\Rightarrow}$
+	$\boldsymbol{Bb}$
+	$\boldsymbol{12}$
+	$\boldsymbol{∇-\nabla}$
+	$\boldsymbol{\leq\leqslant}$
+
+	$\mathbf{\rightarrow\Rightarrow}$
+	$\mathbf{Bb}$
+	$\mathbf{12}$
+	$\mathbf{∇-\nabla}$
+	$\mathbf{\leq\leqslant}$
+
+	$\symbf{\rightarrow\Rightarrow}$
+	$\symbf{Bb}$
+	$\symbf{12}$
+	$\symbf{∇-\nabla}$
+	$\symbf{\leq\leqslant}$
+
+	{\bfseries\boldmath\qty[detect-weight=true,detect-all=true]{24}{\centi\meter}}
 	}
 \end{frame}
 
