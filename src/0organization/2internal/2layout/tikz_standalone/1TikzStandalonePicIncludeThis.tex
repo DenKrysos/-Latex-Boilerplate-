@@ -7,7 +7,7 @@
 %		% Author: Dennis Krummacker%
 %		\ifdefined\DenKr\documentclass[tikz,fontsize=11pt,class=scrbook]{standalone}\begin{document}\else%
 %		\input{"./2ProjectSetup".tex}%
-%		\input{"\DenKrAllMainRootDirPATH/2includes/packages/preamble_pre".tex}%
+%		\input{"\DenKrAllMainRootDir/2includes/packages/preamble_pre".tex}%
 %		\documentclass[tikz,fontsize=11pt,class=scrbook]{standalone}% I.e. the content from \input{"\DenKrLayoutMainRootDir/2layout/tikz_standalone/preamble_1_class".tex}%
 %		\input{"\DenKrInternalLayoutRootDir/tikz_standalone/1TikzStandalonePicIncludeThis".tex}%
 %		\DenKrTikzStandalonePre\fi%
@@ -52,15 +52,15 @@
 \newcommand{\DenKrTikzStandaloneNotInclude}{1}%
 %==================================================================================
 % ----  Preamble
-%\input{"\DenKrAllMainRootDirPATH/2includes/packages/preamble_pre".tex}%
+%\input{"\DenKrAllMainRootDir/2includes/packages/preamble_pre".tex}%
 \input{"\DenKrLayoutMainRootDir/2includes/preamble_IncludeSkeleton".tex}%
 % (Not inside Skeleton because of input-level-limitation)
-\input{"\DenKrAllMainRootDirPATH/2includes/packages/tikz".tex}
+\input{"\DenKrAllMainRootDir/2includes/packages/tikz".tex}
 %==================================================================================
-\input{"\DenKrAllMainRootDirPATH/makros".tex}%
-\input{"\DenKrAllMainRootDirPATH/makros_typografie".tex}%
-\input{"\DenKrAllMainRootDirPATH/3settings/5tikz/tikz_makro_preamble".tex}%
-\input{"\DenKrAllMainRootDirPATH/3settings/settings_basic".tex}%
+\input{"\DenKrAllMainRootDir/makros".tex}%
+\input{"\DenKrAllMainRootDir/makros_typografie".tex}%
+\input{"\DenKrAllMainRootDir/3settings/5tikz/tikz_makro_preamble".tex}%
+\input{"\DenKrAllMainRootDir/3settings/settings_basic".tex}%
 \input{"\DenKrLayoutMainRootDir/settings_perDoc".tex}%
 % = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
 % -- Different Font in TikZ-Pics
@@ -86,15 +86,15 @@
 %-------------------------------------------
 %-------------------------------------------
 \begin{document}%
-\input{"\DenKrAllMainRootDirPATH/3settings/colorPalette_tikz".tex}%
-\input{"\DenKrAllMainRootDirPATH/3settings/5tikz/tikz_basic_settings".tex}%
-\input{"\DenKrAllMainRootDirPATH/3settings/5tikz/tikzset_allgemein".tex}%
-\input{"\DenKrAllMainRootDirPATH/3settings/5tikz/tikz_declaration_definition".tex}%
-\input{"\DenKrAllMainRootDirPATH/3settings/5tikz/tikzset_ShapeFormLineArrow".tex}%
-\input{"\DenKrAllMainRootDirPATH/3settings/5tikz/tikzset_dotPic_basic".tex}%
-\InputIfFileExists{"\DenKrAllMainRootDirPATH/3settings/5tikz/tikzset_dotPic_private".tex}{}{}%
+\input{"\DenKrAllMainRootDir/3settings/colorPalette_tikz".tex}%
+\input{"\DenKrAllMainRootDir/3settings/5tikz/tikz_basic_settings".tex}%
+\input{"\DenKrAllMainRootDir/3settings/5tikz/tikzset_allgemein".tex}%
+\input{"\DenKrAllMainRootDir/3settings/5tikz/tikz_declaration_definition".tex}%
+\input{"\DenKrAllMainRootDir/3settings/5tikz/tikzset_ShapeFormLineArrow".tex}%
+\input{"\DenKrAllMainRootDir/3settings/5tikz/tikzset_dotPic_basic".tex}%
+\InputIfFileExists{"\DenKrAllMainRootDir/3settings/5tikz/tikzset_dotPic_private".tex}{}{}%
 \InputIfFileExists{"\DenKrTikzRootDir/3settings/5tikz/tikzset_dotPic_private".tex}{}{}%
-\input{"\DenKrAllMainRootDirPATH/3settings/5tikz/tikzset_flowchart".tex}%
+\input{"\DenKrAllMainRootDir/3settings/5tikz/tikzset_flowchart".tex}%
 }%
 %
 %

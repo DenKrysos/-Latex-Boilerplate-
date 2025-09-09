@@ -31,8 +31,8 @@
 %			Declaration of some Variables, Lengths, etc.
 %           And early Inclusion of some Custom primitive Commands
 %________________________________________________________________________
-\input{"\DenKrAllMainRootDirPATH/2includes/setup/declaration_var".tex}%
-\input{"\DenKrAllMainRootDirPATH/2includes/setup/tex_primitive_cmd".tex}%
+\input{"\DenKrAllMainRootDir/2includes/setup/declaration_var".tex}%
+\input{"\DenKrAllMainRootDir/2includes/setup/tex_primitive_cmd".tex}%
 %________________________________________________________________________
 %				END Variables
 %/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
@@ -59,7 +59,7 @@
 %				Foundation for Font, Math, ...
 %				(Some stuff, especially Font-related aspects coming from mathematics, shall be loaded before tinkering with Fonts)
 %________________________________________________________________________
-\input{"\DenKrAllMainRootDirPATH/2includes/packages/math_font_foundation".tex}%
+\input{"\DenKrAllMainRootDir/2includes/packages/math_font_foundation".tex}%
 %________________________________________________________________________
 %				END Foundation for Font/Math
 %/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
@@ -72,9 +72,9 @@
 %				Font/Schriftarten Setup. And inputenc
 %________________________________________________________________________
 % Inter alia: A command to format as typewrite with enabled hyphenation
-\input{"\DenKrAllMainRootDirPATH/3settings/font".tex}%
+\input{"\DenKrAllMainRootDir/3settings/font".tex}%
 % Real Font Set-Up
-\input{"\DenKrAllMainRootDirPATH/2includes/language_font_setting/1common/font".tex}%
+\input{"\DenKrAllMainRootDir/2includes/language_font_setting/1common/font".tex}%
 \input{"\DenKrLayoutMainRootDir/2includes/language_font_setting/\DenKrCompiler/font".tex}%
 %________________________________________________________________________
 %				END Font/Schriftarten
@@ -90,7 +90,7 @@
 % alongside setting of 'figurename, tablename...'
 \input{"\DenKrLayoutMainRootDir/2includes/language_font_setting/\DenKrCompiler/\DenKrLayoutLanguage".tex}%
 % csquotes, [...]. Here, because the language-File performs \PassOptionsToPackage{}{csquotes}
-\input{"\DenKrAllMainRootDirPATH/2includes/packages/font_common".tex}%
+\input{"\DenKrAllMainRootDir/2includes/packages/font_common".tex}%
 %________________________________________________________________________
 %				END Basic Language
 %/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
@@ -116,14 +116,14 @@
 %________________________________________________________________________
 %  Argh, fuck that shit. Hhhh, be careful with Microtype (at least with LuaLaTeX and big Book-Level Documents and sophisticated stuff, like non-latin languages). I think, I got fixed for the most part, but (with luatex-ja), it might keep raising Warnings and causing all kinds of Missbehavior.
 \DoIfLuaPdfXe{%
-	\input{"\DenKrAllMainRootDirPATH/2includes/packages/microtype_LuaLaTeX".tex}%
+	\input{"\DenKrAllMainRootDir/2includes/packages/microtype_LuaLaTeX".tex}%
 }{%
-	\input{"\DenKrAllMainRootDirPATH/2includes/packages/microtype_pdfLaTeX".tex}%
+	\input{"\DenKrAllMainRootDir/2includes/packages/microtype_pdfLaTeX".tex}%
 }{}%
 %
-\input{"\DenKrAllMainRootDirPATH/2includes/packages/compilation_1_veryBasic".tex}%
+\input{"\DenKrAllMainRootDir/2includes/packages/compilation_1_veryBasic".tex}%
 % As an exception, no use of enumitem.sty in Beamer. Instead handle related settings via the class.
-% \input{"\DenKrAllMainRootDirPATH/2includes/packages/itemEnum".tex}%
+% \input{"\DenKrAllMainRootDir/2includes/packages/itemEnum".tex}%
 %________________________________________________________________________
 %				END 'Specials'
 %/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
@@ -166,15 +166,15 @@
 %				Typografie, KOMA, (Geometry), Typesetting, Schrift-Satz
 %________________________________________________________________________
 %  Some Settings
-\input{"\DenKrAllMainRootDirPATH/3settings/colorPalette_tikz".tex}%
-\input{"\DenKrAllMainRootDirPATH/3settings/typografie_colors_setup".tex}%
+\input{"\DenKrAllMainRootDir/3settings/colorPalette_tikz".tex}%
+\input{"\DenKrAllMainRootDir/3settings/typografie_colors_setup".tex}%
 %  The Typesetting
-\input{"\DenKrAllMainRootDirPATH/2includes/packages/typesetting".tex}%
+\input{"\DenKrAllMainRootDir/2includes/packages/typesetting".tex}%
 \ifdef{\DenKrTikzStandaloneNotInclude}{}{%
 % \input{"\DenKrLayoutMainRootDir/2includes/packages/ToC_tableOf_ContFigTabAlg".tex}%
 % \input{"\DenKrLayoutMainRootDir/2includes/packages/typografie_geometry".tex}% Is put higher
 }%
-\input{"\DenKrAllMainRootDirPATH/2includes/packages/typografie_cmd".tex}%
+\input{"\DenKrAllMainRootDir/2includes/packages/typografie_cmd".tex}%
 %________________________________________________________________________
 %				END Typografie, KOMA, (Geometry)
 %/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
@@ -188,7 +188,7 @@
 %________________________________________________________________________
 % % Most of the times, links & bookmarks are not allowed for conference articles
 % % .pdf Bookmarks are created here by this
-\input{"\DenKrAllMainRootDirPATH/2includes/packages/figure_subfigure_caption".tex}%
+\input{"\DenKrAllMainRootDir/2includes/packages/figure_subfigure_caption".tex}%
 %________________________________________________________________________
 %				END Subfigure, Subfig, Subcaption, Caption
 %/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
@@ -200,7 +200,7 @@
 %/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
 %				Tables - tabular, tabular*, tabularx, tabulary, makecell, diagbox
 %________________________________________________________________________
-\input{"\DenKrAllMainRootDirPATH/2includes/packages/table".tex}%
+\input{"\DenKrAllMainRootDir/2includes/packages/table".tex}%
 %________________________________________________________________________
 %               END Tables
 %/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
@@ -212,7 +212,7 @@
 %/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
 %				Source-Code, Listings, minted
 %________________________________________________________________________
-\input{"\DenKrAllMainRootDirPATH/2includes/packages/listings".tex}%
+\input{"\DenKrAllMainRootDir/2includes/packages/listings".tex}%
 %________________________________________________________________________
 %               END Listings
 %/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
@@ -238,7 +238,7 @@
 %				Algorithms, (Key-Word Formatted Pseudo-Code)
 %       (This is actually nothing too special. In case, you would expect something like a well defined Algorithm Description Language. There is no such thing. Just Typesetting assistance exist, to provide stylistic enhancements over a uniform style with which constructs (Key-Words) are visually separated from other text.)
 %________________________________________________________________________
-\input{"\DenKrAllMainRootDirPATH/2includes/packages/algorithm".tex}%
+\input{"\DenKrAllMainRootDir/2includes/packages/algorithm".tex}%
 %________________________________________________________________________
 %               END Algorithms
 %/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
@@ -251,8 +251,8 @@
 %				Various (kind-of Basic) & Additional Packages
 %                   (or at least in some way worthwhile)
 %________________________________________________________________________
-% \input{"\DenKrAllMainRootDirPATH/2includes/setup/measuring_the_page".tex}% Required for the automatical Column-Balancing
-\input{"\DenKrAllMainRootDirPATH/2includes/packages/compilation_2_additionalAndWorthy".tex}%
+% \input{"\DenKrAllMainRootDir/2includes/setup/measuring_the_page".tex}% Required for the automatical Column-Balancing
+\input{"\DenKrAllMainRootDir/2includes/packages/compilation_2_additionalAndWorthy".tex}%
 %________________________________________________________________________
 %				END Additional & Worthy
 %/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
@@ -261,7 +261,7 @@
 %/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
 %				Remainder of Packages
 %________________________________________________________________________
-\input{"\DenKrAllMainRootDirPATH/2includes/packages/compilation_8_CommonRemain".tex}%
+\input{"\DenKrAllMainRootDir/2includes/packages/compilation_8_CommonRemain".tex}%
 \input{"\DenKrLayoutMainRootDir/2includes/packages/compilation_9_remainder".tex}%
 %________________________________________________________________________
 %				END Remainder
@@ -277,7 +277,7 @@
 % % Most of the times, links & bookmarks are not allowed for conference articles
 % % .pdf Bookmarks are created here by this
 \providecommand\phantomsection{}% Never comment this line out. Especially if not using hyperref
-% \input{"\DenKrAllMainRootDirPATH/2includes/packages/hyperref".tex}%
+% \input{"\DenKrAllMainRootDir/2includes/packages/hyperref".tex}%
 \input{"\DenKrLayoutMainRootDir/2includes/packages/hyperref_beamer".tex}%
 %________________________________________________________________________
 %				END Hyperref
@@ -290,7 +290,7 @@
 %/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
 %				In-Document Referencing (cleverref must be loaded after hyperref)
 %________________________________________________________________________
-% \input{"\DenKrAllMainRootDirPATH/2includes/packages/referencing".tex}%
+% \input{"\DenKrAllMainRootDir/2includes/packages/referencing".tex}%
 %________________________________________________________________________
 %				END In-Document Referencing
 %/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
@@ -315,7 +315,7 @@
 %				Citation, References  /  Zitate, Quellen  (biblatex, bibtex, biber)
 %                   --- Begin biblatex ---
 %________________________________________________________________________
-\input{"\DenKrAllMainRootDirPATH/2includes/packages/biblatex".tex}%
+\input{"\DenKrAllMainRootDir/2includes/packages/biblatex".tex}%
 %________________________________________________________________________
 %               --- END biblatex ---
 %/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
@@ -367,7 +367,7 @@
 % ----  Some Stuff to help during working state
 %----------------------------------------------------------------------------------
 % Enables you this infamous comments that helps gratuitously while concurrent working / reviewing among several Co-Authors.
-\input{"\DenKrAllMainRootDirPATH/2includes/setup/DenKr_comments__sty".tex}%
+\input{"\DenKrAllMainRootDir/2includes/setup/DenKr_comments__sty".tex}%
 %!!! !!!  Have a look into the File to adjust it to your project.  !!! !!!
 \input{"\DenKrSupplyRootDir/DenKr_comments".tex}%
 % - - Set in "main-File", before including the above two files: - - - - - - - - - -

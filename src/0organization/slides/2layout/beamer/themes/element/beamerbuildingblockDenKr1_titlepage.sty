@@ -18,7 +18,7 @@
 	\coordinate(namesTopAnch)at($(current page.north east)+(-6pt,0)$);
 	\coordinate(namesBottomAnch)at(sepR-|namesTopAnch);
 	\fill[structure.fg](sepL)rectangle(current page.south east);
-	\node(logo)[plaintext,anchor=north west]at([yshift=-20pt]current page.north west)
+	\node(logo)[plaintext,anchor=north west]at([yshift=-20pt,xshift=7pt]current page.north west)
 		{\parbox[t]{.19\paperwidth}{\raggedleft%
 			\usebeamercolor[fg]{titlegraphic}\inserttitlegraphic}};
 	\node(author)[plaintext,anchor=north east]at($(namesTopAnch)!.1!(namesBottomAnch)$)

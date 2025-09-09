@@ -68,6 +68,8 @@
 			]
 		}
 	],
+	"editor.wordWrap": "on",
+	"editor.insertSpaces": false,
 	"latex-workshop.latex.external.build.command": "latexmk",
 	//The directory, where the Extension searches for created files
 	"latex-workshop.latex.outDir": "%WORKSPACE_FOLDER%\\.2out_final",// "%DIR%/../.2out_final"
@@ -81,7 +83,6 @@
 	// Automatically choose last used recipe on next build.
 	"latex-workshop.latex.recipe.default": "lastUsed",
 	"latex-workshop.latex.build.clearLog.everyRecipeStep.enabled": false,
-	"editor.wordWrap": "on",
 	"latex-workshop.latex.rootFile.indicator": "\\begin{document}",
 	"latex-workshop.latex.clean.args": [
 		"-c",
