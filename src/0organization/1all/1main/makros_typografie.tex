@@ -275,14 +275,26 @@
 %  #4 [Optional] Stretching Option. Stretches the last line if the number of remaining pictures does not equal the numer of pictures per Line. Valid Values for Stretch:
 %       1: Only stretches the frame, picture inside stays same size as others
 %       2: Also stretches the picture to fit either its maximum width or its width fits the page width. % TODO, not done yet
-%       3: With Stretching factor. Then you supply a second Value in the Argument, seperated by comma, which is multiplied with the max possible width to become the pictures width.
+%       3: With Stretching factor. Then you supply a second Value in the Argument, seperated by comma, which is multiplied with the max possible width to become the pictures width. ("max possible width" means the amount allocated for the single picture, not as a share of a total Line-Width)
+%          -> e.g. [3,0.7]
+%       [3, <Stretch-Factor>, <OneLineExtend>]: If '3', it can have a third argument. This is to decide how to handle the special-case, when the "Matrix" only has 1 Line. When you include some pictures, all in one line, witch a Stretch-Factor, so that they won't sum up to fill the entire \linewidth.
+%          - Default: The Frame is drawn, to snug on the images (possibly leaving blank space left/right).
+%          - Adding a 3rd Argument (of any value, just have something): The Frame is extended to fill the entire line, having blank space INSIDE the Frame.
+%          -> e.g. [3,0.7,1]
+%       4: ToDo - Use the height to dictate the individual picture-size in the case of One-Line
+%       5: Width as relative Size-Indicator, but scaling up to height, if horizontal space remaining. The second Argument behind the "[5,]" gives a Factor that is multiplied with the maximum size, a single image can get (i.e. Textwidth / Num-Pics).
+%            As second step, available horizontal space is used to scale Images up to the height, the tallest Image has. If not enough horizontal space is free, partial scaling is done.
+%       6: Width as relative Size-Indicator, but bringing all to same height, as to how available. The second Argument behind the "[5,]" gives a Factor that is multiplied with the maximum size, a single image can get (i.e. Textwidth / Num-Pics).
+%            As second step, all Images are scaled-up to the height, the tallest Image has. If this exceeds the Textwidth, all are proportionally scaled down. This should make the best use of the available space.
+%          -> e.g. [5,0.7]
 %
 % Usage-Example: \dishPicMat[3]{graphics/Pic1.png | graphics/Pic2.jpg}
 %       Example2: \dishPicMat{graphics/Pic1.png}
 %       Example3(Stretch): \dishPicMat[2]{graphics/Pic1.png | graphics/Pic2.jpg | graphics/Pic3.jpg}[1]
 %       Example3(Stretch): \dishPicMat[2]{graphics/Pic1.png | graphics/Pic2.jpg | graphics/Pic3.jpg}[3,0.8]
+\makeatletter%
 \DeclareDocumentCommand{\dishPicMat}{%
-	O{2} O{0} >{\SplitList{|}}m >{\SplitArgument{1}{,}}O{0}%
+	O{2} O{0} >{\SplitList{|}}m >{\SplitArgument{2}{,}}O{0}%
 }{%
 	%\newcounter{quotient}%
 	\setcounter{numArgs}{0}%
@@ -290,6 +302,9 @@
 	\setcounter{ArrayEntCnt}{0}%
 	\ProcessList{#3}{\preparePictureMatrixList}%
 	\dishPicMatParseArgStretch#4%
+	\ifnumcomp{\value{numArgs}}{<}{\value{numPerLine}}{%
+		\setcounter{numPerLine}{\value{numArgs}}%
+	}{}%
 	\setcounter{numLines}{\value{numArgs}}%
 	\divide\value{numLines} by \value{numPerLine}%
 	%\setcounter{numLines}{\inteval{\value{numArgs}/\value{numPerLine}}}%
@@ -304,169 +319,231 @@
 	\newlength{\srcPicWidth}%
 	\newlength{\srcPicHeight}%
 	%\the\value{numArgs} -- \the\value{numPerLine} -- \the\value{numLines} -- \the\value{numInLastLine}
-	\let\innAbst\undefined%
-	\newlength\innAbst%
-	\setlength\innAbst{1.5ex}% Abstand zwischen Text und Zellenrand
-	\let\lineHeight\undefined%
-	\newlength\lineHeight%
-	\setlength\lineHeight{0pt}%
-	\let\lineHeightCmp\undefined%
-	\newlength\lineHeightCmp%
-	\setlength\lineHeightCmp{0pt}%
-	\let\nodeWidth\undefined%
-	\newlength\nodeWidth%
+	\let\innAbst\undefined\newlength\innAbst\setlength\innAbst{1.5ex}% Abstand zwischen Text und Zellenrand
+	\let\lineHeight\undefined\newlength\lineHeight\setlength\lineHeight{0pt}%
+	\let\heightCmp\undefined\newlength\heightCmp\setlength\heightCmp{0pt}%
+	\let\widthCmp\undefined\newlength\widthCmp\setlength\widthCmp{0pt}%
+	\let\nodeWidth\undefined\newlength\nodeWidth%
 	\setlength\nodeWidth{\textwidth/\value{numPerLine}-\recipeBorderWidthDishPic-\recipeBorderWidthDishPic/\value{numPerLine}}%
 	% \ifnumcomp{\thenumArgs}{<}{\thenumPerLine}{%
 	%	 \setlength\nodeWidth{\textwidth/\value{numArgs}-\recipeBorderWidthDishPic-\recipeBorderWidthDishPic/\value{numArgs}}%
 	% }{%
 	%	 \setlength\nodeWidth{\textwidth/\value{numPerLine}-\recipeBorderWidthDishPic-\recipeBorderWidthDishPic/\value{numPerLine}}%
 	% }%
-	\let\picWidth\undefined%
-	\newlength\picWidth%
-	\setlength\picWidth{\nodeWidth-2\innAbst}% Abstand zwischen Text und Zellenrand
+	\let\picWidth\undefined\newlength\picWidth\setlength\picWidth{\nodeWidth-2\innAbst}% Abstand zwischen Text und Zellenrand
 	%\setlength\picWidth{\textwidth/\value{numPerLine}-2\innAbst}% Abstand zwischen Text und Zellenrand
 	%\the\picWidth -- \the\textwidth
-	\setlength\dishPicMatPicHeightMax{\textheight/3}%
+	\let\picHeight\undefined\newlength\picHeight\setlength\dishPicMatPicHeightMax{\textheight/3}%
 	\setcounter{prevNode}{0}%
 	\setcounter{currLine}{1}%
 	\setcounter{currRow}{1}%
 	% - - - - - - - - - - - - -
-	\begin{center}
-	\centering%
-		\begin{tikzpicture}%
-			% \usetikzlibrary{shapes.misc, positioning}%
-			% \usetikzlibrary{calc}%
-			% \pgfdeclarelayer{background}%
-			% \pgfdeclarelayer{nodeShape}%->Layer1
-			% \pgfdeclarelayer{nodePic}%->Layer2
-			% \pgfsetlayers{background,nodeShape,nodePic}%
-			\colorlet{colorBoxBorder}{colorIngredientsBorder}%
-			\colorlet{colorBoxBG}{colorDishPicBG}%
-			\tikzstyle{rectBase}=[inner sep=\innAbst,rectangle,line width=\recipeBorderWidthDishPic,anchor=north west, minimum width=\nodeWidth, minimum height=\lineHeight]%draw=colorBoxBorder,fill=colorBoxBG
-			\tikzstyle{pathLineFill}=[draw=colorBoxBorder,fill=colorBoxBG,line width=\recipeBorderWidthDishPic]%
-			\tikzstyle{cornRounding}=[rounded corners=0.5em]%
-			\tikzstyle{cornNoRound}=[]%
-			\coordinate(-1)at(0,0);%As first anchor, which can be referenced by the first actual node with id (0)
-			% \begin{pgfonlayer}{Layer2}%
-			% \node[rectBase](0)%
-			%	 \bgroup\ignorespaces%
-			%	 	\includegraphics[width=\picWidth]{\checkArrayEnt{0}{NoEntryDefined}{\getArrayEnt{0}}}%
-			%	 \egroup;%
-			% \end{pgfonlayer}%
-			% \drawPicNodeRect{0}{cornRounding}{cornNoRound}{cornNoRound}{cornNoRound}
-			\setcounter{loopi}{0}%
-			\loop\ifnum\value{loopi}<\value{numArgs}%
-				\ifnumcomp{\thecurrRow}{>}{\thenumPerLine}{%
-					\stepcounter{currLine}%
-					\setcounter{currRow}{1}%
-					\setcounter{prevNode}{\theloopi-\thenumPerLine}%
-					\renewcommand{\newNodeRefPoint}{south west}%
-				}{%
-					\setcounter{prevNode}{\theloopi-1}%
-					\renewcommand{\newNodeRefPoint}{north east}%
-				}%
-				% The last line
-				% \ifthenelse{\number\stretchArgMode=1 \AND \thenumInLastLine<\thenumPerLine}{%
-				\ifthenelse{\thenumInLastLine<\thenumPerLine \AND \thecurrLine=\thenumLines}{%
-					\ifthenelse{\number\stretchArgMode>0}{%
-						\ifnumcomp{\thecurrLine}{=}{\thenumLines}{%
-							%\setlength\nodeWidth{\textwidth/\value{numPerLine}-\recipeBorderWidthDishPic-\recipeBorderWidthDishPic/\value{numPerLine}}%
-							\ifnumcomp{\thecurrRow}{=}{1}{%
-								\setlength\nodeWidth{\textwidth/\value{numInLastLine}-\recipeBorderWidthDishPic-\recipeBorderWidthDishPic/\value{numInLastLine}}%
-							}{}%
-							\ifnumcomp{\thecurrRow}{=}{\thenumInLastLine}{%
-								%\setlength\nodeWidth{\nodeWidth+\recipeBorderWidthDishPic}%
-							}{}%
+	% \begin{center}
+	% \centering%
+	\begin{tikzpicture}%
+		% \usetikzlibrary{shapes.misc, positioning}%
+		% \usetikzlibrary{calc}%
+		% \pgfdeclarelayer{background}%
+		% \pgfdeclarelayer{nodeShape}%->Layer1
+		% \pgfdeclarelayer{nodePic}%->Layer2
+		% \pgfsetlayers{background,nodeShape,nodePic}%
+		\colorlet{colorBoxBorder}{colorIngredientsBorder}%
+		\colorlet{colorBoxBG}{colorDishPicBG}%
+		\newcommand{\nodeDrawWidth}{\nodeWidth}%
+		\newcommand{\nodeDrawHeight}{\lineHeight}%
+		\tikzstyle{rectBase}=[inner sep=\innAbst,rectangle,line width=\recipeBorderWidthDishPic,anchor=north west,minimum width=\nodeDrawWidth,minimum height=\nodeDrawHeight]%draw=colorBoxBorder,fill=colorBoxBG
+		\tikzstyle{pathLineFill}=[draw=colorBoxBorder,fill=colorBoxBG,line width=\recipeBorderWidthDishPic]%
+		\tikzstyle{cornRounding}=[rounded corners=0.5em]%
+		\tikzstyle{cornNoRound}=[]%
+		\coordinate(-1)at(0,0);%As first anchor, which can be referenced by the first actual node with id (0)
+		% \begin{pgfonlayer}{Layer2}%
+		% \node[rectBase](0)%
+		%	 \bgroup\ignorespaces%
+		%	 	\includegraphics[width=\picWidth]{\checkArrayEnt{0}{NoEntryDefined}{\getArrayEnt{0}}}%
+		%	 \egroup;%
+		% \end{pgfonlayer}%
+		% \drawPicNodeRect{0}{cornRounding}{cornNoRound}{cornNoRound}{cornNoRound}
+		\setcounter{loopi}{0}%
+		\loop\ifnum\value{loopi}<\value{numArgs}%
+			\ifnumcomp{\thecurrRow}{>}{\thenumPerLine}{%
+				\stepcounter{currLine}%
+				\setcounter{currRow}{1}%
+				\setcounter{prevNode}{\theloopi-\thenumPerLine}%
+				\renewcommand{\newNodeRefPoint}{south west}%
+			}{%
+				\setcounter{prevNode}{\theloopi-1}%
+				\renewcommand{\newNodeRefPoint}{north east}%
+			}%
+			% The last line (ore there is only 1 Line)
+			% \ifthenelse{\number\stretchArgMode=1 \AND \thenumInLastLine<\thenumPerLine}{%
+			\ifthenelse{\thenumInLastLine<\thenumPerLine \AND \thecurrLine=\thenumLines \OR \(1=\thenumLines\)}{%
+				\ifthenelse{\number\stretchArgMode>0}{%
+					\ifnumcomp{\thecurrLine}{=}{\thenumLines}{%
+						%\setlength\nodeWidth{\textwidth/\value{numPerLine}-\recipeBorderWidthDishPic-\recipeBorderWidthDishPic/\value{numPerLine}}%
+						\ifnumcomp{\thecurrRow}{=}{1}{%
+							\setlength\nodeWidth{\textwidth/\value{numInLastLine}-\recipeBorderWidthDishPic-\recipeBorderWidthDishPic/\value{numInLastLine}}%
+						}{}%
+						\ifnumcomp{\thecurrRow}{=}{\thenumInLastLine}{%
+							%\setlength\nodeWidth{\nodeWidth+\recipeBorderWidthDishPic}%
 						}{}%
 					}{}%
-					\ifthenelse{\number\stretchArgMode=1}{%
-						%Nothing do do
-					}{\ifthenelse{\number\stretchArgMode=2}{%
-						\setlength\picWidth{\nodeWidth-2\innAbst}%
-					}{\ifthenelse{\number\stretchArgMode=3}{%
-						\setlength\picWidth{\nodeWidth-2\innAbst}%
-						\setlength\picWidth{\stretchArgFactor\picWidth}%
-					}{}}}%
 				}{}%
-				% First Pic in line: Compute Line-Height
-				\ifnumcomp{\thecurrRow}{=}{1}{%
+				\ifthenelse{\number\stretchArgMode=1}{%
+					%Nothing do do
+				}{\ifthenelse{\number\stretchArgMode=2}{%
+					\setlength\picWidth{\nodeWidth-2\innAbst}%
+				}{\ifthenelse{\number\stretchArgMode=3}{%
+					\setlength\picWidth{\nodeWidth-2\innAbst}%
+					\setlength\picWidth{\stretchArgFactor\picWidth}%
+				}{\ifthenelse{\number\stretchArgMode=5}{%
+					\setlength\picWidth{\nodeWidth-2\innAbst}%
+					\setlength\picWidth{\stretchArgFactor\picWidth}%
+				}{}}}}%
+			}{}%
+			% Special-Case: When there is only 1 Line and the Options do not tell to extend this, set the minimum width of a node to be drawn to 0
+			\ifthenelse{1=\thenumLines \AND \number\oneLineFill=0 \AND \(\number\stretchArgMode=3 \OR \number\stretchArgMode=5\)}{%
+				\renewcommand{\nodeDrawWidth}{0pt}%
+			}{}%
+			% First Pic in line: Compute Line-Height
+			\ifnumcomp{\thecurrRow}{=}{1}{%
+				\setcounter{loopj}{\theloopi}%
+				\ifnumcomp{\thecurrLine}{=}{\thenumLines}{%
+					\setcounter{temp}{\theloopj+\thenumInLastLine}%
+				}{%
+					\setcounter{temp}{\theloopj+\thenumPerLine}%
+				}%
+				\setlength\lineHeight{1pt}
+				\setlength\picHeight{1pt}
+				{\loop\ifnum\value{loopj}<\value{temp}%Inner loops must be embraced
+					% Measure the Pic calculating the dimension
+					\dishPicMatSetMaxPicDimension{\theloopj}%
+					\settoheight{\heightCmp}{\includegraphics[width=\srcPicWidth]{\checkArrayEnt{\theloopj}{}{\getArrayEnt{\theloopj}}}}\global\heightCmp=\heightCmp%
+					\ifnumcomp{\heightCmp}{>}{\picHeight}{%
+						\setlength\picHeight{\heightCmp}\global\picHeight=\picHeight%
+					}{}%
+					\setlength\lineHeight{\picHeight+2\innAbst}\global\lineHeight=\lineHeight%
+				\stepcounter{loopj}%
+				\repeat}%
+				% In case of Stretch-Mode 5, see if available horizontal space can be used to scale up Images of lower height
+				\ifthenelse{1=\thenumLines \AND \number\stretchArgMode=5}{%
 					\setcounter{loopj}{\theloopi}%
-					\ifnumcomp{\thecurrLine}{=}{\thenumLines}{%
-						\setcounter{temp}{\theloopj+\thenumInLastLine}%
-					}{%
-						\setcounter{temp}{\theloopj+\thenumPerLine}%
-					}%
-						\setlength\lineHeight{1pt}
-					{\loop\ifnum\value{loopj}<\value{temp}%Inner loops must be embraced
-						% Measure the Pic calculating the dimension
+					\setcounter{temp}{\theloopj+\thenumInLastLine}%
+					\setlength\widthCmp{0pt}
+					\let\widthSumScaled\undefined\newlength\widthSumScaled\setlength\widthSumScaled{0pt}%
+					\let\widthSumOrig\undefined\newlength\widthSumOrig\setlength\widthSumOrig{0pt}%
+					\let\reducedWidth\undefined\newlength\reducedWidth\setlength\reducedWidth{\linewidth-\recipeBorderWidthDishPic}%
+					{\loop\ifnum\value{loopj}<\value{temp}%
 						\dishPicMatSetMaxPicDimension{\theloopj}%
-						\settoheight{\lineHeightCmp}{\includegraphics[width=\srcPicWidth]{\checkArrayEnt{\theloopj}{}{\getArrayEnt{\theloopj}}}}\global\lineHeightCmp=\lineHeightCmp%
-						\setlength\lineHeightCmp{\lineHeightCmp+2\innAbst}\global\lineHeightCmp=\lineHeightCmp%
-						\ifnumcomp{\lineHeightCmp}{>}{\lineHeight}{%
-							\setlength\lineHeight{\lineHeightCmp}\global\lineHeight=\lineHeight%
-						}{}%
+						\settoheight{\heightCmp}{\includegraphics[width=\srcPicWidth]{\checkArrayEnt{\theloopj}{}{\getArrayEnt{\theloopj}}}}%
+						\ifnumcomp{\heightCmp}{<}{\picHeight}{%
+							\settowidth{\widthCmp}{\includegraphics[height=\picHeight]{\checkArrayEnt{\theloopj}{}{\getArrayEnt{\theloopj}}}}%
+							% A bit misusing a variable
+							\settowidth{\heightCmp}{\includegraphics{\checkArrayEnt{\theloopj}{}{\getArrayEnt{\theloopj}}}}%
+							\ifnumcomp{\heightCmp}{<}{\widthCmp}{%
+								\setlength{\widthCmp}{\heightCmp}%
+							}{}%
+							\setlength{\widthSumScaled}{\widthSumScaled+\widthCmp}\global\widthSumScaled=\widthSumScaled%
+							\setlength{\widthSumOrig}{\widthSumOrig+\srcPicWidth}\global\widthSumOrig=\widthSumOrig%
+							\setlength{\reducedWidth}{\reducedWidth-2\innAbst-\recipeBorderWidthDishPic}\global\reducedWidth=\reducedWidth%
+						}{%
+							% That's the tallest, don't include in calculation
+							\setlength{\reducedWidth}{\reducedWidth-(\srcPicWidth+2\innAbst+\recipeBorderWidthDishPic)}\global\reducedWidth=\reducedWidth%
+						}%
 					\stepcounter{loopj}%
 					\repeat}%
+					\tikzmath{%
+						if \widthSumOrig > 0 then {%
+							\factorIs=\widthSumScaled/\widthSumOrig;%
+							\factorWant=\reducedWidth/\widthSumOrig;%
+							\upscaleBoundaryFactor=\factorWant/\factorIs;%
+							if \upscaleBoundaryFactor > 1 then {%
+								\upscaleBoundaryFactor=1.0;%
+							};%
+						} else {%
+							\upscaleBoundaryFactor=1.0;%
+						};%
+					}%
+					\let\widthSumOrig\undefined%
+					\let\widthSumScaled\undefined%
+					\let\reducedWidth\undefined%
 				}{}%
-				% Assure scaled inclusion won't interpolate picture. Here, make the final setting for the actual inclusion
-				\dishPicMatSetMaxPicDimension{\theloopi}%
-				\begin{pgfonlayer}{Layer2}%
-					\node[rectBase](\theloopi)%
-						at (\theprevNode.\newNodeRefPoint)%
-						\bgroup\ignorespaces%
-							%\theloopi -- \thecurrLine%
-							%\the\lineHeight - \the\value{loopj}, \the\value{temp}
-							\ifnumcomp{\value{draftPhase_pic}}{=}{0}{%
-								\dishPicMatIncludegraphics%
-							}{%
-								\ifnumcomp{\value{draftPhase_pic}}{=}{1}{%
-									\ifnumcomp{#2}{=}{1}{%
-										\dishPicMatIncludegraphics%
-									}{%
-										\textbf{»Draft«}%
-									}%
+			}{}%
+			% Assure scaled inclusion won't interpolate picture. Here, make the final setting for the actual inclusion
+			\dishPicMatSetMaxPicDimension{\theloopi}%
+			\ifthenelse{\number\stretchArgMode=5 \AND 1=\thenumLines}{%
+				% Individual handling for the Streching-Mode 5
+				\settoheight{\heightCmp}{\includegraphics[width=\srcPicWidth]{\checkArrayEnt{\theloopi}{}{\getArrayEnt{\theloopi}}}}%
+				\ifnumcomp{\heightCmp}{<}{\picHeight}{%
+					\settowidth{\widthCmp}{\includegraphics[height=\upscaleBoundaryFactor\picHeight]{\checkArrayEnt{\theloopi}{}{\getArrayEnt{\theloopi}}}}%
+					\settowidth{\srcPicWidth}{\includegraphics{\checkArrayEnt{\theloopi}{}{\getArrayEnt{\theloopi}}}}%
+					\ifnumcomp{\widthCmp}{<}{\srcPicWidth}{%
+						\setlength{\srcPicWidth}{\widthCmp}%
+					}{}%
+				}{%
+					% That's the tallest, do nothin'
+				}%
+			}{}%
+			\begin{pgfonlayer}{Layer2}%
+				\node[rectBase](\theloopi)%
+					at (\theprevNode.\newNodeRefPoint)%
+					\bgroup\ignorespaces%
+						%\theloopi -- \thecurrLine%
+						%\the\lineHeight - \the\value{loopj}, \the\value{temp}
+						\ifnumcomp{\value{draftPhase_pic}}{=}{0}{%
+							\dishPicMatIncludegraphics%
+						}{%
+							\ifnumcomp{\value{draftPhase_pic}}{=}{1}{%
+								\ifnumcomp{#2}{=}{1}{%
+									\dishPicMatIncludegraphics%
 								}{%
-									»Invalid Value on \enquote{draftPhase} / \enquote{draftPhase\_pic}«%
+									\textbf{»Draft«}%
 								}%
+							}{%
+								»Invalid Value on \enquote{draftPhase} / \enquote{draftPhase\_pic}«%
 							}%
-						\egroup;%
-				\end{pgfonlayer}%
-				\ifthenelse{\thecurrLine=1 \AND \thecurrRow=1}{%
-					\renewcommand{\cornFormatLT}{cornRounding}%
-				}{}%
-				\ifthenelse{\thecurrLine=1 \AND \thecurrRow=\thenumPerLine}{%
-					\renewcommand{\cornFormatRT}{cornRounding}%
-				}{}%
-				\ifthenelse{\thecurrLine=1 \AND \thecurrRow=\thenumArgs}{%
-					\renewcommand{\cornFormatRT}{cornRounding}%
-				}{}%
-				\ifthenelse{\thecurrLine=\thenumLines \AND \thecurrRow=1}{%
-					\renewcommand{\cornFormatLB}{cornRounding}%
-				}{}%
-				\ifthenelse{\thecurrLine=\thenumLines \AND \thecurrRow=\thenumInLastLine}{%
+						}%
+					\egroup;%
+			\end{pgfonlayer}%
+			\ifthenelse{\thecurrLine=1 \AND \thecurrRow=1}{%
+				\renewcommand{\cornFormatLT}{cornRounding}%
+			}{}%
+			\ifthenelse{\thecurrLine=1 \AND \thecurrRow=\thenumPerLine}{%
+				\renewcommand{\cornFormatRT}{cornRounding}%
+			}{}%
+			\ifthenelse{\thecurrLine=1 \AND \thecurrRow=\thenumArgs}{%
+				\renewcommand{\cornFormatRT}{cornRounding}%
+			}{}%
+			\ifthenelse{\thecurrLine=\thenumLines \AND \thecurrRow=1}{%
+				\renewcommand{\cornFormatLB}{cornRounding}%
+			}{}%
+			\ifthenelse{\thecurrLine=\thenumLines \AND \thecurrRow=\thenumInLastLine}{%
+				\renewcommand{\cornFormatRB}{cornRounding}%
+			}{}%
+			\ifthenelse{\number\numexpr\stretchArgMode\relax>0}{}{%
+				\setcounter{temp}{\thenumLines-1}%
+				\ifthenelse{\thenumInLastLine<\thenumPerLine \AND \thecurrLine=\thetemp \AND \thecurrRow=\thenumPerLine}{%
 					\renewcommand{\cornFormatRB}{cornRounding}%
 				}{}%
-				\ifthenelse{\number\numexpr\stretchArgMode\relax>0}{}{%
-					\setcounter{temp}{\thenumLines-1}%
-					\ifthenelse{\thenumInLastLine<\thenumPerLine \AND \thecurrLine=\thetemp \AND \thecurrRow=\thenumPerLine}{%
-						\renewcommand{\cornFormatRB}{cornRounding}%
-					}{}%
-				}%
-				\drawPicNodeRect{\theloopi}{\cornFormatLT}{\cornFormatRT}{\cornFormatRB}{\cornFormatLB}%
-				\renewcommand{\cornFormatLT}{cornNoRound}%
-				\renewcommand{\cornFormatRT}{cornNoRound}%
-				\renewcommand{\cornFormatLB}{cornNoRound}%
-				\renewcommand{\cornFormatRB}{cornNoRound}%
-			\stepcounter{currRow}%
-			\stepcounter{loopi}%
-			\repeat%
-		\end{tikzpicture}%
-	\end{center}
+			}%
+			\drawPicNodeRect{\theloopi}{\cornFormatLT}{\cornFormatRT}{\cornFormatRB}{\cornFormatLB}%
+			\renewcommand{\cornFormatLT}{cornNoRound}%
+			\renewcommand{\cornFormatRT}{cornNoRound}%
+			\renewcommand{\cornFormatLB}{cornNoRound}%
+			\renewcommand{\cornFormatRB}{cornNoRound}%
+		\stepcounter{currRow}%
+		\stepcounter{loopi}%
+		\repeat%
+		\let\nodeDrawWidth\undefined%
+		\let\nodeDrawHeight\undefined%
+	\end{tikzpicture}%
+	% \end{center}
 	\let\stretchArgMode\undefined%
 	\let\stretchArgFactor\undefined%
+	\let\oneLineFill\undefined%
 	\let\srcPicWidth\undefined%
 	\let\srcPicHeight\undefined%
 }%
+\makeatother%
 \newcommand{\dishPicMatSetMaxPicDimension}[1]{% The Index of the Pic in the array to measure
 	\settowidth{\srcPicWidth}{\includegraphics{\checkArrayEnt{#1}{}{\getArrayEnt{#1}}}}%
 	\ifnumcomp{\picWidth}{<}{\srcPicWidth}{%
@@ -475,6 +552,7 @@
 	\ifthenelse{\number\stretchArgMode=3 \AND \thecurrLine=\thenumLines}{%
 		% No Height-Limit for the last line, when stretching deliberately via given factor
 	}{%
+		% Other
 		\settoheight{\tmpheight}{\includegraphics[width=\srcPicWidth]{\checkArrayEnt{#1}{}{\getArrayEnt{#1}}}}%
 		\ifnumcomp{\dishPicMatPicHeightMax}{<}{\tmpheight}{%
 			\settowidth{\srcPicWidth}{\includegraphics[height=\dishPicMatPicHeightMax]{\checkArrayEnt{#1}{}{\getArrayEnt{#1}}}}%
@@ -491,17 +569,22 @@
 	\stepcounter{numArgs}%
 	\addArrayEnt{#1}%
 }%
-\NewDocumentCommand{\dishPicMatParseArgStretch}{mm}{%
+\NewDocumentCommand{\dishPicMatParseArgStretch}{mmm}{%
 	\def\stretchArgMode{#1}%
 	\IfValueTF{#2}{%
 		% \ifnumcomp{\number\numexpr\stretchArgFactor\relax}{>}{1}{%
 		\ifthenelse{\lengthtest{#2pt > 1.0pt}}{% Workaround via lengthtest, because ifthenelse or ifnumcomp cannot work with floating-point
 			\def\stretchArgFactor{1}%
-		}{
+		}{%
 			\def\stretchArgFactor{#2}%
 		}%
 	}{%
 		\def\stretchArgFactor{1}%
+	}%
+	\IfValueTF{#3}{%
+		\def\oneLineFill{1}%
+	}{%
+		\def\oneLineFill{0}%
 	}%
 }%
 %\dishPicMat neccessities
@@ -518,7 +601,8 @@
 %Arg-Order: Node-ID, NorthWest, NorthEast, SouthEast, SouthWest
 \newcommand{\drawPicNodeRect}[5]{%
 \begin{pgfonlayer}{Layer1}%
-	\path[pathLineFill]($(#1.north)+(0.1pt,0)$){[#3]-|(#1.east)}{[#4]|-(#1.south)}{[#5]-|(#1.west)}{[#2]|-($(#1.north)+(-0.1pt,0)$)}--($(#1.north)+(0.1pt,0)$)--cycle;%
+	% \path[pathLineFill]($(#1.north)+(0.1pt,0)$){[#3]-|(#1.east)}{[#4]|-(#1.south)}{[#5]-|(#1.west)}{[#2]|-($(#1.north)+(-0.1pt,0)$)}--($(#1.north)+(0.1pt,0)$)--cycle;%
+	\path[pathLineFill]($(#1.north)+(0.1pt,0)$){[#3]-|(#1.east)}{[#4]|-(#1.south)}{[#5]-|(#1.west)}{[#2]|-($(#1.north)+(-0.1pt,0)$)}--cycle;%
 \end{pgfonlayer}%
 }%
 \newcommand{\cornFormatLT}{cornNoRound}%Corner:LeftTop
