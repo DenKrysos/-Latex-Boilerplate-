@@ -55,7 +55,7 @@ Wer lokal kompilieren möchte:
                     \item \textit{(Optional)} eventuell ebenso: \enquote{\textit{\textcolor{DenKrColor_Violet_1}{LaTeX Utilities}}}, \enquote{\textit{\textcolor{DenKrColor_Violet_1}{LTeX+ -- grammar/spell checking using LanguageTool}}}
                 \end{itemize}
             \item In VSCode, links oben: \enquote*{File} $\rightarrow$ \enquote*{\textit{Open Workspace from File\ldots}}
-                \begin{itemize}[labpragA]
+                \begin{itemize}[labsigA]
                     \item Die Datei \enquote{\textcolor{PineGreen}{\texttt{$\ast$.code-workspace}}} im Root-Dir öffnen.
                     \item Compile mit \texttt{Ctrl + Enter}
                 \end{itemize}
@@ -66,12 +66,12 @@ Wer lokal kompilieren möchte:
                         \begin{itemize}
                             \item \enquote{\textcolor{PineGreen}{\texttt{.latexmkrc}}} definiert finalen \textit{Dateinamen} \& \textit{Speicherort}:\nl
                                 \begin{tabbing}
-                                    \labpragCsym\ \texttt{\lstTEXFontLibrary{\$resultName}=\lstTEXFontMacro{'1compiled'};}\hspace{1.5em}\=$\rightarrow$\hspace{1em}\=\textit{<\textbf{FileName}>}.pdf\\
-                                    \labpragCsym\ \texttt{\lstTEXFontLibrary{\$resultSubDir}=\lstTEXFontMacro{''};}\hspace{1.5em}\>$\rightarrow$\hspace{1em}\>\textit{<\textbf{Directory}>} to \textit{copy to}, \textit{relative} to Project-Root-Dir.
+                                    \labsigCsym\ \texttt{\lstTEXFontLibrary{\$resultName}=\lstTEXFontMacro{'1compiled'};}\hspace{1.5em}\=$\rightarrow$\hspace{1em}\=\textit{<\textbf{FileName}>}.pdf\\
+                                    \labsigCsym\ \texttt{\lstTEXFontLibrary{\$resultSubDir}=\lstTEXFontMacro{''};}\hspace{1.5em}\>$\rightarrow$\hspace{1em}\>\textit{<\textbf{Directory}>} to \textit{copy to}, \textit{relative} to Project-Root-Dir.
                                 \end{tabbing}
                             \item \enquote{\textcolor{PineGreen}{\texttt{.latexmk\_post}}} aktiviert die Funktion:
                                 \begin{itemize}
-                                    \item[\labpragCsym] Remove the Comment-Sign (\texttt{\textcolor{eclipse_1_comment}{\#}}) in front of the Line \texttt{\textcolor{eclipse_1_comment}{\#cpy\_final(\$thisAbsPath,[\ldots]}}
+                                    \item[\labsigCsym] Remove the Comment-Sign (\texttt{\textcolor{eclipse_1_comment}{\#}}) in front of the Line \texttt{\textcolor{eclipse_1_comment}{\#cpy\_final(\$thisAbsPath,[\ldots]}}
                                 \end{itemize}
                         \end{itemize}
                 \end{itemize}
@@ -94,7 +94,7 @@ Wer lokal kompilieren möchte:
             \item Ist besagtes Setting-Macro auf \texttt{'1'} gesetzt, erscheinen die Inhalte. Ist es auf \texttt{'0'} gesetzt, erscheinen sie nicht.
         \end{itemize}
     \end{enumerate}
-    \item[\labpragAsym] Ihr könnt euch also während der Bearbeitung Kommentare, Notizen oder vorübergehend einzubauende Passagen hinterlassen, die während Bearbeitung zu sehen sind.
+    \item[\labsigAsym] Ihr könnt euch also während der Bearbeitung Kommentare, Notizen oder vorübergehend einzubauende Passagen hinterlassen, die während Bearbeitung zu sehen sind.
     \begin{itemize}
         \item Kompiliert Marc abschließend das finale Dokument, muss er nur \enquote{\textcolor{RoyalBlue}{\texttt{\textbackslash DenKrCommentsUsage}}} auf \texttt{'0'} setzen und all dies erscheint nicht mehr in der kompilierten .pdf.
     \end{itemize}
@@ -107,7 +107,7 @@ Wer lokal kompilieren möchte:
 \section*{Typografie, Typesetting, Optik}
 
 Wer es richtig fancy treiben möchte:
-\begin{itemize}[labpragA]
+\begin{itemize}[labsigA]
     \item Im Ordner \texttt{./\textcolor{RedOrange}{2Info}} liegen Datein zur Präsentation bereit, welche Werkzeuge zur hübschen Formatierung bereitgestellt sind.
         \begin{itemize}
             \item \enquote{\textcolor{PineGreen}{\texttt{./1\_main\_3\_SHOWCASE\_components.pdf}}}: Einzelne Typesetting Komponenten

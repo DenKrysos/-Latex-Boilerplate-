@@ -238,16 +238,34 @@ cycle;%
 %================================================
 % Presets for Usage as Itemization Label
 %=================================
-% USAGE: \begin{itemize}[labpragA]   or   \item[\labpragAsym]
+% USAGE: \begin{itemize}[labsigA]   or   \item[\labsigAsym]
 %   (Standing for: Label-Prägnanz-# (EN: Conciseness)
-%   (The \labprag#sym can be used for single items as they do only define the Symbol itself
+%   (The \labsig#sym can be used for single items as they do only define the Symbol itself
 %   (The \'abprag#' are defined to be readily usable for a whole itemization environment (i.e. comprise also a fitting left-margin)
 %      (The latter one is a defined Key for enumitem.sty. These are set inside the file "2includes/packages/itemEnum.tex")
-\newcommand{\labpragAsym}{\raisebox{.5\height}{\textbf{\scriptsize$\rightarrow$}}}%
-\newcommand{\labpragBsym}{\raisebox{.5\height}{\textbf{$\scriptstyle\Rightarrow$}}}%
-\newcommand{\labpragCsym}{\raisebox{.5\height}{\scalebox{0.7}{$\pointright$}}}%
-\newcommand{\labpragDsym}{\raisebox{.4\height}{\scalebox{0.7}{$\blacktriangleright$}}}%
-\newcommand{\labpragEsym}{\raisebox{.1\height}{\scalebox{0.6}{\compoundarrow}}}%
+\newcommand{\labsigAsym}{\raisebox{.5\height}{\textbf{\scriptsize$\rightarrow$}}}%
+\newcommand{\labsigBsym}{\raisebox{.5\height}{\textbf{$\scriptstyle\Rightarrow$}}}%
+\newcommand{\labsigCsym}{\raisebox{.5\height}{\scalebox{0.7}{$\pointright$}}}%
+\newcommand{\labsigDsym}{\raisebox{.4\height}{\scalebox{0.7}{$\blacktriangleright$}}}%
+\newcommand{\labsigEsym}{\raisebox{.1\height}{\scalebox{0.6}{\compoundarrow}}}%
+%================================================
+% Presets for Usage as Enumeration Label
+%=================================
+\newcommand{\labnumArabDot}{\arabic*.}%
+\newcommand{\labnumArabParen}{\arabic*)}%
+\newcommand{\labnumArabPParen}{(\arabic*)}%
+\newcommand{\labnumRomUpDot}{\Roman*.}%
+\newcommand{\labnumRomUpParen}{\Roman*)}%
+\newcommand{\labnumRomUpPParen}{(\Roman*)}%
+\newcommand{\labnumRomLowDot}{\roman*.}%
+\newcommand{\labnumRomLowParen}{\roman*)}%
+\newcommand{\labnumRomLowPParen}{(\roman*)}%
+\newcommand{\labnumAlphUpDot}{\Alph*.}%
+\newcommand{\labnumAlphUpParen}{\Alph*)}%
+\newcommand{\labnumAlphUpPParen}{(\Alph*)}%
+\newcommand{\labnumAlphLowDot}{\alph*.}%
+\newcommand{\labnumAlphLowParen}{\alph*)}%
+\newcommand{\labnumAlphLowPParen}{(\alph*)}%
 %=================================
 % Label-Presets END
 %================================================
