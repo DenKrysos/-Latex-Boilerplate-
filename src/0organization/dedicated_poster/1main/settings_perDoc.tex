@@ -60,6 +60,42 @@
 %
 %________________________________________________________________________
 %------------------------------------------------------------------------
+%		Box Typesetting, Line Breaking, Warnings, Severity
+%			- Lines, linewidth, width, length, height, overhang
+%			(overfull / underfull \hbox / \vbox. too wide, badness)
+%/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+% You know, like when the elements to place into a line are so awkward (maybe because it has unbreakable elements near the end-of-line, hyphenation is not known or possible) that the setting of text cannot be done well and a bit of it protrudes beyond the actual line/page border.
+%------------------------------------------------------------------------
+% (I'd say, a bit of Protrusion can be tolerated. If you aren't screwing your document up real bad, insanely crucial cases can't arise anyway. Small ones, about up to 6pt (or rather ~0.6em) or so, could arise however. This won't be spotted by the eye if not actively looking for it. So I say, just surpress the Warnings in such insignificant cases.)
+%------------------------------------------------------------------------
+% <A bit of LaTeX explanation>:
+%	\tolerance
+%		Sets the maximum "badness" that tex is allowed to use while setting the paragraph. Changing this affects the Typesetting.
+%		The text placement inserts breakpoints allowing white space to stretch and penalties to be taken, so long as the badness keeps below this threshold. If it can not do that then you get overfull boxes. So different values produce different typeset results.
+%	\emergencystretch (added at TeX3)
+%		is used if TeX can not set the paragraph below the \tolerance badness, but rather than make overfull boxes it tries an extra pass "pretending" that every line has an additional \emergencystretch of stretchable glue, this allows the overall badness to be kept below 1000 and stops TeX "giving up" and putting all stretch into one line. So \emergencystretch does not change the setting of "good" paragraphs, it only changes the setting of paragraphs that would have produced over-full boxes. Note that you get warnings about the real badness calculation from TeX even though it retries with \emergencystretch. The extra stretch is used to control the typesetting but it is not considered as good for the purposes of logging.
+%	\hfuzz
+%		Warning regarding "overfull"
+%		Does not affect the typesetting in any way but just stops TeX complaining if the box is only over-full by the set amount.
+%		- Alright should be about ~5pt, 0.5em - 0.7em, ~0.6em
+%	\hbadness
+%		Warning regarding "underfull"
+%		Similar to \hfuzz, it does not affect the typesetting but stops TeX warning about underfull boxes if the badness is below the given amount.
+%		(not used in \sloppy)
+%------------------------------------------------------------------------
+%\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
+%		Box Typesetting Done
+%------------------------------------------------------------------------
+%________________________________________________________________________
+% \hfuzz=0.6em%
+% % \hbadness=500%
+%
+%
+%
+%
+%
+%________________________________________________________________________
+%------------------------------------------------------------------------
 %							Setups für enumitem
 %					Lists - (itemize, enumerate, description)
 %/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
