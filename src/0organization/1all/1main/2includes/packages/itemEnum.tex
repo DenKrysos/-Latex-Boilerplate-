@@ -80,7 +80,32 @@
 \renewcommand{\DenKrDescriptionlabelFormat}[1]{#1:}%
 %
 \renewcommand{\DenKrDescriptionlabelMake}[1]{\DenKrDescriptionlabelFormat{{\DenKrDescriptionlabelFont#1}}}%
-\renewcommand{\descriptionlabel}[1]{\hspace{\labelsep}\DenKrDescriptionlabelMake{#1}}%
+% \renewcommand{\descriptionlabel}[1]{\hspace{\labelsep}\DenKrDescriptionlabelMake{#1}}%
+\renewcommand{\descriptionlabel}[1]{\DenKrDescriptionlabelMake{#1}}%
+%
+%---------------------------
+% %  New List Type: Enumerated-Description
+% - - - - - - - -
+\newcounter{descenum}%
+\providecommand{\DenKrDescenumlabelFont}{}%
+\providecommand{\DenKrDescenumlabelFormat}{}%
+\providecommand{\DenKrDescenumlabelMake}{}%
+\providecommand{\DenKrDescenumlabelAssemble}{}%
+%
+\renewcommand{\DenKrDescenumlabelFont}{\DenKrDescriptionlabelFont}%
+\renewcommand{\DenKrDescenumlabelFormat}{\DenKrDescriptionlabelFormat}%
+%
+\renewcommand{\DenKrDescenumlabelMake}[2]{{\DenKrDescenumlabelFont\arabic{#2}}) \DenKrDescenumlabelFormat{{\DenKrDescenumlabelFont#1}}}%
+\renewcommand{\DenKrDescenumlabelAssemble}[1]{\stepcounter{descenum}\DenKrDescenumlabelMake{#1}{descenum}}%
+%
+\newcommand{\DenKrDescenumChangeitem}{%
+	% \let\latexitem\item%
+	% \renewcommand\item[1][]{\latexitem\relax{\bfseries##1} }%
+	\renewcommand\makelabel[1]{\DenKrDescenumlabelAssemble{##1}}%
+}%
+\newenvironment{descenum}[1][]%
+	{\begin{description}[before=\DenKrDescenumChangeitem,#1]}%
+	{\end{description}}%
 %
 %
 %

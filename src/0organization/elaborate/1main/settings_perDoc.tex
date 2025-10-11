@@ -124,8 +124,8 @@
 %		Box Typesetting Done
 %------------------------------------------------------------------------
 %________________________________________________________________________
-\hfuzz=0.6em%
-% \hbadness=500%
+% \hfuzz=0.6em%
+% % \hbadness=500%
 %
 %
 %
@@ -142,12 +142,29 @@
 %---------------------------
 % %  List-Style Settings
 % - - - - - - - -
+\providecommand{\DenKrDescriptionlabelFont}{}%
+\providecommand{\DenKrDescriptionlabelFormat}{}%
+\providecommand{\DenKrDescriptionlabelMake}{}%
+%
 % \renewcommand{\DenKrDescriptionlabelFont}{\normalfont\bfseries}%
 \renewcommand{\DenKrDescriptionlabelFont}{\normalfont\color{DenKrColor_DescriptionLabel}\bfseries}%
 % \renewcommand{\DenKrDescriptionlabelFont}{\normalfont\itshape}%
 % \renewcommand{\DenKrDescriptionlabelFont}{\normalfont\color{DenKrColor_DescriptionLabel}\itshape}%
 %
 \renewcommand{\DenKrDescriptionlabelFormat}[1]{#1:}%
+%
+%---------------------------
+% %  Enumerated-Description - List-Style Settings
+% - - - - - - - -
+\providecommand{\DenKrDescenumlabelFont}{}%
+\providecommand{\DenKrDescenumlabelFormat}{}%
+\providecommand{\DenKrDescenumlabelMake}{}%
+\providecommand{\DenKrDescenumlabelAssemble}{}%
+%
+% \renewcommand{\DenKrDescenumlabelFont}{\DenKrDescriptionlabelFont}%
+% \renewcommand{\DenKrDescenumlabelFormat}{\DenKrDescriptionlabelFormat}%
+%
+% \renewcommand{\DenKrDescenumlabelMake}[2]{{\DenKrDescenumlabelFont\arabic{#2}}) \DenKrDescenumlabelFormat{{\DenKrDescenumlabelFont#1}}}%
 %
 % - - Templates
 %       For Templates, have a look into the corresponding File inside the "8templates" Directory
