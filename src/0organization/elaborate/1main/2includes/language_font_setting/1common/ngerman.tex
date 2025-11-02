@@ -1,7 +1,7 @@
 %
 %________________________________________________________________________
 %------------------------------------------------------------------------
-%					Setups für Cleveref
+%					Setups for Cleveref
 %/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
 \AtEndPreamble{%
 \crefname{chapter}{Kapitel}{Kapiteln}%
@@ -14,7 +14,7 @@
 \crefname{algorithm}{Algorithmus}{Algorithmen}%
 }%
 %/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
-%					Cleveref fertig
+%					Cleveref DONE
 %------------------------------------------------------------------------
 %________________________________________________________________________
 %
@@ -23,7 +23,27 @@
 %
 %________________________________________________________________________
 %------------------------------------------------------------------------
-%					Setups für List-of (Contents/Figures/Tables/Listings/Algorithms)
+%					Setups for Captions & (some) Lists
+%/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+\addto{\captionsngerman}{%
+	\renewcommand*{\contentsname}{Inhaltsverzeichnis}% Inhaltsverzeichnis, Gliederung, Inhalt
+	\renewcommand*{\listfigurename}{Abbildungsverzeichnis}% Abbildungsverzeichnis, Abbildungen
+	\renewcommand*{\listtablename}{Tabellenverzeichnis}% Tabellenverzeichnis, Tabellen
+    %
+	\renewcommand*{\figurename}{Abbildung}%
+	\renewcommand*{\tablename}{Tabelle}%
+}%
+%/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+%					Captions & Lists DONE
+%------------------------------------------------------------------------
+%________________________________________________________________________
+%
+%
+%
+%
+%________________________________________________________________________
+%------------------------------------------------------------------------
+%					Setups for List-of (Contents/Figures/Tables/Listings/Algorithms)
 %/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
 \AddToHook{begindocument/before}{%
 \ifdefined\lstlistlistingname%
@@ -34,6 +54,6 @@
 \else\fi%
 }%
 %/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
-%					Cleveref fertig
+%					Cleveref DONE
 %------------------------------------------------------------------------
 %________________________________________________________________________

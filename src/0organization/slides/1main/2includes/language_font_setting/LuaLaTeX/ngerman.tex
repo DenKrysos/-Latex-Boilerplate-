@@ -5,34 +5,23 @@
 %------------------------------------------------------------------------
 %					Basic Language depending Packages
 %/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
-\usepackage[english,german,ngerman]{babel}% The last Language is considered the MAIN-Language
-\selectlanguage{ngerman}%
-% \AtEndPreamble{%
-% \PassOptionsToPackage{%
-% 	babel,%
-% 	style=ngerman%
-% }{csquotes}%
+% \usepackage[english,german,ngerman]{babel}%
+\usepackage{polyglossia}% [babelshorthands]
+%\AddToHook{begindocument/before}{\usebabelshorthands{german}}% Because loading order messes with activation of shorthands
+\usebabelshorthands{german}%
+\setmainlanguage[spelling=new]{german}% Synonym: \setdefaultlanguage
+\setotherlanguage[variant=american]{english}%
+%\selectlanguage{japanese}%
 % - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 % == Note ==  With csquotes.sty, use
-%     \textquote{}, to automatically print correct quotation marks, depending on the set language by babel (or polyglossia)
+%     \textquote{}, to automatically print correct quotation marks, depending on the set language by polyglossia (or babel)
 %     \enquote{}, for 'nested' quotations
 % - german=quotes% Deutsche Anführungszeichen, german=quotes, guillemets, swiss
 \PassOptionsToPackage{%
-	babel,%
-	autostyle=true,%
 	german=quotes,%
-	english=american%
+	english=american,%
+	autostyle=true,%
 }{csquotes}%
-% }%
-%
-%
-\addto{\captionsngerman}{%
-	\renewcommand*{\contentsname}{Inhalt}%
-	\renewcommand*{\listfigurename}{Abbildungen}%
-	\renewcommand*{\listtablename}{Tabellen}%
-	\renewcommand*{\figurename}{Abbildung}%
-	\renewcommand*{\tablename}{Tabelle}%
-}%
 %/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
 %							END Basic Language
 %------------------------------------------------------------------------
