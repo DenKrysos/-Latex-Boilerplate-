@@ -71,12 +71,12 @@
 % \setlength\labelwidth{\leftmargini}
 % \addtolength\labelwidth{-\labelsep}
 %
-% Candidates:
-% [default]
-% [ball]
-% [triangle]
-% [circle]
-% [square]
+%%% Candidates:
+%%% [default]
+%%% [ball]
+%%% [triangle]
+%%% [circle]
+%%% [square]
 %
 % \setbeamertemplate{itemize item}[ball]
 % \setbeamertemplate{itemize subitem}[default]
@@ -89,7 +89,7 @@
 % \setbeamertemplate{enumerate mini template}{(\insertenumlabel)}
 %
 \defbeamertemplate{description item}{align left}{\insertdescriptionitem\hfill}
-%  Use next Line here, to have Description Labels globally aligned left or inside a Frame to have it on only this Frame.
+%%%  Use next Line here, to have Description Labels globally aligned left or inside a Frame to have it on only this Frame.
 % \setbeamertemplate{description item}[align left]
 %
 %/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
@@ -142,18 +142,18 @@
 %-------------------------------------------------------------------------
 % 						Some Global Settings
 %vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
-% When using \begin{frame}[allowframebreaks], a suffix Counter is added to the Frametitle exclusively, when more than 1 page are created.
-% This is also set but my Theme (can be overwritten here).
+%%% When using \begin{frame}[allowframebreaks], a suffix Counter is added to the Frametitle exclusively, when more than 1 page are created.
+%%% This is also set but my Theme (can be overwritten here).
 % \setbeamertemplate{frametitle continuation}[singleframecheck][(\insertcontinuationcountroman)]%
 %
-% = = Margins of Text-Area
+%%% = = Margins of Text-Area
 % \setbeamersize{%
 % 	text margin left=1.5em,%
 % 	text margin right=1em,%
 % }%
 %
 %
-% Automatically a ToC at the Beginning of each Section, with emphasiz on the current Section
+%%% Automatically a ToC at the Beginning of each Section, with emphasiz on the current Section
 % \AtBeginSection[]{
 % 	\begin{frame}
 % 	\frametitle{Content}
@@ -168,13 +168,13 @@
 % }
 %
 %
-% Make current section stand out more in \tableofcontents[currentsection,…]
+%%% Make current section stand out more in \tableofcontents[currentsection,…]
 \setbeamertemplate{section in toc shaded}[default][30] % lower number = darker shade
 % \setbeamerfont{section in toc}{series=\bfseries,size=\large}
 % \setbeamercolor{section in toc}{fg=structure.fg,bg=structure.bg!40!white}
 % \setbeamercolor{section in toc shaded}{fg=white,bg=structure.fg!90!black}
 %
-% (optional) change the shape used in the toc
+%%% (optional) change the shape used in the toc
 % \setbeamertemplate{sections/subsections in toc}[ball]
 %/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
 % 						END Global Settings
@@ -189,17 +189,105 @@
 %-------------------------------------------------------------------------
 % 						Notes, Script, Handout
 %vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
-% Add Notes per Slide with \note{}
-% Standard: Hide Notes
+%%% Add Notes per Slide with \note{}
+%%% Default: Hide Notes
 % \setbeameroption{hide notes}%
-% Script: Show Notice-Pages in Addition
+%%% Script: Show Notice-Pages in Addition
 \setbeameroption{show notes}%
-% Show only Notice-Pages (without "real" Slides) – e.g. as Script or helpers during presentation
+%%% Show only Notice-Pages (without "real" Slides) – e.g. as Script or helpers during presentation
 %\setbeameroption{show only notes}%
 %
 %
 % \setbeameroption{show notes on second screen=right}%
 %/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
 % 						END Notes, Script
+%--------------------------------------------------------------------------
+%__________________________________________________________________________
+%
+%_________________________________________________________________________
+%-------------------------------------------------------------------------
+% 						Notes (Extended Dev)
+%vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
+% 'hide notes' sets
+%	\beamer@notesfalse
+% 'show notes' sets
+%	\beamer@notestrue
+% 'show notes on second screen' sets
+%	\beamer@twoscreensnotestrue
+%	\beamer@notestrue
+% 'show only notes' sets
+%	\beamer@notestrue
+%	\beamer@notesnormalsfalse
+%	\nofiles
+% 'show only slides with notes' sets
+%	\beamer@notestrue
+%	\beamer@frameswithnotesonlytrue
+%	\nofiles
+%%% ToDo: Unfinished
+\makeatletter%
+\DeclareDocumentCommand{\DenKrNote}{%
+	O{1}%
+	m%
+}{%
+	\ifbeamer@twoscreensnotes%
+		\def\notescmd{\note<#1>}%
+		% \def\notescmd{\note}%
+		\notescmd{#2}%
+	\else%
+		% \ifbeamer@notes%
+		% 	\def\notescmd{\note}%
+		% \else%
+		% 	\def\notescmd{\note}%
+		% \fi%
+		\addDenKrNoteStore{#1}{#2}%
+	\fi%
+	% \notescmd{#2}%
+}%
+%
+\newcounter{DenKrNoteStore}\setcounter{DenKrNoteStore}{0}%
+\newcommand\addDenKrNoteStore[2]{%
+	\edef\tempidx{\number\value{DenKrNoteStore}}%
+	\csgdef{DenKrNoteStoreIDX\tempidx}{#1}%
+	\csgdef{DenKrNoteStoreNOTE\tempidx}{#2}%
+	\stepcounter{DenKrNoteStore}%
+}%
+\newcommand\getDenKrNoteStoreIDX[1]{%
+	\csuse{DenKrNoteStoreIDX#1}%
+}%
+\newcommand\getDenKrNoteStoreNOTE[1]{%
+	\csuse{DenKrNoteStoreNOTE#1}%
+}%
+\newcommand{\DenKrNoteStoreCLEAR}{%
+	\setcounter{loopi}{0}%
+	\loop\ifnum\value{loopi}<\value{DenKrNoteStore}%
+		\csgundef{DenKrNoteStoreIDX\theloopi}%
+		\csgundef{DenKrNoteStoreNOTE\theloopi}%
+		\stepcounter{loopi}%
+	\repeat%
+	\setcounter{DenKrNoteStore}{0}%
+}%
+\newcommand{\DenKrNoteRecallOutOfFrame}{%
+	\ifbeamer@twoscreensnotes%
+		\DenKrNoteStoreCLEAR%
+	\else%
+		\setcounter{loopi}{0}%
+		\loop\ifnum\value{loopi}<\value{DenKrNoteStore}%
+			\note{\getDenKrNoteStoreNOTE{\theloopi}}%
+			\stepcounter{loopi}%
+		\repeat%
+		\DenKrNoteStoreCLEAR%
+	\fi%
+}%
+\makeatother%
+%
+%%% Attach the 'put Notes outside Frame' to be issued after every Frame
+% \addtobeamertemplate{frame end}{}{\DenKrNoteRecallOutOfFrame}
+% \AddToHook{endframe/after}{\DenKrNoteRecallOutOfFrame}%
+% \AfterEndEnvironment{frame}{\DenKrNoteRecallOutOfFrame}%
+% \newenvironment{DenKrFrame}[1]
+% {\begin{frame}[fragile,environment=myframe]\frametitle{#1}}
+% {\end{frame}}
+%/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+% 						END Notes (Extended)
 %--------------------------------------------------------------------------
 %__________________________________________________________________________
