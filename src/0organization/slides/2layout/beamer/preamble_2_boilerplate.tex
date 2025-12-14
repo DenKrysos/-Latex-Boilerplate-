@@ -64,8 +64,8 @@
 %				itemize, enumerate, description
 %vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
 %
-% \setlength\leftmargini{0.0em}
-% \setlength\leftmarginii{1.4em}
+% \setlength\leftmargini{0.7em}
+% \setlength\leftmarginii{1.2em}
 % \setlength\leftmarginiii{0.9em}
 % \setlength\labelsep{.3em}
 % \setlength\labelwidth{\leftmargini}
@@ -166,7 +166,40 @@
 % 		]
 % 	\end{frame}
 % }
+%
+%
+% Make current section stand out more in \tableofcontents[currentsection,…]
+\setbeamertemplate{section in toc shaded}[default][30] % lower number = darker shade
+% \setbeamerfont{section in toc}{series=\bfseries,size=\large}
+% \setbeamercolor{section in toc}{fg=structure.fg,bg=structure.bg!40!white}
+% \setbeamercolor{section in toc shaded}{fg=white,bg=structure.fg!90!black}
+%
+% (optional) change the shape used in the toc
+% \setbeamertemplate{sections/subsections in toc}[ball]
 %/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
 % 						END Global Settings
+%--------------------------------------------------------------------------
+%__________________________________________________________________________
+%
+%
+%
+%
+%
+%_________________________________________________________________________
+%-------------------------------------------------------------------------
+% 						Notes, Script, Handout
+%vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
+% Add Notes per Slide with \note{}
+% Standard: Hide Notes
+% \setbeameroption{hide notes}%
+% Script: Show Notice-Pages in Addition
+\setbeameroption{show notes}%
+% Show only Notice-Pages (without "real" Slides) – e.g. as Script or helpers during presentation
+%\setbeameroption{show only notes}%
+%
+%
+% \setbeameroption{show notes on second screen=right}%
+%/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+% 						END Notes, Script
 %--------------------------------------------------------------------------
 %__________________________________________________________________________

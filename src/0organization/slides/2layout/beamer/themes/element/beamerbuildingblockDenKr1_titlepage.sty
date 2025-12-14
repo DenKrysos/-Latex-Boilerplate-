@@ -38,13 +38,13 @@
 		\DenKrTPsupervisorTwoAnrede\xspace\DenKrTPsupervisorTwoTitleBefore\xspace\DenKrTPsupervisorTwoFirst\ \DenKrTPsupervisorTwoLast\xspace\DenKrTPsupervisorTwoTitleAfter};
 	\node(subject)[plaintext,anchor=south]at([yshift=10pt,xshift=0pt]current page.south)
 		{\parbox[t]{.6\paperwidth}{\centering\usebeamerfont{subtitle}\color{structure.fg!40!black}\beamer@subject}};
-	\node(title)[plaintext,anchor=north west]at([yshift=-10pt,xshift=20pt]sepL)
+	\node(title)[plaintext,anchor=north west]at([yshift=-10pt,xshift=.04\paperwidth]sepL)
 		{\parbox[t]{\textwidth}{\raggedright\usebeamerfont{title}
 			% \color{white}\textpdfrender{TextRenderingMode=FillStroke,FillColor=white,LineWidth=.1ex,}{\inserttitle}
 			\DenKrContour[0.07ex]{structure darker.fg}{structure.bg!20!background canvas.bg}{\inserttitle}
 			% \inserttitle
 			}};
-	\node(subtitle)[plaintext,anchor=north west]at([yshift=-14pt,xshift=8pt]title.south west)%at($(title.south west)!.5!(title.south west|-subject.north)$)%
+	\node(subtitle)[plaintext,anchor=north west]at([yshift=-14pt,xshift=.02\paperwidth]title.south west)%at($(title.south west)!.5!(title.south west|-subject.north)$)%
 		{\parbox[t]{.85\paperwidth}{\raggedright\usebeamerfont{subtitle}%
 			% \color{background canvas.bg}\insertsubtitle
 			\DenKrContour[0.04ex]{background canvas.bg!40!structure.fg!60!black}{background canvas.bg}{\insertsubtitle}
