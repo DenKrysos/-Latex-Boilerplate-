@@ -152,14 +152,25 @@
 %
 %
 %
+%========================================================================
+% ----  Content
+% ----     (Choose exclusively one Method below)
+%------------------------------------------------------------------------
 \newcommand{\DenKrDispositionFILE}{3Disposition}%
-\DenKrITEequal{\DenKrDocGenre}{elaborate}{
-	\input{"\DenKrSetupFilesSubDirPrefix\DenKrDispositionFILE_book".tex}%
-}{\DenKrITEequal{\DenKrDocGenre}{slides}{
-	\input{"\DenKrSetupFilesSubDirPrefix\DenKrDispositionFILE_slides".tex}%
-}{\DenKrITEequal{\DenKrDocGenre}{dedicated_poster}{
-	\input{"\DenKrSetupFilesSubDirPrefix\DenKrDispositionFILE_article".tex}%
+\newcommand{\DispositionInput}[1]{\input{"\DenKrSetupFilesSubDirPrefix\DenKrDispositionFILE_#1".tex}}%
+% % -- Automatic Self-Setting-Up
+\DenKrITEequal{\DenKrDocGenre}{elaborate}{%
+	\DispositionInput{book}%
+}{\DenKrITEequal{\DenKrDocGenre}{slides}{%
+	\DispositionInput{slides}%
+}{\DenKrITEequal{\DenKrDocGenre}{dedicated_poster}{%
+	\DispositionInput{article}%
 }{}}}%
+% % -- Manual Setting
+% \DispositionInput{book}%
+% \DispositionInput{slides}%
+% \DispositionInput{article}%
+%------------------------------------------------------------------------
 %
 %
 %

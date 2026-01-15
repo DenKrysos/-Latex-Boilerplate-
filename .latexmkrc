@@ -49,6 +49,7 @@ $jobname=$MainSrcFile;
 #-------------------------------------
 #=== How the finally resulting Doc shall be named (After succesfull compilation, the Post-File copies to root and names like this)
 ##===  -> This is an additional thing, created by my Framework here (outside of Build-Dir, at a position as configured directly below)
+# $resultName='YourFinalDocName';
 $resultName='1compiled';
 # $resultName=$MainSrcFile;
 # $resultName=$jobname;
