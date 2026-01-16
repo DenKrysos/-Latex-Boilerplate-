@@ -29,8 +29,10 @@
 %----------------------------------------------------------------
 %      Front-Matter
 %================================================================
-% By default, no explicit Front-Matter in Article.
+% By default, no explicit Front-Matter in Article. ("\...matter" cmds do only exist in Book). To still get my formatting work, use my alternate Macros instead.
 % \frontmatter%
+\DenKrKOMAHookFormatHeadFootFrontmatter%
+\DenKrKOMAHookFrontmatter%
 \input{"\DenKrLayoutRootDir/12_FrontMatter".tex}%
 %
 %
@@ -39,6 +41,9 @@
 %      Setup, Typographisch
 %             (Für eigentliches Dokument)
 %================================================================
+% \mainmatter%
+\DenKrKOMAHookFormatHeadFootMainmatter%
+\DenKrKOMAHookMainmatter%
 %
 % \selectlanguage{ngerman}%
 %
