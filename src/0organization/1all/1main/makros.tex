@@ -365,7 +365,13 @@ cycle;%
 % - - - - - - -
 % Creates an ordinary text-dash ('-'), but with leaving hyphenation active for the joined words
 %  (For this, 'ngerman' has to be defined (possibly unproblematically among others) by babel.sty)
-\newcommand{\hyphdash}{\foreignlanguage{ngerman}{"=}}% Variant for Babel
+% \newcommand{\hyphdash}{\foreignlanguage{ngerman}{"=}}% Variant for Babel
+% Pure TeX Solution (requires amsmath.sty)
+% => Since babelshorthands doesn't reliably work with LuaLaTex
+\makeatletter%
+% \newcommand{\allowhyphens}{\penalty\@M\hskip\z@skip}%  already defined
+\newcommand{\hyphdash}{\allowhyphens\discretionary{-}{}{-}\allowhyphens}%
+\makeatother%
 %
 % For Guillemets/Chevron to use with every Font (Some Fonts don't define a sign for them)
 \newcommand{\DKguillemetL}{\xspace{\fontfamily{ptm}\selectfont »}}%
